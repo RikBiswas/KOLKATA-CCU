@@ -13,6 +13,7 @@ import { CaseStudyModal } from './components/modals/CaseStudyModal';
 import { LightboxModal } from './components/modals/LightboxModal';
 import { ArticleModal } from './components/modals/ArticleModal';
 import { ContactModal } from './components/modals/ContactModal';
+import MicroSlats from './components/common/MicroSlats';
 
 export default function App() {
   // Sync page route from URL hash if available
@@ -64,7 +65,31 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fafafa] dark:bg-[#0a0a0a] text-neutral-900 dark:text-neutral-100 transition-colors duration-200">
+    <div className="min-h-screen flex flex-col bg-[#fafafa] dark:bg-[#0a0a0a] text-neutral-900 dark:text-neutral-100 transition-colors duration-200 relative">
+      {/* Background MicroSlats */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30 dark:opacity-40" 
+        aria-hidden="true"
+      >
+        <MicroSlats
+          preset="swell"
+          color="#A855F7"
+          glintColor="#ffffff"
+          backgroundColor="transparent"
+          slatWidth={10}
+          slatHeight={25}
+          gap={3}
+          roundness={0.75}
+          interactive
+          cursorStrength={1}
+          cursorSize={40}
+          swirl={0}
+          trail={1.4}
+          lean={0}
+          intro
+        />
+      </div>
+
       {/* 3-Zone Top Navigation */}
       <Navbar
         activePage={activePage}
@@ -73,7 +98,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12 relative z-10">
         {activePage === 'home' && (
           <HomePage
             onNavigate={handleNavigate}

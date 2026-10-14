@@ -14,7 +14,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact }) => 
   };
 
   return (
-    <footer className="border-t border-neutral-200 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-950/40 mt-20 transition-colors">
+    <footer className="relative z-10 border-t border-neutral-200 dark:border-neutral-800/80 bg-neutral-50/50 dark:bg-neutral-950/40 mt-20 transition-colors">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-10">
         {/* Upper strip */}
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-8">
@@ -114,7 +114,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenContact }) => 
                     onClick={onOpenContact}
                     className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-950 dark:hover:text-neutral-100 transition-colors"
                   >
-                    Direct Email
+                    Get in Touch
                   </button>
                 </li>
               </ul>
