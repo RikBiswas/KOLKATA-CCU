@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, Mail, Phone, MapPin, Instagram, Twitter, Facebook, Heart, Map, Sparkles } from 'lucide-react';
+import { Compass, MapPin, Heart } from 'lucide-react';
 
 interface TravelFooterProps {
   onSelectTab: (tab: string) => void;
@@ -27,35 +27,6 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
               historic tramways, and authentic street food.
             </p>
 
-            <div className="flex items-center gap-3 pt-2">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-8 h-8 rounded-full bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-emerald-600 flex items-center justify-center text-xs shadow-xs"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-8 h-8 rounded-full bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-emerald-600 flex items-center justify-center text-xs shadow-xs"
-                aria-label="Twitter"
-              >
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noreferrer"
-                className="w-8 h-8 rounded-full bg-white dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:text-emerald-600 flex items-center justify-center text-xs shadow-xs"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -157,10 +128,6 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
               <div className="flex items-start gap-2">
                 <MapPin className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
                 <span>Kolkata, West Bengal, India</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Mail className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                <span>guide@wander-ccu.org</span>
               </div>
             </div>
 
