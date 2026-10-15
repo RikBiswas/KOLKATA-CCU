@@ -95,7 +95,7 @@ export const PackageDetailModal: React.FC<PackageDetailModalProps> = ({
               What&apos;s Included In This Package
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {pkg.includes.map((inc, idx) => (
+              {(pkg.includes || pkg.inclusions || []).map((inc: string, idx: number) => (
                 <div key={idx} className="flex items-center gap-2 text-xs text-neutral-700 dark:text-neutral-300">
                   <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
                   <span>{inc}</span>

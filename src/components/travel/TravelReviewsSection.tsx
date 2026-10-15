@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, MessageSquarePlus, CheckCircle, RefreshCw, Send, Compass } from 'lucide-react';
+import { Star, MessageSquarePlus, CheckCircle, RefreshCw, Send, Compass, User, Quote } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
 
 export const TravelReviewsSection: React.FC = () => {
@@ -31,7 +31,7 @@ export const TravelReviewsSection: React.FC = () => {
         {
           id: 1,
           name: 'Ananya Sengupta',
-          role: 'Solo Heritage Walker',
+          role: 'Solo Heritage Walker & Architect',
           rating: 5,
           review: 'The Dalhousie heritage walking route is incredible! Following the path from Writers’ Building to St. John’s church early on a Sunday morning gave me peaceful access to 300 years of colonial history without traffic.',
           date: 'Oct 14, 2026',
@@ -47,7 +47,7 @@ export const TravelReviewsSection: React.FC = () => {
         {
           id: 3,
           name: 'Debjit Roy',
-          role: 'Local Foodie & University Scholar',
+          role: 'Local Chronicler & University Scholar',
           rating: 5,
           review: 'Spot on recommendations for College Street! Having infusion black coffee on the 1st floor of Indian Coffee House while browsing through century-old second-hand book stalls is pure magic.',
           date: 'Oct 10, 2026',
@@ -88,7 +88,7 @@ export const TravelReviewsSection: React.FC = () => {
         setReviews([created, ...reviews]);
         setName('');
         setReview('');
-        setStatusMessage('Thank you! Your travel tip was added for fellow explorers.');
+        setStatusMessage('Thank you! Your travel note was added for fellow explorers.');
         setTimeout(() => setShowForm(false), 2000);
       } else {
         const fallbackCreated: ReviewItem = {
@@ -99,7 +99,7 @@ export const TravelReviewsSection: React.FC = () => {
         setReviews([fallbackCreated, ...reviews]);
         setName('');
         setReview('');
-        setStatusMessage('Travel tip submitted successfully!');
+        setStatusMessage('Thank you! Your travel note was published locally.');
         setTimeout(() => setShowForm(false), 2000);
       }
     } catch {
@@ -111,7 +111,7 @@ export const TravelReviewsSection: React.FC = () => {
       setReviews([fallbackCreated, ...reviews]);
       setName('');
       setReview('');
-      setStatusMessage('Travel tip saved to community board!');
+      setStatusMessage('Thank you! Your travel note was published.');
       setTimeout(() => setShowForm(false), 2000);
     } finally {
       setIsSubmitting(false);
@@ -119,192 +119,193 @@ export const TravelReviewsSection: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="py-12 sm:py-16 bg-[#fafbfc] dark:bg-[#111722] rounded-3xl p-6 sm:p-10 my-8 border border-neutral-200/80 dark:border-neutral-800 transition-colors">
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-            Community Explorer Log
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight mt-1">
-            Tips &amp; Notes from Kolkata Explorers
+    <section id="reviews" className="py-14 sm:py-20 my-8">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+              Field Notes &bull; Visitor Chronicles
+            </span>
+            <span className="text-[#D9A38E]">&bull;</span>
+            <span className="font-bengali text-xs text-[#582822] font-semibold">
+              পর্যটকদের অভিজ্ঞতা
+            </span>
+          </div>
+
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+            Notes from Fellow Explorers
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-            Read first-hand notes, timing advice, and secret spots contributed by fellow travelers.
+
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
+            Real advice from independent photographers, heritage walkers, and historians who wandered Kolkata’s lanes.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1a2e3b] dark:bg-emerald-600 hover:bg-[#12222d] text-white text-xs font-semibold shadow-xs transition-all active:scale-95"
-          >
-            <MessageSquarePlus className="w-3.5 h-3.5" />
-            <span>{showForm ? 'Close Form' : 'Share a Travel Tip'}</span>
-          </button>
-        </div>
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] font-sans text-xs font-semibold tracking-wide shadow-xs transition-all active:scale-95 self-start sm:self-end cursor-pointer"
+        >
+          <MessageSquarePlus className="w-3.5 h-3.5 text-[#D9A38E]" />
+          <span>{showForm ? 'Close Note Form' : 'Leave an Explorer Note'}</span>
+        </button>
       </div>
 
-      {/* Review Submission Form */}
+      {/* Review Submission Form Drawer */}
       {showForm && (
-        <form
-          onSubmit={handleSubmit}
-          className="mb-10 p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#171f2d] border border-neutral-200 dark:border-neutral-700/80 shadow-md space-y-4 max-w-2xl mx-auto"
-        >
-          <h3 className="text-base font-bold text-neutral-900 dark:text-white">
-            Share Your Kolkata Travel Recommendation
+        <div className="mb-10 p-6 sm:p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] animate-slide-in-right">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] mb-2">
+            Share Your Kolkata Travel Discovery
           </h3>
+          <p className="font-sans text-xs text-[#351E1A]/70 mb-6">
+            Share an insider tip—a secret alley in Kumartuli, a quiet morning ferry window, or your favorite phuchka stall.
+          </p>
 
-          {statusMessage && (
-            <div className="p-3 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs rounded-xl flex items-center gap-2">
-              <CheckCircle className="w-4 h-4 shrink-0" />
-              <span>{statusMessage}</span>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-sans font-bold text-[#351E1A] mb-1">
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Rohini Sen"
+                  className="w-full text-xs bg-[#F7EBDD] border border-[#E8D5C2] rounded-xl px-4 py-2.5 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-sans font-bold text-[#351E1A] mb-1">
+                  Explorer Role / City
+                </label>
+                <input
+                  type="text"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  placeholder="e.g. Solo Heritage Walker (Mumbai)"
+                  className="w-full text-xs bg-[#F7EBDD] border border-[#E8D5C2] rounded-xl px-4 py-2.5 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
+                />
+              </div>
             </div>
-          )}
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
-                Your Name *
+              <label className="block text-xs font-sans font-bold text-[#351E1A] mb-1">
+                Rating
               </label>
-              <input
-                type="text"
+              <div className="flex items-center gap-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    type="button"
+                    onClick={() => setRating(star)}
+                    className="p-1 cursor-pointer"
+                  >
+                    <Star
+                      className={`w-5 h-5 ${
+                        star <= rating
+                          ? 'fill-[#C5A25A] text-[#C5A25A]'
+                          : 'text-[#E8D5C2]'
+                      }`}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-sans font-bold text-[#351E1A] mb-1">
+                Your Field Note &amp; Practical Advice
+              </label>
+              <textarea
                 required
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="e.g. Rohini Roy"
-                className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                rows={4}
+                value={review}
+                onChange={(e) => setReview(e.target.value)}
+                placeholder="What was your favorite sight, timing, or unexpected encounter in the city?"
+                className="w-full text-xs bg-[#F7EBDD] border border-[#E8D5C2] rounded-xl p-4 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
               />
             </div>
 
-            <div>
-              <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
-                Traveler Type
-              </label>
-              <input
-                type="text"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-                placeholder="e.g. Solo Backpacker / Architect / Foodie"
-                className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              />
+            {statusMessage && (
+              <div className="p-3 rounded-xl bg-[#582822]/10 border border-[#582822]/20 text-xs font-sans text-[#582822] flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-[#C6532B]" />
+                <span>{statusMessage}</span>
+              </div>
+            )}
+
+            <div className="flex justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setShowForm(false)}
+                className="px-5 py-2 rounded-full border border-[#E8D5C2] text-xs font-sans text-[#351E1A] hover:bg-[#F7EBDD] cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="px-6 py-2 rounded-full bg-[#C6532B] hover:bg-[#B04520] text-white text-xs font-sans font-bold shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>{isSubmitting ? 'Publishing...' : 'Publish Travel Note'}</span>
+              </button>
             </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
-              Rating of Your Exploration
-            </label>
-            <div className="flex items-center gap-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  type="button"
-                  key={star}
-                  onClick={() => setRating(star)}
-                  className="p-1 text-amber-400 focus:outline-none hover:scale-110 transition-transform"
-                >
-                  <Star
-                    className={`w-5 h-5 ${
-                      star <= rating ? 'fill-amber-400 text-amber-400' : 'text-neutral-300 dark:text-neutral-600'
-                    }`}
-                  />
-                </button>
-              ))}
-              <span className="text-xs text-neutral-500 ml-2">{rating} out of 5 stars</span>
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-1">
-              Your Tip, Discovery, or Advice *
-            </label>
-            <textarea
-              required
-              rows={3}
-              value={review}
-              onChange={(e) => setReview(e.target.value)}
-              placeholder="e.g. Best timing for photography, hidden tea shop, metro transfer tips..."
-              className="w-full text-xs px-3.5 py-2.5 rounded-xl border border-neutral-300 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            />
-          </div>
-
-          <div className="flex justify-end gap-3 pt-2">
-            <button
-              type="button"
-              onClick={() => setShowForm(false)}
-              className="px-4 py-2 text-xs font-semibold text-neutral-600 dark:text-neutral-400 hover:text-neutral-900"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-all shadow-sm disabled:opacity-50"
-            >
-              {isSubmitting ? (
-                <span>Posting...</span>
-              ) : (
-                <>
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Post Travel Tip</span>
-                </>
-              )}
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       )}
 
-      {/* Grid of Reviews */}
-      {isLoading ? (
-        <div className="py-12 text-center text-xs text-neutral-500 flex items-center justify-center gap-2">
-          <RefreshCw className="w-4 h-4 animate-spin" />
-          <span>Loading community travel tips...</span>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {reviews.slice(0, 6).map((item) => (
-            <div
-              key={item.id}
-              className="p-6 rounded-2xl bg-white dark:bg-[#161d2a] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all flex flex-col justify-between space-y-4"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star
-                        key={i}
-                        className={`w-3.5 h-3.5 ${
-                          i < item.rating
-                            ? 'fill-amber-400 text-amber-400'
-                            : 'text-neutral-300 dark:text-neutral-700'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                  <span className="text-[11px] text-neutral-400">{item.date}</span>
+      {/* Review Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        {reviews.map((rev) => (
+          <div
+            key={rev.id}
+            className="p-6 sm:p-7 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all flex flex-col justify-between relative group"
+          >
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-3.5 h-3.5 ${
+                        i < rev.rating
+                          ? 'fill-[#C5A25A] text-[#C5A25A]'
+                          : 'text-[#E8D5C2]'
+                      }`}
+                    />
+                  ))}
                 </div>
+                <span className="text-[10px] font-mono text-[#351E1A]/50">
+                  {rev.date}
+                </span>
+              </div>
 
-                <p className="text-xs sm:text-[13px] text-neutral-700 dark:text-neutral-300 leading-relaxed italic">
-                  &ldquo;{item.review}&rdquo;
+              <div className="relative">
+                <Quote className="w-6 h-6 text-[#D9A38E]/30 absolute -top-2 -left-1 pointer-events-none" />
+                <p className="font-sans text-xs sm:text-sm text-[#351E1A]/85 leading-relaxed pl-3 italic">
+                  &ldquo;{rev.review}&rdquo;
                 </p>
               </div>
+            </div>
 
-              <div className="pt-3 border-t border-neutral-100 dark:border-neutral-800/80 flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 font-bold text-xs flex items-center justify-center">
-                  {item.name.charAt(0).toUpperCase()}
-                </div>
-                <div className="truncate">
-                  <div className="text-xs font-bold text-neutral-900 dark:text-white truncate">
-                    {item.name}
-                  </div>
-                  <div className="text-[10px] text-neutral-500 truncate">
-                    {item.role}
-                  </div>
-                </div>
+            <div className="pt-4 mt-4 border-t border-[#E8D5C2]/80 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-[#582822] text-[#FFF8EF] flex items-center justify-center font-bold text-xs">
+                {rev.name.charAt(0)}
+              </div>
+              <div>
+                <span className="font-serif text-sm font-bold text-[#351E1A] block leading-tight">
+                  {rev.name}
+                </span>
+                <span className="text-[11px] font-sans text-[#351E1A]/60 block">
+                  {rev.role}
+                </span>
               </div>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

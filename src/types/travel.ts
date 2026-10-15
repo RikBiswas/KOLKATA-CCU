@@ -41,6 +41,24 @@ export interface ReviewItem {
   date: string;
 }
 
+export interface TourPackage {
+  id: string;
+  title: string;
+  subtitle: string;
+  duration: string;
+  price: number | string;
+  originalPrice?: number | string;
+  tag?: string;
+  rating: number;
+  reviewsCount: number;
+  imageUrl: string;
+  description: string;
+  itinerary: { day?: string; time?: string; title: string; desc: string }[];
+  includes?: string[];
+  inclusions?: string[];
+  featured?: boolean;
+}
+
 export interface GuideStory {
   id: string;
   title: string;
@@ -50,3 +68,78 @@ export interface GuideStory {
   summary: string;
   date: string;
 }
+
+export interface Neighborhood {
+  id: string;
+  name: string;
+  bengaliName: string;
+  tagline: string;
+  vibe: string;
+  era: string;
+  description: string;
+  coverImage: string;
+  keySpots: string[];
+  signatureFood: string;
+  bestWalkingTime: string;
+  transitTip: string;
+  quote: string;
+  quoteAuthor: string;
+  colorScheme: {
+    accent: string;
+    badgeBg: string;
+  };
+}
+
+export interface SeasonalEvent {
+  id: string;
+  title: string;
+  bengaliTitle: string;
+  season: 'Autumn' | 'Late Autumn' | 'Winter' | 'Spring' | 'Summer' | 'Monsoon';
+  months: string;
+  tagline: string;
+  description: string;
+  imageUrl: string;
+  rituals: string[];
+  delicacies: string[];
+  travelerTips: string[];
+  heritageSignificance: string;
+}
+
+export interface GalleryPhoto {
+  id: string;
+  title: string;
+  category: 'Architecture' | 'River & Ghats' | 'Street Life' | 'Trams & Transit' | 'Gastronomy';
+  location: string;
+  imageUrl: string;
+  caption: string;
+  filmStock: string;
+  cameraNote: string;
+  yearTaken: string;
+}
+
+export interface TransitMode {
+  id: string;
+  name: string;
+  bengaliName: string;
+  tagline: string;
+  operatingSince: string;
+  fareRange: string;
+  operatingHours: string;
+  summary: string;
+  routes: { name: string; stops: string; note: string }[];
+  insiderAdvice: string[];
+  keyPhrase: { bengali: string; phonetic: string; english: string };
+  badgeText: string;
+}
+
+export interface DiaryItem {
+  id: string;
+  title: string;
+  category: 'Landmark' | 'Trail' | 'Food' | 'Story' | 'Neighborhood';
+  location: string;
+  imageUrl: string;
+  addedAt: string;
+  visited?: boolean;
+  notes?: string;
+}
+

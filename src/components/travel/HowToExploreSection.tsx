@@ -1,5 +1,5 @@
 import React from 'react';
-import { Compass, Map, Heart, Footprints } from 'lucide-react';
+import { Compass, Map, Heart, Footprints, Train, Navigation, Info } from 'lucide-react';
 
 interface HowToExploreSectionProps {
   onExploreTrails: () => void;
@@ -7,72 +7,100 @@ interface HowToExploreSectionProps {
 
 export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExploreTrails }) => {
   return (
-    <section id="how-to-explore" className="py-12 sm:py-16 border-t border-neutral-200 dark:border-neutral-800">
-      <div className="text-center max-w-xl mx-auto mb-12 space-y-3">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight">
-          Exploring Kolkata as easy as 1-2-3.
+    <section id="how-to-explore" className="py-16 sm:py-24 border-t border-[#E8D5C2]">
+      {/* Header */}
+      <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-3">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[10px] font-mono font-bold uppercase tracking-widest text-[#C6532B]">
+          <span>Chapter V &bull; The Explorer&apos;s Codex</span>
+        </div>
+
+        <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight">
+          How to Navigate Kolkata in Three Steps
         </h2>
-        <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400">
-          How to navigate and experience the City of Joy independently, safely, and authentically.
+
+        <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
+          Practical transit wisdom, etiquette notes, and timing secrets to wander the City of Joy independently and safely.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+      {/* 3 Step Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
         {/* Step 1 */}
-        <div className="relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 mx-auto flex items-center justify-center font-bold text-lg">
-            <Compass className="w-6 h-6" />
+        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group">
+          <div className="w-14 h-14 rounded-2xl bg-[#582822] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
+            <Compass className="w-6 h-6 text-[#D9A38E]" />
           </div>
-          <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest">
+          <span className="text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
             Step 01
           </span>
-          <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
-            Pick Your Interest
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
+            Select Your Corridor
           </h3>
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            Choose colonial architectural monuments, sacred Hooghly river ghats, Kumartuli artisan quarters, or bustling street food corridors.
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
+            Pick between 18th-century North Calcutta mansions, neoclassical British Raj administrative palaces, sacred river ghats, or College Street book stalls.
           </p>
         </div>
 
         {/* Step 2 */}
-        <div className="relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 mx-auto flex items-center justify-center font-bold text-lg">
-            <Map className="w-6 h-6" />
+        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group">
+          <div className="w-14 h-14 rounded-2xl bg-[#C6532B] text-white mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
+            <Train className="w-6 h-6 text-[#FFF8EF]" />
           </div>
-          <span className="text-xs font-mono font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+          <span className="text-[11px] font-mono font-bold text-[#582822] uppercase tracking-widest block">
             Step 02
           </span>
-          <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
-            Follow Curated Trails
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
+            Board Nostalgic Transit
           </h3>
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            Use our DIY walking itineraries with practical transit connections: Blue Line Metro, vintage electric trams, and ₹6 river ferries.
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
+            Ride Asia&apos;s oldest operating electric tram (Route 24), catch ₹6 public passenger ferries across the river, or take the modern Blue Line &amp; underwater Green Line metro.
           </p>
         </div>
 
         {/* Step 3 */}
-        <div className="relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 mx-auto flex items-center justify-center font-bold text-lg">
-            <Heart className="w-6 h-6" />
+        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group">
+          <div className="w-14 h-14 rounded-2xl bg-[#351E1A] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
+            <Heart className="w-6 h-6 text-[#C5A25A]" />
           </div>
-          <span className="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 uppercase tracking-widest">
+          <span className="text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
             Step 03
           </span>
-          <h3 className="text-lg font-bold text-neutral-900 dark:text-white">
-            Experience Like a Local
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
+            Immerse in Slow Adda
           </h3>
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-            Catch the golden hour light, sit for an afternoon &ldquo;Adda&rdquo; at historic tea rooms, and taste authentic sweets with confidence.
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
+            Pause at roadside tea stalls for earthen cup chai (bhar-er cha), respect artisan studios in Kumartuli, and soak in twilight reflections along Princep Ghat.
           </p>
         </div>
       </div>
 
+      {/* Practical Transit Reference Box */}
+      <div className="mt-10 sm:mt-12 p-6 sm:p-8 rounded-3xl bg-[#F7EBDD] border border-[#E8D5C2] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-sans">
+        <div className="space-y-1">
+          <span className="font-bold text-[#582822] block font-serif text-sm">Electric Tramway</span>
+          <p className="text-[#351E1A]/70">Route 24/25 from Esplanade through the green Maidan. ₹6–₹10 tickets.</p>
+        </div>
+        <div className="space-y-1">
+          <span className="font-bold text-[#582822] block font-serif text-sm">Hooghly Ferries</span>
+          <p className="text-[#351E1A]/70">Departs every 15 mins between Howrah, Fairlie Ghat &amp; Babu Ghat. ₹6 ticket.</p>
+        </div>
+        <div className="space-y-1">
+          <span className="font-bold text-[#582822] block font-serif text-sm">Metro Railways</span>
+          <p className="text-[#351E1A]/70">Blue Line (Dakshineswar – Kavi Subhash) &amp; Green Line under-river tunnel. 6:45 AM – 10 PM.</p>
+        </div>
+        <div className="space-y-1">
+          <span className="font-bold text-[#582822] block font-serif text-sm">Yellow Cabs</span>
+          <p className="text-[#351E1A]/70">Classic Ambassador taxis with roof racks. Hail anywhere or ask for meter fare.</p>
+        </div>
+      </div>
+
+      {/* Center CTA */}
       <div className="mt-10 text-center">
         <button
           onClick={onExploreTrails}
-          className="inline-flex items-center gap-2 px-8 py-3.5 text-xs sm:text-sm font-bold text-white bg-[#1a2e3b] dark:bg-emerald-600 hover:bg-[#12222d] dark:hover:bg-emerald-500 rounded-full transition-all shadow-md active:scale-95"
+          className="inline-flex items-center gap-2 px-8 py-3.5 text-xs sm:text-sm font-sans font-bold text-white bg-[#C6532B] hover:bg-[#B04520] rounded-full transition-all duration-200 shadow-md transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
-          <Footprints className="w-4 h-4 text-emerald-300" />
+          <Footprints className="w-4 h-4 text-[#FFF8EF]" />
           <span>Browse Self-Guided Walking Routes</span>
         </button>
       </div>

@@ -1,47 +1,133 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+  --color-paper-ivory: #F7EBDD;
+  --color-soft-cream: #FFF8EF;
+  --color-ink-brown: #351E1A;
+  --color-oxblood: #582822;
+  --color-terracotta: #C6532B;
+  --color-muted-rose: #D9A38E;
+  --color-antique-mustard: #C5A25A;
+  --color-warm-border: #E8D5C2;
+
+  --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-script: 'Caveat', 'Alex Brush', cursive;
+  --font-bengali: 'Noto Serif Bengali', Georgia, serif;
 }
 
 :root {
-  color-scheme: light dark;
+  --paper-ivory: #F7EBDD;
+  --soft-cream: #FFF8EF;
+  --ink-brown: #351E1A;
+  --oxblood: #582822;
+  --terracotta: #C6532B;
+  --muted-rose: #D9A38E;
+  --antique-mustard: #C5A25A;
+  --warm-border: #E8D5C2;
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #F7EBDD;
+  color: #351E1A;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom subtle scrollbar */
+/* Custom Typography Utilities */
+.font-serif {
+  font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+}
+
+.font-sans {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-script {
+  font-family: 'Caveat', 'Alex Brush', cursive;
+}
+
+.font-bengali {
+  font-family: 'Noto Serif Bengali', Georgia, serif;
+}
+
+/* Warm Editorial Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: #F7EBDD;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(150, 150, 150, 0.25);
+  background: #D9A38E;
   border-radius: 9999px;
+  border: 2px solid #F7EBDD;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(150, 150, 150, 0.4);
+  background: #C6532B;
 }
 
+/* Gentle organic floating animations for archival circular vignettes */
+@keyframes subtleFloatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+@keyframes subtleFloatReverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(7px) rotate(-1.5deg);
+  }
+}
+
+.animate-float-slow {
+  animation: subtleFloatSlow 6s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: subtleFloatReverse 7s ease-in-out infinite;
+}
+
+/* Vintage postcard and stamp deckle-edge utilities */
+.stamp-border {
+  border: 1px dashed #D9A38E;
+  box-shadow: 0 0 0 4px #FFF8EF, 0 4px 14px rgba(53, 30, 26, 0.08);
+}
+
+.archival-shadow {
+  box-shadow: 0 16px 36px -12px rgba(53, 30, 26, 0.12), 0 4px 12px rgba(53, 30, 26, 0.04);
+}
+
+.curved-arch-hero {
+  border-top-left-radius: 200px;
+  border-top-right-radius: 200px;
+}
+
+@media (max-width: 640px) {
+  .curved-arch-hero {
+    border-top-left-radius: 90px;
+    border-top-right-radius: 90px;
+  }
+}
+
+/* Keyframes for sliding transitions */
 @keyframes slideInRight {
   from {
     opacity: 0;
-    transform: translateX(36px);
+    transform: translateX(24px);
   }
-
   to {
     opacity: 1;
     transform: translateX(0);
@@ -51,9 +137,8 @@ body {
 @keyframes slideInLeft {
   from {
     opacity: 0;
-    transform: translateX(-36px);
+    transform: translateX(-24px);
   }
-
   to {
     opacity: 1;
     transform: translateX(0);
@@ -61,9 +146,9 @@ body {
 }
 
 .animate-slide-in-right {
-  animation: slideInRight 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .animate-slide-in-left {
-  animation: slideInLeft 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: slideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
 }

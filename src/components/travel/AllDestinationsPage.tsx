@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Search, Star, MapPin, Clock, Eye, Filter, Compass } from 'lucide-react';
+import { ArrowLeft, Search, Star, MapPin, Clock, Eye, Filter, Compass, ArrowRight } from 'lucide-react';
 import { Destination } from '../../types/travel';
 
 interface AllDestinationsPageProps {
@@ -33,48 +33,51 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
   });
 
   return (
-    <div className="py-8 sm:py-12 space-y-8 animate-fade-in">
+    <div className="pt-28 sm:pt-36 pb-16 sm:pb-24 space-y-8 animate-fade-in text-[#351E1A]">
       {/* Navigation header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-200 dark:border-neutral-800 pb-6">
-        <div className="space-y-1">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-[#E8D5C2] pb-6 sm:pb-8">
+        <div className="space-y-2">
           <button
             onClick={onBackToHome}
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 transition-colors mb-2"
+            className="inline-flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-wider text-[#C6532B] hover:text-[#B04520] transition-colors mb-1 cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home Overview</span>
+            <span>Return to Journal Home</span>
           </button>
-          <h1 className="text-3xl sm:text-4xl font-black text-neutral-900 dark:text-white tracking-tight">
-            Explore All Kolkata Destinations
+          
+          <h1 className="font-serif text-3xl sm:text-5xl font-medium tracking-tight leading-tight">
+            The Complete Calcutta Landmark Archive
           </h1>
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-xl">
-            Choose from historic colonial monuments, sacred Hooghly river ghats, century-old artisan quarters, and world-class street gastronomy.
+
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 max-w-2xl leading-relaxed">
+            Browse all curated heritage sites, sacred Hooghly river ghats, century-old artisan quarters, 
+            and literary tea houses across North, Central, and South Kolkata.
           </p>
         </div>
 
-        <div className="text-right sm:self-end">
-          <span className="inline-block px-3 py-1 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xs font-bold text-neutral-700 dark:text-neutral-300">
-            {filtered.length} destination{filtered.length !== 1 ? 's' : ''} available
+        <div className="text-right sm:self-end shrink-0">
+          <span className="inline-block px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans font-bold text-[#351E1A] shadow-xs">
+            {filtered.length} landmark{filtered.length !== 1 ? 's' : ''} cataloged
           </span>
         </div>
       </div>
 
       {/* Filter and Search Controls */}
-      <div className="p-4 sm:p-6 rounded-2xl bg-[#f4f6f8] dark:bg-[#131924] border border-neutral-200/80 dark:border-neutral-800 space-y-4">
+      <div className="p-6 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.05)] space-y-5">
         {/* Search input */}
         <div className="relative">
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by monument name, region, or keywords..."
-            className="w-full text-xs sm:text-sm bg-white dark:bg-[#1b2332] border border-neutral-300 dark:border-neutral-700 rounded-xl pl-10 pr-4 py-2.5 text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            placeholder="Search by landmark name, region, or keywords (e.g. marble, ghat, books)..."
+            className="w-full text-xs sm:text-sm bg-[#F7EBDD] border border-[#E8D5C2] rounded-2xl pl-10 pr-10 py-3 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B] focus:border-[#C6532B]"
           />
-          <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3.5 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#351E1A]/40 absolute left-3.5 top-3.5 pointer-events-none" />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3.5 top-3 text-xs text-neutral-400 hover:text-neutral-600 font-bold"
+              className="absolute right-3.5 top-3.5 text-xs text-[#351E1A]/60 hover:text-[#351E1A] font-bold cursor-pointer"
             >
               Clear
             </button>
@@ -83,7 +86,7 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
 
         {/* Category Filter Pills */}
         <div className="space-y-2">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
+          <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#C6532B] flex items-center gap-1.5">
             <Filter className="w-3 h-3" />
             <span>Filter by Category:</span>
           </div>
@@ -92,10 +95,10 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-full text-xs font-sans transition-all cursor-pointer ${
                   selectedCategory === cat
-                    ? 'bg-[#1a2e3b] dark:bg-emerald-600 text-white font-bold shadow-xs'
-                    : 'bg-white dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-200/70 dark:hover:bg-neutral-700'
+                    ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-xs'
+                    : 'bg-[#F7EBDD] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#E8D5C2]'
                 }`}
               >
                 {cat}
@@ -105,9 +108,9 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
         </div>
 
         {/* Region Filter Pills */}
-        <div className="space-y-2 pt-2 border-t border-neutral-200/60 dark:border-neutral-800">
-          <div className="text-[11px] font-bold uppercase tracking-wider text-neutral-500 flex items-center gap-1.5">
-            <MapPin className="w-3 h-3 text-emerald-500" />
+        <div className="space-y-2 pt-2 border-t border-[#E8D5C2]/80">
+          <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#582822] flex items-center gap-1.5">
+            <MapPin className="w-3 h-3" />
             <span>Filter by Region:</span>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -115,10 +118,10 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
               <button
                 key={reg}
                 onClick={() => setSelectedRegion(reg)}
-                className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-full text-xs font-sans transition-all cursor-pointer ${
                   selectedRegion === reg
-                    ? 'bg-neutral-900 dark:bg-white text-white dark:text-neutral-900 font-bold'
-                    : 'bg-white/80 dark:bg-neutral-800/80 text-neutral-600 dark:text-neutral-400 hover:bg-neutral-200/60'
+                    ? 'bg-[#582822] text-[#FFF8EF] font-bold shadow-xs'
+                    : 'bg-[#F7EBDD] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#E8D5C2]'
                 }`}
               >
                 {reg}
@@ -128,85 +131,81 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
         </div>
       </div>
 
-      {/* Grid of all destination cards */}
+      {/* Grid of All Destination Cards */}
       {filtered.length === 0 ? (
-        <div className="py-16 text-center space-y-3">
-          <Compass className="w-10 h-10 text-neutral-400 mx-auto" />
-          <h3 className="text-base font-bold text-neutral-700 dark:text-neutral-300">
-            No destinations match your filters
-          </h3>
-          <p className="text-xs text-neutral-500">
-            Try adjusting your search query or selecting &ldquo;All&rdquo; categories.
-          </p>
+        <div className="py-16 text-center bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2] space-y-3">
+          <p className="font-serif text-2xl text-[#351E1A]">No landmarks found matching your criteria.</p>
+          <p className="text-xs text-[#351E1A]/60">Try searching for &ldquo;Victoria&rdquo;, &ldquo;Ghat&rdquo;, or reset filters.</p>
           <button
             onClick={() => {
               setSelectedCategory('All');
               setSelectedRegion('All');
               setSearchQuery('');
             }}
-            className="px-4 py-2 text-xs font-semibold rounded-full bg-emerald-600 text-white"
+            className="px-6 py-2 rounded-full bg-[#C6532B] text-white text-xs font-sans font-bold cursor-pointer"
           >
             Reset Filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filtered.map((dest) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {filtered.map((dest, idx) => (
             <div
               key={dest.id}
               onClick={() => onSelectDestination(dest)}
-              className="group relative h-[400px] rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1.5 bg-neutral-900 flex flex-col justify-end"
+              className="group relative rounded-3xl overflow-hidden cursor-pointer bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.12)] transition-all duration-400 transform hover:-translate-y-1.5 flex flex-col justify-between"
             >
-              {/* Background Image */}
-              <img
-                src={dest.imageUrl}
-                alt={dest.name}
-                className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-700 ease-out"
-              />
+              <div className="relative h-60 w-full overflow-hidden bg-[#351E1A]">
+                <img
+                  src={dest.imageUrl}
+                  alt={dest.name}
+                  className="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-700 ease-out"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/80 via-transparent to-[#351E1A]/20 pointer-events-none" />
 
-              {/* Gradient Overlays */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-black/20" />
-
-              {/* Region Pill on Top Right */}
-              <div className="absolute top-3.5 right-3.5 bg-white/80 dark:bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full text-[11px] font-bold text-neutral-900 dark:text-white shadow-xs border border-white/30 flex items-center gap-1">
-                <MapPin className="w-3 h-3 text-emerald-500" />
-                <span>{dest.region}</span>
-              </div>
-
-              {/* Category badge top left */}
-              <div className="absolute top-3.5 left-3.5 bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider text-emerald-300 border border-white/10">
-                {dest.category}
-              </div>
-
-              {/* Bottom Content Area */}
-              <div className="relative p-5 space-y-2 text-white z-10">
-                <h3 className="text-lg font-extrabold tracking-tight group-hover:text-emerald-300 transition-colors leading-snug">
-                  {dest.name}
-                </h3>
-
-                <p className="text-xs text-white/80 line-clamp-2 leading-relaxed">
-                  {dest.tagline}
-                </p>
-
-                {/* Rating + Timing */}
-                <div className="pt-1 flex items-center justify-between text-xs text-white/90">
-                  <div className="flex items-center gap-1 bg-black/40 px-2 py-0.5 rounded backdrop-blur-xs">
-                    <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-                    <span className="font-bold">{dest.rating}</span>
-                    <span className="text-white/60 text-[10px]">({dest.reviewsCount})</span>
-                  </div>
-
-                  <div className="flex items-center gap-1 text-[11px] text-white/75 truncate max-w-[130px]">
-                    <Clock className="w-3 h-3 text-emerald-400 shrink-0" />
-                    <span className="truncate">{dest.bestTimeToVisit.split('(')[0]}</span>
-                  </div>
+                <div className="absolute top-3.5 left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-mono font-bold text-[#351E1A] shadow-xs border border-[#E8D5C2]">
+                  {String(idx + 1).padStart(2, '0')} / {String(destinations.length).padStart(2, '0')}
                 </div>
 
-                {/* View Details action */}
-                <div className="pt-2">
-                  <div className="w-full py-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur-md text-[11px] font-semibold text-center flex items-center justify-center gap-1.5 border border-white/20 group-hover:bg-emerald-600 transition-colors">
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>View Visitor Guide &amp; Details</span>
+                <div className="absolute top-3.5 right-3.5 bg-[#351E1A]/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-sans font-semibold text-[#FFF8EF] shadow-xs border border-[#FFF8EF]/20 flex items-center gap-1">
+                  <MapPin className="w-3 h-3 text-[#D9A38E]" />
+                  <span>{dest.region}</span>
+                </div>
+
+                <div className="absolute bottom-3 left-3.5">
+                  <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#C5A25A] bg-[#351E1A]/90 px-2 py-0.5 rounded-sm">
+                    {dest.category}
+                  </span>
+                </div>
+              </div>
+
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
+                <div className="space-y-1.5">
+                  <h3 className="font-serif text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
+                    {dest.name}
+                  </h3>
+                  <p className="font-sans text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed">
+                    {dest.tagline}
+                  </p>
+                </div>
+
+                <div className="pt-3 border-t border-[#E8D5C2]/80 space-y-2">
+                  <div className="flex items-center justify-between text-xs font-sans text-[#351E1A]/80">
+                    <div className="flex items-center gap-1">
+                      <Star className="w-3.5 h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
+                      <span className="font-bold text-[#351E1A]">{dest.rating}</span>
+                      <span className="text-[#351E1A]/50 text-[10px]">({dest.reviewsCount})</span>
+                    </div>
+
+                    <div className="flex items-center gap-1 text-[11px] text-[#351E1A]/70">
+                      <Clock className="w-3 h-3 text-[#C6532B]" />
+                      <span className="truncate max-w-[120px]">{dest.bestTimeToVisit.split('(')[0]}</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-1 flex items-center justify-between text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
+                    <span>View Visitor Guide &amp; Transit</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
               </div>
@@ -215,14 +214,14 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
         </div>
       )}
 
-      {/* Bottom Back Button */}
-      <div className="pt-8 text-center border-t border-neutral-200 dark:border-neutral-800">
+      {/* Return to home button */}
+      <div className="pt-8 text-center">
         <button
           onClick={onBackToHome}
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1a2e3b] dark:bg-emerald-600 hover:bg-[#12222d] text-white text-xs font-bold transition-all shadow-xs"
+          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] font-sans text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Home Overview</span>
+          <span>Back to WANDER.CCU Overview</span>
         </button>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, ArrowRight, Clock, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { BookOpen, ArrowRight, Clock, Calendar, ChevronLeft, ChevronRight, Feather } from 'lucide-react';
 import { GuideStory } from '../../types/travel';
 
 interface TravelStoriesSectionProps {
@@ -13,9 +13,6 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
-
-  // Dynamically determine how many cards to show per slide view
-  // On desktop: 3 items, tablet: 2 items, mobile: 1 item
   const [itemsPerPage, setItemsPerPage] = useState(3);
 
   useEffect(() => {
@@ -49,31 +46,39 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
   const visibleStories = stories.slice(currentIndex, currentIndex + itemsPerPage);
 
   return (
-    <section id="blog" className="py-12 sm:py-16">
-      {/* Section Header with Carousel Navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
-            Heritage, Culture &amp; Cuisine
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900 dark:text-white tracking-tight mt-1">
-            Kolkata Travel Insights &amp; Stories
+    <section id="blog" className="py-14 sm:py-20 my-8">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
+        <div className="space-y-2 max-w-2xl">
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+              Chapter IV &bull; Literary Essays &amp; Lore
+            </span>
+            <span className="text-[#D9A38E]">&bull;</span>
+            <span className="font-bengali text-xs text-[#582822] font-semibold">
+              কলকাতার স্মৃতি ও গল্প
+            </span>
+          </div>
+
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+            Dispatches from Old Calcutta
           </h2>
-          <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 mt-1">
-            Insider essays, street gastronomy maps, and historic lore curated by native Calcutta guides.
+
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
+            Intimate cultural chronicles, secret architectural archives, and literary reflections penned by native writers and chroniclers.
           </p>
         </div>
 
         {/* Carousel controls */}
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-semibold text-neutral-500 dark:text-neutral-400">
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="text-xs font-sans text-[#351E1A]/60">
             {currentIndex + 1}&ndash;{Math.min(currentIndex + itemsPerPage, stories.length)} of {stories.length}
           </span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <button
               onClick={handlePrev}
               disabled={currentIndex === 0}
-              className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs cursor-pointer"
+              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
               aria-label="Previous stories"
             >
               <ChevronLeft className="w-4 h-4" />
@@ -81,7 +86,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
             <button
               onClick={handleNext}
               disabled={currentIndex >= maxIndex}
-              className="w-9 h-9 rounded-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs cursor-pointer"
+              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
               aria-label="Next stories"
             >
               <ChevronRight className="w-4 h-4" />
@@ -90,7 +95,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
         </div>
       </div>
 
-      {/* Stories Slider Viewport with Slide Animation */}
+      {/* Stories Grid / Slider */}
       <div className="overflow-hidden">
         <div
           key={currentIndex}
@@ -102,49 +107,52 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
             <article
               key={story.id}
               onClick={() => onSelectStory(story)}
-              className="group cursor-pointer rounded-2xl overflow-hidden bg-white dark:bg-[#141b27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col justify-between"
+              className="group cursor-pointer rounded-3xl overflow-hidden bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.12)] transition-all duration-400 transform hover:-translate-y-1.5 flex flex-col justify-between"
             >
               <div>
-                <div className="relative h-52 w-full overflow-hidden bg-neutral-900">
+                {/* Photo container */}
+                <div className="relative h-56 w-full overflow-hidden bg-[#351E1A]">
                   <img
                     src={story.imageUrl}
                     alt={story.title}
                     className="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-700 ease-out"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60" />
-                  <span className="absolute top-3 left-3 bg-neutral-900/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs">
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/80 via-transparent to-transparent opacity-80" />
+                  
+                  {/* Category Ribbon */}
+                  <span className="absolute top-3.5 left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md text-[#351E1A] text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs border border-[#E8D5C2]">
                     {story.category}
                   </span>
                 </div>
 
-                <div className="p-5 space-y-2.5">
-                  <div className="flex items-center gap-3 text-[11px] text-neutral-500 dark:text-neutral-400">
+                <div className="p-6 space-y-3">
+                  <div className="flex items-center gap-3 text-[11px] font-sans text-[#351E1A]/60">
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3 h-3 text-emerald-500" />
+                      <Clock className="w-3.5 h-3.5 text-[#C6532B]" />
                       <span>{story.readTime}</span>
                     </span>
-                    <span>&middot;</span>
+                    <span>&bull;</span>
                     <span className="flex items-center gap-1">
-                      <Calendar className="w-3 h-3 text-neutral-400" />
+                      <Calendar className="w-3.5 h-3.5 text-[#582822]" />
                       <span>{story.date}</span>
                     </span>
                   </div>
 
-                  <h3 className="text-base font-bold text-neutral-900 dark:text-white group-hover:text-emerald-500 transition-colors leading-snug line-clamp-2">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug line-clamp-2">
                     {story.title}
                   </h3>
 
-                  <p className="text-xs text-neutral-600 dark:text-neutral-400 leading-relaxed line-clamp-2">
+                  <p className="font-sans text-xs sm:text-sm text-[#351E1A]/70 leading-relaxed line-clamp-3">
                     {story.summary}
                   </p>
                 </div>
               </div>
 
-              <div className="p-5 pt-0">
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">
-                  <span>Read Full Story</span>
+              <div className="p-6 pt-0">
+                <div className="pt-3 border-t border-[#E8D5C2]/70 flex items-center justify-between text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
+                  <span>Read Full Essay &amp; Lore</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </span>
+                </div>
               </div>
             </article>
           ))}
@@ -162,10 +170,10 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
             }}
             className={`transition-all duration-300 rounded-full cursor-pointer ${
               currentIndex === index
-                ? 'w-7 h-2 bg-emerald-600 dark:bg-emerald-400'
-                : 'w-2 h-2 bg-neutral-300 dark:bg-neutral-700 hover:bg-neutral-400'
+                ? 'w-7 h-2 bg-[#C6532B]'
+                : 'w-2 h-2 bg-[#E8D5C2] hover:bg-[#D9A38E]'
             }`}
-            aria-label={`Go to slide ${index + 1}`}
+            aria-label={`Go to essay slide ${index + 1}`}
           />
         ))}
       </div>
