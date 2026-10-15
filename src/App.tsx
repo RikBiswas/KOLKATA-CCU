@@ -25,7 +25,195 @@ import { PocketDiaryModal } from './components/travel/PocketDiaryModal';
 import { CalcuttaSoundscape } from './components/travel/CalcuttaSoundscape';
 import { ItineraryBuilderModal } from './components/travel/ItineraryBuilderModal';
 
-const DIARY_STORAGE_KEY = 'wander_ccu_diary_v1';
+const DIARY_STORAGE_KEY = 'wander_ccu_diary_v2';
+
+export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
+  // --- PLACES & HERITAGE LANDMARKS ---
+  {
+    id: 'victoria-memorial',
+    title: 'Victoria Memorial Hall',
+    category: 'Landmark',
+    location: 'Central Kolkata (Maidan)',
+    imageUrl: '/images/destinations/victoria-memorial.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Watch sunset reflection by South Lake at 5 PM & tour the Queen’s Gallery',
+    visited: false,
+  },
+  {
+    id: 'howrah-bridge-flower-market',
+    title: 'Howrah Bridge & Mallick Ghat Flower Market',
+    category: 'Landmark',
+    location: 'Strand Road Riverfront',
+    imageUrl: '/images/destinations/howrah-bridge.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Visit at dawn (6:00 AM) to experience Asia’s largest flower market and watch traditional wrestlers',
+    visited: false,
+  },
+  {
+    id: 'princep-ghat-riverfront',
+    title: 'Princep Ghat & Strand Promenade',
+    category: 'Landmark',
+    location: 'Hooghly Riverfront',
+    imageUrl: '/images/destinations/princep-ghat.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Hire a traditional wooden dinghy boat for a sunset sail under the Vidyasagar Setu cable bridge',
+    visited: false,
+  },
+  {
+    id: 'dakshineswar-kali-temple',
+    title: 'Dakshineswar Kali Temple',
+    category: 'Landmark',
+    location: 'Hooghly Riverbank, North Kolkata',
+    imageUrl: '/images/destinations/dakshineswar-temple.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Historic 1855 nine-spire temple where Ramakrishna Paramahamsa meditated; board the ferry to Belur Math',
+    visited: false,
+  },
+  {
+    id: 'kalighat-temple-bhowanipore',
+    title: 'Kalighat Kali Temple & Bhowanipore Mansions',
+    category: 'Landmark',
+    location: 'South Kolkata',
+    imageUrl: 'https://www.tourmyindia.com/states/west-bengal/images/kalighat-kali-temple1.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Ancient 51 Shakti Peeth; pick up red hibiscus garlands and wander past Harish Park Art Deco balconies',
+    visited: false,
+  },
+  {
+    id: 'college-street-boipara',
+    title: 'College Street Boi Para & Historic Bookstalls',
+    category: 'Neighborhood',
+    location: 'North-Central Kolkata',
+    imageUrl: '/images/destinations/college-street.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Explore 1.5 miles of second-hand academic and vintage bookstalls; find rare first editions',
+    visited: false,
+  },
+  {
+    id: 'kumartuli-artisan-quarter',
+    title: 'Kumartuli Clay Idol Sculptors’ Quarter',
+    category: 'Neighborhood',
+    location: 'North Kolkata',
+    imageUrl: '/images/destinations/kumartuli.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Wander the narrow potters’ ateliers watching master artisans shape straw and clay into goddess Durga idols',
+    visited: false,
+  },
+
+  // --- ACTIVITIES & WALKING TRAILS ---
+  {
+    id: 'heritage-tram-ride',
+    title: 'Heritage Wooden Tram Ride (Esplanade to Gariahat)',
+    category: 'Trail',
+    location: 'Esplanade Terminus',
+    imageUrl: '/images/stories/heritage-tram.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Board Asia’s oldest electric tram; sit beside wooden slatted windows listening to the conductor’s foot-pedal brass bell',
+    visited: false,
+  },
+  {
+    id: 'tiretta-bazaar-breakfast-walk',
+    title: 'Dawn Chinese Breakfast Walk at Tiretta Bazaar',
+    category: 'Trail',
+    location: 'Tiretta Bazaar, Central Kolkata',
+    imageUrl: 'https://mapapi.sahapedia.org/assets/images/202109291447459Fig_5.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Arrive at 6:15 AM sharp for steaming pork and chicken baozi, fish ball soup, and sweet sesame balls',
+    visited: false,
+  },
+  {
+    id: 'kolkata-street-food-crawl',
+    title: 'The Ultimate Street Food & Adda Trail',
+    category: 'Trail',
+    location: 'Park Street & Vivekananda Park',
+    imageUrl: '/images/trails/kolkata-street-food.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Must sample crisp puchka with fresh Gandharaj lime juice, followed by egg-mutton roll at Kusum',
+    visited: true,
+  },
+  {
+    id: 'ganges-sunset-ferry',
+    title: 'Ganges Sunset Wooden Ferry Cruise to Belur Math',
+    category: 'Trail',
+    location: 'Fairlie Place / Babughat',
+    imageUrl: '/images/trails/hooghly-river-ferry.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Breeze across the Holy Hooghly at twilight as evening temple conch shells sound across both banks',
+    visited: false,
+  },
+
+  // --- FOODS & CULINARY STOPS ---
+  {
+    id: 'kathi-roll-nizam',
+    title: 'The Original Kathi Roll at Nizam’s & Kusum',
+    category: 'Food',
+    location: 'New Market & Park Street',
+    imageUrl: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fc/Kolkata_Rolls.jpg/500px-Kolkata_Rolls.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Taste the 1932 Kolkata original: iron-skewered tender mutton kebabs rolled inside hot layered egg paratha',
+    visited: false,
+  },
+  {
+    id: 'fish-kabiraji-mitra-cafe',
+    title: 'Diamond Fish Kabiraji Cutlet at Mitra Cafe',
+    category: 'Food',
+    location: 'Sovabazar, North Kolkata',
+    imageUrl: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Kobiraji_Cutlet_or_%E0%A6%95%E0%A6%AC%E0%A6%BF%E0%A6%B0%E0%A6%BE%E0%A6%9C%E0%A6%BF_%E0%A6%95%E0%A6%BE%E0%A6%9F%E0%A6%B2%E0%A7%87%E0%A6%9F.JPG/500px-Kobiraji_Cutlet_or_%E0%A6%95%E0%A6%AC%E0%A6%BF%E0%A6%B0%E0%A6%BE%E0%A6%9C%E0%A6%BF_%E0%A6%95%E0%A6%BE%E0%A6%9F%E0%A6%B2%E0%A7%87%E0%A6%9F.JPG',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Delicate spun golden egg-mesh crust wrapping fresh marinated Hooghly Bhetki fish with fiery Kasundi',
+    visited: false,
+  },
+  {
+    id: 'kolkata-biryani-arsalan',
+    title: 'Awadhi-Calcutta Mutton Biryani with Aloo & Egg',
+    category: 'Food',
+    location: 'Arsalan & Shiraz, Park Circus',
+    imageUrl: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Kolkata_mutton_biryani.jpg/500px-Kolkata_mutton_biryani.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Slow-cooked dum biryani with long grain basmati, kewra water, saffron, tender meat, and the melt-in-mouth golden potato',
+    visited: false,
+  },
+  {
+    id: 'park-street-flurys-tearoom',
+    title: 'Park Street Tea Rooms & Rum Balls (Flurys)',
+    category: 'Food',
+    location: 'Park Street Boulevard (Est. 1927)',
+    imageUrl: 'https://ishitaunblogged.com/wp-content/uploads/2014/08/20140801_153531-copy.jpg?w=674',
+    addedAt: 'Oct 15, 2026',
+    notes: 'English breakfast platters, dark rum balls, and Darjeeling high tea served in 1920s vintage European porcelain',
+    visited: false,
+  },
+  {
+    id: 'paramount-daab-sarbat',
+    title: 'Paramount’s Legendary Cold Daab Sarbat',
+    category: 'Food',
+    location: 'College Square (Est. 1918)',
+    imageUrl: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Daab_Sharbat_-_Tender_Coconut_Drink.JPG/500px-Daab_Sharbat_-_Tender_Coconut_Drink.JPG',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Sweet tender green coconut water, scraped coconut malai, and chilled fragrant secret syrup',
+    visited: false,
+  },
+  {
+    id: 'mishti-doi-balaram-mullick',
+    title: 'Traditional Mishti Doi & Baked Rosogolla in Clay',
+    category: 'Food',
+    location: 'Balaram Mullick & Radharaman Mullick, Bhowanipore',
+    imageUrl: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Mishti_Doi.jpg/500px-Mishti_Doi.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Slow-caramelised sweet curd set in porous earthen pots, and warm baked Nolen Gur rosogolla',
+    visited: false,
+  },
+  {
+    id: 'chitto-da-stew-dacres-lane',
+    title: 'Chitto Da’s Chicken Stew & Butter Toast',
+    category: 'Food',
+    location: 'Dacres Lane (James Hickey Sarani)',
+    imageUrl: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Chittobaburdokan.jpg/500px-Chittobaburdokan.jpg',
+    addedAt: 'Oct 15, 2026',
+    notes: 'Colonial corridor comfort food: peppered chicken stew and thick crisp butter toast served to Secretariat clerks',
+    visited: false,
+  },
+];
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'all-destinations'>('home');
@@ -45,33 +233,15 @@ export default function App() {
     try {
       const saved = localStorage.getItem(DIARY_STORAGE_KEY);
       if (saved) {
-        return JSON.parse(saved);
+        const parsed: DiaryItem[] = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length >= 6) {
+          return parsed;
+        }
       }
     } catch {
       // Ignore storage read error
     }
-    return [
-      {
-        id: 'victoria-memorial',
-        title: 'Victoria Memorial Hall',
-        category: 'Landmark',
-        location: 'Central Kolkata',
-        imageUrl: '/images/destinations/victoria-memorial.jpg',
-        addedAt: 'Oct 15, 2026',
-        notes: 'Watch sunset reflection by South Lake at 5 PM',
-        visited: false,
-      },
-      {
-        id: 'kolkata-street-food-crawl',
-        title: 'The Ultimate Street Food & Adda Trail',
-        category: 'Trail',
-        location: 'Park Street & Vivekananda Park',
-        imageUrl: '/images/trails/kolkata-street-food.jpg',
-        addedAt: 'Oct 15, 2026',
-        notes: 'Must sample puchka with Gandharaj lemon juice',
-        visited: true,
-      },
-    ];
+    return DEFAULT_CURATED_DIARY_ITEMS;
   });
 
   // Sync diary items to localStorage whenever updated
@@ -127,6 +297,10 @@ export default function App() {
 
   const handleClearAllDiary = () => {
     setDiaryItems([]);
+  };
+
+  const handleLoadCuratedSpots = () => {
+    setDiaryItems(DEFAULT_CURATED_DIARY_ITEMS);
   };
 
   // Filtered destinations based on search query
@@ -391,6 +565,7 @@ export default function App() {
         onRemoveItem={handleRemoveDiaryItem}
         onUpdateNotes={handleUpdateDiaryNotes}
         onClearAll={handleClearAllDiary}
+        onAddCuratedItems={handleLoadCuratedSpots}
       />
 
       {/* Neighborhood District Detail Modal */}

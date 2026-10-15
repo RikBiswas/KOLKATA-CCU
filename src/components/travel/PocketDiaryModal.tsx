@@ -11,6 +11,7 @@ interface PocketDiaryModalProps {
   onRemoveItem: (id: string) => void;
   onUpdateNotes: (id: string, notes: string) => void;
   onClearAll: () => void;
+  onAddCuratedItems?: () => void;
 }
 
 export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
@@ -21,6 +22,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
   onRemoveItem,
   onUpdateNotes,
   onClearAll,
+  onAddCuratedItems,
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string>('All');
   const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
@@ -105,6 +107,16 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
             <span className="text-[#C6532B] font-semibold">
               <strong>{visitedCount}</strong> explored
             </span>
+            {onAddCuratedItems && (
+              <button
+                onClick={onAddCuratedItems}
+                className="hidden sm:inline-flex items-center gap-1 ml-2 px-2.5 py-0.5 rounded-full bg-[#C6532B]/10 hover:bg-[#C6532B]/20 text-[#C6532B] font-semibold text-[10px] transition-colors cursor-pointer"
+                title="Restore or add the 18 curated places, activities, and foods"
+              >
+                <Sparkles className="w-3 h-3" />
+                <span>Reset to Curated Spots (18)</span>
+              </button>
+            )}
           </div>
 
           {/* Category Filter Pills */}
@@ -135,8 +147,17 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
               </h3>
               <p className="font-sans text-xs text-[#351E1A]/70 max-w-sm mx-auto leading-relaxed">
                 Click the <strong>Bookmark</strong> button on any landmark, walking trail, 
-                or food story across WANDER.CCU to assemble your personalized exploration itinerary.
+                or food story across WANDER.CCU, or load the complete curated collection.
               </p>
+              {onAddCuratedItems && (
+                <button
+                  onClick={onAddCuratedItems}
+                  className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold shadow-sm transition-all cursor-pointer"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-[#C5A25A]" />
+                  <span>Load 18 Curated Places, Activities &amp; Foods</span>
+                </button>
+              )}
             </div>
           ) : (
             filteredItems.map((item) => (
@@ -166,6 +187,11 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
                     <img
                       src={item.imageUrl}
                       alt={item.title}
+                      referrerPolicy="no-referrer"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/images/destinations/victoria-memorial.jpg';
+                      }}
                       className="w-full h-full object-cover"
                     />
                   </div>
