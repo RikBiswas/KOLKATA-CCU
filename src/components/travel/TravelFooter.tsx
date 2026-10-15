@@ -1,44 +1,56 @@
 import React from 'react';
-import { Compass, MapPin, Heart } from 'lucide-react';
+import { Compass, MapPin, Heart, Phone, Mail, ArrowUp } from 'lucide-react';
 
 interface TravelFooterProps {
   onSelectTab: (tab: string) => void;
 }
 
 export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
-    <footer className="border-t border-neutral-200 dark:border-neutral-800 bg-[#f4f7f9] dark:bg-[#0c1017] transition-colors mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Brand Info */}
+    <footer className="bg-[#351E1A] text-[#F7EBDD] border-t-4 border-[#C6532B] pt-16 sm:pt-20 pb-12 mt-16 sm:mt-24">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-12 pb-14 border-b border-[#E8D5C2]/15">
+          {/* Brand Info & Colophon */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#1b3a4b] to-[#2d6a4f] text-white flex items-center justify-center font-black">
-                <Compass className="w-5 h-5 text-emerald-300" />
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-[#C6532B] text-white flex items-center justify-center font-bold">
+                <Compass className="w-4 h-4 text-[#FFF8EF]" />
               </div>
-              <span className="text-xl font-black text-neutral-900 dark:text-white uppercase tracking-tight">
-                WANDER<span className="text-emerald-600 dark:text-emerald-400 text-xs font-bold ml-1">.CCU</span>
+              <span className="font-serif text-2xl font-bold tracking-tight uppercase">
+                WANDER<span className="text-[#C6532B] font-sans text-xs font-black ml-1">.CCU</span>
               </span>
             </div>
 
-            <p className="text-xs sm:text-sm text-neutral-600 dark:text-neutral-400 max-w-sm leading-relaxed">
-              An independent, non-commercial travel and heritage guide dedicated to Kolkata. 
-              Helping visitors and residents discover colonial architecture, Hooghly river ferry crossings, 
-              historic tramways, and authentic street food.
+            <p className="font-sans text-xs sm:text-sm text-[#F7EBDD]/75 max-w-sm leading-relaxed">
+              An independent, non-commercial cultural travel journal dedicated to the memory, 
+              architecture, and living soul of Kolkata. Built to celebrate vintage trams, 
+              the sacred Hooghly, literary adda, and historic street gastronomy.
             </p>
 
+            <div className="pt-2">
+              <span className="font-bengali text-sm text-[#D9A38E] font-medium block">
+                &ldquo;কলকাতা শুধু একটি শহর নয়, এটি একটি অনুভূতি।&rdquo;
+              </span>
+              <span className="text-[11px] font-sans text-[#F7EBDD]/50 italic">
+                (Kolkata is not merely a city; it is a sentiment.)
+              </span>
+            </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick Links: Iconic Landmarks */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white mb-4">
-              Iconic Sights
+            <h4 className="font-serif text-sm font-bold uppercase tracking-wider text-[#C5A25A] mb-4">
+              Historic Sights
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-600 dark:text-neutral-400">
+            <ul className="space-y-2.5 text-xs font-sans text-[#F7EBDD]/70">
               <li>
                 <button
                   onClick={() => onSelectTab('destinations')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
                   Victoria Memorial Hall
                 </button>
@@ -46,7 +58,7 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
               <li>
                 <button
                   onClick={() => onSelectTab('destinations')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
                   Howrah Cantilever Bridge
                 </button>
@@ -54,25 +66,33 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
               <li>
                 <button
                   onClick={() => onSelectTab('destinations')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
-                  Kumartuli Potter Studios
+                  Kumartuli Potter Colony
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onSelectTab('destinations')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
-                  College Street &amp; Coffee House
+                  College Street (Boi Para)
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => onSelectTab('destinations')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
                   Dakshineswar Kali Temple
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onSelectTab('destinations')}
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
+                >
+                  Princep Ghat Riverfront
                 </button>
               </li>
             </ul>
@@ -80,14 +100,14 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
 
           {/* Self-guided walking routes */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white mb-4">
+            <h4 className="font-serif text-sm font-bold uppercase tracking-wider text-[#C5A25A] mb-4">
               Self-Guided Trails
             </h4>
-            <ul className="space-y-2.5 text-xs text-neutral-600 dark:text-neutral-400">
+            <ul className="space-y-2.5 text-xs font-sans text-[#F7EBDD]/70">
               <li>
                 <button
                   onClick={() => onSelectTab('trails')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
                   Colonial Dalhousie Walk
                 </button>
@@ -95,7 +115,7 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
               <li>
                 <button
                   onClick={() => onSelectTab('trails')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
                   Hooghly Public Ferry Trail
                 </button>
@@ -103,7 +123,7 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
               <li>
                 <button
                   onClick={() => onSelectTab('trails')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
                   Street Gastronomy &amp; Adda
                 </button>
@@ -111,46 +131,67 @@ export const TravelFooter: React.FC<TravelFooterProps> = ({ onSelectTab }) => {
               <li>
                 <button
                   onClick={() => onSelectTab('trails')}
-                  className="hover:text-neutral-900 dark:hover:text-white transition-colors"
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
                 >
                   North Kolkata Rajbari &amp; Trams
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => onSelectTab('trails')}
+                  className="hover:text-[#FFF8EF] hover:underline transition-colors cursor-pointer text-left"
+                >
+                  Dawn Flower Bazaar Trail
                 </button>
               </li>
             </ul>
           </div>
 
-          {/* Public Transit & Visitor Helpline */}
+          {/* Visitor Information & Tourist Police */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-900 dark:text-white mb-4">
-              Visitor Information
+            <h4 className="font-serif text-sm font-bold uppercase tracking-wider text-[#C5A25A] mb-4">
+              Visitor Helpline
             </h4>
-            <div className="space-y-2 text-xs text-neutral-600 dark:text-neutral-400">
-              <div className="flex items-start gap-2">
-                <MapPin className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-                <span>Kolkata, West Bengal, India</span>
+            
+            <div className="p-4 rounded-2xl bg-[#FFF8EF]/5 border border-[#FFF8EF]/10 space-y-2 text-xs font-sans">
+              <span className="font-bold text-[#FFF8EF] block">
+                Kolkata Tourist Police
+              </span>
+              <p className="text-[#F7EBDD]/70">
+                24/7 dedicated traveler assistance and safety advisory across major heritage spots.
+              </p>
+              <div className="pt-1 flex items-center gap-1.5 text-[#C5A25A] font-mono text-[11px]">
+                <Phone className="w-3.5 h-3.5" />
+                <span>Dial 100 / (033) 2214-5000</span>
               </div>
             </div>
 
-            <div className="pt-2">
-              <div className="p-3 rounded-xl bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-[11px] text-neutral-600 dark:text-neutral-300">
-                <span className="font-bold text-neutral-900 dark:text-white block mb-0.5">
-                  Tourist Police Helpline
-                </span>
-                Dial 100 / (033) 2214-5000 for 24/7 visitor assistance across the city.
-              </div>
+            <div className="pt-1 text-[11px] font-sans text-[#F7EBDD]/50 flex items-center gap-1">
+              <MapPin className="w-3 h-3 text-[#C6532B]" />
+              <span>Calcutta, West Bengal, India &bull; 700001</span>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-neutral-200 dark:border-neutral-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
+        {/* Bottom Bar: Copyright, Colophon, and Back to Top */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans text-[#F7EBDD]/60">
           <div>
-            &copy; {new Date().getFullYear()} WANDER.CCU &mdash; Independent Kolkata Heritage &amp; Travel Guidance.
+            &copy; {new Date().getFullYear()} WANDER.CCU &mdash; Independent Non-Commercial Calcutta Travel Journal.
           </div>
-          <div className="flex items-center gap-1 text-[11px]">
-            <span>Crafted with</span>
-            <Heart className="w-3 h-3 text-rose-500 fill-rose-500 inline" />
-            <span>for explorers of Kolkata culture, architecture &amp; street food.</span>
+
+          <div className="flex items-center gap-4">
+            <span className="flex items-center gap-1 text-[11px]">
+              Crafted with <Heart className="w-3 h-3 text-[#C6532B] fill-[#C6532B] inline" /> for slow travelers.
+            </span>
+
+            <button
+              onClick={scrollToTop}
+              className="p-2 rounded-full bg-[#FFF8EF]/10 hover:bg-[#FFF8EF]/20 text-[#FFF8EF] transition-colors cursor-pointer"
+              aria-label="Back to top"
+              title="Return to top of page"
+            >
+              <ArrowUp className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
