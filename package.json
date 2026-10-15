@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "dev:backend": ".venv\\Scripts\\python.exe -m uvicorn Backend.main:app --host 127.0.0.1 --port 8000 --reload",
+    "backend": ".venv\\Scripts\\python.exe -m uvicorn Backend.main:app --host 127.0.0.1 --port 8000 --reload",
+    "Backend": ".venv\\Scripts\\python.exe -m uvicorn Backend.main:app --host 127.0.0.1 --port 8000 --reload",
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
