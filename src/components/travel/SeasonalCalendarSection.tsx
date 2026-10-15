@@ -23,7 +23,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
   const activeEvent = events.find((e) => e.id === activeEventId) || filteredEvents[0] || events[0];
 
   return (
-    <section id="festivals" className="py-14 sm:py-20 my-8">
+    <section id="festivals" className="py-14 sm:py-20 my-8 scroll-mt-24">
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
         <div className="space-y-2 max-w-2xl">

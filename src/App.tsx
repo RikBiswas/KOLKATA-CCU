@@ -15,14 +15,15 @@ import { TransitCodexSection } from './components/travel/TransitCodexSection';
 import { TravelStoriesSection } from './components/travel/TravelStoriesSection';
 import { HowToExploreSection } from './components/travel/HowToExploreSection';
 import { ClosingMonologueSection } from './components/travel/ClosingMonologueSection';
-import { TravelReviewsSection } from './components/travel/TravelReviewsSection';
+import { ThingsToDoSection } from './components/travel/ThingsToDoSection';
 import { TravelFooter } from './components/travel/TravelFooter';
 import { DestinationDetailModal } from './components/travel/DestinationDetailModal';
 import { TrailDetailModal } from './components/travel/TrailDetailModal';
 import { StoryDetailModal } from './components/travel/StoryDetailModal';
 import { AllDestinationsPage } from './components/travel/AllDestinationsPage';
 import { PocketDiaryModal } from './components/travel/PocketDiaryModal';
-import { PocketDiaryButton } from './components/travel/PocketDiaryButton';
+import { CalcuttaSoundscape } from './components/travel/CalcuttaSoundscape';
+import { ItineraryBuilderModal } from './components/travel/ItineraryBuilderModal';
 
 const DIARY_STORAGE_KEY = 'wander_ccu_diary_v1';
 
@@ -37,6 +38,7 @@ export default function App() {
   const [selectedStory, setSelectedStory] = useState<GuideStory | null>(null);
   const [selectedDistrict, setSelectedDistrict] = useState<Neighborhood | null>(null);
   const [isDiaryOpen, setIsDiaryOpen] = useState(false);
+  const [isItineraryOpen, setIsItineraryOpen] = useState(false);
 
   // Personal Pocket Diary state with persistent localStorage
   const [diaryItems, setDiaryItems] = useState<DiaryItem[]>(() => {
@@ -150,9 +152,53 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Scroll spy to dynamically sync active navbar tab on scroll
+  useEffect(() => {
+    if (currentPage !== 'home') return;
+
+    const sectionIds = [
+      'home',
+      'neighborhoods',
+      'destinations',
+      'trails',
+      'culture',
+      'festivals',
+      'gallery',
+      'transit',
+    ];
+
+    const handleScroll = () => {
+      if (window.scrollY < 200) {
+        setActiveTab('home');
+        return;
+      }
+
+      const scrollPosition = window.scrollY + 250;
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const id = sectionIds[i];
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= scrollPosition) {
+          setActiveTab(id);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [currentPage]);
+
   const handleSelectTab = (tab: string) => {
     setActiveTab(tab);
-    if (tab === 'destinations') {
+    if (tab === 'home') {
+      if (currentPage !== 'home') {
+        setCurrentPage('home');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 50);
+    } else if (tab === 'destinations') {
       if (currentPage === 'all-destinations') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
@@ -217,7 +263,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7EBDD] text-[#351E1A] selection:bg-[#C6532B] selection:text-[#FFF8EF]">
+    <div className="min-h-screen flex flex-col bg-[#F7EBDD] text-[#351E1A] selection:bg-[#C6532B] selection:text-[#FFF8EF] relative">
+      {/* Subtle Parchment Paper Grain Overlay */}
+      <div className="parchment-grain-overlay" aria-hidden="true" />
+
       {/* Floating Centered Curved Capsule Navigation */}
       <TravelNavbar
         activeTab={activeTab}
@@ -225,11 +274,12 @@ export default function App() {
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onOpenDiary={() => setIsDiaryOpen(true)}
+        onOpenItineraryBuilder={() => setIsItineraryOpen(true)}
         diaryCount={diaryItems.length}
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {currentPage === 'all-destinations' ? (
           /* Full Destination Gallery Page */
           <AllDestinationsPage
@@ -271,6 +321,7 @@ export default function App() {
             <HeroBanner
               onExploreDestinations={handleExploreDestinations}
               onExploreTrails={handleExploreTrails}
+              onOpenItineraryBuilder={() => setIsItineraryOpen(true)}
             />
 
             {/* 2. Introductory Editorial Section: The Art of Slow Travel in Calcutta */}
@@ -321,8 +372,8 @@ export default function App() {
             {/* 12. Epilogue: Poetic Closing Monologue with Riverside Photography */}
             <ClosingMonologueSection onExploreDestinations={handleExploreDestinations} />
 
-            {/* 13. Explorer Field Notes & Traveler Tips */}
-            <TravelReviewsSection />
+            {/* 13. Things to Do in Kolkata (Auto-sliding mini cards) */}
+            <ThingsToDoSection onExploreLandmarks={handleExploreDestinations} />
           </>
         )}
       </main>
@@ -330,11 +381,6 @@ export default function App() {
       {/* Kolkata Travel & Heritage Footer */}
       <TravelFooter onSelectTab={handleSelectTab} />
 
-      {/* Floating Pocket Diary Widget Button */}
-      <PocketDiaryButton
-        count={diaryItems.length}
-        onClick={() => setIsDiaryOpen(true)}
-      />
 
       {/* Personal Pocket Diary Modal */}
       <PocketDiaryModal
@@ -400,6 +446,15 @@ export default function App() {
         story={selectedStory}
         onClose={() => setSelectedStory(null)}
       />
+
+      {/* Interactive Day-Trip / Itinerary Builder Modal */}
+      <ItineraryBuilderModal
+        isOpen={isItineraryOpen}
+        onClose={() => setIsItineraryOpen(false)}
+      />
+
+      {/* Ambient Calcutta Audio Vignettes Soundscape Player */}
+      <CalcuttaSoundscape />
     </div>
   );
 }

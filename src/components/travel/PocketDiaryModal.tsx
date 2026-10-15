@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Bookmark, CheckCircle2, Circle, Trash2, Printer, MapPin, Share2, Sparkles, BookOpen } from 'lucide-react';
+import { X, Bookmark, CheckCircle2, Circle, Trash2, Printer, MapPin, Share2, Sparkles, BookOpen, Download, Loader2 } from 'lucide-react';
 import { DiaryItem } from '../../types/travel';
+import { downloadDiaryPDF } from '../../utils/pdfGenerator';
 
 interface PocketDiaryModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
   const [selectedFilter, setSelectedFilter] = useState<string>('All');
   const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
   const [tempNote, setTempNote] = useState('');
+  const [isDownloading, setIsDownloading] = useState(false);
 
   if (!isOpen) return null;
 
@@ -44,6 +46,18 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
   const handleSaveNotes = (id: string) => {
     onUpdateNotes(id, tempNote);
     setEditingNotesId(null);
+  };
+
+  const handleDownloadPDF = () => {
+    if (diaryItems.length === 0) return;
+    setIsDownloading(true);
+    try {
+      downloadDiaryPDF(diaryItems);
+    } catch (err) {
+      console.error('Failed to generate Diary PDF:', err);
+    } finally {
+      setTimeout(() => setIsDownloading(false), 1200);
+    }
   };
 
   const handlePrint = () => {
@@ -231,20 +245,35 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
 
         {/* Bottom Actions Footer */}
         <div className="p-4 sm:p-6 bg-[#F7EBDD]/60 border-t border-[#E8D5C2] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <button
+              onClick={handleDownloadPDF}
+              disabled={diaryItems.length === 0 || isDownloading}
+              className="px-4 py-2 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold flex items-center gap-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+              title="Download your pocket diary as a beautifully formatted PDF"
+            >
+              {isDownloading ? (
+                <Loader2 className="w-3.5 h-3.5 text-[#C5A25A] animate-spin" />
+              ) : (
+                <Download className="w-3.5 h-3.5 text-[#C5A25A]" />
+              )}
+              <span>{isDownloading ? 'Generating PDF...' : 'Download Diary (PDF)'}</span>
+            </button>
+
             <button
               onClick={handlePrint}
               disabled={diaryItems.length === 0}
-              className="px-4 py-2 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold flex items-center gap-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
+              className="px-3 py-2 rounded-full border border-[#E8D5C2] bg-[#FFF8EF] hover:bg-[#FFFDF9] text-[#351E1A] text-xs font-sans font-semibold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
+              title="Print diary"
             >
-              <Printer className="w-3.5 h-3.5" />
-              <span>Print / Export Itinerary</span>
+              <Printer className="w-3.5 h-3.5 text-[#582822]" />
+              <span>Print</span>
             </button>
 
             {diaryItems.length > 0 && (
               <button
                 onClick={onClearAll}
-                className="text-xs font-sans text-[#351E1A]/60 hover:text-red-700 underline cursor-pointer"
+                className="text-xs font-sans text-[#351E1A]/60 hover:text-red-700 underline cursor-pointer ml-1"
               >
                 Clear All
               </button>

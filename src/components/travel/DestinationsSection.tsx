@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, MapPin, ChevronLeft, ChevronRight, Eye, Clock, ArrowRight, Compass } from 'lucide-react';
+import { Star, MapPin, ChevronLeft, ChevronRight, Eye, Clock, ArrowRight, Compass, Dices } from 'lucide-react';
 import { Destination } from '../../types/travel';
 
 interface DestinationsSectionProps {
@@ -8,21 +8,46 @@ interface DestinationsSectionProps {
   onViewAll?: () => void;
 }
 
+const VIBE_FILTERS = [
+  { id: 'all-vibes', label: 'All Sights', icon: '🏛️' },
+  { id: 'monsoon', label: 'Monsoon Walks', keyword: 'lake', icon: '🌧️' },
+  { id: 'late-night', label: 'Late Night & Sunset', keyword: 'sunset', icon: '🌙' },
+  { id: 'colonial', label: 'Colonial Architecture', keyword: 'colonial', icon: '🏛️' },
+  { id: 'courtyard', label: 'Quiet Courtyards', keyword: 'garden', icon: '🌿' },
+  { id: 'riverfront', label: 'River Breeze', keyword: 'ghat', icon: '⛵' },
+];
+
 export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
   destinations,
   onSelectDestination,
   onViewAll,
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedVibe, setSelectedVibe] = useState<string>('all-vibes');
   const [scrollIndex, setScrollIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
 
   // Categories extracted from destination items
   const categories = ['All', ...Array.from(new Set(destinations.map((d) => d.category)))];
 
+  // Surprise Me / Random Heritage Spot generator
+  const handleSurpriseMe = () => {
+    if (destinations.length === 0) return;
+    const randomIndex = Math.floor(Math.random() * destinations.length);
+    const chosen = destinations[randomIndex];
+    onSelectDestination(chosen);
+  };
+
   const filtered = destinations.filter((dest) => {
-    if (selectedCategory === 'All') return true;
-    return dest.category === selectedCategory;
+    const matchesCat = selectedCategory === 'All' || dest.category === selectedCategory;
+    if (!matchesCat) return false;
+    if (selectedVibe === 'all-vibes') return true;
+
+    const vibe = VIBE_FILTERS.find((v) => v.id === selectedVibe);
+    if (!vibe || !vibe.keyword) return true;
+    const kw = vibe.keyword.toLowerCase();
+    const searchable = `${dest.name} ${dest.description} ${dest.tagline} ${dest.category} ${dest.region} ${dest.bestTimeToVisit} ${dest.insiderTip || ''}`.toLowerCase();
+    return searchable.includes(kw);
   });
 
   const itemsPerPage = 4;
@@ -41,7 +66,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
   const visibleDestinations = filtered.slice(scrollIndex, scrollIndex + itemsPerPage);
 
   return (
-    <section id="destinations" className="py-14 sm:py-20 my-8">
+    <section id="destinations" className="py-14 sm:py-20 my-8 scroll-mt-24">
       {/* Section Header with Editorial Framing */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
         <div className="space-y-2 max-w-2xl">
@@ -65,9 +90,18 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
           </p>
         </div>
 
-        {/* Carousel Arrow Controls */}
-        <div className="flex items-center gap-3 shrink-0">
-          <span className="text-xs font-sans text-[#351E1A]/60">
+        {/* Carousel Arrow Controls & Surprise Me */}
+        <div className="flex flex-wrap items-center gap-3 shrink-0">
+          <button
+            onClick={handleSurpriseMe}
+            className="px-4 py-2 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-bold flex items-center gap-2 shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer group"
+            title="Roll the dice to discover a random Calcutta secret"
+          >
+            <Dices className="w-4 h-4 text-[#C6532B] group-hover:rotate-180 transition-transform duration-500" />
+            <span>Surprise Me</span>
+          </button>
+
+          <span className="text-xs font-sans text-[#351E1A]/60 hidden sm:inline">
             {filtered.length > 0 ? scrollIndex + 1 : 0}&ndash;{Math.min(scrollIndex + itemsPerPage, filtered.length)} of {filtered.length}
           </span>
           <div className="flex items-center gap-1.5">
@@ -88,6 +122,32 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Vibe Filter Chips */}
+      <div className="mb-4">
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+          <span className="text-[11px] font-mono font-bold text-[#582822] shrink-0 mr-1">
+            Filter by Vibe:
+          </span>
+          {VIBE_FILTERS.map((v) => (
+            <button
+              key={v.id}
+              onClick={() => {
+                setSelectedVibe(v.id);
+                setScrollIndex(0);
+              }}
+              className={`px-3 py-1 rounded-full text-xs font-sans flex items-center gap-1.5 whitespace-nowrap transition-all duration-200 cursor-pointer ${
+                selectedVibe === v.id
+                  ? 'bg-[#C6532B] text-[#FFF8EF] font-bold shadow-xs'
+                  : 'bg-[#FFF8EF]/80 text-[#351E1A]/70 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
+              }`}
+            >
+              <span className="text-xs">{v.icon}</span>
+              <span>{v.label}</span>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -115,17 +175,20 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
       <div className="overflow-hidden">
         {filtered.length === 0 ? (
           <div className="p-12 text-center bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2]">
-            <p className="font-serif text-lg text-[#351E1A]">No landmarks found in this category.</p>
+            <p className="font-serif text-lg text-[#351E1A]">No landmarks match this vibe or category.</p>
             <button
-              onClick={() => setSelectedCategory('All')}
-              className="mt-3 text-xs font-sans font-bold text-[#C6532B] underline"
+              onClick={() => {
+                setSelectedCategory('All');
+                setSelectedVibe('all-vibes');
+              }}
+              className="mt-3 text-xs font-sans font-bold text-[#C6532B] underline cursor-pointer"
             >
-              Reset to all landmarks
+              Reset all filters
             </button>
           </div>
         ) : (
           <div
-            key={`${selectedCategory}-${scrollIndex}`}
+            key={`${selectedCategory}-${selectedVibe}-${scrollIndex}`}
             className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-500 ease-out ${
               slideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left'
             }`}
@@ -138,8 +201,17 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
                 <div
                   key={dest.id}
                   onClick={() => onSelectDestination(dest)}
-                  className="group relative rounded-3xl overflow-hidden cursor-pointer bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.12)] transition-all duration-400 transform hover:-translate-y-1.5 flex flex-col justify-between"
+                  className="archival-tilt-card group relative rounded-3xl overflow-hidden cursor-pointer bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] flex flex-col justify-between"
                 >
+                  {/* Vintage Postmark Stamp Badge Overlay */}
+                  <div className="vintage-postmark-stamp">
+                    <div className="w-10 h-10 rounded-full border border-dashed border-[#C5A25A] bg-[#FFF8EF]/90 backdrop-blur-xs flex flex-col items-center justify-center p-0.5 text-center shadow-xs">
+                      <span className="text-[6px] font-mono tracking-tighter text-[#351E1A] font-bold">CALCUTTA</span>
+                      <span className="text-[7.5px] font-mono font-black text-[#C6532B] leading-none">POST</span>
+                      <span className="text-[5.5px] font-mono text-[#582822]">1873</span>
+                    </div>
+                  </div>
+
                   {/* Image Container with Editorial Plate Number */}
                   <div className="relative h-56 sm:h-64 w-full overflow-hidden bg-[#351E1A]">
                     <img

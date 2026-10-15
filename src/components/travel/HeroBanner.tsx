@@ -1,18 +1,21 @@
 import React from 'react';
-import { Compass, Footprints, ArrowDownRight, Sparkles, MapPin } from 'lucide-react';
+import { Compass, Footprints, ArrowDownRight, Sparkles, MapPin, Calendar } from 'lucide-react';
 import { motion } from 'motion/react';
+import { CalcuttaTimeWatcher } from './CalcuttaTimeWatcher';
 
 interface HeroBannerProps {
   onExploreTrails: () => void;
   onExploreDestinations: () => void;
+  onOpenItineraryBuilder?: () => void;
 }
 
 export const HeroBanner: React.FC<HeroBannerProps> = ({
   onExploreTrails,
   onExploreDestinations,
+  onOpenItineraryBuilder,
 }) => {
   return (
-    <section className="relative w-full pt-28 sm:pt-36 lg:pt-40 pb-12 sm:pb-20 overflow-hidden bg-[#F7EBDD] text-[#351E1A]">
+    <section id="home" className="relative w-full pt-28 sm:pt-36 lg:pt-40 pb-12 sm:pb-20 overflow-hidden bg-[#F7EBDD] text-[#351E1A] scroll-mt-28">
       {/* Decorative Tram Wire & Bird Flight SVG in delicate low-contrast line art */}
       <div className="absolute inset-0 pointer-events-none opacity-40 overflow-hidden" aria-hidden="true">
         <svg className="w-full h-full" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -136,19 +139,24 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6"
+          className="flex flex-col items-center justify-center gap-3 mb-4 sm:mb-6"
         >
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-[#C6532B]" />
-            <span className="text-[11px] font-sans font-bold tracking-widest text-[#582822] uppercase">
-              A Love Letter to Calcutta
-            </span>
-          </div>
+          {/* Live Vintage Calcutta Time & Golden Hour Watcher */}
+          <CalcuttaTimeWatcher />
 
-          <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#C6532B]/10 border border-[#C6532B]/30">
-            <span className="font-bengali text-xs sm:text-sm font-semibold text-[#C6532B]">
-              কলকাতা — স্মৃতির শহর
-            </span>
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs">
+              <Sparkles className="w-3.5 h-3.5 text-[#C6532B]" />
+              <span className="text-[11px] font-sans font-bold tracking-widest text-[#582822] uppercase">
+                A Love Letter to Calcutta
+              </span>
+            </div>
+
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#C6532B]/10 border border-[#C6532B]/30">
+              <span className="font-bengali text-xs sm:text-sm font-semibold text-[#C6532B]">
+                কলকাতা — স্মৃতির শহর
+              </span>
+            </div>
           </div>
         </motion.div>
 
@@ -207,6 +215,16 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             <Footprints className="w-4 h-4 text-[#C6532B]" />
             <span>Wander the old lanes</span>
           </button>
+
+          {onOpenItineraryBuilder && (
+            <button
+              onClick={onOpenItineraryBuilder}
+              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#FFF8EF] hover:bg-[#FFFDF9] border border-[#C5A25A] text-[#582822] text-xs sm:text-sm font-sans font-semibold tracking-wide shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Calendar className="w-4 h-4 text-[#C5A25A]" />
+              <span>Plan My Day</span>
+            </button>
+          )}
         </motion.div>
       </div>
 

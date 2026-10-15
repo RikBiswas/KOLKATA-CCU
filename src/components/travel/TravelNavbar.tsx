@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Compass, Map, Menu, X, BookOpen, Sparkles, Bookmark } from 'lucide-react';
+import { Search, Compass, Map, Menu, X, BookOpen, Sparkles, Bookmark, Calendar } from 'lucide-react';
 
 interface TravelNavbarProps {
   activeTab: string;
@@ -7,6 +7,7 @@ interface TravelNavbarProps {
   searchQuery: string;
   onSearchChange: (q: string) => void;
   onOpenDiary?: () => void;
+  onOpenItineraryBuilder?: () => void;
   diaryCount?: number;
 }
 
@@ -16,6 +17,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   searchQuery,
   onSearchChange,
   onOpenDiary,
+  onOpenItineraryBuilder,
   diaryCount = 0,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -49,9 +51,13 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
     onSelectTab(id);
     setMobileMenuOpen(false);
     setShowSearchInput(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+    if (id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   };
 
@@ -150,6 +156,18 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                 </button>
               )}
             </div>
+
+            {/* Itinerary Builder Button */}
+            {onOpenItineraryBuilder && (
+              <button
+                onClick={onOpenItineraryBuilder}
+                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
+                title="Build Custom Day-Trip Itinerary"
+              >
+                <Calendar className="w-3.5 h-3.5 text-[#C6532B]" />
+                <span>Plan Day</span>
+              </button>
+            )}
 
             {/* Pocket Diary Button */}
             {onOpenDiary && (

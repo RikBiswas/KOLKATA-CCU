@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { MapPin, Clock, Utensils, Compass, Train, ArrowRight, Quote, Sparkles } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { MapPin, Clock, Utensils, Compass, Train, ArrowRight, Quote, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Neighborhood } from '../../types/travel';
 
 interface NeighborhoodsSectionProps {
@@ -14,13 +14,35 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
   onExploreDistrictLandmarks,
 }) => {
   const [activeDistrictId, setActiveDistrictId] = useState<string>(neighborhoods[0]?.id || 'north-kolkata');
+  const tabsContainerRef = useRef<HTMLDivElement>(null);
 
-  const currentDistrict = neighborhoods.find((n) => n.id === activeDistrictId) || neighborhoods[0];
+  const currentIndex = neighborhoods.findIndex((n) => n.id === activeDistrictId);
+  const safeIndex = currentIndex !== -1 ? currentIndex : 0;
+  const currentDistrict = neighborhoods[safeIndex] || neighborhoods[0];
+
+  const handlePrev = () => {
+    const prevIdx = (safeIndex - 1 + neighborhoods.length) % neighborhoods.length;
+    setActiveDistrictId(neighborhoods[prevIdx].id);
+  };
+
+  const handleNext = () => {
+    const nextIdx = (safeIndex + 1) % neighborhoods.length;
+    setActiveDistrictId(neighborhoods[nextIdx].id);
+  };
+
+  // Keep active pill scrolled into center view smoothly
+  useEffect(() => {
+    if (!tabsContainerRef.current) return;
+    const activeBtn = tabsContainerRef.current.querySelector<HTMLElement>('[data-active="true"]');
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [activeDistrictId]);
 
   if (!currentDistrict) return null;
 
   return (
-    <section id="neighborhoods" className="py-14 sm:py-20 my-8">
+    <section id="neighborhoods" className="py-14 sm:py-20 my-8 scroll-mt-24">
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
         <div className="space-y-2 max-w-2xl">
@@ -44,23 +66,29 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
           </p>
         </div>
 
-        {/* Counter Pill */}
-        <div className="flex items-center gap-2 shrink-0">
-          <div className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans font-semibold text-[#351E1A] shadow-xs">
-            <span className="text-[#C6532B] font-bold">5</span> Distinct Heritage Enclaves
+        {/* Counter Pill & Step Navigator */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans font-semibold text-[#351E1A] shadow-xs flex items-center gap-1.5">
+            <span className="text-[#C6532B] font-bold">{safeIndex + 1}</span>
+            <span className="text-[#351E1A]/50">/</span>
+            <span>{neighborhoods.length} Enclaves</span>
           </div>
         </div>
       </div>
 
-      {/* District Pill Navigation Tabs */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-8 no-scrollbar">
+      {/* District Pill Navigation Tabs (Scrollbar hidden) */}
+      <div
+        ref={tabsContainerRef}
+        className="flex items-center gap-2 overflow-x-auto pb-2 mb-8 no-scrollbar scroll-smooth"
+      >
         {neighborhoods.map((district) => {
           const isActive = district.id === activeDistrictId;
           return (
             <button
               key={district.id}
+              data-active={isActive ? "true" : "false"}
               onClick={() => setActiveDistrictId(district.id)}
-              className={`px-4 py-2.5 rounded-2xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 ${
+              className={`px-4 py-2 rounded-2xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 shrink-0 ${
                 isActive
                   ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-md scale-102'
                   : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD] hover:text-[#351E1A]'
@@ -75,8 +103,30 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
         })}
       </div>
 
-      {/* District Showcase Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-10 shadow-[0_12px_40px_rgba(53,30,26,0.06)] relative overflow-hidden transition-all duration-500">
+      {/* District Showcase Container with Prominent Side Navigation Arrows */}
+      <div className="relative">
+        {/* Left Side Navigation Arrow Button */}
+        <button
+          onClick={handlePrev}
+          className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
+          title={`Previous: ${neighborhoods[(safeIndex - 1 + neighborhoods.length) % neighborhoods.length].name}`}
+          aria-label="Previous district card"
+        >
+          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:-translate-x-0.5" />
+        </button>
+
+        {/* Right Side Navigation Arrow Button */}
+        <button
+          onClick={handleNext}
+          className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
+          title={`Next: ${neighborhoods[(safeIndex + 1) % neighborhoods.length].name}`}
+          aria-label="Next district card"
+        >
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:translate-x-0.5" />
+        </button>
+
+        {/* Info Card Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-10 shadow-[0_12px_40px_rgba(53,30,26,0.06)] relative overflow-hidden transition-all duration-500">
         {/* Subtle decorative background watermarks */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#C6532B]/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -223,6 +273,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
   );
 };

@@ -31,7 +31,7 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
   const visibleTrails = trails.slice(startIndex, startIndex + itemsVisible);
 
   return (
-    <section id="trails" className="py-14 sm:py-20">
+    <section id="trails" className="py-14 sm:py-20 scroll-mt-24">
       {/* Section Eyebrow */}
       <div className="flex items-center gap-2 mb-3">
         <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
@@ -139,8 +139,17 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
               <div
                 key={trail.id}
                 onClick={() => onSelectTrail(trail)}
-                className="group relative h-[440px] sm:h-[480px] rounded-3xl overflow-hidden cursor-pointer shadow-[0_10px_30px_rgba(53,30,26,0.08)] hover:shadow-[0_18px_45px_rgba(53,30,26,0.16)] transition-all duration-400 transform hover:-translate-y-1.5 bg-[#351E1A] flex flex-col justify-end border border-[#E8D5C2]"
+                className="archival-tilt-card group relative h-[440px] sm:h-[480px] rounded-3xl overflow-hidden cursor-pointer shadow-[0_10px_30px_rgba(53,30,26,0.08)] bg-[#351E1A] flex flex-col justify-end border border-[#E8D5C2]"
               >
+                {/* Vintage Postmark Stamp Badge Overlay */}
+                <div className="vintage-postmark-stamp">
+                  <div className="w-10 h-10 rounded-full border border-dashed border-[#FFF8EF]/80 bg-[#351E1A]/85 backdrop-blur-xs flex flex-col items-center justify-center p-0.5 text-center shadow-xs">
+                    <span className="text-[6px] font-mono tracking-tighter text-[#FFF8EF] font-bold">ROUTE</span>
+                    <span className="text-[7.5px] font-mono font-black text-[#C5A25A] leading-none">CCU</span>
+                    <span className="text-[5.5px] font-mono text-[#D9A38E]">TRAIL</span>
+                  </div>
+                </div>
+
                 <img
                   src={trail.imageUrl}
                   alt={trail.title}
@@ -156,7 +165,7 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
                 </div>
 
                 {/* Difficulty (Top Right) */}
-                <div className="absolute top-4 right-4 bg-[#FFF8EF]/95 text-[#351E1A] px-3 py-1 rounded-full text-xs font-sans font-semibold shadow-xs border border-[#E8D5C2]">
+                <div className="absolute top-4 right-14 bg-[#FFF8EF]/95 text-[#351E1A] px-3 py-1 rounded-full text-xs font-sans font-semibold shadow-xs border border-[#E8D5C2]">
                   {trail.difficulty}
                 </div>
 
