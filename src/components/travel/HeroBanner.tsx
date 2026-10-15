@@ -44,7 +44,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
           {/* Guidance Subtitle */}
           <p className="max-w-2xl text-sm sm:text-base md:text-lg text-white/90 font-medium leading-relaxed drop-shadow mb-8 sm:mb-10">
-            Discover Kolkata at your own pace with curated self-guided walking trails, 
+            Discover Kolkata at your own pace with curated self-guided walking trails,
             heritage architecture notes, local transit tips, and authentic street gastronomy.
           </p>
 

@@ -51,7 +51,6 @@ export default function App() {
   const handleSelectTab = (tab: string) => {
     setActiveTab(tab);
     if (tab === 'destinations') {
-      // If user clicks Destinations in navbar, stay on current page or scroll
       if (currentPage === 'all-destinations') {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
@@ -65,6 +64,9 @@ export default function App() {
           const el = document.getElementById(tab);
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }, 50);
+      } else {
+        const el = document.getElementById(tab);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
       }
     }
   };
@@ -115,7 +117,7 @@ export default function App() {
             onBackToHome={handleBackToHome}
           />
         ) : (
-          /* Home Overview Layout matching mockup */
+          /* Home Overview Layout */
           <>
             {/* Search Results Alert if querying */}
             {searchQuery.trim() && (
@@ -149,7 +151,7 @@ export default function App() {
             {/* Why Independent Explorers Choose WANDER.ccu */}
             <WhyChooseUs />
 
-            {/* Top Destinations Section (View all destinations opens full destinations page) */}
+            {/* Top Destinations Section */}
             <DestinationsSection
               destinations={filteredDestinations}
               onSelectDestination={(dest) => setSelectedDestination(dest)}

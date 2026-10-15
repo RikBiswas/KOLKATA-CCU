@@ -14,14 +14,17 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
   onBrowseAll,
 }) => {
   const [startIndex, setStartIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const itemsVisible = 2;
   const maxIndex = Math.max(0, trails.length - itemsVisible);
 
   const handlePrev = () => {
+    setSlideDirection('left');
     setStartIndex((prev) => Math.max(0, prev - 1));
   };
 
   const handleNext = () => {
+    setSlideDirection('right');
     setStartIndex((prev) => Math.min(maxIndex, prev + 1));
   };
 
@@ -73,7 +76,7 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
                 <button
                   onClick={handlePrev}
                   disabled={startIndex === 0}
-                  className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs backdrop-blur-xs"
+                  className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs backdrop-blur-xs cursor-pointer active:scale-95"
                   aria-label="Previous trails"
                 >
                   <ChevronLeft className="w-4 h-4" />
@@ -81,7 +84,7 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
                 <button
                   onClick={handleNext}
                   disabled={startIndex >= maxIndex}
-                  className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs backdrop-blur-xs"
+                  className="w-9 h-9 rounded-full bg-white/20 hover:bg-white/30 text-white disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs backdrop-blur-xs cursor-pointer active:scale-95"
                   aria-label="Next trails"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -105,8 +108,14 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
           </div>
         </div>
 
-        {/* Right Columns: Suggested Trail Cards matching UI mockup */}
-        <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6">
+        {/* Right Columns: Suggested Trail Cards with smooth slide animation */}
+        <div className="lg:col-span-8 overflow-hidden">
+          <div
+            key={startIndex}
+            className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 transition-all duration-500 ease-out ${
+              slideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left'
+            }`}
+          >
           {visibleTrails.map((trail) => (
             <div
               key={trail.id}
@@ -164,8 +173,10 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
               </div>
             </div>
           ))}
+          </div>
         </div>
       </div>
     </section>
   );
 };
+

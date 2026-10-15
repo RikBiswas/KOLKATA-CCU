@@ -66,11 +66,10 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
               <button
                 key={link.id}
                 onClick={() => handleLinkClick(link.id)}
-                className={`px-3.5 py-1.5 rounded-full transition-all text-[13px] ${
-                  activeTab === link.id
+                className={`px-3.5 py-1.5 rounded-full transition-all text-[13px] ${activeTab === link.id
                     ? 'font-semibold text-neutral-900 dark:text-white bg-neutral-100 dark:bg-neutral-800 shadow-xs'
                     : 'hover:text-neutral-950 dark:hover:text-white hover:bg-neutral-50 dark:hover:bg-neutral-800/50'
-                }`}
+                  }`}
               >
                 {link.label}
               </button>
@@ -137,11 +136,10 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
               <button
                 key={link.id}
                 onClick={() => handleLinkClick(link.id)}
-                className={`text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTab === link.id
+                className={`text-left px-3 py-2 rounded-lg text-sm font-medium transition-colors ${activeTab === link.id
                     ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white font-semibold'
                     : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-50 dark:hover:bg-neutral-800/40'
-                }`}
+                  }`}
               >
                 {link.label}
               </button>
