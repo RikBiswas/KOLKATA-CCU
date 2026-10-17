@@ -54,8 +54,8 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
               key={season}
               onClick={() => {
                 setSelectedSeason(season);
-                const first = events.find((e) => season === 'All' || e.season === season);
-                if (first) setActiveEventId(first.id);
+                const matched = events.filter((e) => season === 'All' || e.season === season);
+                if (matched.length > 0) setActiveEventId(matched[0].id);
               }}
               className={`px-3 py-1.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 selectedSeason === season
@@ -70,71 +70,82 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
       </div>
 
       {/* Main Showcase Layout: Event Selector List on Left + Rich Editorial Feature Plate on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* Left Column: Event List Cards */}
-        <div className="lg:col-span-5 space-y-3">
-          {filteredEvents.map((ev) => {
-            const isCurrent = ev.id === activeEvent.id;
-            return (
-              <div
-                key={ev.id}
-                onClick={() => setActiveEventId(ev.id)}
-                className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${
-                  isCurrent
-                    ? 'bg-[#351E1A] text-[#FFF8EF] border-[#351E1A] shadow-md -translate-y-0.5'
-                    : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD] hover:border-[#D9A38E]'
-                }`}
-              >
-                {/* Thumbnail Image */}
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#E8D5C2]/50 bg-neutral-900">
-                  <img
-                    src={ev.imageUrl}
-                    alt={ev.title}
-                    className="w-full h-full object-cover object-center"
-                  />
-                </div>
+        <div className="lg:col-span-5 space-y-2.5">
+          <div className="flex items-center justify-between text-[11px] font-mono text-[#351E1A]/70 px-1 pb-0.5">
+            <span className="font-bold tracking-wider text-[#C6532B] uppercase">
+              {filteredEvents.length} {filteredEvents.length === 1 ? 'Celebration' : 'Celebrations'} in this Almanac
+            </span>
+            <span className="text-[10px] tracking-wide text-[#582822]/70 font-sans">
+              Click to view details &rarr;
+            </span>
+          </div>
 
-                {/* Event Summary */}
-                <div className="flex-1 space-y-1">
-                  <div className="flex items-center justify-between gap-1">
-                    <span
-                      className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
-                        isCurrent
-                          ? 'bg-[#C6532B] text-white'
-                          : 'bg-[#C6532B]/10 text-[#C6532B]'
-                      }`}
-                    >
-                      {ev.season}
-                    </span>
-                    <span
-                      className={`text-[10px] font-sans ${
-                        isCurrent ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'
-                      }`}
-                    >
-                      {ev.months.split('(')[0]}
-                    </span>
+          <div className="space-y-3 max-h-[740px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#C6532B]/30 hover:scrollbar-thumb-[#C6532B]/60 scrollbar-track-transparent">
+            {filteredEvents.map((ev) => {
+              const isCurrent = ev.id === activeEvent.id;
+              return (
+                <div
+                  key={ev.id}
+                  onClick={() => setActiveEventId(ev.id)}
+                  className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${
+                    isCurrent
+                      ? 'bg-[#351E1A] text-[#FFF8EF] border-[#351E1A] shadow-md -translate-y-0.5'
+                      : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD] hover:border-[#D9A38E]'
+                  }`}
+                >
+                  {/* Thumbnail Image */}
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#E8D5C2]/50 bg-neutral-900">
+                    <img
+                      src={ev.imageUrl}
+                      alt={ev.title}
+                      className="w-full h-full object-cover object-center"
+                    />
                   </div>
 
-                  <h3 className="font-serif text-lg font-bold leading-snug">
-                    {ev.title.split('—')[0].trim()}
-                  </h3>
+                  {/* Event Summary */}
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center justify-between gap-1">
+                      <span
+                        className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
+                          isCurrent
+                            ? 'bg-[#C6532B] text-white'
+                            : 'bg-[#C6532B]/10 text-[#C6532B]'
+                        }`}
+                      >
+                        {ev.season}
+                      </span>
+                      <span
+                        className={`text-[10px] font-sans ${
+                          isCurrent ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'
+                        }`}
+                      >
+                        {ev.months.split('(')[0]}
+                      </span>
+                    </div>
 
-                  <p
-                    className={`font-bengali text-xs font-medium ${
-                      isCurrent ? 'text-[#D9A38E]' : 'text-[#582822]'
-                    }`}
-                  >
-                    {ev.bengaliTitle}
-                  </p>
+                    <h3 className="font-serif text-lg font-bold leading-snug">
+                      {ev.title.split('—')[0].trim()}
+                    </h3>
+
+                    <p
+                      className={`font-bengali text-xs font-medium ${
+                        isCurrent ? 'text-[#D9A38E]' : 'text-[#582822]'
+                      }`}
+                    >
+                      {ev.bengaliTitle}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
         {/* Right Column: Detailed Editorial Exhibition Card for Active Event */}
         {activeEvent && (
-          <div className="lg:col-span-7 bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-8 shadow-[0_12px_36px_rgba(53,30,26,0.08)] flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 lg:sticky lg:top-24 bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-8 shadow-[0_12px_36px_rgba(53,30,26,0.08)] flex flex-col justify-between space-y-6">
             <div className="space-y-5">
               {/* Top Banner Tag & Dates */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8D5C2] pb-4">

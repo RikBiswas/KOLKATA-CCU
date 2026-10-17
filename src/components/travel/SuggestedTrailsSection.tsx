@@ -127,98 +127,129 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
           </div>
         </div>
 
-        {/* Right Columns: Suggested Trail Cards */}
-        <div className="lg:col-span-8 overflow-hidden">
-          <div
-            key={startIndex}
-            className={`grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all duration-500 ease-out ${
-              slideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left'
-            }`}
-          >
-            {visibleTrails.map((trail) => (
-              <div
-                key={trail.id}
-                onClick={() => onSelectTrail(trail)}
-                className="archival-tilt-card group relative h-[440px] sm:h-[480px] rounded-3xl overflow-hidden cursor-pointer shadow-[0_10px_30px_rgba(53,30,26,0.08)] bg-[#351E1A] flex flex-col justify-end border border-[#E8D5C2]"
-              >
-                {/* Vintage Postmark Stamp Badge Overlay */}
-                <div className="vintage-postmark-stamp">
-                  <div className="w-10 h-10 rounded-full border border-dashed border-[#FFF8EF]/80 bg-[#351E1A]/85 backdrop-blur-xs flex flex-col items-center justify-center p-0.5 text-center shadow-xs">
-                    <span className="text-[6px] font-mono tracking-tighter text-[#FFF8EF] font-bold">ROUTE</span>
-                    <span className="text-[7.5px] font-mono font-black text-[#C5A25A] leading-none">CCU</span>
-                    <span className="text-[5.5px] font-mono text-[#D9A38E]">TRAIL</span>
-                  </div>
-                </div>
+        {/* Right Columns: Suggested Trail Cards with Side Navigation Arrows */}
+        <div className="lg:col-span-8 relative group/trailcards">
+          {startIndex > 0 && (
+            <button
+              onClick={handlePrev}
+              className="absolute -left-3 sm:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
+              aria-label="Previous trails"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+          )}
 
-                <img
-                  src={trail.imageUrl}
-                  alt={trail.title}
-                  className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-700 ease-out"
-                />
-
-                {/* Warm analog gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/60 to-transparent pointer-events-none" />
-
-                {/* Tag (Top Left) */}
-                <div className="absolute top-4 left-4 bg-[#C6532B] text-white px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm">
-                  {trail.tag}
-                </div>
-
-                {/* Difficulty (Top Right) */}
-                <div className="absolute top-4 right-14 bg-[#FFF8EF]/95 text-[#351E1A] px-3 py-1 rounded-full text-xs font-sans font-semibold shadow-xs border border-[#E8D5C2]">
-                  {trail.difficulty}
-                </div>
-
-                {/* Bottom Content Area */}
-                <div className="relative z-10 p-6 space-y-2.5 text-[#FFF8EF]">
-                  <div className="flex items-center gap-3 text-xs font-sans text-[#D9A38E]">
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-[#C5A25A]" />
-                      <span>{trail.duration}</span>
-                    </span>
-                    <span>&bull;</span>
-                    <span className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
-                      <span className="font-bold text-[#FFF8EF]">{trail.rating}</span>
-                      <span className="text-[#FFF8EF]/60">({trail.reviewsCount})</span>
-                    </span>
+          <div className="overflow-hidden">
+            <div
+              key={startIndex}
+              className={`grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all duration-500 ease-out ${
+                slideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left'
+              }`}
+            >
+              {visibleTrails.map((trail) => (
+                <div
+                  key={trail.id}
+                  onClick={() => onSelectTrail(trail)}
+                  className="archival-tilt-card group relative h-[450px] sm:h-[490px] rounded-3xl overflow-hidden cursor-pointer shadow-[0_10px_30px_rgba(53,30,26,0.08)] bg-[#351E1A] flex flex-col justify-end border border-[#E8D5C2]"
+                >
+                  {/* Vintage Postmark Stamp Badge Overlay */}
+                  <div className="vintage-postmark-stamp">
+                    <div className="w-10 h-10 rounded-full border border-dashed border-[#FFF8EF]/80 bg-[#351E1A]/85 backdrop-blur-xs flex flex-col items-center justify-center p-0.5 text-center shadow-xs">
+                      <span className="text-[6px] font-mono tracking-tighter text-[#FFF8EF] font-bold">ROUTE</span>
+                      <span className="text-[7.5px] font-mono font-black text-[#C5A25A] leading-none">CCU</span>
+                      <span className="text-[5.5px] font-mono text-[#D9A38E]">TRAIL</span>
+                    </div>
                   </div>
 
-                  <h3 className="font-serif text-2xl font-bold group-hover:text-[#D9A38E] transition-colors leading-snug">
-                    {trail.title}
-                  </h3>
+                  <img
+                    src={trail.imageUrl}
+                    alt={trail.title}
+                    className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-700 ease-out"
+                  />
 
-                  <p className="font-sans text-xs text-[#FFF8EF]/80 line-clamp-2 leading-relaxed">
-                    {trail.subtitle}
-                  </p>
+                  {/* Warm analog gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/60 to-transparent pointer-events-none" />
 
-                  {/* Key Stops Chips */}
-                  <div className="pt-1 flex flex-wrap gap-1.5">
-                    {trail.keyStops.slice(0, 3).map((stop, sIdx) => (
-                      <span
-                        key={sIdx}
-                        className="text-[10px] font-sans px-2 py-0.5 rounded-md bg-[#FFF8EF]/15 text-[#FFF8EF] border border-[#FFF8EF]/10"
-                      >
-                        {stop}
+                  {/* Tag (Top Left) */}
+                  <div className="absolute top-4 left-4 bg-[#C6532B] text-white px-3 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider shadow-sm">
+                    {trail.tag}
+                  </div>
+
+                  {/* Difficulty (Top Right) */}
+                  <div className="absolute top-4 right-14 bg-[#FFF8EF]/95 text-[#351E1A] px-3 py-1 rounded-full text-xs font-sans font-semibold shadow-xs border border-[#E8D5C2]">
+                    {trail.difficulty}
+                  </div>
+
+                  {/* Bottom Content Area */}
+                  <div className="relative z-10 p-6 space-y-2.5 text-[#FFF8EF]">
+                    <div className="flex items-center gap-3 text-xs font-sans text-[#D9A38E]">
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5 text-[#C5A25A]" />
+                        <span>{trail.duration}</span>
                       </span>
-                    ))}
-                    {trail.keyStops.length > 3 && (
-                      <span className="text-[10px] font-sans px-1.5 py-0.5 text-[#D9A38E]">
-                        +{trail.keyStops.length - 3} more
+                      {trail.distance && (
+                        <>
+                          <span>&bull;</span>
+                          <span className="flex items-center gap-1">
+                            <Footprints className="w-3.5 h-3.5 text-[#C5A25A]" />
+                            <span>{trail.distance}</span>
+                          </span>
+                        </>
+                      )}
+                      <span>&bull;</span>
+                      <span className="flex items-center gap-1">
+                        <Star className="w-3.5 h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
+                        <span className="font-bold text-[#FFF8EF]">{trail.rating}</span>
+                        <span className="text-[#FFF8EF]/60">({trail.reviewsCount})</span>
                       </span>
-                    )}
-                  </div>
+                    </div>
 
-                  <div className="pt-2">
-                    <span className="inline-flex items-center gap-1.5 text-xs font-sans font-semibold text-[#D9A38E] group-hover:translate-x-1 transition-transform">
-                      <span>View Step-by-Step Schedule &amp; Transit</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </span>
+                    <h3 className="font-serif text-2xl font-bold group-hover:text-[#D9A38E] transition-colors leading-snug">
+                      {trail.title}
+                    </h3>
+
+                    <p className="font-sans text-xs text-[#FFF8EF]/80 line-clamp-2 leading-relaxed">
+                      {trail.subtitle}
+                    </p>
+
+                    {/* Key Stops Chips */}
+                    <div className="pt-1 flex flex-wrap gap-1.5">
+                      {trail.keyStops.slice(0, 3).map((stop, sIdx) => (
+                        <span
+                          key={sIdx}
+                          className="text-[10px] font-sans px-2 py-0.5 rounded-md bg-[#FFF8EF]/15 text-[#FFF8EF] border border-[#FFF8EF]/10"
+                        >
+                          {stop}
+                        </span>
+                      ))}
+                      {trail.keyStops.length > 3 && (
+                        <span className="text-[10px] font-sans px-1.5 py-0.5 text-[#D9A38E]">
+                          +{trail.keyStops.length - 3} more
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="pt-2">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-sans font-semibold text-[#D9A38E] group-hover:translate-x-1 transition-transform">
+                        <span>Click to view detailed route &amp; time framework</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          {startIndex < maxIndex && (
+            <button
+              onClick={handleNext}
+              className="absolute -right-3 sm:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
+              aria-label="Next trails"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          )}
         </div>
       </div>
     </section>

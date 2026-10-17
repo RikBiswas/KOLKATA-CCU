@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Star, MapPin, ChevronLeft, ChevronRight, Eye, Clock, ArrowRight, Compass, Dices } from 'lucide-react';
 import { Destination } from '../../types/travel';
 
@@ -27,8 +27,63 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
   const [scrollIndex, setScrollIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
 
+  // Slider refs & state for horizontal filter pill sliding
+  const categoryScrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollCatLeft, setCanScrollCatLeft] = useState(false);
+  const [canScrollCatRight, setCanScrollCatRight] = useState(false);
+
+  const vibeScrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollVibeLeft, setCanScrollVibeLeft] = useState(false);
+  const [canScrollVibeRight, setCanScrollVibeRight] = useState(false);
+
+  const checkCategoryScroll = () => {
+    if (categoryScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = categoryScrollRef.current;
+      setCanScrollCatLeft(scrollLeft > 6);
+      setCanScrollCatRight(scrollLeft + clientWidth < scrollWidth - 6);
+    }
+  };
+
+  const checkVibeScroll = () => {
+    if (vibeScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = vibeScrollRef.current;
+      setCanScrollVibeLeft(scrollLeft > 6);
+      setCanScrollVibeRight(scrollLeft + clientWidth < scrollWidth - 6);
+    }
+  };
+
   // Categories extracted from destination items
   const categories = ['All', ...Array.from(new Set(destinations.map((d) => d.category)))];
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      checkCategoryScroll();
+      checkVibeScroll();
+    }, 100);
+    window.addEventListener('resize', checkCategoryScroll);
+    window.addEventListener('resize', checkVibeScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkCategoryScroll);
+      window.removeEventListener('resize', checkVibeScroll);
+    };
+  }, [categories]);
+
+  const slideCategories = (direction: 'left' | 'right') => {
+    if (categoryScrollRef.current) {
+      const scrollAmount = direction === 'left' ? -260 : 260;
+      categoryScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      setTimeout(checkCategoryScroll, 350);
+    }
+  };
+
+  const slideVibes = (direction: 'left' | 'right') => {
+    if (vibeScrollRef.current) {
+      const scrollAmount = direction === 'left' ? -260 : 260;
+      vibeScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      setTimeout(checkVibeScroll, 350);
+    }
+  };
 
   // Surprise Me / Random Heritage Spot generator
   const handleSurpriseMe = () => {
@@ -90,8 +145,8 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
           </p>
         </div>
 
-        {/* Carousel Arrow Controls & Surprise Me */}
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
+        {/* Surprise Me & Landmark Counter */}
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={handleSurpriseMe}
             className="px-4 py-2 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-bold flex items-center gap-2 shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer group"
@@ -101,33 +156,31 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
             <span>Surprise Me</span>
           </button>
 
-          <span className="text-xs font-sans text-[#351E1A]/60 hidden sm:inline">
+          <span className="text-xs font-sans font-medium text-[#351E1A]/70 px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs">
             {filtered.length > 0 ? scrollIndex + 1 : 0}&ndash;{Math.min(scrollIndex + itemsPerPage, filtered.length)} of {filtered.length}
           </span>
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={handlePrev}
-              disabled={scrollIndex === 0}
-              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
-              aria-label="Previous landmarks"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={handleNext}
-              disabled={scrollIndex >= maxIndex}
-              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
-              aria-label="Next landmarks"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
         </div>
       </div>
 
-      {/* Vibe Filter Chips */}
-      <div className="mb-4">
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
+      {/* Vibe Filter Chips with Slider Controls */}
+      <div className="relative mb-4">
+        {canScrollVibeLeft && (
+          <div className="absolute left-0 top-0 bottom-2 z-10 flex items-center pr-3 bg-gradient-to-r from-[#F7EBDD] via-[#F7EBDD]/90 to-transparent pointer-events-auto">
+            <button
+              onClick={() => slideVibes('left')}
+              className="w-6 h-6 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] hover:text-[#C6532B] flex items-center justify-center shadow-xs transition-all active:scale-90 cursor-pointer"
+              aria-label="Slide vibes left"
+            >
+              <ChevronLeft className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
+        <div
+          ref={vibeScrollRef}
+          onScroll={checkVibeScroll}
+          className="flex items-center gap-2 overflow-x-auto pb-2 scroll-smooth no-scrollbar"
+        >
           <span className="text-[11px] font-mono font-bold text-[#582822] shrink-0 mr-1">
             Filter by Vibe:
           </span>
@@ -138,7 +191,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
                 setSelectedVibe(v.id);
                 setScrollIndex(0);
               }}
-              className={`px-3 py-1 rounded-full text-xs font-sans flex items-center gap-1.5 whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-xs font-sans flex items-center gap-1.5 whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer ${
                 selectedVibe === v.id
                   ? 'bg-[#C6532B] text-[#FFF8EF] font-bold shadow-xs'
                   : 'bg-[#FFF8EF]/80 text-[#351E1A]/70 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
@@ -149,30 +202,84 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
             </button>
           ))}
         </div>
+
+        {canScrollVibeRight && (
+          <div className="absolute right-0 top-0 bottom-2 z-10 flex items-center pl-3 bg-gradient-to-l from-[#F7EBDD] via-[#F7EBDD]/90 to-transparent pointer-events-auto">
+            <button
+              onClick={() => slideVibes('right')}
+              className="w-6 h-6 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] hover:text-[#C6532B] flex items-center justify-center shadow-xs transition-all active:scale-90 cursor-pointer"
+              aria-label="Slide vibes right"
+            >
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
       </div>
 
-      {/* Category Filter Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
-        {categories.map((cat) => (
+      {/* Category Filter Pills Slider with Left/Right Controls */}
+      <div className="relative mb-8">
+        {canScrollCatLeft && (
+          <div className="absolute left-0 top-0 bottom-2 z-10 flex items-center pr-3 bg-gradient-to-r from-[#F7EBDD] via-[#F7EBDD]/90 to-transparent pointer-events-auto">
+            <button
+              onClick={() => slideCategories('left')}
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] hover:text-[#C6532B] flex items-center justify-center shadow-sm transition-all active:scale-90 cursor-pointer"
+              aria-label="Slide categories left"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+
+        <div
+          ref={categoryScrollRef}
+          onScroll={checkCategoryScroll}
+          className="flex items-center gap-2 overflow-x-auto pb-2 scroll-smooth no-scrollbar"
+        >
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setScrollIndex(0);
+              }}
+              className={`px-3.5 py-1.5 rounded-full text-xs font-sans whitespace-nowrap shrink-0 transition-all duration-200 cursor-pointer ${
+                selectedCategory === cat
+                  ? 'bg-[#351E1A] text-[#FFF8EF] font-semibold shadow-xs'
+                  : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {canScrollCatRight && (
+          <div className="absolute right-0 top-0 bottom-2 z-10 flex items-center pl-3 bg-gradient-to-l from-[#F7EBDD] via-[#F7EBDD]/90 to-transparent pointer-events-auto">
+            <button
+              onClick={() => slideCategories('right')}
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] hover:text-[#C6532B] flex items-center justify-center shadow-sm transition-all active:scale-90 cursor-pointer"
+              aria-label="Slide categories right"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Asymmetric Editorial Destination Cards with Floating Side Arrows */}
+      <div className="relative group/cards">
+        {/* Floating Left Side Arrow */}
+        {scrollIndex > 0 && (
           <button
-            key={cat}
-            onClick={() => {
-              setSelectedCategory(cat);
-              setScrollIndex(0);
-            }}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
-              selectedCategory === cat
-                ? 'bg-[#351E1A] text-[#FFF8EF] font-semibold shadow-xs'
-                : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
-            }`}
+            onClick={handlePrev}
+            className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
+            aria-label="Previous landmarks"
           >
-            {cat}
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:-translate-x-0.5" />
           </button>
-        ))}
-      </div>
+        )}
 
-      {/* Asymmetric Editorial Destination Cards */}
-      <div className="overflow-hidden">
+        <div className="overflow-hidden">
         {filtered.length === 0 ? (
           <div className="p-12 text-center bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2]">
             <p className="font-serif text-lg text-[#351E1A]">No landmarks match this vibe or category.</p>
@@ -282,6 +389,18 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
           </div>
         )}
       </div>
+
+      {/* Floating Right Side Arrow */}
+      {scrollIndex < maxIndex && (
+        <button
+          onClick={handleNext}
+          className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
+          aria-label="Next landmarks"
+        >
+          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:translate-x-0.5" />
+        </button>
+      )}
+    </div>
 
       {/* Bottom Bar: View All button & Counter */}
       <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2]">

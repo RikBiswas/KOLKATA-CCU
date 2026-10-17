@@ -89,6 +89,39 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
 
         {/* Scrollable Content */}
         <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+          {/* Quick Route Specs */}
+          {(trail.distance || trail.bestTimeOfDay || trail.transitCost) && (
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] text-xs font-sans">
+              {trail.distance && (
+                <div className="flex items-center gap-2">
+                  <Footprints className="w-4 h-4 text-[#C6532B] shrink-0" />
+                  <div>
+                    <span className="block text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Walking Distance</span>
+                    <span className="font-semibold text-[#351E1A]">{trail.distance}</span>
+                  </div>
+                </div>
+              )}
+              {trail.bestTimeOfDay && (
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#C6532B] shrink-0" />
+                  <div>
+                    <span className="block text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Optimal Window</span>
+                    <span className="font-semibold text-[#351E1A]">{trail.bestTimeOfDay}</span>
+                  </div>
+                </div>
+              )}
+              {trail.transitCost && (
+                <div className="flex items-center gap-2">
+                  <Train className="w-4 h-4 text-[#C6532B] shrink-0" />
+                  <div>
+                    <span className="block text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Estimated Cost</span>
+                    <span className="font-semibold text-[#351E1A]">{trail.transitCost}</span>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="space-y-2">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C6532B]">
               Trail Overview &amp; Character
@@ -100,19 +133,32 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
 
           {/* Step-by-Step Schedule */}
           <div className="space-y-3">
-            <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C6532B]">
-              Step-by-Step Route &amp; Recommended Timings
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C6532B]">
+                Step-by-Step Route &amp; Recommended Timings
+              </h3>
+              <span className="text-[11px] font-mono text-[#582822]/60 font-semibold">
+                {trail.itinerary.length} Milestones
+              </span>
+            </div>
+
             <div className="space-y-3">
               {trail.itinerary.map((item, idx) => (
                 <div
                   key={idx}
                   className="p-4 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] flex gap-3 text-xs font-sans"
                 >
-                  <span className="px-2.5 py-1 rounded-md bg-[#582822] text-[#FFF8EF] font-mono font-bold shrink-0 self-start text-[11px]">
-                    {item.time}
-                  </span>
-                  <div className="space-y-0.5">
+                  <div className="flex flex-col items-center gap-1 shrink-0 self-start">
+                    <span className="px-2.5 py-1 rounded-md bg-[#582822] text-[#FFF8EF] font-mono font-bold text-[11px] whitespace-nowrap">
+                      {item.time}
+                    </span>
+                    {item.duration && (
+                      <span className="text-[9.5px] font-mono text-[#C6532B] font-semibold">
+                        {item.duration}
+                      </span>
+                    )}
+                  </div>
+                  <div className="space-y-1">
                     <h4 className="font-serif text-base font-bold text-[#351E1A]">{item.title}</h4>
                     <p className="text-[#351E1A]/75 leading-relaxed text-xs">{item.desc}</p>
                   </div>

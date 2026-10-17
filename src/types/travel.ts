@@ -27,9 +27,12 @@ export interface SuggestedTrail {
   reviewsCount: number;
   imageUrl: string;
   description: string;
-  itinerary: { time: string; title: string; desc: string }[];
+  itinerary: { time: string; title: string; desc: string; duration?: string }[];
   keyStops: string[];
   featured?: boolean;
+  distance?: string;
+  bestTimeOfDay?: string;
+  transitCost?: string;
 }
 
 export interface ReviewItem {

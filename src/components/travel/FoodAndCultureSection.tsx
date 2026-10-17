@@ -255,30 +255,12 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
           </p>
         </div>
 
-        {/* Top-Right Page Indicator & Quick Nav */}
+        {/* Top-Right Page Indicator */}
         <div className="flex items-center gap-3 shrink-0">
           <div className="px-4 py-2 rounded-full bg-[#FFF8EF] text-[#351E1A] text-xs font-sans font-bold shadow-sm flex items-center gap-2">
             <span className="text-[#C6532B]">Page {safeCurrentPage}</span>
             <span className="text-[#351E1A]/40">/</span>
             <span>{totalPages}</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={handlePrevPage}
-              className="w-9 h-9 rounded-full bg-[#FFF8EF]/20 hover:bg-[#FFF8EF] text-[#FFF8EF] hover:text-[#351E1A] flex items-center justify-center transition-all duration-200 cursor-pointer"
-              title="Previous 4 foods"
-              aria-label="Previous 4 cards"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-            <button
-              onClick={handleNextPage}
-              className="w-9 h-9 rounded-full bg-[#FFF8EF]/20 hover:bg-[#FFF8EF] text-[#FFF8EF] hover:text-[#351E1A] flex items-center justify-center transition-all duration-200 cursor-pointer"
-              title="Next 4 foods"
-              aria-label="Next 4 cards"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
           </div>
         </div>
       </div>
@@ -308,8 +290,21 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         })}
       </div>
 
-      {/* 4 Cards Per Page Grid (2x2 on desktop, clean and spacious) */}
-      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 min-h-[460px]">
+      {/* 4 Cards Per Page Grid with Floating Side Navigation Controls */}
+      <div className="relative z-10 group/foodgrid">
+        {/* Floating Left Side Arrow Button */}
+        {totalPages > 1 && (
+          <button
+            onClick={handlePrevPage}
+            className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 shadow-[0_8px_24px_rgba(53,30,26,0.25)] cursor-pointer active:scale-90 group/btn"
+            title="Previous 4 culinary stops"
+            aria-label="Previous page of food cards"
+          >
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:-translate-x-0.5" />
+          </button>
+        )}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 min-h-[460px]">
         {currentItems.map((item) => (
           <div
             key={item.id}
@@ -371,55 +366,85 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         ))}
       </div>
 
-      {/* Pagination Controls & Footnote */}
-      <div className="relative z-10 mt-10 pt-6 border-t border-[#FFF8EF]/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-        {/* Counter Info */}
-        <div className="text-xs font-sans text-[#FFF8EF]/80">
+        {/* Floating Right Side Arrow Button */}
+        {totalPages > 1 && (
+          <button
+            onClick={handleNextPage}
+            className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 shadow-[0_8px_24px_rgba(53,30,26,0.25)] cursor-pointer active:scale-90 group/btn"
+            title="Next 4 culinary stops"
+            aria-label="Next page of food cards"
+          >
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:translate-x-0.5" />
+          </button>
+        )}
+      </div>
+
+      {/* Footnote & Curated Trail CTA */}
+      <div className="relative z-10 mt-10 pt-6 border-t border-[#FFF8EF]/20 flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Left: Counter Info */}
+        <div className="text-xs font-sans text-[#FFF8EF]/80 shrink-0">
           Showing <span className="font-bold text-[#FFF8EF]">{startIndex + 1}–{Math.min(startIndex + ITEMS_PER_PAGE, filteredItems.length)}</span> of <span className="font-bold text-[#FFF8EF]">{filteredItems.length}</span> street delicacies
         </div>
 
-        {/* Page Switcher Buttons */}
-        {totalPages > 1 && (
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handlePrevPage}
-              className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF]/15 hover:bg-[#FFF8EF] text-[#FFF8EF] hover:text-[#351E1A] text-xs font-sans font-semibold transition-all duration-200 flex items-center gap-1 cursor-pointer"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              <span>Previous</span>
-            </button>
+        {/* Center: Bengali Eatery Style Design (Peach Silhouette) */}
+        <div className="flex items-center gap-3.5 px-5 py-2.5 rounded-2xl bg-[#FFF8EF]/10 border border-[#D9A38E]/35 backdrop-blur-xs select-none shadow-xs group/eatery hover:bg-[#FFF8EF]/15 transition-all duration-300">
+          {/* Steaming Earthen Cup (Bhaar) & Heritage Handi Degchi Silhouette */}
+          <svg
+            className="w-10 h-10 shrink-0 text-[#F5C2AF] transition-transform duration-300 group-hover/eatery:scale-108"
+            viewBox="0 0 72 72"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            {/* Steaming Bhaar (Clay Cup) */}
+            <ellipse cx="20" cy="38" rx="8" ry="2.5" />
+            <path d="M12 38 C12 48 14 58 17 61 L23 61 C26 58 28 48 28 38 Z" />
+            {/* Rising steam waves */}
+            <path
+              d="M17 33 C15 26 20 22 17 16 C15 12 19 8 17 4"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.9"
+            />
+            <path
+              d="M23 32 C26 25 22 21 25 15 C27 11 24 7 26 3"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              fill="none"
+              opacity="0.9"
+            />
 
-            <div className="flex items-center gap-1.5 mx-1">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
-                const isCurrent = pageNum === safeCurrentPage;
-                return (
-                  <button
-                    key={pageNum}
-                    onClick={() => setCurrentPage(pageNum)}
-                    className={`w-8 h-8 rounded-full text-xs font-mono font-bold transition-all duration-200 cursor-pointer ${
-                      isCurrent
-                        ? 'bg-[#FFF8EF] text-[#351E1A] shadow-md scale-105'
-                        : 'bg-[#FFF8EF]/15 text-[#FFF8EF] hover:bg-[#FFF8EF]/30'
-                    }`}
-                  >
-                    {pageNum}
-                  </button>
-                );
-              })}
+            {/* Traditional Handi Pot & Degchi */}
+            <path d="M38 43 C36 43 35 45 35 48 C35 57 41 63 52 63 C63 63 69 57 69 48 C69 45 68 43 66 43 Z" />
+            <ellipse cx="52" cy="43" rx="14" ry="3.5" />
+            <ellipse cx="52" cy="39.5" rx="9" ry="2" />
+            {/* Wooden Stirring Ladle */}
+            <path
+              d="M55 41 L67 21"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+            <circle cx="68" cy="19.5" r="2.5" />
+          </svg>
+
+          {/* Bengali Typography & Subtitle */}
+          <div className="flex flex-col text-left">
+            <div className="flex items-center gap-1.5">
+              <span className="font-bengali text-sm font-bold text-[#FFF8EF] tracking-wide">
+                রসনা বিলাস &bull; <span className="font-script text-base text-[#F5C2AF] font-normal">স্মৃতির স্বাদ</span>
+              </span>
             </div>
-
-            <button
-              onClick={handleNextPage}
-              className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF]/15 hover:bg-[#FFF8EF] text-[#FFF8EF] hover:text-[#351E1A] text-xs font-sans font-semibold transition-all duration-200 flex items-center gap-1 cursor-pointer"
-            >
-              <span>Next</span>
-              <ChevronRight className="w-4 h-4" />
-            </button>
+            <span className="text-[10px] font-mono tracking-widest uppercase text-[#F5C2AF]/90 font-medium">
+              Calcutta Cabin &bull; Earthen Cha &bull; Street Lore
+            </span>
           </div>
-        )}
+        </div>
 
-        {/* Curated Trail CTA */}
-        <div>
+        {/* Right: Curated Trail CTA */}
+        <div className="shrink-0">
           <button
             onClick={onExploreFoodTrail}
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#FFF8EF] hover:bg-white text-[#351E1A] font-sans text-xs font-bold tracking-wide shadow-md transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"

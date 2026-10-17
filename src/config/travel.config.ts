@@ -287,7 +287,7 @@ export const travelData = {
       region: 'Downtown Kolkata',
       rating: 4.8,
       reviewsCount: 2980,
-      imageUrl: '/images/destinations/victoria-memorial.jpg',
+      imageUrl: '/images/destinations/indian-museum.jpg',
       description: 'Established in 1814 by the Asiatic Society, this grandiose Italianate neoclassical museum contains 35 galleries spanning archaeology, Buddhist art, ancient fossils, Egyptian mummies, and Mughal miniature paintings.',
       highlights: [
         '4,000-year-old Egyptian mummy and preserved sarcophagus',
@@ -309,7 +309,7 @@ export const travelData = {
       region: 'Hooghly Riverfront',
       rating: 4.9,
       reviewsCount: 3410,
-      imageUrl: '/images/destinations/dakshineswar-temple.jpg',
+      imageUrl: '/images/destinations/belur-math.jpg',
       description: 'Conceived by Swami Vivekananda and consecrated in 1938 along the western bank of the Hooghly, this tranquil temple synthesizes Hindu temple towers, Christian cathedral arches, and Islamic Mughal domes into an architectural hymn to universal peace.',
       highlights: [
         'Unique architectural synthesis of temple, cathedral, and mosque architecture',
@@ -351,119 +351,137 @@ export const travelData = {
     {
       id: 'colonial-heritage-walk',
       title: 'Colonial Calcutta & Dalhousie Heritage Walk',
-      subtitle: 'Self-guided architectural trail through the heart of the British Raj',
-      duration: '3.5 – 4 Hours (Morning)',
+      subtitle: 'Self-guided architectural trail through the administrative heart of the British Empire',
+      duration: '4 Hours (Morning)',
+      distance: '3.4 km on foot',
+      bestTimeOfDay: 'Sunday 07:30 AM – 11:30 AM (quiet, zero-traffic streets)',
+      transitCost: '₹15 (Metro/Tram optional)',
       difficulty: 'Easy Walking',
       tag: 'Must Do Trail',
       rating: 4.9,
       reviewsCount: 680,
       imageUrl: '/images/trails/writers-building.jpg',
-      description: 'A scenic walking itinerary covering the administrative epicentre of colonial India. Explore majestic neoclassical facades, historic churches, and leafy colonial gardens entirely at your own pace.',
+      description: 'An extraordinary architectural journey through the beating administrative heart of the British Empire’s second city. Trace 250 years of layered geopolitical history past monumental Greco-Roman Corinthian porticos, Italianate colonial facades, and neo-Gothic court spires. On peaceful Sunday mornings, the wide boulevards around Lal Dighi are serenely silent, letting you hear your footsteps echoing against centuries of stone, red terracotta brick, and quiet Anglican churchyards.',
       itinerary: [
-        { time: '08:00 AM', title: 'Start at Writers’ Building & Lal Dighi', desc: 'Observe the imposing terracotta Greco-Roman facade of Writers’ Building and the tranquil Lal Dighi tank.' },
-        { time: '09:00 AM', title: 'General Post Office (GPO) & St. John’s Church', desc: 'Visit the Corinthian pillars of GPO (site of Fort William) and stroll to St. John’s to see Job Charnock’s mausoleum and Zoffany’s Last Supper painting.' },
-        { time: '10:30 AM', title: 'Raj Bhavan & High Court Vistas', desc: 'Walk past the Governor’s grand residence (modeled on Kedleston Hall) and the neo-Gothic Calcutta High Court.' },
-        { time: '11:30 AM', title: 'Maidan Breeze to Victoria Memorial', desc: 'Board a gentle yellow ambassador cab or stroll down the green Maidan towards the Victoria Memorial marble hall.' }
+        { time: '07:30 AM – 08:30 AM', duration: '60 mins', title: 'Writers’ Building & Lal Dighi Water Tank', desc: 'Stand before the 150-meter terracotta Corinthian facade overlooking the historic freshwater reservoir. Admire the statues of Minerva and Commerce perched on the parapets before walking the tree-shaded bank.' },
+        { time: '08:30 AM – 09:30 AM', duration: '60 mins', title: 'General Post Office (GPO) & St. John’s Church', desc: 'Gaze up at the grand dome and massive Corinthian colonnades of GPO (built on the original 1756 Fort William site). Walk inside St. John’s stone compound to visit Job Charnock’s octagonal 1695 mausoleum and Johann Zoffany’s 1787 Last Supper painting.' },
+        { time: '09:30 AM – 10:30 AM', duration: '60 mins', title: 'Raj Bhavan, Treasury & Calcutta High Court', desc: 'Stroll past the ceremonial lion-crested cast-iron gates of Raj Bhavan (modeled after Derbyshire’s Kedleston Hall). Marvel at Calcutta High Court’s neo-Gothic pinnacles inspired by the Ypres Cloth Hall.' },
+        { time: '10:30 AM – 11:30 AM', duration: '60 mins', title: 'Maidan Green & Victoria Memorial Gardens', desc: 'Walk under the shade of century-old banyans across the vast emerald Maidan or hop in a yellow ambassador taxi. End on the southern lawns of Victoria Memorial watching vintage horse carriages.' }
       ],
-      keyStops: ['Writers’ Building', 'St. John’s Church', 'General Post Office', 'Calcutta High Court', 'Victoria Memorial Hall'],
+      keyStops: ['Writers’ Building', 'St. John’s Church', 'General Post Office', 'Raj Bhavan Gates', 'Calcutta High Court', 'Victoria Memorial Hall'],
       featured: true,
     },
     {
       id: 'hooghly-river-ferry-trail',
       title: 'Hooghly River, Ghats & Historic Ferries',
-      subtitle: 'Experience the Ganges riverfront by public ferry and country boats',
-      duration: '3 Hours (Afternoon to Sunset)',
+      subtitle: 'Experience the holy Ganges riverfront by municipal commuter boats and wooden dinghies',
+      duration: '3.5 Hours (Afternoon to Twilight)',
+      distance: '2.8 km walk + 2 ferry crossings',
+      bestTimeOfDay: '03:30 PM – 07:00 PM (Golden hour & evening aarti)',
+      transitCost: '₹12 ferry tickets + ₹300 boat hire (optional)',
       difficulty: 'Easy & Relaxing',
-      tag: 'Scenic & Budget',
+      tag: 'Scenic & Sunset',
       rating: 4.9,
       reviewsCount: 520,
       imageUrl: '/images/trails/hooghly-river-ferry.jpg',
-      description: 'The cheapest and most magical way to experience Kolkata is from the water. Take public municipal ferries across the Hooghly for under ₹10, watch river aarti, and see Howrah Bridge up close.',
+      description: 'Calcutta’s soul belongs to the Hooghly. This route lets you experience the sacred Ganges riverfront the way locals have for centuries—via ancient bathing steps, Asia’s most fragrant wholesale flower market, and breezy municipal river ferries that glide directly beneath the gargantuan steel cantilevers of Howrah Bridge. Conclude at Princep Ghat as twilight turns the water into liquid gold and temple conch shells resound across both riverbanks.',
       itinerary: [
-        { time: '03:30 PM', title: 'Mallick Ghat Flower Market', desc: 'Wander through the aromatic chaos of orange marigolds and jasmine petals right beside Howrah bridge.' },
-        { time: '04:30 PM', title: 'Ferry Ride from Howrah to Fairlie Ghat', desc: 'Hop on the passenger ferry (ticket ₹6) to capture panoramic photographs of both bridges from river level.' },
-        { time: '05:30 PM', title: 'Princep Ghat Promenade & Boat Ride', desc: 'Walk down to Princep Ghat. Rent a traditional wooden country boat as the golden sun dips into the river.' },
-        { time: '06:30 PM', title: 'Earthen Cup Chai & Sandhya Aarti', desc: 'Enjoy piping hot ginger chai in clay cups (bhar) while listening to riverside temple bells.' }
+        { time: '03:30 PM – 04:30 PM', duration: '60 mins', title: 'Mallick Ghat Wholesale Flower Market', desc: 'Immerse yourself in Asia’s largest floral marketplace directly beneath Howrah Bridge. Dodge barefoot porters balancing 8-foot-tall baskets of saffron marigolds, tuberoses, and blue water lilies before walking down to the river’s clay bathing steps.' },
+        { time: '04:30 PM – 05:15 PM', duration: '45 mins', title: 'Hooghly Municipal Ferry: Howrah to Fairlie Ghat', desc: 'Board the double-decker passenger ferry (fare only ₹6). Stand by the open wooden rail on the upper deck to photograph the colossal rivet-less Howrah Bridge framing the afternoon sky.' },
+        { time: '05:15 PM – 06:15 PM', duration: '60 mins', title: 'Princep Ghat Palladian Monument & Wooden Dinghy Sail', desc: 'Walk along the tree-lined Strand promenade to the gleaming white Greek Corinthian monument of James Princep. Hire a hand-rowed wooden wooden dinghy to sail gently under the Vidyasagar Setu cable-stayed bridge during sunset.' },
+        { time: '06:15 PM – 07:00 PM', duration: '45 mins', title: 'Earthen Cup Chai & Riverside Evening Aarti', desc: 'Sit on the historic stone river steps sipping cardamom ginger tea poured from earthen clay cups (bhaar) as riverside priests blow sacred conch shells.' }
       ],
-      keyStops: ['Mallick Ghat', 'Howrah Ghat Ferry', 'Fairlie Ghat', 'Princep Ghat Monument', 'Vidyasagar Setu'],
+      keyStops: ['Mallick Ghat Flower Market', 'Howrah Ghat Ferry Pier', 'Fairlie Ghat', 'Strand Promenade', 'Princep Ghat Monument', 'Vidyasagar Setu'],
       featured: true,
     },
     {
       id: 'kolkata-street-food-crawl',
       title: 'The Ultimate Street Food & Adda Trail',
-      subtitle: 'Where to find the crispiest puchkas, authentic kathi rolls, and mishti',
-      duration: '3 Hours (Evening)',
+      subtitle: 'Where to find the crispiest puchkas, authentic kathi rolls, and heritage confections',
+      duration: '3.5 Hours (Evening)',
+      distance: '2.5 km culinary walk',
+      bestTimeOfDay: '05:00 PM – 08:30 PM (peak street gastronomy hours)',
+      transitCost: '₹250 – ₹350 food budget per explorer',
       difficulty: 'Food Lovers Walk',
       tag: 'Culinary Trail',
       rating: 5.0,
       reviewsCount: 890,
       imageUrl: '/images/trails/kolkata-street-food.jpg',
-      description: 'A curated route through Kolkata’s legendary street gastronomy stalls. Follow our hygiene-vetted recommendations from tangiest Puchkas to melt-in-the-mouth sweets.',
+      description: 'An unforgettable feast through the culinary capital of India. Curated for hygiene, authenticity, and unmatched flavor, this trail guides you through Kolkata’s legendary food sanctuaries—from the fiery, razor-sharp tang of street puchkas bursting with fresh Gandharaj lime water to sizzling charcoal-grilled paratha rolls and century-old confections steeped in sweet date-palm jaggery syrup.',
       itinerary: [
-        { time: '05:00 PM', title: 'Puchka & Churmur at Vivekananda Park', desc: 'Sample authentic phuchka filled with spicy potato mash, Gandharaj lime juice, and iced tamarind water.' },
-        { time: '06:15 PM', title: 'The Kathi Roll Pilgrimage at New Market', desc: 'Head to Nizam’s or Kusum Rolls on Park Street to experience the original charcoal-grilled mutton or paneer roll.' },
-        { time: '07:15 PM', title: 'Calcutta Biryani with Aloo', desc: 'Taste the light, fragrant Awadhi-Calcutta Biryani with the signature spiced whole potato at Shiraz or Arsalan.' },
-        { time: '08:15 PM', title: 'Sweet Shop Finale (Mishti)', desc: 'Try hot baked Rosogolla and caramelised clay pot Mishti Doi at a century-old confectionery like KC Das or Balaram Mullick.' }
+        { time: '05:00 PM – 05:45 PM', duration: '45 mins', title: 'Puchka & Churmur Masterclass at Southern Avenue', desc: 'Begin beside Vivekananda Park. Experience crisp semolina shells filled with mashed spiced potatoes, boiled yellow peas, crushed black rock salt, and iced Gondhoraj lime tamarind elixir. Follow it up with crunchy Churmur.' },
+        { time: '05:45 PM – 06:45 PM', duration: '60 mins', title: 'The Kathi Roll Pilgrimage at Nizam’s & Kusum', desc: 'Travel to Park Street and New Market. Watch roll-masters twirl flaky parathas on sizzling tawas, layering whipped egg, flame-charred skewered mutton boti or paneer, sliced red onions, and fresh green chili squeeze.' },
+        { time: '06:45 PM – 07:45 PM', duration: '60 mins', title: 'Fragrant Calcutta Awadhi Biryani with Spiced Aloo', desc: 'Taste the royal culinary legacy brought by Nawab Wajid Ali Shah in 1856. Fragrant long-grain aged basmati rice slow-cooked with tender meat, subtle saffron essence, and the iconic melt-in-the-mouth spiced whole potato at Shiraz or Arsalan.' },
+        { time: '07:45 PM – 08:30 PM', duration: '45 mins', title: 'Century-Old Confectionery Finale: Balaram & KC Das', desc: 'Conclude with warm baked Rosogollas, Jolbhora Talshash Sandesh, and thick caramel Mishti Doi served in rustic unglazed terracotta pots.' }
       ],
-      keyStops: ['Vivekananda Park Puchka Stalls', 'New Market / Park Street', 'Arsalan / Shiraz', 'Balaram Mullick & Radharaman Mullick'],
+      keyStops: ['Vivekananda Park Puchka Stalls', 'New Market & Nizam’s', 'Kusum Rolls (Park Street)', 'Arsalan / Shiraz Golden Restaurant', 'Balaram Mullick Confectioners'],
       featured: true,
     },
     {
       id: 'north-kolkata-rajbari-trail',
       title: 'North Kolkata Old Mansions & Vintage Tram Trail',
-      subtitle: 'Aristocratic Rajbari courtyards, clay sculptors, and heritage tramway',
-      duration: '4 Hours (Morning)',
+      subtitle: 'Aristocratic Bonedi Rajbari courtyards, clay sculptors, and heritage tramway',
+      duration: '4.5 Hours (Morning to Midday)',
+      distance: '3.1 km + 1 heritage tram ride',
+      bestTimeOfDay: '08:30 AM – 01:00 PM (open courtyards & morning light)',
+      transitCost: '₹7 tram ticket + ₹20 Metro',
       difficulty: 'Moderate Walking',
       tag: 'Culture & Nostalgia',
       rating: 4.8,
       reviewsCount: 430,
       imageUrl: '/images/trails/kolkata-tram.jpg',
-      description: 'Step into the 19th-century soul of Bengal. Marvel at the cast-iron balconies of Bagbazar, ride Asia’s oldest operating electric tram, and see master clay artists shaping sacred idols.',
+      description: 'Journey deep into 19th-century aristocratic "Bonedi" Calcutta. Wind through narrow cobblestone lanes lined with Venetian-shuttered mansions, ornate cast-iron balconies, and tranquil inner courtyards. Experience the living rhythm of North Kolkata by boarding Asia’s last operational electric tramway and indulging in intellectual adda inside the legendary Indian Coffee House.',
       itinerary: [
-        { time: '08:30 AM', title: 'Kumartuli Potter Studios', desc: 'Wander through the narrow lanes of Kumartuli to observe artisans applying holy river clay to idol armatures.' },
-        { time: '10:00 AM', title: 'Shobhabazar Rajbari', desc: 'Visit the grand Thakur Dalan courtyard of Raja Nabakrishna Deb’s ancestral palace dating back to 1757.' },
-        { time: '11:15 AM', title: 'Heritage Tram Ride', desc: 'Board the historic green electric tram (fare ₹6-₹10) from Shyambazar or College Street for a slow nostalgic roll.' },
-        { time: '12:15 PM', title: 'College Street & Coffee House', desc: 'Finish with a cup of hot or cold coffee and Bengali cutlets under the whirring ceiling fans of Indian Coffee House.' }
+        { time: '08:30 AM – 09:45 AM', duration: '75 mins', title: 'Bagbazar Heritage Lanes & Shovabazar Rajbari', desc: 'Begin at Shovabazar Metro. Walk past neoclassical colonnades into the colossal Thakur Dalan courtyard of Raja Nabakrishna Deb’s 1757 ancestral palace, where the first community Durga Puja was celebrated in the presence of Robert Clive.' },
+        { time: '09:45 AM – 10:45 AM', duration: '60 mins', title: 'Kumartuli Clay Idol Sculptor Alleys', desc: 'Follow Banamali Sarkar Street into the straw and clay studios. Observe master sculptors delicately shaping sacred clay dredged from the Ganges riverbed onto bamboo armatures.' },
+        { time: '10:45 AM – 11:45 AM', duration: '60 mins', title: 'Vintage Electric Tram Roll to College Street', desc: 'Board the green wooden heritage tram. Sit beside slatted wooden windows as the conductor chimes the antique brass foot bell, rolling past historic universities and old book markets.' },
+        { time: '11:45 AM – 01:00 PM', duration: '75 mins', title: 'Indian Coffee House Adda & Paramount Sherbet', desc: 'Climb to the high-ceilinged balcony of Indian Coffee House. Sip black infusion coffee with mutton cutlets before walking around the corner to Paramount for their 1918 coconut pulp Daab Sarbat.' }
       ],
-      keyStops: ['Kumartuli Clay Studios', 'Shobhabazar Rajbari', 'Bagbazar Ghat', 'Historic Tram Route', 'Indian Coffee House'],
+      keyStops: ['Shovabazar Rajbari Thakur Dalan', 'Kumartuli Clay Studios', 'Bagbazar River Ghat', 'Historic Wooden Tram Route', 'Indian Coffee House (Albert Hall)', 'Paramount Sherbets'],
       featured: true,
     },
     {
       id: 'boipara-college-street-trail',
       title: 'College Street "Boi Para" & Renaissance Trail',
       subtitle: 'The world’s largest secondhand book market, academic institutions & Coffee House adda',
-      duration: '3 Hours (Afternoon)',
+      duration: '3.5 Hours (Afternoon)',
+      distance: '2.2 km leisurely walk',
+      bestTimeOfDay: '01:30 PM – 05:00 PM (Monday – Saturday; stalls closed Sundays)',
+      transitCost: 'Free walking + ₹100 coffee & refreshments',
       difficulty: 'Leisurely Walk',
       tag: 'Literary & Academic',
       rating: 4.9,
       reviewsCount: 610,
       imageUrl: '/images/trails/college-street-boipara.jpg',
-      description: 'Wander through miles of makeshift wooden book stalls stacked to the rafters with rare first editions, academic volumes, and classics. Soak in the intellectual epicenter of the 19th-century Bengal Renaissance.',
+      description: 'Immerse yourself in the world’s largest secondhand book open-air bazaar. Stretching over 1.5 kilometers, College Street ("Boi Para") is a literary wonderland of towering wooden kiosks packed to the rafters with rare first editions, antique maps, poetry journals, and academic tomes. Anchored by the intellectual crucible of the Bengal Renaissance, this trail is a dream for bookworms, scholars, and coffee conversationalists.',
       itinerary: [
-        { time: '01:30 PM', title: 'Presidency University & Calcutta University', desc: 'Admire the colonial architecture and clock towers of two of India’s most historic academic seats.' },
-        { time: '02:30 PM', title: 'Treasure Hunting at Book Stalls', desc: 'Browse the endless street kiosks for rare paperbacks, literary Bengali magazines, and collectible editions.' },
-        { time: '03:45 PM', title: 'Indian Coffee House Adda', desc: 'Climb the stairs to the iconic second floor hall; order infusing coffee and mutton kobiraji cutlets amidst buzzing conversation.' },
-        { time: '04:30 PM', title: 'Paramount Sherbets & Syrups', desc: 'Walk around the corner to Bankim Chatterjee Street for their legendary Daab Sarbat (coconut water and tender pulp sherbet).' }
+        { time: '01:30 PM – 02:30 PM', duration: '60 mins', title: 'Presidency University & Calcutta University Campuses', desc: 'Marvel at the red-brick clock towers and neoclassical quadrangles of Presidency University (estd. 1817 as Hindu College) and the imposing colonnaded facade of Calcutta University.' },
+        { time: '02:30 PM – 03:45 PM', duration: '75 mins', title: 'Rare Book Hunting in the Stalls of Boi Para', desc: 'Weave through the maze of wooden stalls on Bankim Chatterjee Street. Haggle with veteran booksellers who know the location of out-of-print literary gems and vintage magazines by heart.' },
+        { time: '03:45 PM – 04:30 PM', duration: '45 mins', title: 'Coffee House High-Balcony Adda', desc: 'Take a seat in Albert Hall (Indian Coffee House) under giant rotating ceiling fans. Absorb the intellectual hum of professors, poets, and students debating literature over cold coffee and hot chicken patties.' },
+        { time: '04:30 PM – 05:00 PM', duration: '30 mins', title: 'Paramount Sherbets & Sanskrit College Courtyard', desc: 'End with a frosted glass of Malai Sherbet or Passion Fruit cooler at Paramount, where freedom fighters and Nobel laureates gathered during the independence movement.' }
       ],
-      keyStops: ['Presidency University', 'Boi Para Book Stalls', 'Indian Coffee House', 'Paramount Sherbets', 'Sanskrit College'],
+      keyStops: ['Presidency University Clock Tower', 'Boi Para Secondhand Book Stalls', 'Indian Coffee House (2nd Floor)', 'Paramount Cold Sherbets', 'Sanskrit College Heritage Quadrangle'],
       featured: true,
     },
     {
       id: 'howrah-flower-market-riverfront-trail',
       title: 'Howrah Cantilever Bridge & Dawn Flower Bazaar',
       subtitle: 'Asia’s largest flower market and sunrise vistas across the Hooghly',
-      duration: '2.5 Hours (Dawn / Early Morning)',
+      duration: '3 Hours (Dawn / Early Morning)',
+      distance: '2.8 km walking & bridge crossing',
+      bestTimeOfDay: '05:30 AM – 08:30 AM (magical dawn light & peak wholesale trade)',
+      transitCost: '₹6 river ferry ticket',
       difficulty: 'Brisk Walking & Transit',
       tag: 'Photography Gold',
       rating: 4.9,
       reviewsCount: 750,
       imageUrl: '/images/trails/mallick-ghat-flowers.jpg',
-      description: 'Experience Kolkata waking up at the epicentre of trade and river life. Millions of fresh blossoms arrive by boat and rail, creating an explosion of colors against the steel framework of the iconic Howrah Bridge.',
+      description: 'An exhilarating dawn pilgrimage into Kolkata’s sensory awakening. Stand amidst mountains of marigold garlands at the foot of Howrah Bridge while morning mists cling to the Hooghly. Walk the iconic cantilever bridge alongside morning commuters, explore the bustling 1905 Romanesque railway terminus, and sail across the river on an early-morning commuter boat.',
       itinerary: [
-        { time: '05:30 AM', title: 'Sunrise at Mallick Ghat', desc: 'Witness porters balancing towering loads of orange and yellow marigold garlands as dawn lights up the river.' },
-        { time: '06:30 AM', title: 'Walk Across Howrah Bridge', desc: 'Cross the cantilever marvel on foot via the pedestrian walkway, feeling the rhythmic rumble of city commuters.' },
-        { time: '07:15 AM', title: 'Howrah Railway Station Red Bricks', desc: 'Explore the grand Romanesque red-brick terminal building, India’s oldest and busiest railway hub.' },
-        { time: '07:45 AM', title: 'River Crossing to Babu Ghat', desc: 'Board the early-morning ferry back across the misty river for a warm cup of Bharer Chai and breakfast kachori.' }
+        { time: '05:30 AM – 06:45 AM', duration: '75 mins', title: 'Dawn Wholesale Frenzy at Mallick Ghat Flower Market', desc: 'Arrive just as the first sunbeams strike the steel girders of Howrah Bridge. Marvel at 2,000 flower wholesalers selling dazzling yellow chrysanthemums, tuberoses, and vermilion roses brought in from the rural hinterlands.' },
+        { time: '06:45 AM – 07:30 AM', duration: '45 mins', title: 'Walking the Cantilever Deck of Howrah Bridge', desc: 'Cross the 1,500-foot suspension bridge on the dedicated pedestrian promenade. Feel the rhythmic vibration of trams and buses while enjoying unobstructed river vistas.' },
+        { time: '07:30 AM – 08:00 AM', duration: '30 mins', title: 'Howrah Railway Station Red Bricks', desc: 'Admire the grand 23-platform 1905 railway terminus. Grab hot club kachori with spicy potato curry and steaming milk tea from historic platform stalls.' },
+        { time: '08:00 AM – 08:30 AM', duration: '30 mins', title: 'Misty River Ferry Cruise to Babu Ghat', desc: 'Board the morning commuter ferry heading east. Breathe in the cool morning river breeze as bathing pilgrims offer morning prayers to the rising sun.' }
       ],
       keyStops: ['Mallick Ghat Flower Market', 'Howrah Bridge Walkway', 'Howrah Railway Station', 'Babu Ghat River Steps'],
       featured: true,
@@ -473,17 +491,20 @@ export const travelData = {
       title: 'Kumartuli Clay Sculptors & Bagbazar Ghats',
       subtitle: 'Living terracotta heritage, sacred clay art, and river heritage',
       duration: '3.5 Hours (Morning to Midday)',
+      distance: '2.4 km walking',
+      bestTimeOfDay: '09:00 AM – 12:45 PM (artisans working in studio light)',
+      transitCost: 'Free walking + ₹100 sweet tasting',
       difficulty: 'Easy Heritage Walk',
       tag: 'Craft & Heritage',
       rating: 4.9,
       reviewsCount: 580,
       imageUrl: '/images/trails/kumartuli-sculptors.jpg',
-      description: 'An intimate journey inside the potters quarter of North Kolkata. For over 300 years, artisan families have molded Ganga river mud and straw into divine idols shipped to Indian communities worldwide.',
+      description: 'Step into the sacred workshops where the goddess Durga is born from river clay, straw, and water. For over three centuries, the hereditary potter community of Kumartuli has preserved UNESCO-recognized craftsmanship in a labyrinth of atmospheric North Kolkata alleys. Witness the delicate sculpting process, visit sacred river bathing ghats, and savor legendary traditional sweets.',
       itinerary: [
-        { time: '09:00 AM', title: 'Shovabazar Sutanuti Heritage Walk', desc: 'Begin in the historic lanes of Sutanuti, one of the three original villages that merged to create Calcutta.' },
-        { time: '09:45 AM', title: 'Kumartuli Artisan Workshops', desc: 'Walk down Banamali Sarkar Street; witness the sacred Chakshudan (painting of eyes on the idols) and straw sculpting.' },
-        { time: '11:15 AM', title: 'Bagbazar Ghat & Gaudiya Math', desc: 'Head to the riverside to see historic bathing ghats and the serene white spire of the Gaudiya Math.' },
-        { time: '12:00 PM', title: 'Traditional Bengali Sweets at Girish Ch. Dey', desc: 'Sample heavenly sandesh and jolbhora talshash sweets from century-old masters of Bengali confectionery.' }
+        { time: '09:00 AM – 10:00 AM', duration: '60 mins', title: 'Sutanuti Heritage Walk & Sovabazar Ghat', desc: 'Start near Sovabazar Sutanuti Metro. Walk down historic alleys tracing the earliest settlements of Kolkata, visiting peaceful riverside ghats where barges deliver river clay.' },
+        { time: '10:00 AM – 11:30 AM', duration: '90 mins', title: 'The Potters’ Quarter: Banamali Sarkar Street', desc: 'Wander into open-door studios. Watch master sculptors apply the initial straw framework (kathamo), layer alluvial Gangetic silt (bele mati), and carefully hand-paint the all-seeing third eye (Chakshudan).' },
+        { time: '11:30 AM – 12:15 PM', duration: '45 mins', title: 'Bagbazar Gaudiya Math & Sarada Devi’s House', desc: 'Stroll past Bagbazar’s quiet residential alleys to the white domed Gaudiya Math and Mayer Bari (Holy Mother Sarada Devi’s preserved home).' },
+        { time: '12:15 PM – 01:00 PM', duration: '45 mins', title: 'Heritage Sweet Connoisseurship at Nakur & Girish', desc: 'Indulge in seasonal Sandesh delicacies (Parijat, Jolbhora, and Kanchagolla) at Girish Chandra Dey and Nakur Chandra Nandy, operating continuously since 1844.' }
       ],
       keyStops: ['Kumartuli Lane', 'Banamali Sarkar Street', 'Bagbazar Ghat', 'Girish Chandra Dey & Nakur Chandra Nandy'],
       featured: true,
@@ -744,19 +765,41 @@ export const travelData = {
 
   seasonalEvents: [
     {
+      id: 'mahalaya-devi-paksha',
+      title: 'Mahalaya — The Sacred Dawn of Devi Paksha',
+      bengaliTitle: 'মহালয়া ও দেবীপক্ষ সূচনা',
+      season: 'Autumn',
+      months: 'Late September / Early October (Ashwin Amavasya)',
+      tagline: 'Dawn Radio Recital of Chandipath & Holy River Tarpan',
+      description: 'At 4:00 AM on Mahalaya dawn, the entire city of Kolkata wakes in unison to the historic, baritone Sanskrit chanting of Birendra Krishna Bhadra echoing from radios across every home and street corner. Thousands descend upon Babu Ghat, Bagbazar Ghat, and Ahiritola on the holy Hooghly to offer ancestral Tarpan in the misty morning waters as autumn Kash flowers sway on the riverbanks.',
+      imageUrl: '/images/destinations/mahalaya.jpg',
+      rituals: [
+        '4:00 AM All India Radio broadcast of "Mahishasuramardini" (sacred radio tradition since 1931)',
+        'Ancestral Tarpan ritual with holy Ganges water, kusha grass, and black sesame seeds',
+        'Kumartuli master sculptors painting the divine third eye (Chakshudan) on Durga idols',
+        'White wild Kash flowers (Saccharum spontaneum) blooming along rural and river corridors'
+      ],
+      delicacies: ['Morning Luchi & Chholar Dal', 'Gorer Sandesh', 'Bharer Cha', 'Garam Jalebi'],
+      travelerTips: [
+        'Arrive at Babu Ghat or Bagbazar Ghat by 5:00 AM to witness the mesmerizing sunrise river prayers.',
+        'Carry a vintage radio or tune your smartphone to All India Radio Kolkata at 4:00 AM sharp.'
+      ],
+      heritageSignificance: 'The sacred herald of Autumn and Devi Paksha, immortalized by Birendra Krishna Bhadra’s timeless voice.',
+    },
+    {
       id: 'durga-puja',
       title: 'Durga Puja — The Grand Autumn Carnival',
-      bengaliTitle: 'শারদোৎসব ও দুর্গাপূজা',
+      bengaliTitle: 'শারদোৎসব ও দুর্গাপূজা (মহা ষষ্ঠী থেকে নবমী)',
       season: 'Autumn',
-      months: 'September – October (Ashwin / Kartik)',
+      months: 'October (Ashwin Shukla Sasthi – Dashami)',
       tagline: 'UNESCO Intangible Cultural Heritage of Humanity',
       description: 'The greatest public art festival on the planet. For five days, Kolkata transforms into an open-air art museum with thousands of temporary themed pavilions (pandals), thundering Dhak drums, fragrant Dhunuchi smoke dances, and all-night pandal hopping.',
       imageUrl: '/images/durga-puja/hero.jpg',
       rituals: [
-        'Mahalaya dawn radio recital of Chandipath by Birendra Krishna Bhadra',
-        'Bodhon, Nabapatrika bath at Hooghly river ghats on Saptami morning',
-        'Dhunuchi dance competition with smoking coconut husks and burning incense',
-        'Sindoor Khela (married women applying red vermilion) & Bijoya Dashami river immersion'
+        'Bodhon, Nabapatrika bath (Kola Bou) at Hooghly river ghats on Saptami morning',
+        'Sandhi Puja with 108 lit terracotta pradips and 108 blue lotus blooms',
+        'Dhunuchi dance competition with smoking coconut husks and burning camphor',
+        'All-night pandal hopping across monumental artistic installations throughout the city'
       ],
       delicacies: ['Bhoger Khichuri & Labra', 'Beguni & Chutney', 'Payesh', 'Rosogolla & Pantua'],
       travelerTips: [
@@ -767,19 +810,107 @@ export const travelData = {
       heritageSignificance: 'Inscribed on the UNESCO Representative List of Intangible Cultural Heritage of Humanity in 2021.',
     },
     {
+      id: 'dhunuchi-naach-ashtami',
+      title: 'Maha Ashtami & Dhunuchi Dance — Rhythms of the Dhak',
+      bengaliTitle: 'মহাষ্টমী, সন্ধিপূজা ও ধুনুচি নাচ',
+      season: 'Autumn',
+      months: 'October (Maha Ashtami Night)',
+      tagline: '108 Lotuses, Blazing Coconut Husks & Trance of Traditional Drums',
+      description: 'The high spiritual crescendo of Durga Puja. At the exact juncture between Ashtami and Nabami, Sandhi Puja commences with the lighting of 108 earthen lamps and 108 blue lotuses. As evening descends, the thundering resonance of the Dhak drums reaches a fever pitch for the Dhunuchi Naach—a mesmerizing devotional dance where participants balance smoking clay censers burning with camphor and coconut husks, often in their teeth and hands simultaneously.',
+      imageUrl: '/images/durga-puja/dhunuchi-dance.jpg',
+      rituals: [
+        'Sandhi Puja sacrifice and lighting of 108 terracotta pradips and 108 blue water lotuses',
+        'Spectacular Dhunuchi dance competitions to the frantic syncopated beats of Dhaki drummers',
+        'Kumari Puja (worship of a young pre-pubescent girl as embodiment of the Mother Goddess) at Belur Math',
+        'Anjali offerings of bael leaves and hibiscus flowers chanted in Sanskrit unison'
+      ],
+      delicacies: ['Maha Ashtami Bhog (Ghee Khichuri, Paneer Dalna, Tomato-Amsatto Chutney, Payesh)', 'Ledikeni', 'Chhanar Jilipi'],
+      travelerTips: [
+        'Witness the sacred Kumari Puja at Belur Math on Ashtami morning (arrive by 8:00 AM).',
+        'Visit traditional paras (neighborhood clubs) like Maddox Square or Bagbazar Sarbojanin around 9:00 PM for the finest live Dhunuchi dancing.'
+      ],
+      heritageSignificance: 'An ancient martial and devotional art form preserved across centuries of Bengal tradition.',
+    },
+    {
+      id: 'bijoya-dashami-sindoor-khela',
+      title: 'Bijoya Dashami & Sindoor Khela — The Grand River Farewell',
+      bengaliTitle: 'বিজয়া দশমী, সিঁদুরখেলা ও বিসর্জন',
+      season: 'Autumn',
+      months: 'October (Maha Dashami)',
+      tagline: 'Vermilion Blessings, River Immersions & Warm Bijoya Greetings',
+      description: 'The bittersweet culmination of Sharodotsav. On Dashami morning, married women dressed in traditional red-bordered white Garad sarees perform Baran (farewell ritual) for Goddess Durga, gently wiping her tears with betel leaves and smearing bright red vermilion on her forehead before joyously celebrating Sindoor Khela with each other. In the afternoon and night, thousands of illuminated idols are escorted to the Hooghly ghats with brass bands, conch shells, and emotional chants of "Aschhe bochhor abar hobe!" (Mother will return next year!).',
+      imageUrl: '/images/durga-puja/sindoor-khela.jpg',
+      rituals: [
+        'Baran & Sindoor Khela: Offering sweets and applying vermilion among married women',
+        'Kanta-Kanta sweet feeding to the deities before the farewell procession begins',
+        'Colossal idol immersion (Bisarjan) at Babughat, Bagbazar Ghat, and Princep Ghat into the Hooghly',
+        'Bijoya Kolakoli (warm embraced greetings), touching elders\' feet, and gifting home-made sweets'
+      ],
+      delicacies: ['Nimki & Kucho Nimki', 'Narkel Naru', 'Chhanar Sandesh', 'Ghugni with Mutton Keema', 'Singara'],
+      travelerTips: [
+        'Book a spot at Babughat or hire a wooden dinghy boat at Princep Ghat between 4:00 PM and 9:00 PM to watch hundreds of magnificent idols being lowered into the river.',
+        'Visit any Bengali household during Bijoya week to experience authentic warm Bengali hospitality and homemade delicacies.'
+      ],
+      heritageSignificance: 'A celebration of community reconciliation, love, and the philosophy of eternal cyclical return.',
+    },
+    {
+      id: 'kojagari-lakshmi-puja',
+      title: 'Kojagari Lakshmi Puja — The Autumn Full Moon',
+      bengaliTitle: 'কোজাগরী লক্ষ্মীপূজা ও পূর্ণিমা',
+      season: 'Autumn',
+      months: 'October (Ashwin Purnima — 5 Days after Dashami)',
+      tagline: 'Silver Moonlight, Alpona Rice Art & Goddess of Abundance',
+      description: 'Just five days after Vijaya Dashami, Kolkata welcomes Goddess Lakshmi on the illuminated night of the autumn full moon (Kojagari Purnima). The name derives from "Ko Jagarti?" ("Who is awake?"). Households across the city are painted with intricate white rice-paste footprints (Alpona) leading to inner altars, welcoming prosperity under the silvery autumn moonlight.',
+      imageUrl: '/images/durga-puja/bonedi-bari.jpg',
+      rituals: [
+        'Painting sacred white Alpona patterns and footprints from doorstep to altar using rice flour paste',
+        'Staying awake all night (Kojagari vow) reading the sacred Lakshmi Panchali',
+        'Offering of fresh autumn paddy sheaves (Dhan-er Shish) and green coconut at the altar',
+        'Communal sharing of home-cooked Naru and Khichuri with extended family and neighbors'
+      ],
+      delicacies: ['Narkel Naru (coconut jaggery laddoos)', 'Til-er Naru', 'Khoi-er Moa', 'Bhoger Khichuri & Labra', 'Taaler Kheer'],
+      travelerTips: [
+        'Walk through quiet residential lanes of North Kolkata or Bhowanipore in the evening to see exquisitely hand-painted Alpona on doorsteps.',
+        'Sample freshly rolled coconut naru and til naru offered in Bengali homes.'
+      ],
+      heritageSignificance: 'An ancient agrarian celebration honouring the harvest and household prosperity under the Ashwin full moon.',
+    },
+    {
+      id: 'bhoot-chaturdashi',
+      title: 'Bhoot Chaturdashi — Bengal’s Ancestral Eve of 14 Lamps',
+      bengaliTitle: 'ভূত চতুর্দশী ও চৌদ্দ শাক-প্রদীপ',
+      season: 'Late Autumn',
+      months: 'November (Kartik Krishna Chaturdashi — Eve of Kali Puja)',
+      tagline: '14 Sacred Greens, Earthen Oil Lamps & Guiding Ancestral Spirits',
+      description: 'Celebrated on the 14th lunar night of Kartik, precisely on the eve of Kali Puja. Bengal\'s ancient indigenous ancestral tradition involves preparing a meal from 14 seasonal medicinal leafy greens (Choddo Shaak) to cleanse and fortify the body for the coming winter. At twilight, households light 14 small terracotta oil lamps (Choddo Pradip) and place them in the 14 darkest corners of the residence to ward off malevolent energies and illuminate the descent of 14 generations of ancestral souls.',
+      imageUrl: '/images/destinations/bhoot-chaturdashi.png',
+      rituals: [
+        'Gathering and cooking 14 seasonal leafy herbs (Ol, Keu, Beto, Sarche, Kalmi, Hingche, etc.)',
+        'Lighting 14 terracotta mustard-oil pradips at dusk in doorways, stairs, and rooftop borders',
+        'Observing silence as the lamps guide departed ancestors back to protect the household',
+        'Preparation of homemade sweets and lanterns for the upcoming Kali Puja midnight worship'
+      ],
+      delicacies: ['Choddo Shaak Bhaja with Fried Bori & Green Chillies', 'Garam Bhaat & Ghee', 'Radhaballabhi', 'Kacha Golla'],
+      travelerTips: [
+        'Stroll through the residential neighborhoods of North Kolkata (Sovabazar, Hedua, Bagbazar) at 6:00 PM to admire thousands of golden clay lamps lining old colonial balconies and entrance staircases.',
+        'Sample fresh Choddo Shaak served in heritage Bengali thali restaurants like 6 Ballygunge Place.'
+      ],
+      heritageSignificance: 'One of India’s oldest pre-Vedic autumnal ancestral rites, deeply harmonized with seasonal agriculture and Ayurveda.',
+    },
+    {
       id: 'kali-puja-diwali',
       title: 'Kali Puja & Festival of Earthen Lamps',
       bengaliTitle: 'শ্যামাপূজা ও দীপাবলি',
       season: 'Late Autumn',
-      months: 'October – November (Kartik Amavasya)',
+      months: 'November (Kartik Amavasya — Deepavali & Pradips)',
       tagline: 'Midnight Rituals, Earthen Pradips & Sacred Fire',
-      description: 'Celebrated on the darkest night of the autumn new moon. The entire city is illuminated by tens of thousands of terracotta clay oil lamps (pradips) in honor of Goddess Kali, the fierce destroyer of ignorance.',
-      imageUrl: '/images/destinations/dakshineswar-temple.jpg',
+      description: 'Celebrated on the darkest night of the autumn new moon. While the rest of India celebrates Diwali, Bengal worships Mother Kali—the supreme protector and cosmic mother. Thousands of terracotta clay oil lamps (pradips) light up rooftops, sky lanterns (Fanush) float over North Kolkata, and iconic temples at Dakshineswar and Kalighat hold spellbinding midnight aartis.',
+      imageUrl: '/images/destinations/kali-puja.jpg',
       rituals: [
         'Midnight tantric prayers at Dakshineswar and Kalighat temples',
         'Lighting of 14 earthen lamps (Choddo Saak & Choddo Pradip) on Bhoot Chaturdashi',
-        'Illumination of ancestral households and river ghats',
-        'Mesmerizing animated LED light displays from Chandannagar artisans'
+        'Releasing handmade hot-air paper lanterns (Fanush) from colonial rooftop terraces in North Kolkata',
+        'Mesmerizing animated LED light displays from Chandannagar artisans lining city avenues'
       ],
       delicacies: ['Niramish Mangsho (no onion/garlic mutton bhog)', 'Luchi & Aloor Dum', 'Kaju Barfi', 'Bonde'],
       travelerTips: [
@@ -789,26 +920,202 @@ export const travelData = {
       heritageSignificance: 'A profound spiritual celebration dating back to Raja Krishnachandra of Nadia in the 18th century.',
     },
     {
-      id: 'winter-jazz-christmas',
-      title: 'Park Street Christmas & Winter Music Festivals',
-      bengaliTitle: 'বড়দিন ও পার্ক স্ট্রিট উৎসব',
-      season: 'Winter',
-      months: 'December – January',
-      tagline: 'Colonial Yuletide Cheer, Plum Cakes & Classic Jazz',
-      description: 'Kolkata winters are legendary: crisp 15°C mornings, picnics at Victoria Memorial, Anglo-Indian fruit plum cakes from Nahoum’s in New Market, and fairy-light canopies stretching the entire length of Park Street.',
-      imageUrl: '/images/destinations/park-street.jpg',
+      id: 'bhai-phonta-bhratri-dwitiya',
+      title: 'Bhai Phonta — The Sibling Sacrament of Protection',
+      bengaliTitle: 'ভ্রাতৃদ্বিতীয়া ও ভাইফোঁটা উৎসব',
+      season: 'Late Autumn',
+      months: 'November (Kartik Shukla Dwitiya — Sibling Feast)',
+      tagline: 'Sandalwood Mark, Ancient Chant & Sumptuous Family Banquets',
+      description: 'Two days after Kali Puja, Bengal celebrates one of its most heartwarming familial traditions. Sisters apply a sacred fingertip mark of sandalwood paste, yogurt, and kohl on their brothers’ foreheads while reciting the timeless centuries-old protective incantation. The ceremony is followed by exchanges of gifts and lavish culinary banquets featuring Bengal’s finest seasonal confections.',
+      imageUrl: '/images/destinations/bhai-phonta.jpg',
       rituals: [
-        'Midnight Christmas Eve Mass and choral hymns at St. Paul’s Cathedral',
-        'Buying rich fruitcakes from Jewish bakery Nahoum & Sons (est. 1902) in New Market',
-        'Strolling under the illuminated Christmas canopy on Park Street',
-        'All-night Indian classical music at the historic Dover Lane Music Conference'
+        'Chanting the ancient verse: "Bhaier kopale dilam phonta, Jomer duare porlo kanta"',
+        'Lighting pradips and offering auspicious green grass (Durba) and paddy grains (Dhan)',
+        'Unprecedented morning queues at century-old sweet shops (Balaram, Sen Mahasay, Nakur)',
+        'Elaborate multi-course afternoon feast featuring Chingri Malai Curry and Kosha Mangsho'
       ],
-      delicacies: ['Nahoum’s Rich Plum Cake & Lemon Tarts', 'Flurys Rum Balls', 'Koraishutir Kochuri', 'Nolen Gur Sandesh'],
+      delicacies: ['Special Bhai Phonta Sandesh', 'Chingri Malai Curry', 'Kosha Mangsho', 'Chanar Payesh', 'Mishti Doi'],
       travelerTips: [
-        'Book tables at Peter Cat or Mocambo well in advance during Christmas week.',
-        'Pack a light jacket or shawl for cool evening riverfront strolls.'
+        'Visit historic confectioneries like KC Das or Nakur Chandra Nandy in the morning to witness Calcuttans picking up freshly crafted gift hampers.',
+        'Try the commemorative Sandesh sweets shaped like betel leaves (Paan) and conch shells.'
       ],
-      heritageSignificance: 'Calcutta’s Anglo-Indian and colonial heritage preserved in continuous culinary and musical celebrations.',
+      heritageSignificance: 'An ancient sibling bond celebration with roots in the mythological story of Yamuna and Yama.',
+    },
+    {
+      id: 'jagaddhatri-puja',
+      title: 'Jagaddhatri Puja — The Colossal Light Carnivals',
+      bengaliTitle: 'জগদ্ধাত্রী পূজা ও আলোকসজ্জা উৎসব',
+      season: 'Late Autumn',
+      months: 'November (Kartik Shukla Navami)',
+      tagline: 'Towering 30-Foot Golden Idols & Electric Light Tapestries',
+      description: 'Dedicated to Goddess Jagaddhatri ("Bearer of the Universe"), an avatar of Durga. While celebrated widely across Kolkata and Krishnanagar, the grandest celebration unfolds in nearby French-colonial Chandannagar along the Hooghly. Millions throng the illuminated streets to gaze at monumental 30-foot golden idols and legendary moving electric-light tapestries.',
+      imageUrl: '/images/durga-puja/pandal-hopping.jpg',
+      rituals: [
+        'Worship of the four-armed lion-seated Goddess holding conch, discus, bow, and arrow',
+        'Spectacular multi-kilometer street illumination using indigenous dynamic LED technology',
+        'Grand riverbank immersion processions with thousands of illuminated floats along the French Strand',
+        'All-night cultural adda and street fair food stalls along the river promenade'
+      ],
+      delicacies: ['Jalbhara Talsash Sandesh from Surya Kumar Modak', 'Radhaballabhi & Chana Masala', 'Khasta Kachori', 'Boondi Ladoo'],
+      travelerTips: [
+        'Board a 45-minute suburban local train from Howrah Station to Chandannagar for the evening light carnival.',
+        'Walk along the Chandannagar Strand promenade facing the Hooghly for illuminated night views.'
+      ],
+      heritageSignificance: 'Instituted by Indranarayan Choudhury in 1755 in French Chandannagar; world-renowned for its illuminations.',
+    },
+    {
+      id: 'rash-yatra-mela',
+      title: 'Rash Yatra & Kartik Purnima Mela',
+      bengaliTitle: 'রাসযাত্রা ও রাসমেলা (শান্তিপুর ও নবদ্বীপ)',
+      season: 'Late Autumn',
+      months: 'November (Kartik Purnima Full Moon)',
+      tagline: 'Autumn Full Moon, Vaishnav Kirtans & Clay Deity Tableaus',
+      description: 'Celebrated on the enchanting full moon of Kartik, marking the poetic transition from late autumn into early winter. Rash Yatra celebrates the divine eternal dance of Radha and Krishna with elaborate nocturnal temple festivities, classical kirtans, and grand street melas. In Bengal\'s historic temple towns of Shantipur and Nabadwip along the Hooghly, streets are lined with colossal multi-tiered clay dioramas and night-long palanquin processions (Bhanga Rash) dating back to the 15th century.',
+      imageUrl: '/images/destinations/rash-mela.webp',
+      rituals: [
+        'Nocturnal Rash Leela dances and unbroken devotional kirtans by riverside ghats',
+        'Viewing the historic Bhanga Rash clay idol tableaus in Shantipur and Nabadwip',
+        'Bathing in the holy Hooghly at dawn under the Kartik full moon',
+        'Traditional fairgrounds with wooden carousels, clay toy makers, and brass utensil craftsmen'
+      ],
+      delicacies: ['Nikhuti', 'Pantua', 'Moya from Joynagar', 'Hot Malpua', 'Maha Bhog Khichuri'],
+      travelerTips: [
+        'Take a morning EMU local train from Sealdah Station to Shantipur or Nabadwip Dham to experience one of Bengal’s most musical and artistic rural fairs.',
+        'Don\'t miss tasting the authentic melt-in-the-mouth Nikhuti confections freshly fried in pure ghee.'
+      ],
+      heritageSignificance: 'Instituted during the Gaudiya Vaishnav movement inspired by Sri Chaitanya Mahaprabhu in the 16th century.',
+    },
+    {
+      id: 'chhath-puja',
+      title: 'Chhath Puja — Sun Worship along the Hooghly Riverfront',
+      bengaliTitle: 'ছটপূজা — গঙ্গার ঘাটে মহা সূর্য আরাধনা',
+      season: 'Late Autumn',
+      months: 'November (Kartik Shukla Sasthi)',
+      tagline: 'Twilight Arghya, Floating Terracotta Lamps & Ancient Vedic Gratitude',
+      description: 'One of the most awe-inspiring spiritual spectacles witnessed along Kolkata’s sacred Hooghly riverfront. Devotees march barefoot to Princep Ghat, Babu Ghat, Ahiritola, and Baje Kadamtala Ghat carrying bamboo baskets (daura) laden with fresh sugarcane stalks, seasonal fruits, and sacred Thekua prasad. At sunset and dawn, devotees stand waist-deep in the gentle river currents to offer milk and water arghya to the setting and rising Sun God.',
+      imageUrl: '/images/destinations/chhath-puja.jpg',
+      rituals: [
+        'Kharana fast observed with jaggery kheer (Rasiya-Kheer) and whole wheat rotis',
+        'Sandhya Arghya: Evening prayers offered waist-deep in the Hooghly as the sun dips behind Vidyasagar Setu',
+        'Usha Arghya: Pre-dawn vigil on the cold river ghats awaiting the first rays of the morning sun',
+        'Singing traditional Bhojpuri and Maithili devotional folk hymns praising Chhathi Maiya'
+      ],
+      delicacies: ['Thekua (ghee-fried whole wheat & jaggery cookies stamped with wooden molds)', 'Kasar Ladoo (rice flour & jaggery balls)', 'Fresh Sugarcane Juice', 'Banana & Coconut Prasad'],
+      travelerTips: [
+        'Arrive at Princep Ghat or Babu Ghat by 4:30 PM for Sandhya Arghya, or by 5:00 AM for Usha Arghya to capture breathtaking photographic vistas of the illuminated river with thousands of floating lamps.',
+        'Accepting Thekua prasad directly from devotees is considered a profound blessing.'
+      ],
+      heritageSignificance: 'An ancient Vedic sun-veneration ritual surviving intact for over 3,000 years, celebrating environmental harmony.',
+    },
+    {
+      id: 'winter-jazz-christmas',
+      title: 'Park Street Christmas & Anglo-Indian Yuletide',
+      bengaliTitle: 'বড়দিন ও পার্ক স্ট্রিট কার্নিভাল',
+      season: 'Winter',
+      months: 'Late December – January',
+      tagline: 'Colonial Yuletide Cheer, Nahoum’s Plum Cakes & Classic Jazz',
+      description: 'Kolkata winters are legendary: crisp 15°C mornings, picnics at Victoria Memorial, Anglo-Indian fruit plum cakes from Nahoum’s in New Market, and fairy-light canopies stretching the entire length of Park Street. From Bow Barracks to St. Paul’s Cathedral, the city rings with carols, midnight mass, and carnival cheer.',
+      imageUrl: '/images/destinations/park-street-christmas.jpg',
+      rituals: [
+        'Midnight Christmas Eve Mass and choral hymns at the Gothic St. Paul’s Cathedral',
+        'Buying rich fruitcakes from Jewish bakery Nahoum & Sons (est. 1902) in New Market',
+        'Strolling under the multi-kilometer illuminated Christmas fairy-light canopy on Park Street',
+        'Open-air jazz and carol concerts in the Anglo-Indian red-brick courtyards of Bow Barracks'
+      ],
+      delicacies: ['Nahoum’s Rich Plum Cake & Lemon Tarts', 'Flurys Rum Balls & Macaroons', 'Koraishutir Kochuri', 'Nolen Gur Sandesh'],
+      travelerTips: [
+        'Book tables at Peter Cat, Mocambo, or Trincas well in advance during Christmas week.',
+        'Visit Bow Barracks on Christmas evening to hear live Anglo-Indian guitar music and sample homemade grape wine.'
+      ],
+      heritageSignificance: 'Preserves Calcutta’s unique Anglo-Indian and colonial heritage in continuous culinary and musical celebrations.',
+    },
+    {
+      id: 'kiff-film-festival',
+      title: 'Kolkata International Film Festival (KIFF)',
+      bengaliTitle: 'কলকাতা আন্তর্জাতিক চলচ্চিত্র উৎসব ও নন্দন চত্বর',
+      season: 'Winter',
+      months: 'December',
+      tagline: 'World Cinema Screens, Nandan Culture Courtyard & Film Buff Adda',
+      description: 'Founded in 1995 with Satyajit Ray as its spiritual patron, KIFF is one of Asia\'s most passionately attended cinema gatherings. The entire cultural precinct around Nandan, Rabindra Sadan, and Sisir Mancha transforms into a carnival of moviegoers, directors, and critics debating European art-house films, retrospectives, and Bengali classics under the winter sun over steaming cups of tea.',
+      imageUrl: '/images/destinations/nandan-kiff.jpg',
+      rituals: [
+        'Queuing up at dawn outside Nandan for screening delegate passes and ticket booklets',
+        'Lively cinephile adda and debates in the open-air courtyards between film screenings',
+        'Grand inaugural ceremony with legendary Indian and international cinema icons',
+        'Night-time projection screenings under the winter sky with blankets and mufflers'
+      ],
+      delicacies: ['Hot Vegetable Patties & Fish Cutlets at Nandan Canteen', 'Bharer Dudh Cha', 'Chicken Roll', 'Singara'],
+      travelerTips: [
+        'Visit the Nandan courtyard in the late afternoon to experience Kolkata\'s intellectual film pulse firsthand.',
+        'Daily student tickets are available at the counter for public screenings.'
+      ],
+      heritageSignificance: 'Instituted with Satyajit Ray and Mrinal Sen’s legacy, honoring Bengal’s world-renowned cinematic culture.',
+    },
+    {
+      id: 'poush-parbon-pithe',
+      title: 'Poush Parbon & The Grand Pithe Puli Harvest Festival',
+      bengaliTitle: 'পৌষ সংক্রান্তি ও নলেন গুড়ের পিঠেপুলি উৎসব',
+      season: 'Winter',
+      months: 'Mid January (Poush Sankranti)',
+      tagline: 'Aman Harvest Rice, Smoky Date-Palm Jaggery & Artisanal Sweets',
+      description: 'The quintessential Bengali winter gastronomic celebration. Celebrated on Makar Sankranti as the sun enters Capricorn, marking the harvest of new winter paddy (Aman Dhaan). Across every Bengali household and sweet shop, women craft delicate handmade confections: Patishapta (thin crepes stuffed with sweet coconut or kheer), Doodh Puli (steamed rice dumplings swimming in cardamom-thickened milk), Gokul Pithe, and Joynagarer Moa made with fresh liquid date-palm jaggery (Jhola Nolen Gur).',
+      imageUrl: '/images/trails/kolkata-street-food.jpg',
+      rituals: [
+        'Misty dawn harvesting of date-palm sap (Shiuli tradition) boiled into amber Nolen Gur',
+        'Hand-rolling Patishapta crepes on cast-iron skillets using crushed eggplant stems dipped in ghee',
+        'Offering the first batch of freshly prepared pithes to household deities and ancestors',
+        'Flying paper kites (Ghuri) across North Kolkata rooftops against clear azure winter skies'
+      ],
+      delicacies: ['Patishapta', 'Doodh Puli', 'Roshogolla in Nolen Gur', 'Gokul Pithe', 'Joynagarer Moa', 'Chitol Pithe with Jhola Gur'],
+      travelerTips: [
+        'Visit historic confectioneries like Balaram Mullick or Girish Chandra Dey in mid-January for exclusive seasonal warm Pithe platters.',
+        'Head to Bagbazar or Hedua rooftops on Sankranti afternoon to watch colorful kite-flying battles.'
+      ],
+      heritageSignificance: 'An ancient Bengal agrarian solstice celebration documented in medieval Mangalkavya texts.',
+    },
+    {
+      id: 'gangasagar-mela',
+      title: 'Gangasagar Mela — Pilgrimage to the Ocean’s Edge',
+      bengaliTitle: 'গঙ্গাসাগর মেলা ও সাগরসঙ্গম তীর্থ',
+      season: 'Winter',
+      months: 'Mid January (Makar Sankranti)',
+      tagline: 'Second Largest Sacred Gathering on Earth & Kapil Muni Shrine',
+      description: 'Held at the southernmost tip of Sagar Island where the sacred Hooghly (Ganges) drains into the vast Bay of Bengal. Over 4 million pilgrims, Naga sadhus covered in holy ash, and Baul minstrels converge for the dawn holy dip at Kapil Muni\'s temple on Makar Sankranti day. Kolkata\'s riverfront at Babughat and Outram Ghat transforms into a giant staging camp buzzing with kirtans, brass bells, and communal langar kitchens.',
+      imageUrl: '/images/trails/hooghly-river-ferry.jpg',
+      rituals: [
+        'Sacred dawn dip into the freezing confluence waters of Sagar Sangam to wash away sins',
+        'Procession of ash-smeared Naga Sadhus with tridents and conch horns chanting "Har Har Gange"',
+        'Offering dry coconut, red cloth, and milk to the ancient stone shrine of Sage Kapil Muni',
+        'Babughat transit camps in Kolkata hosting spiritual debates and wandering Baul singers'
+      ],
+      delicacies: ['Khichuri Langar Bhog', 'Garam Singara', 'Khaja & Peda', 'Winter Hot Masala Milk'],
+      travelerTips: [
+        'Visit Babughat transit campsite in Central Kolkata in the week before Sankranti to photograph sadhus and listen to live folk hymns without travelling all the way to Sagar Island.',
+        'Wear warm woolens; sea breezes at Sagar Island are biting in early January.'
+      ],
+      heritageSignificance: 'Rooted in the timeless Hindu epic of King Sagara’s sons and Bhagiratha bringing the holy Ganga down from heaven.',
+    },
+    {
+      id: 'dover-lane-music',
+      title: 'Dover Lane Classical Music Conference',
+      bengaliTitle: 'ডোভার লেন সঙ্গীত সম্মেলন',
+      season: 'Winter',
+      months: 'Late January',
+      tagline: 'India’s Premier All-Night Indian Classical Music Marathon',
+      description: 'Since 1952, the ultimate pilgrimage for lovers of Indian classical music. For four consecutive winter nights at Nazrul Mancha, over 3,000 discerning listeners sit in reverent silence from 8:00 PM until 6:00 AM as the world’s greatest vocalists, sitarists, and sarod maestros perform ragas suited for midnight and pre-dawn. Steaming cups of tea and soulful conversations in the cool night breeze between ragas make it an unforgettable Kolkata ritual.',
+      imageUrl: '/images/destinations/victoria-memorial.jpg',
+      rituals: [
+        'All-night nocturnal musical sessions running continuously from 8:30 PM to 6:00 AM',
+        'Rare performances of deep midnight ragas (Darbari Kanada, Malkauns, Bhairav at dawn)',
+        'Stepping out to the surrounding lawns at 3:00 AM for steaming earthen-cup tea and singaras',
+        'The traditional morning felicitation of legendary classical icons with the Dover Lane Sangeet Samman'
+      ],
+      delicacies: ['Earthen cup Ginger Chai', 'Hot Pea Kochuri (Koraishutir Kochuri)', 'Alur Dom', 'Baked Sandesh'],
+      travelerTips: [
+        'Book season passes weeks in advance as music connoisseurs fly in from around the globe.',
+        'Carry a warm woolen shawl or muffler for the all-night auditorium seating.'
+      ],
+      heritageSignificance: 'Preserves the purest traditions of Hindustani classical music in Bengal\'s intellectual heartland.',
     },
     {
       id: 'kolkata-book-fair',
@@ -837,22 +1144,132 @@ export const travelData = {
       title: 'Saraswati Puja — The Bengali Valentine’s Day',
       bengaliTitle: 'বসন্ত পঞ্চমী ও সরস্বতী পূজা',
       season: 'Spring',
-      months: 'Late January – February (Magh Shukla Panchami)',
-      tagline: 'Yellow Sarees, Books at the Altar & Youthful Romance',
-      description: 'On Basant Panchami, the city celebrates the Goddess of Learning, Music, and the Arts. Students place their textbooks and musical instruments before the deity, and youth take to the streets in brilliant Basanti yellow garments.',
+      months: 'Late January / February (Magh Shukla Panchami)',
+      tagline: 'Basanti Yellow Sarees, Hatey Khori & Textbooks at the Altar',
+      description: 'On Basant Panchami, Kolkata awakens in brilliant hues of Basanti yellow to honor the Goddess of Wisdom, Music, and the Arts. Students lay their schoolbooks, paintbrushes, and musical instruments at the feet of the Goddess. Affectionately dubbed "The Bengali Valentine\'s Day," couples dress in yellow sarees and kurtas, strolling through university campuses, Victoria Memorial, and Rabindra Sarobar in romantic camaraderie.',
       imageUrl: '/images/trails/kumartuli-sculptors.jpg',
       rituals: [
-        'Hatey Khori (ceremonial initiation of young children into writing with chalk)',
-        'Placing school textbooks and pens at the feet of the Goddess',
-        'Dressing in bright yellow sarees (Basanti) and traditional kurtas',
-        'Eating the season’s first sweet kul (jujube berries) only after prayers'
+        'Hatey Khori: Ceremonial initiation of young toddlers into the Bengali alphabet with chalk on slate',
+        'Placing schoolbooks, notebooks, and musical instruments before the deity for divine blessing',
+        'Dressing in Basanti yellow sarees and crisp handloom kurtas across schools and universities',
+        'Tasting the season’s first sweet Topa Kul (jujube berries) only after performing morning pushpanjali'
       ],
-      delicacies: ['Khichuri with Green Peas', 'Labra (Mixed Winter Vegetables)', 'Tomato-Khejur Chutney', 'Kul-er Achaar'],
+      delicacies: ['Khichuri with Green Peas', 'Labra (Mixed Winter Vegetables)', 'Tomato-Khejur Chutney', 'Kul-er Achaar', 'Boondi Ladoo'],
       travelerTips: [
-        'College campuses like Presidency, Jadavpur, and St. Xavier’s hold stunning celebrations.',
-        'Wear something yellow to blend in with the joyful local student spirit.'
+        'College campuses like Presidency University, Jadavpur University, and St. Xavier’s host joyful open-door celebrations.',
+        'Wear something yellow to immerse yourself in Kolkata’s youthful spring spirit.'
       ],
       heritageSignificance: 'Celebrates the sacred intersection of education, literature, arts, and the first blossoms of spring.',
+    },
+    {
+      id: 'dol-jatra-basanta-utsav',
+      title: 'Dol Jatra & Basanta Utsav — Bengal’s Festival of Colors',
+      bengaliTitle: 'দোলযাত্রা ও বসন্ত উৎসব (শান্তিনিকেতন ও কলকাতা)',
+      season: 'Spring',
+      months: 'March (Falgun Purnima)',
+      tagline: 'Rabindra Sangeet, Fragrant Herbal Abir & Floral Ornaments',
+      description: 'Celebrated on the full moon of Falgun, Dol Jatra is Bengal’s poetic, musical incarnation of the festival of colors. Popularized globally by Rabindranath Tagore at Santiniketan, women adorn themselves in yellow sarees with fresh red Palash flower hairpins, performing choreography to songs like "Ore Grihabasi, Khol Dwar Khol". Devotees carry idols of Radha and Krishna on ornate brass palanquins (Chaudol), gently touching scented herbal abir powders (vermilion, saffron, emerald) to the feet of elders before joyful color play.',
+      imageUrl: '/images/trails/howrah-flower-market.jpg',
+      rituals: [
+        'Morning Prabhat Pheri musical processions singing Rabindra Sangeet through neighborhoods',
+        'Offering sacred red and gulal Abir to elder family members\' feet for blessings',
+        'Chaudol palanquin procession carrying Radha and Krishna with sacred kirtan chants',
+        'Wearing fresh garlands woven from wild fiery red Palash blossoms (Butea monosperma)'
+      ],
+      delicacies: ['Thandai infused with rose petals and almonds', 'Malpua', 'Kesar Gujiya', 'Kacha Golla', 'Radhaballabhi & Chana Masala'],
+      travelerTips: [
+        'Join early morning cultural Basanta Utsav celebrations at Jorasanko Thakurbari or Rabindra Bharati University for authentic Tagore songs and dance.',
+        'Use organic natural herbal abir (dry powder) to protect skin and clothes.'
+      ],
+      heritageSignificance: 'Tagore transformed the ancient spring festival into a cultural synthesis celebrating nature, youth, and universal joy.',
+    },
+    {
+      id: 'maha-shivratri-tarakeswar',
+      title: 'Maha Shivratri & Tarakeswar Pilgrimage',
+      bengaliTitle: 'মহা শিবরাত্রি ও তারকেশ্বর তীর্থযাত্রা',
+      season: 'Spring',
+      months: 'February – March (Falgun Krishna Chaturdashi)',
+      tagline: 'Holy Ganges Water, Earthen Pots & Midnight Lingam Abhishekam',
+      description: 'The great nocturnal vigil of Lord Shiva. Thousands of barefoot devotees (Yatris) collect sacred Ganges water in small earthen vessels from Kolkata’s river ghats (Nimtala, Babughat, and Sheoraphuli) and walk throughout the night carrying them on decorated bamboo shoulder yokes (Bhaank) to the 1729 Tarakeswar Shiva temple. Across Kolkata, temples at Kalighat, Dakshineswar, and Bhutanath resound with conch shells and midnight Vedic hymns.',
+      imageUrl: '/images/destinations/dakshineswar-temple.jpg',
+      rituals: [
+        'All-night fasting (Nirjala Brata) and lighting of four-prahar terracotta pradips',
+        'Four-phase midnight Abhishekam of the Shiva Lingam with milk, curd, honey, and green coconut water',
+        'Offering of sacred three-pronged Bael leaves (Bilva Patra) and wild Dhatura flowers',
+        'Bathing at Hooghly river ghats at midnight to wash away planetary obstacles'
+      ],
+      delicacies: ['Fruit & Sabudana Prasad', 'Makhana Kheer', 'Thandai', 'Sweet Bel Fruit Sherbet'],
+      travelerTips: [
+        'Visit Nimtala Ghat or Dakshineswar Temple at 8:00 PM to observe colorful processions of devotees carrying decorated water-vessels.',
+        'Carry warm clothing for night-long outdoor temple vigils.'
+      ],
+      heritageSignificance: 'An ancient Shaivite pilgrimage dating to Bengal’s Sena and Malla dynasties, celebrating cosmic meditation.',
+    },
+    {
+      id: 'ramakrishna-janmotsav-belur',
+      title: 'Sri Ramakrishna Janmotsav at Belur Math',
+      bengaliTitle: 'শ্রীশ্রী রামকৃষ্ণ পরমহংসদেবের জন্মোৎসব ও বেলুর মেলা',
+      season: 'Spring',
+      months: 'Late February / Early March (Phalgun Shukla Dwitiya)',
+      tagline: 'Universal Harmony, Riverside Melas & Sacred Prasadam Feast',
+      description: 'The annual celebration of the birth of 19th-century mystic Sri Ramakrishna Paramahamsa at the global headquarters of the Ramakrishna Math and Mission at Belur Math. Over 500,000 devotees, monks, and seekers from every faith converge upon the tranquil emerald lawns along the Hooghly. The atmosphere is serene yet vibrant, filled with soul-stirring classical vocal bhajans, monastic chants, spiritual book exhibitions, and a massive communal feast served with clockwork monastic precision.',
+      imageUrl: '/images/destinations/belur-math.jpg',
+      rituals: [
+        'Mangalarati and dawn Shehnai melodies echoing across the sacred Hooghly waters',
+        'Day-long devotional songs (bhajans) by monastic and renowned classical artists in the grand temple',
+        'Massive communal Mahaprasad distribution where hundreds of thousands eat together without caste barriers',
+        'Vibrant riverside fair outside Belur Math with spiritual literature, handicrafts, and clay toys'
+      ],
+      delicacies: ['Belur Math Khichuri Mahaprasad', 'Labra', 'Chutney & Payesh', 'Hot Jalebis & Singara from Fair Stalls'],
+      travelerTips: [
+        'Take a scenic 20-minute commuter ferry from Dakshineswar Ghat directly to Belur Math Pier for magnificent river approaches.',
+        'Arrive by 10:00 AM to comfortably secure sitting space in the temple auditorium.'
+      ],
+      heritageSignificance: 'Commemorates Sri Ramakrishna\'s universal message: "Joto mot, toto poth" (As many faiths, so many paths).',
+    },
+    {
+      id: 'charak-puja-gajan',
+      title: 'Charak Puja & Shiva’s Gajan — The Vernal Solstice',
+      bengaliTitle: 'চড়ক পূজা ও নীল গাজন (চৈত্র সংক্রান্তি)',
+      season: 'Spring',
+      months: 'Mid April (Chaitra Sankranti — Eve of New Year)',
+      tagline: 'Awe-Inspiring Folk Trance, Painted Masks & 30-Foot Charak Tree',
+      description: 'The thrilling climax of Bengal’s spring calendar. Celebrated on Chaitra Sankranti (the final day of the Bengali solar year) to bid farewell to the old year and pray for abundant agricultural monsoons. Sannyasis perform astonishing ascetic rituals dedicated to Lord Shiva (Neel Gajan): dancing in trance across glowing embers, wearing fierce painted clay masks of Kali and Shiva’s ghosts, and spinning suspended from a rotating 30-foot wooden timber pole (Charak Gachh).',
+      imageUrl: '/images/destinations/kumartuli.jpg',
+      rituals: [
+        'Erection of the sacred Charak pole dredged from river mud and consecrated with mustard oil',
+        'Acrobatic aerial circumambulation by devotees suspended from ropes on the rotating crossbeam',
+        'Fierce masked folk dances (Mukhosh Naach) portraying deities, tigers, and spirits of the forest',
+        'Breaking the month-long ascetic vow with holy river ablutions at sunset'
+      ],
+      delicacies: ['Chhatur Sharbat (roasted gram flour cooler)', 'Bel-er Panna', 'Chhanar Sandesh', 'Fried Neem Begun'],
+      travelerTips: [
+        'Witness living Charak Puja traditions at Tala, Shyambazar, or Kalighat lanes on Chaitra Sankranti afternoon.',
+        'Visit Kumartuli clay studios weeks prior to see folk artisans painting vibrant wooden and papier-mâché Gajan masks.'
+      ],
+      heritageSignificance: 'A pre-Aryan indigenous agrarian solstice ritual surviving uninterrupted in Bengal’s living folk consciousness.',
+    },
+    {
+      id: 'matua-mahamela',
+      title: 'Matua Mahamela & Baruni Holy Bath',
+      bengaliTitle: 'মতুয়া ধর্ম মহামেলা ও বারুণী স্নান',
+      season: 'Spring',
+      months: 'March – April (Chaitra Krishna Trayodashi)',
+      tagline: 'Thunderous Danka Drums, Red Flags & Historic Social Equality Mela',
+      description: 'One of the most energetic and sociologically profound folk festivals in Eastern India. Held in Thakurnagar near Kolkata to commemorate the birth of social reformer Harichand Thakur. Over 3 million pilgrims gather waving red-and-white sacred triangular flags, beating giant thunderous Danka drums, and clashing brass cymbals (Kashan) in ecstatic rhythmic dances before taking a holy dip in the sacred Kamonasagore water reservoir to celebrate human equality, dignity, and faith.',
+      imageUrl: '/images/trails/hooghly-river-ferry.jpg',
+      rituals: [
+        'Ecstatic spiritual dance processions (Hari Bol dance) to the deafening, hypnotic cadence of Danka drums',
+        'Holy Baruni Snan ablution in the sacred Kamonasagore tank to cleanse past sorrows',
+        'Lifting of towering bamboo poles mounted with colorful community flags',
+        'Expansive rural bazaar with wooden furniture, clay pottery, and bamboo musical flutes'
+      ],
+      delicacies: ['Matua Bhoger Khichuri', 'Batasha & Kadma', 'Garam Jalebi', 'Moa & Chura'],
+      travelerTips: [
+        'Board an EMU local train from Sealdah Station to Thakurnagar Station to witness this breathtaking spectacle of folk devotion.',
+        'Respect local community traditions and customs during the holy bath.'
+      ],
+      heritageSignificance: 'The spiritual heartbeat of Bengal\'s Matua movement, which championed social equality and education in the 19th century.',
     },
     {
       id: 'poila-boishakh',
@@ -860,21 +1277,131 @@ export const travelData = {
       bengaliTitle: 'পয়লা বৈশাখ ও শুভ নববর্ষ',
       season: 'Summer',
       months: 'Mid April (1st Day of Boishakh)',
-      tagline: 'Haalkhata Rituals, Traditional Banquets & Cultural Joy',
-      description: 'The first day of the Bengali calendar (1433+ Bangabda). Traders open new red ledger books (Haalkhata), families wear traditional handloom clothes, and restaurants serve lavish multi-course royal Bengali banquets.',
+      tagline: 'Haalkhata Ledgers, Traditional Dhuti-Panjabi & Royal Feasts',
+      description: 'The auspicious first day of the Bengali calendar (1433+ Bangabda). Kolkata erupts in joyous celebration: merchants open new vermilion-marked account ledgers (Haalkhata) blessed at Kalighat and Dakshineswar temples, while families dress in crisp handloom cottons. The streets fill with morning cultural processions (Prabhat Pheri), musical performances, and lavish multi-course royal feasts celebrating friendship and prosperity.',
       imageUrl: '/images/destinations/kumartuli.jpg',
       rituals: [
-        'Haalkhata puja at Kalighat and Dakshineswar temples for trade blessings',
-        'Prabhat Pheri (morning cultural processions with Rabindra Sangeet music)',
-        'Shopkeepers greeting patrons with cold drinks, rose water, and calendar gifts',
-        'Family reunions celebrating with royal Hilsa (Ilish) and sweet Sandesh'
+        'Haalkhata puja at Kalighat and Dakshineswar temples to inaugurate the financial new year',
+        'Prabhat Pheri: Sunrise cultural processions singing Rabindra Sangeet across every neighborhood',
+        'Traditional shopkeepers greeting patrons with cold sherbets, rose water, and printed calendars',
+        'Exchanging warm "Shubho Noboborsho" greetings and touching elders\' feet for blessings'
       ],
-      delicacies: ['Ilish Bhapa (Steamed Hilsa in Mustard)', 'Chingri Malaikari', 'Kosha Mangsho', 'Kacha Golla'],
+      delicacies: ['Ilish Bhapa (Steamed Hilsa in Mustard)', 'Chingri Malaikari', 'Kosha Mangsho', 'Kacha Golla', 'Mishti Doi'],
       travelerTips: [
         'Reserve tables at heritage dining rooms (6 Ballygunge Place, Oh! Calcutta, Kasturi) days in advance.',
         'Visit College Street bookshops to receive traditional printed New Year calendars.'
       ],
       heritageSignificance: 'Instituted by Mughal Emperor Akbar to align taxation with the Bengal agricultural solar harvest.',
+    },
+    {
+      id: 'rabindra-jayanti',
+      title: 'Rabindra Jayanti — The 25th of Boishakh',
+      bengaliTitle: 'পঁচিশে বৈশাখ ও রবীন্দ্র জয়ন্তী',
+      season: 'Summer',
+      months: 'Early May (25th of Boishakh / May 8-9)',
+      tagline: 'Tagore’s Birth Anniversary, Jorasanko Thakurbari & Cultural Reverence',
+      description: 'The cultural high holiday of the Bengali soul. On the 25th of Boishakh, the entire metropolis honors Nobel Laureate Rabindranath Tagore. From dawn gatherings at Jorasanko Thakurbari (Tagore’s ancestral palatial residence in North Kolkata) to day-long concerts at Rabindra Sadan and Academy of Fine Arts, citizens of all generations recite his poems, perform dance dramas, and sing his immortal melodies under the shade of blooming Krishnachura and Radhachura trees.',
+      imageUrl: '/images/stories/coffee-house.jpg',
+      rituals: [
+        'Dawn musical gathering at Jorasanko Thakurbari courtyard singing "Hey Nutan, Dekha Dik Aar-bar"',
+        'Day-long open-air Rabindra Sangeet, poetry recitations, and theater performances at Rabindra Sadan',
+        'Placing fresh tuberose and rose floral garlands before portraits of Tagore in homes and clubs',
+        'Literary adda and special Tagore commemorative publications released across College Street'
+      ],
+      delicacies: ['Rabindrik Sweets (Dwarkanath Sandesh, Jolbhora)', 'Singara & Earthen Cup Tea', 'Luchi & Alur Dom', 'Mango Kulfi'],
+      travelerTips: [
+        'Reach Jorasanko Thakurbari by 7:00 AM to witness the deeply emotional sunrise song recital.',
+        'Spend the afternoon walking around the Rabindra Sadan and Nandan cultural complex.'
+      ],
+      heritageSignificance: 'An unparalleled celebration of a poet who single-handedly sculpted modern Bengal’s language, aesthetics, and consciousness.',
+    },
+    {
+      id: 'jamai-sasthi',
+      title: 'Jamai Sasthi — The Son-in-Law Royal Feast',
+      bengaliTitle: 'জামাই ষষ্ঠী ও জামাতা বরণ',
+      season: 'Summer',
+      months: 'Late May / Early June (Jaishtha Shukla Sasthi)',
+      tagline: 'Taal-er Pakha Palm Fan Blessings, Jumbo Prawns & Summer Mangoes',
+      description: 'Bengal’s warmest and most lavish family culinary festival. Held on the 6th lunar day of Jaishtha, mothers-in-law welcome their sons-in-law (*Jamai*) with ceremonial palm-leaf fans (*Taal-er Pakha*), tying sacred yellow threads (*Durba-shuto*) for long life and prosperity. What follows is a legendary gastronomic marathon where the son-in-law is served gargantuan silver thalis loaded with the season’s sweetest Lyangra and Himsagar mangoes, giant Galda Chingri (Golda prawns), royal Padma Ilish, and mutton kasha.',
+      imageUrl: '/images/trails/kolkata-street-food.jpg',
+      rituals: [
+        'Fanning the son-in-law with freshly woven palm-leaf fans dipped in rose water',
+        'Tying the auspicious yellow thread with green Durba grass and paddy grains around the wrist',
+        'Presenting lavish fruit baskets loaded with Malda Himsagar mangoes, litchis, and jamrul',
+        'Early-morning fish-market frenzy at Gariahat and Lake Market for prized 2kg+ Hilsa fish'
+      ],
+      delicacies: ['Daab Chingri (Prawns baked inside tender coconut)', 'Ilish Paturi', 'Kosha Mangsho', 'Himsagar & Lyangra Mangoes', 'Aam Sandesh', 'Mishti Doi'],
+      travelerTips: [
+        'Visit iconic Kolkata fish markets like Gariahat or VIP Market in Ultadanga at 6:30 AM to watch the high-stakes bidding for jumbo Hilsa and tiger prawns.',
+        'Heritage restaurants across Kolkata curate extravagant "Jamai Sasthi Mahabhoj" thali menus.'
+      ],
+      heritageSignificance: 'An ancient Bengal domestic tradition strengthening familial bonds and celebrating seasonal summer bounty.',
+    },
+    {
+      id: 'snan-yatra-mahesh',
+      title: 'Snan Yatra at Mahesh & Jagannath Temples',
+      bengaliTitle: 'জগন্নাথদেবের স্নানযাত্রা (মাহেশ ও কলকাতা)',
+      season: 'Summer',
+      months: 'June (Jaishtha Purnima Full Moon)',
+      tagline: '108 Sacred Camphor Pitchers, Holy Bath & Pandal Prelude to Ratha Yatra',
+      description: 'On the full moon day of Jaishtha, Lord Jagannath, Balabhadra, and Subhadra are brought out for their ceremonial public bath. At historic Mahesh in Serampore (the world’s second oldest Jagannath shrine, dating back to 1396 on the Hooghly) and at Kidderpore in Kolkata, priests bathe the wooden deities with 108 pitchers of sacred river water infused with sandalwood and camphor. Following this bath, the deities traditionally catch a "fever" and enter a 15-day royal retreat (*Anavasara*) before emerging for Ratha Yatra.',
+      imageUrl: '/images/trails/hooghly-river-ferry.jpg',
+      rituals: [
+        'Carrying the wooden idols to the Snana Bedi (bathing platform) amidst conch shells and kirtans',
+        'Ceremonial pouring of 108 holy water pots drawn from the sacred Ganges',
+        'Dressing Lord Jagannath in the sacred Gajanana Besha (elephant deity attire)',
+        'Commencement of the 15-day seclusion period where deities receive herbal remedies and fruit diets'
+      ],
+      delicacies: ['Khichuri & Chhanar Malpua', 'Labra', 'Kadam Peda', 'Aam Chutney', 'Garam Singara'],
+      travelerTips: [
+        'Take a local suburban EMU train from Howrah to Serampore (30 mins) to experience the historic 630-year-old Mahesh shrine.',
+        'Arrive by mid-morning to witness the grand Gajanana Besha transformation.'
+      ],
+      heritageSignificance: 'One of Bengal’s oldest living temple traditions, established by sage Dhrubananda Brahmachari in 1396.',
+    },
+    {
+      id: 'buddha-purnima',
+      title: 'Buddha Purnima & Baishakhi Full Moon',
+      bengaliTitle: 'বুদ্ধ পূর্ণিমা ও বৈশাখী শান্তি উৎসব',
+      season: 'Summer',
+      months: 'May (Boishakh Purnima)',
+      tagline: 'Peace Lanterns, Pali Chants & College Square Sacred Bodhi Tree',
+      description: 'Commemorating the birth, enlightenment, and Mahaparinirvana of Gautama Buddha on the auspicious full moon of Boishakh. Kolkata’s historic Mahabodhi Society of India on Bankim Chatterjee Street (College Square) becomes a tranquil sanctuary of serenity in the heart of the busy city. Monks dressed in saffron robes lead silent peace processions around College Square water tank, chant sacred Pali verses, and light hundreds of brass butter lamps under the sacred Bodhi tree.',
+      imageUrl: '/images/destinations/college-street.jpg',
+      rituals: [
+        'Bathing the sacred Bodhi tree sapling (brought from Bodh Gaya) with scented water and milk',
+        'Chanting of the Karaniya Metta Sutta (Discourse on Loving-Kindness) by Buddhist monks',
+        'Lighting rows of brass oil lamps and incense around College Square at dusk',
+        'Community distribution of sweet payesh (kheer) and fruits to passersby of all religions'
+      ],
+      delicacies: ['Paramanna Payesh (sweet milk-rice pudding)', 'Fruits & Sweets', 'Vegetarian Khichuri', 'Chilled Gondhoraj Sherbet'],
+      travelerTips: [
+        'Visit the Mahabodhi Society Temple in College Square at 5:30 PM for the peaceful evening lamp-lighting and meditation.',
+        'Take a serene stroll along the shaded pathways of College Square lake.'
+      ],
+      heritageSignificance: 'Instituted in 1891 by Anagarika Dharmapala, establishing Kolkata as a pivotal bridge for global Buddhist revival.',
+    },
+    {
+      id: 'aam-utsav-summer-gastronomy',
+      title: 'Bengal Mango Harvest & Summer Gastronomy (Aam Utsav)',
+      bengaliTitle: 'বাংলার আম মহোৎসব ও গ্রীষ্মকালীন ভোজনরসিকতা',
+      season: 'Summer',
+      months: 'May – June (Jaishtha Month)',
+      tagline: 'Himsagar, Lyangra & Malda Mangoes, Kancha Aamer Sharbat & Sweet Feasts',
+      description: 'Bengal’s summer is redeemed by its mangoes. From late May through June, Kolkata’s historic fruit corridors in Mechua Bazaar, Gariahat, and New Market are inundated with world-renowned mango cultivars: silky fiberless Himsagar, intensely aromatic Lyangra, floral Golapkhas, and sweet Amrapali transported from the royal orchards of Malda and Murshidabad. From chilled glasses of raw green mango cooler (*Aam Panna*) on sun-drenched street corners to artisanal baked Mango Sandesh, summer in Kolkata is a celebration of taste.',
+      imageUrl: '/images/trails/howrah-flower-market.jpg',
+      rituals: [
+        'Early-morning wholesale auctions of giant woven bamboo baskets of mangoes at Mechua Fruit Market',
+        'Preparing home-made batches of sweet-sour sun-dried mango bars (*Aamsotto*) on muslin cloths on rooftops',
+        'Afternoon street sippers enjoying frothy green mango coolers with roasted cumin and black salt',
+        'Bengali sweet shops crafting seasonal Aam Doi, Mango Mousse Sandesh, and Jolbhora with mango pulps'
+      ],
+      delicacies: ['Kacha Aamer Sharbat with Gondhoraj lime', 'Tok Dal (red lentils tempered with raw green mangoes)', 'Aam Sandesh', 'Aam Kheer', 'Aamsotto'],
+      travelerTips: [
+        'Ask for authentic GI-tagged Malda Himsagar or Murshidabad Lyangra at local neighborhood fruit vendors.',
+        'Stop by Paramount Sherbets on College Street for their legendary Passion Fruit and Mango sherbets.'
+      ],
+      heritageSignificance: 'Celebrates Bengal\'s centuries-old royal orchard horticulture nurtured by the Nawabs of Murshidabad.',
     },
   ] as SeasonalEvent[],
 
