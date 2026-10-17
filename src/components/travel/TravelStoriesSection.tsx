@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BookOpen, ArrowRight, Clock, Calendar, ChevronLeft, ChevronRight, Feather } from 'lucide-react';
+import { BookOpen, ArrowRight, Clock, Calendar, ChevronLeft, ChevronRight, Feather, MapPin, Landmark } from 'lucide-react';
 import { GuideStory } from '../../types/travel';
 
 interface TravelStoriesSectionProps {
@@ -67,20 +67,20 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
-              Chapter IV &bull; Literary Essays &amp; Lore
+              Chapter IV &bull; Historical Lores &amp; Places
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
             <span className="font-bengali text-xs text-[#582822] font-semibold">
-              কলকাতার স্মৃতি ও গল্প
+              কলকাতার ঐতিহাসিক কাহিনী ও স্থান
             </span>
           </div>
 
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
-            Dispatches from Old Calcutta
+            Historical Lores &amp; Places of Kolkata
           </h2>
 
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
-            Intimate cultural chronicles, secret architectural archives, and literary reflections penned by native writers and chroniclers.
+            From haunted colonial estates and midnight phantom carriages to secret duelling grounds, riverfront doll houses, and historic babu palaces—unravel the captivating legends and timeless heritage of Calcutta.
           </p>
         </div>
 
@@ -138,12 +138,26 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
                   <span className="absolute top-3.5 left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md text-[#351E1A] text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full shadow-xs border border-[#E8D5C2]">
                     {story.category}
                   </span>
+
+                  {/* Era badge */}
+                  {story.era && (
+                    <span className="absolute bottom-3 right-3 bg-[#351E1A]/85 backdrop-blur-md text-[#FFF8EF] text-[10px] font-mono px-2.5 py-0.5 rounded-full border border-white/20 shadow-xs">
+                      {story.era}
+                    </span>
+                  )}
                 </div>
 
                 <div className="p-6 space-y-3">
-                  <div className="flex items-center gap-3 text-[11px] font-sans text-[#351E1A]/60">
+                  <div className="flex items-center gap-2.5 text-[11px] font-sans text-[#351E1A]/65 flex-wrap">
+                    {story.location && (
+                      <span className="flex items-center gap-1 font-semibold text-[#C6532B]">
+                        <MapPin className="w-3.5 h-3.5 shrink-0" />
+                        <span>{story.location}</span>
+                      </span>
+                    )}
+                    {story.location && <span>&bull;</span>}
                     <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5 text-[#C6532B]" />
+                      <Clock className="w-3.5 h-3.5 text-[#582822]" />
                       <span>{story.readTime}</span>
                     </span>
                     <span>&bull;</span>
@@ -165,7 +179,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
 
               <div className="p-6 pt-0">
                 <div className="pt-3 border-t border-[#E8D5C2]/70 flex items-center justify-between text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
-                  <span>Read Full Essay &amp; Lore</span>
+                  <span>Explore Lore &amp; History</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>

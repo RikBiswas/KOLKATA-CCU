@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { X, MapPin, Camera, Calendar, Film, ArrowLeft, ArrowRight, Share2, Download } from 'lucide-react';
 import { GalleryPhoto } from '../../types/travel';
 
@@ -27,11 +28,12 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
     if (e.key === 'ArrowRight') onSelectPhoto(nextPhoto);
   };
 
-  return (
+  return createPortal(
     <div
       tabIndex={0}
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#1f100d]/95 backdrop-blur-md animate-fade-in focus:outline-none"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-[#1f100d]/95 backdrop-blur-md animate-fade-in focus:outline-none"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       {/* Top Bar with Navigation Controls & Close */}
       <div className="absolute top-4 inset-x-4 sm:inset-x-8 z-30 flex items-center justify-between pointer-events-auto">
@@ -138,6 +140,7 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

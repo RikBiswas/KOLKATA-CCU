@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Bookmark, CheckCircle2, Circle, Trash2, Printer, MapPin, Share2, Sparkles, BookOpen, Download, Loader2, ExternalLink } from 'lucide-react';
 import { DiaryItem } from '../../types/travel';
 import { downloadDiaryPDF } from '../../utils/pdfGenerator';
@@ -66,8 +67,8 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
     window.print();
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden">
         {/* Editorial Top Bar */}
         <div className="p-6 sm:p-8 border-b border-[#E8D5C2] bg-[#F7EBDD]/60 flex items-start justify-between gap-4">
@@ -318,6 +319,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

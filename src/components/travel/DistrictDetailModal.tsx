@@ -1,3 +1,5 @@
+import React from 'react';
+import { createPortal } from 'react-dom';
 import { X, MapPin, Clock, Utensils, Train, Compass, Quote, Bookmark, Check, ExternalLink } from 'lucide-react';
 import { Neighborhood } from '../../types/travel';
 
@@ -16,13 +18,13 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
 }) => {
   if (!district) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
         {/* Sticky Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] flex items-center justify-center transition-transform hover:scale-105 cursor-pointer shadow-md"
+          className="absolute top-4 right-4 z-30 w-10 h-10 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] flex items-center justify-center transition-all hover:scale-105 cursor-pointer shadow-lg border border-[#FFF8EF]/20"
           aria-label="Close dossier"
         >
           <X className="w-5 h-5" />
@@ -178,6 +180,7 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

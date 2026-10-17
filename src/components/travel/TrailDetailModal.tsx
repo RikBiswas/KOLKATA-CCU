@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Clock, Star, MapPin, Footprints, Train, Lightbulb, Compass, Bookmark, ExternalLink } from 'lucide-react';
 import { SuggestedTrail } from '../../types/travel';
 
@@ -33,9 +34,9 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
 
   if (!trail) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#351E1A]/75 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -47,7 +48,7 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2 rounded-full bg-[#351E1A]/60 hover:bg-[#351E1A] text-[#FFF8EF] transition-colors cursor-pointer"
+          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20 cursor-pointer"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
@@ -219,6 +220,7 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Calendar, Clock, Footprints, Train, Utensils, Download, Copy, Check, Sparkles, MapPin, X, Loader2 } from 'lucide-react';
 import { travelData } from '../../config/travel.config';
 import { downloadItineraryPDF } from '../../utils/pdfGenerator';
@@ -182,8 +183,8 @@ Curated with love by WANDER CCU (https://wanderccu.local)
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#351E1A]/70 backdrop-blur-sm animate-fadeIn">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fadeIn" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="relative w-full max-w-2xl bg-[#FFF8EF] rounded-3xl border-2 border-[#E8D5C2] shadow-[0_24px_60px_rgba(53,30,26,0.25)] overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header with archival deckle border */}
         <div className="p-6 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-start justify-between">
@@ -343,6 +344,7 @@ Curated with love by WANDER CCU (https://wanderccu.local)
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

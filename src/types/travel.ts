@@ -70,6 +70,10 @@ export interface GuideStory {
   imageUrl: string;
   summary: string;
   date: string;
+  location?: string;
+  era?: string;
+  historicalLore?: string;
+  fullStory?: string[];
 }
 
 export interface Neighborhood {

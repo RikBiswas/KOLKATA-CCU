@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   X, MapPin, Clock, Utensils, Sparkles, Train, 
   Lightbulb, Coins, Bookmark, Check, Share2, Compass, Flame, Info,
@@ -51,9 +52,9 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
     }
   };
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#351E1A]/80 backdrop-blur-md animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-[#351E1A]/85 backdrop-blur-md animate-fade-in"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
       }}
@@ -65,7 +66,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         {/* Floating Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-[#351E1A]/70 hover:bg-[#351E1A] text-[#FFF8EF] transition-all duration-200 cursor-pointer shadow-md hover:scale-105 active:scale-95"
+          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all duration-200 cursor-pointer shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20"
           aria-label="Close culinary detail dialog"
         >
           <X className="w-5 h-5" />
@@ -474,6 +475,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

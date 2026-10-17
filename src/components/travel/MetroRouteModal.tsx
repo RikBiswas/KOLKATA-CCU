@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Clock, Train, MapPin, ArrowRight, Compass, Search, AlertCircle, Sparkles, Navigation, Info, Bus, Ship } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { TransitRoute } from '../../types/travel';
@@ -99,9 +100,9 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
     );
   });
 
-  return (
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+      <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
         {/* Backdrop */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -608,6 +609,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };

@@ -23,17 +23,71 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Scroll direction detection (hide smoothly on scroll down, reveal on scroll up)
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
     const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      const currentScrollY = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(currentScrollY > 30);
+
+          // If near the very top of the page, always keep navbar visible
+          if (currentScrollY < 60) {
+            setIsVisible(true);
+          } else {
+            const diff = currentScrollY - lastScrollY;
+            // Ignore tiny jitters
+            if (Math.abs(diff) > 8) {
+              if (diff > 0 && currentScrollY > 100) {
+                // Scrolling down -> hide navbar
+                setIsVisible(false);
+                setMobileMenuOpen(false);
+              } else if (diff < 0) {
+                // Scrolling up -> reveal navbar
+                setIsVisible(true);
+              }
+            }
+          }
+
+          lastScrollY = currentScrollY;
+          ticking = false;
+        });
+        ticking = true;
       }
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Detect when any card or modal is open in the application
+  useEffect(() => {
+    const updateModalState = () => {
+      const hasOverflowHidden = document.body.style.overflow === 'hidden';
+      const hasDialog = Boolean(document.querySelector('[role="dialog"], [aria-modal="true"]'));
+      setIsModalOpen(hasOverflowHidden || hasDialog);
+    };
+
+    updateModalState();
+
+    const observer = new MutationObserver(() => {
+      updateModalState();
+    });
+
+    observer.observe(document.body, { 
+      attributes: true, 
+      attributeFilter: ['style', 'class'],
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
   }, []);
 
   const navLinks = [
@@ -62,14 +116,21 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   };
 
   return (
-    <header className="fixed top-3 sm:top-5 inset-x-0 z-50 flex justify-center pointer-events-none px-3 sm:px-6">
+    <header 
+      className={`fixed top-3 sm:top-5 inset-x-0 flex justify-center pointer-events-none px-3 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        isModalOpen ? 'z-10 opacity-40 pointer-events-none' : 'z-40'
+      } ${
+        !isVisible && !mobileMenuOpen
+          ? '-translate-y-28 opacity-0 scale-95 pointer-events-none'
+          : 'translate-y-0 opacity-100 scale-100'
+      }`}
+    >
       {/* Floating Centered Capsule */}
       <div
-        className={`pointer-events-auto w-full max-w-6xl transition-all duration-300 rounded-full border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] ${
-          isScrolled
+        className={`pointer-events-auto w-full max-w-6xl transition-all duration-300 rounded-full border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] ${isScrolled
             ? 'bg-[#FFF8EF]/95 backdrop-blur-md py-2 px-3.5 sm:px-6 shadow-[0_12px_36px_rgba(53,30,26,0.12)]'
             : 'bg-[#F7EBDD]/90 backdrop-blur-md py-2.5 sm:py-3 px-3.5 sm:px-6'
-        }`}
+          }`}
       >
         <div className="flex items-center justify-between gap-2 sm:gap-4">
           {/* Brand Wordmark & Descriptor */}
@@ -104,11 +165,10 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                 <button
                   key={link.id}
                   onClick={() => handleLinkClick(link.id)}
-                  className={`relative px-2.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
-                    isActive
+                  className={`relative px-2.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${isActive
                       ? 'text-[#FFF8EF] bg-[#351E1A] font-semibold shadow-xs'
                       : 'text-[#351E1A]/80 hover:text-[#351E1A] hover:bg-[#E8D5C2]/50'
-                  }`}
+                    }`}
                 >
                   {link.label}
                   {isActive && (
@@ -232,11 +292,10 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                 <button
                   key={link.id}
                   onClick={() => handleLinkClick(link.id)}
-                  className={`text-left px-3 py-2 rounded-xl text-xs font-sans font-medium transition-colors ${
-                    activeTab === link.id
+                  className={`text-left px-3 py-2 rounded-xl text-xs font-sans font-medium transition-colors ${activeTab === link.id
                       ? 'bg-[#351E1A] text-[#FFF8EF] font-bold'
                       : 'text-[#351E1A]/80 hover:bg-[#E8D5C2]/40'
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </button>

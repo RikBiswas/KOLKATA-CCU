@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Compass, 
-  Sparkles, 
-  ChevronLeft, 
-  ChevronRight, 
-  Pause, 
-  Play, 
-  MapPin, 
-  Clock, 
+import {
+  Compass,
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+  MapPin,
+  Clock,
   ArrowRight,
   Coffee,
   Ship,
@@ -204,14 +204,14 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
 
   const visibleCards = filteredActivities.slice(currentIndex, currentIndex + itemsPerPage);
   // If fewer than itemsPerPage, wrap around to maintain a full row
-  const displayCards = 
+  const displayCards =
     visibleCards.length < itemsPerPage && filteredActivities.length >= itemsPerPage
       ? [...visibleCards, ...filteredActivities.slice(0, itemsPerPage - visibleCards.length)]
       : visibleCards;
 
   return (
-    <section 
-      id="things-to-do" 
+    <section
+      id="things-to-do"
       className="py-14 sm:py-20 my-8"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
@@ -289,11 +289,10 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
               setSelectedCategory(cat);
               setCurrentIndex(0);
             }}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
-              selectedCategory === cat
+            className={`px-3.5 py-1.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${selectedCategory === cat
                 ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-xs'
                 : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
-            }`}
+              }`}
           >
             {cat}
           </button>
@@ -302,7 +301,7 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
 
       {/* Auto-sliding Mini Cards Grid */}
       <div className="overflow-hidden">
-        <div 
+        <div
           key={`${selectedCategory}-${currentIndex}`}
           className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 animate-slide-in-right"
         >
@@ -386,11 +385,10 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
           <button
             key={idx}
             onClick={() => setCurrentIndex(idx)}
-            className={`transition-all duration-300 rounded-full cursor-pointer ${
-              idx === currentIndex
+            className={`transition-all duration-300 rounded-full cursor-pointer ${idx === currentIndex
                 ? 'w-7 h-2 bg-[#C6532B]'
                 : 'w-2 h-2 bg-[#E8D5C2] hover:bg-[#D9A38E]'
-            }`}
+              }`}
             aria-label={`Go to slide ${idx + 1}`}
           />
         ))}

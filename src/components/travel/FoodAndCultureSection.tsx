@@ -705,7 +705,6 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
     { id: 'north', label: 'North Kolkata', count: culinaryStories.filter(c => c.region === 'north').length },
     { id: 'central', label: 'Central & Esplanade', count: culinaryStories.filter(c => c.region === 'central').length },
     { id: 'south', label: 'South Kolkata', count: culinaryStories.filter(c => c.region === 'south').length },
-    { id: 'sweets', label: 'Sweets & Sips', count: culinaryStories.filter(c => c.region === 'sweets' || c.id === 'flurys-tearoom' || c.id === 'paramount-daab-sarbat' || c.id === 'balwant-singh-doodh-cola').length },
   ];
 
   const handleFilterChange = (regionId: string) => {
@@ -716,7 +715,6 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
 
   const filteredItems = culinaryStories.filter((item) => {
     if (activeRegion === 'all') return true;
-    if (activeRegion === 'sweets') return item.region === 'sweets' || item.id === 'flurys-tearoom' || item.id === 'paramount-daab-sarbat' || item.id === 'balwant-singh-doodh-cola';
     return item.region === activeRegion;
   });
 
