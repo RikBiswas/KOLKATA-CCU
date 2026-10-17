@@ -120,6 +120,39 @@ export interface GalleryPhoto {
   yearTaken: string;
 }
 
+export interface TransitRouteStation {
+  name: string;
+  bengaliName?: string;
+  isInterchange?: boolean;
+  interchangeWith?: string;
+  landmark?: string;
+}
+
+export interface TransitRouteTiming {
+  firstTrainA?: string;
+  firstTrainB?: string;
+  lastTrainA?: string;
+  lastTrainB?: string;
+  terminalA?: string;
+  terminalB?: string;
+  peakFrequency?: string;
+  offPeakFrequency?: string;
+  sundayTimings?: string;
+}
+
+export interface TransitRoute {
+  name: string;
+  stops: string;
+  note: string;
+  lineColor?: string;
+  badgeColor?: string;
+  fareInfo?: string;
+  operatingHours?: string;
+  timings?: TransitRouteTiming;
+  stations?: TransitRouteStation[];
+  highlights?: string[];
+}
+
 export interface TransitMode {
   id: string;
   name: string;
@@ -129,7 +162,7 @@ export interface TransitMode {
   fareRange: string;
   operatingHours: string;
   summary: string;
-  routes: { name: string; stops: string; note: string }[];
+  routes: TransitRoute[];
   insiderAdvice: string[];
   keyPhrase: { bengali: string; phonetic: string; english: string };
   badgeText: string;

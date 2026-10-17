@@ -15,23 +15,38 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
 }) => {
   const [startIndex, setStartIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   const itemsVisible = 2;
   const maxIndex = Math.max(0, trails.length - itemsVisible);
 
+  React.useEffect(() => {
+    if (isPaused || maxIndex <= 0) return;
+    const timer = setInterval(() => {
+      setSlideDirection('right');
+      setStartIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isPaused, maxIndex]);
+
   const handlePrev = () => {
     setSlideDirection('left');
-    setStartIndex((prev) => Math.max(0, prev - 1));
+    setStartIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
   };
 
   const handleNext = () => {
     setSlideDirection('right');
-    setStartIndex((prev) => Math.min(maxIndex, prev + 1));
+    setStartIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
   const visibleTrails = trails.slice(startIndex, startIndex + itemsVisible);
 
   return (
-    <section id="trails" className="py-14 sm:py-20 scroll-mt-24">
+    <section 
+      id="trails" 
+      className="py-14 sm:py-20 scroll-mt-24"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       {/* Section Eyebrow */}
       <div className="flex items-center gap-2 mb-3">
         <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">

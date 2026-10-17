@@ -32,21 +32,36 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
   }, []);
 
   const maxIndex = Math.max(0, stories.length - itemsPerPage);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isPaused || maxIndex <= 0) return;
+    const timer = setInterval(() => {
+      setSlideDirection('right');
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 5500);
+    return () => clearInterval(timer);
+  }, [isPaused, maxIndex]);
 
   const handlePrev = () => {
     setSlideDirection('left');
-    setCurrentIndex((prev) => Math.max(0, prev - 1));
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
   };
 
   const handleNext = () => {
     setSlideDirection('right');
-    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+    setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
   const visibleStories = stories.slice(currentIndex, currentIndex + itemsPerPage);
 
   return (
-    <section id="blog" className="py-14 sm:py-20 my-8">
+    <section 
+      id="blog" 
+      className="py-14 sm:py-20 my-8"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
         <div className="space-y-2 max-w-2xl">

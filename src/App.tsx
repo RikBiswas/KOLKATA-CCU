@@ -523,7 +523,19 @@ export default function App() {
             />
 
             {/* 6. Chapter IV: Visually Distinct Terracotta Food & Local Culture */}
-            <FoodAndCultureSection onExploreFoodTrail={handleExploreFoodTrail} />
+            <FoodAndCultureSection
+              onExploreFoodTrail={handleExploreFoodTrail}
+              onBookmarkCulinary={(item) =>
+                handleToggleBookmark({
+                  id: item.id,
+                  title: item.title,
+                  category: 'Food',
+                  location: item.location,
+                  imageUrl: item.image,
+                })
+              }
+              isBookmarked={(id) => diaryItems.some((i) => i.id === id)}
+            />
 
             {/* 7. Chapter V: Cultural Almanac & Festivals Calendar */}
             <SeasonalCalendarSection events={travelData.seasonalEvents} />
