@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Clock, Train, MapPin, ArrowRight, Compass, Search, AlertCircle, Sparkles, Navigation, Info } from 'lucide-react';
+import { X, Clock, Train, MapPin, ArrowRight, Compass, Search, AlertCircle, Sparkles, Navigation, Info, Bus, Ship } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { TransitRoute } from '../../types/travel';
 
@@ -39,9 +39,54 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
 
   if (!route) return null;
 
+  const modeLower = transitModeName.toLowerCase();
+  const isTram = modeLower.includes('tram');
+  const isFerry = modeLower.includes('ferri') || modeLower.includes('ferry');
+  const isBus = modeLower.includes('bus');
+
+  const stopLabel = isTram
+    ? 'Tram Stop'
+    : isFerry
+    ? 'Ghat / Jetty'
+    : isBus
+    ? 'Bus Stop'
+    : 'Station';
+
+  const vehicleLabel = isTram
+    ? 'Tram'
+    : isFerry
+    ? 'Ferry'
+    : isBus
+    ? 'Bus'
+    : 'Train';
+
+  const defaultFrequency = isTram
+    ? 'Every 20–25 mins'
+    : isFerry
+    ? 'Every 10–15 mins'
+    : isBus
+    ? 'Every 5–10 mins'
+    : 'Every 5–8 mins';
+
+  const defaultHours = isTram
+    ? '07:00 AM – 08:30 PM'
+    : isFerry
+    ? '06:00 AM – 09:30 PM'
+    : isBus
+    ? '05:30 AM – 10:30 PM'
+    : '06:45 AM – 09:55 PM';
+
+  const defaultFare = isTram
+    ? '₹6 – ₹10'
+    : isFerry
+    ? '₹6 – ₹11'
+    : isBus
+    ? '₹10 – ₹25'
+    : '₹5 – ₹25';
+
   const stations = route.stations || [];
   const timings = route.timings;
-  const lineColor = route.lineColor || '#C6532B';
+  const lineColor = route.lineColor || (isTram ? '#15803D' : isFerry ? '#0284C7' : '#C6532B');
 
   const filteredStations = stations.filter((st) => {
     if (!searchQuery.trim()) return true;
@@ -109,7 +154,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
               <button
                 onClick={onClose}
                 className="w-10 h-10 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-90"
-                aria-label="Close metro line modal"
+                aria-label="Close transit route modal"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -119,10 +164,10 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-5">
               <div className="p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
                 <span className="text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold">
-                  Total Stations
+                  Total {stopLabel}s
                 </span>
                 <span className="text-sm font-sans font-bold text-[#351E1A]">
-                  {stations.length} Stops
+                  {stations.length} {isFerry ? 'Ghats' : 'Stops'}
                 </span>
               </div>
 
@@ -131,7 +176,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                   Peak Frequency
                 </span>
                 <span className="text-sm font-sans font-bold text-[#C6532B]">
-                  {timings?.peakFrequency || 'Every 5–7 mins'}
+                  {timings?.peakFrequency || defaultFrequency}
                 </span>
               </div>
 
@@ -140,7 +185,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                   Operating Hours
                 </span>
                 <span className="text-sm font-sans font-bold text-[#351E1A]">
-                  {route.operatingHours || '06:45 AM – 10:00 PM'}
+                  {route.operatingHours || defaultHours}
                 </span>
               </div>
 
@@ -149,7 +194,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                   Fare Range
                 </span>
                 <span className="text-sm font-sans font-bold text-[#582822]">
-                  {route.fareInfo || '₹5 – ₹30'}
+                  {route.fareInfo || defaultFare}
                 </span>
               </div>
             </div>
@@ -164,8 +209,16 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                     : 'bg-[#F7EBDD] text-[#351E1A]/75 hover:bg-[#E8D5C2]'
                 }`}
               >
-                <Train className="w-3.5 h-3.5" />
-                <span>Station List ({stations.length})</span>
+                {isBus ? (
+                  <Bus className="w-3.5 h-3.5" />
+                ) : isFerry ? (
+                  <Ship className="w-3.5 h-3.5" />
+                ) : (
+                  <Train className="w-3.5 h-3.5" />
+                )}
+                <span>
+                  {stopLabel}s ({stations.length})
+                </span>
               </button>
 
               <button
@@ -177,7 +230,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                 }`}
               >
                 <Clock className="w-3.5 h-3.5" />
-                <span>Train Timings</span>
+                <span>{vehicleLabel} Timings</span>
               </button>
 
               <button
@@ -189,23 +242,23 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                 }`}
               >
                 <Info className="w-3.5 h-3.5" />
-                <span>Tips &amp; Ticketing</span>
+                <span>Tips &amp; Guide</span>
               </button>
             </div>
           </div>
 
           {/* Modal Body Content (Scrollable) */}
           <div className="p-5 sm:p-7 overflow-y-auto flex-1 space-y-6">
-            {/* TAB 1: STATIONS & INTERCHANGES */}
+            {/* TAB 1: STATIONS / STOPS / GHATS & INTERCHANGES */}
             {activeTab === 'stations' && (
               <div className="space-y-4">
-                {/* Station Search Input */}
+                {/* Search Input */}
                 {stations.length > 5 && (
                   <div className="relative">
                     <Search className="w-4 h-4 text-[#351E1A]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
                     <input
                       type="text"
-                      placeholder="Search station name, landmark, or interchange..."
+                      placeholder={`Search ${stopLabel.toLowerCase()} name, landmark, or interchange...`}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full pl-10 pr-4 py-2 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] text-xs font-sans text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-hidden focus:border-[#C6532B] transition-colors"
@@ -221,7 +274,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                   </div>
                 )}
 
-                {/* Stations Timeline */}
+                {/* Timeline */}
                 <div className="relative pl-6 sm:pl-8 space-y-4 before:content-[''] before:absolute before:left-3 sm:before:left-4 before:top-3 before:bottom-3 before:w-1 before:rounded-full before:bg-[#E8D5C2]">
                   {filteredStations.map((st, idx) => (
                     <div key={idx} className="relative group">
@@ -235,7 +288,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                         )}
                       </div>
 
-                      {/* Station Box */}
+                      {/* Stop Box */}
                       <div
                         className={`p-3.5 rounded-2xl border transition-all duration-200 ${
                           st.isInterchange
@@ -280,7 +333,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
 
                   {filteredStations.length === 0 && (
                     <div className="p-8 text-center text-xs font-sans text-[#351E1A]/60">
-                      No stations found matching &ldquo;{searchQuery}&rdquo;.
+                      No {stopLabel.toLowerCase()}s found matching &ldquo;{searchQuery}&rdquo;.
                     </div>
                   )}
                 </div>
@@ -290,28 +343,34 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
             {/* TAB 2: TIMINGS & FREQUENCIES */}
             {activeTab === 'timings' && (
               <div className="space-y-6">
-                {/* First and Last Trains Grid */}
+                {/* First and Last Departures Grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Direction A */}
                   <div className="p-5 rounded-2xl bg-[#F7EBDD]/80 border border-[#E8D5C2] space-y-3">
                     <div className="flex items-center gap-2 pb-2 border-b border-[#E8D5C2]">
-                      <Train className="w-4 h-4 text-[#C6532B]" />
+                      {isBus ? (
+                        <Bus className="w-4 h-4 text-[#C6532B]" />
+                      ) : isFerry ? (
+                        <Ship className="w-4 h-4 text-[#C6532B]" />
+                      ) : (
+                        <Train className="w-4 h-4 text-[#C6532B]" />
+                      )}
                       <h4 className="font-serif text-sm font-bold text-[#351E1A]">
-                        From {timings?.terminalA || 'Terminal 1'}
+                        From {timings?.terminalA || (isTram ? 'Origin Depot' : 'Terminal 1')}
                       </h4>
                     </div>
 
                     <div className="flex justify-between items-center text-xs font-sans">
-                      <span className="text-[#351E1A]/70">First Train Departure:</span>
+                      <span className="text-[#351E1A]/70">First {vehicleLabel} Departure:</span>
                       <span className="font-mono font-bold text-[#C6532B] bg-[#FFF8EF] px-2 py-0.5 rounded-md border border-[#E8D5C2]">
-                        {timings?.firstTrainA || '06:50 AM'}
+                        {timings?.firstTrainA || (isTram ? '07:00 AM' : isFerry ? '06:00 AM' : isBus ? '05:30 AM' : '06:50 AM')}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center text-xs font-sans">
-                      <span className="text-[#351E1A]/70">Last Train Departure:</span>
+                      <span className="text-[#351E1A]/70">Last {vehicleLabel} Departure:</span>
                       <span className="font-mono font-bold text-[#351E1A] bg-[#FFF8EF] px-2 py-0.5 rounded-md border border-[#E8D5C2]">
-                        {timings?.lastTrainA || '09:40 PM'}
+                        {timings?.lastTrainA || (isTram ? '08:00 PM' : isFerry ? '09:30 PM' : isBus ? '10:00 PM' : '09:40 PM')}
                       </span>
                     </div>
                   </div>
@@ -319,23 +378,29 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                   {/* Direction B */}
                   <div className="p-5 rounded-2xl bg-[#F7EBDD]/80 border border-[#E8D5C2] space-y-3">
                     <div className="flex items-center gap-2 pb-2 border-b border-[#E8D5C2]">
-                      <Train className="w-4 h-4 text-[#C6532B]" />
+                      {isBus ? (
+                        <Bus className="w-4 h-4 text-[#C6532B]" />
+                      ) : isFerry ? (
+                        <Ship className="w-4 h-4 text-[#C6532B]" />
+                      ) : (
+                        <Train className="w-4 h-4 text-[#C6532B]" />
+                      )}
                       <h4 className="font-serif text-sm font-bold text-[#351E1A]">
-                        From {timings?.terminalB || 'Terminal 2'}
+                        From {timings?.terminalB || (isTram ? 'Destination Loop' : 'Terminal 2')}
                       </h4>
                     </div>
 
                     <div className="flex justify-between items-center text-xs font-sans">
-                      <span className="text-[#351E1A]/70">First Train Departure:</span>
+                      <span className="text-[#351E1A]/70">First {vehicleLabel} Departure:</span>
                       <span className="font-mono font-bold text-[#C6532B] bg-[#FFF8EF] px-2 py-0.5 rounded-md border border-[#E8D5C2]">
-                        {timings?.firstTrainB || '06:50 AM'}
+                        {timings?.firstTrainB || (isTram ? '07:30 AM' : isFerry ? '06:15 AM' : isBus ? '06:00 AM' : '06:50 AM')}
                       </span>
                     </div>
 
                     <div className="flex justify-between items-center text-xs font-sans">
-                      <span className="text-[#351E1A]/70">Last Train Departure:</span>
+                      <span className="text-[#351E1A]/70">Last {vehicleLabel} Departure:</span>
                       <span className="font-mono font-bold text-[#351E1A] bg-[#FFF8EF] px-2 py-0.5 rounded-md border border-[#E8D5C2]">
-                        {timings?.lastTrainB || '09:30 PM'}
+                        {timings?.lastTrainB || (isTram ? '08:30 PM' : isFerry ? '09:45 PM' : isBus ? '10:15 PM' : '09:30 PM')}
                       </span>
                     </div>
                   </div>
@@ -345,25 +410,25 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                 <div className="p-5 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2] space-y-3">
                   <h4 className="font-serif text-sm font-bold text-[#351E1A] flex items-center gap-2">
                     <Clock className="w-4 h-4 text-[#582822]" />
-                    <span>Train Frequency Schedule</span>
+                    <span>{vehicleLabel} Frequency Schedule</span>
                   </h4>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
                     <div className="p-3 rounded-xl bg-[#F7EBDD]/60 border border-[#E8D5C2]">
                       <span className="font-bold text-[#351E1A] block mb-1">
-                        Peak Rush Hours (09:00 AM – 11:30 AM &amp; 05:00 PM – 08:00 PM)
+                        Peak Rush Hours {isTram ? '(Morning & Evening)' : '(09:00 AM – 11:30 AM & 05:00 PM – 08:00 PM)'}
                       </span>
                       <span className="text-[#C6532B] font-mono font-bold">
-                        {timings?.peakFrequency || 'Every 5 to 6 minutes'}
+                        {timings?.peakFrequency || defaultFrequency}
                       </span>
                     </div>
 
                     <div className="p-3 rounded-xl bg-[#F7EBDD]/60 border border-[#E8D5C2]">
                       <span className="font-bold text-[#351E1A] block mb-1">
-                        Off-Peak Hours (Midday &amp; Late Night)
+                        Off-Peak Hours (Midday &amp; Evenings)
                       </span>
                       <span className="text-[#582822] font-mono font-bold">
-                        {timings?.offPeakFrequency || 'Every 8 to 12 minutes'}
+                        {timings?.offPeakFrequency || (isTram ? 'Every 30 minutes' : isFerry ? 'Every 15–20 minutes' : 'Every 10 to 15 minutes')}
                       </span>
                     </div>
                   </div>
@@ -373,7 +438,14 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                     <AlertCircle className="w-4 h-4 text-[#582822] shrink-0 mt-0.5" />
                     <span>
                       <strong>Sunday &amp; Gazetted Holidays:</strong>{' '}
-                      {timings?.sundayTimings || 'Services commence at 09:00 AM with 10–15 minute intervals throughout the afternoon.'}
+                      {timings?.sundayTimings ||
+                        (isTram
+                          ? 'Services run 07:30 AM – 08:00 PM at relaxed 25–30 minute intervals. Ideal for leisurely photography and Sunday city strolls.'
+                          : isFerry
+                          ? 'Ferries run standard full-day services between 07:00 AM and 09:00 PM across the Ganges.'
+                          : isBus
+                          ? 'Standard weekend schedules run with slightly reduced rush-hour frequency.'
+                          : 'Services commence at 09:00 AM with 10–15 minute intervals throughout the afternoon.')}
                     </span>
                   </div>
                 </div>
@@ -383,32 +455,122 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
             {/* TAB 3: COMMUTER TIPS & TICKETING */}
             {activeTab === 'guide' && (
               <div className="space-y-4">
-                <div className="p-5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-3">
-                  <h4 className="font-serif text-sm font-bold text-[#351E1A] flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-[#C6532B]" />
-                    <span>Smart Ticketing &amp; Token Protocols</span>
-                  </h4>
-                  <ul className="space-y-2 text-xs font-sans text-[#351E1A]/80 leading-relaxed">
-                    <li className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
-                      <span>
-                        <strong>Smart Contactless Tokens:</strong> Buy single journey RFID tokens at automated vending kiosks or manned booking windows. Tap on the sensor gate upon entry, and deposit the token into the gate slot upon exit.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
-                      <span>
-                        <strong>Kolkata Metro Smart Card:</strong> If staying for multiple days, purchase a rechargeable Smart Card (₹100 refundable deposit + travel credit) to save 10% on every ride and skip all ticket counter queues.
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
-                      <span>
-                        <strong>QR Ticketing via UTS Mobile App:</strong> Digital QR tickets can also be booked on the Indian Railways UTS application.
-                      </span>
-                    </li>
-                  </ul>
-                </div>
+                {/* Dynamic Guide per Mode */}
+                {isTram ? (
+                  <div className="p-5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-3">
+                    <h4 className="font-serif text-sm font-bold text-[#351E1A] flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#C6532B]" />
+                      <span>Calcutta Tramways Commuter Guide &amp; Ticketing</span>
+                    </h4>
+                    <ul className="space-y-2.5 text-xs font-sans text-[#351E1A]/80 leading-relaxed">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#15803D] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Onboard Conductor &amp; Paper Tickets:</strong> No electronic turnstiles or gate tokens required. Simply board at any street stop or depot loop; a friendly CTC conductor in khaki uniform will come around with his classic leather shoulder satchel to issue authentic printed slips (₹6 – ₹10).
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#15803D] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Small Coins &amp; UPI:</strong> Keep ₹5 and ₹10 coins or UPI QR handy. Exact change is greatly appreciated by conductors.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#15803D] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Living Heritage Rail:</strong> Calcutta is Asia’s sole surviving electric street tramway (operating since 1873). Relax on open wooden slatted benches, enjoy the cross-breeze, and listen to the nostalgic foot-operated brass bell.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#15803D] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Tram World Kolkata &amp; Smaranika:</strong> Visit the Gariahat Tram Depot to explore restored 1938 wooden carriages, archival photographs, and sip earthen chai inside Car No. 142 (The Tram Café).
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                ) : isFerry ? (
+                  <div className="p-5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-3">
+                    <h4 className="font-serif text-sm font-bold text-[#351E1A] flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#C6532B]" />
+                      <span>Hooghly River Ferry Boarding Guide</span>
+                    </h4>
+                    <ul className="space-y-2.5 text-xs font-sans text-[#351E1A]/80 leading-relaxed">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#0284C7] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Jetty Ticket Kiosks:</strong> Buy your ₹6 – ₹11 token or paper slip at the ghat gangway counter prior to walking onto the floating jetty.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#0284C7] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Boarding Etiquette:</strong> Step carefully onto the gangway pontoons during tidal shifts. Head up to the breezy upper deck for spectacular photography of the Howrah and Vidyasagar bridges.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#0284C7] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Rapid Cross-River Transit:</strong> Avoid bridge traffic jams—ferries take merely 5 to 8 minutes to glide between Howrah railway terminal and Kolkata central business ghats.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                ) : isBus ? (
+                  <div className="p-5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-3">
+                    <h4 className="font-serif text-sm font-bold text-[#351E1A] flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#C6532B]" />
+                      <span>City Bus &amp; Minibus Commuter Guide</span>
+                    </h4>
+                    <ul className="space-y-2.5 text-xs font-sans text-[#351E1A]/80 leading-relaxed">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Handheld Electronic Tickets / Cash:</strong> Pay the conductor inside the bus. Keep small bills or UPI QR ready.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>State (WBTC/CSTC) vs. Private Minibus:</strong> Blue/white state buses follow fixed stage stops; yellow/brown private minibuses offer rapid express transit and can be flagged down at major intersections.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Boarding &amp; Alighting:</strong> Always board from the rear or middle gate, and alight from the front. Listen for the conductor’s two-tap whistle signal to the driver.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <div className="p-5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-3">
+                    <h4 className="font-serif text-sm font-bold text-[#351E1A] flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#C6532B]" />
+                      <span>Smart Ticketing &amp; Token Protocols</span>
+                    </h4>
+                    <ul className="space-y-2.5 text-xs font-sans text-[#351E1A]/80 leading-relaxed">
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Smart Contactless Tokens:</strong> Buy single journey RFID tokens at automated vending kiosks or manned booking windows. Tap on the sensor gate upon entry, and deposit the token into the gate slot upon exit.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>Kolkata Metro Smart Card:</strong> If staying for multiple days, purchase a rechargeable Smart Card (₹100 refundable deposit + travel credit) to save 10% on every ride and skip all ticket counter queues.
+                        </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0 mt-1.5" />
+                        <span>
+                          <strong>QR Ticketing via UTS Mobile App:</strong> Digital QR tickets can also be booked on the Indian Railways UTS application.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
 
                 {/* Key Highlights */}
                 {route.highlights && route.highlights.length > 0 && (
@@ -434,7 +596,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
           {/* Modal Footer */}
           <div className="p-4 sm:p-5 border-t border-[#E8D5C2] bg-[#F7EBDD]/50 flex items-center justify-between gap-4 shrink-0">
             <span className="text-xs font-sans text-[#351E1A]/70">
-              Kolkata Metro Rail Corporation (KMRC) &bull; Metro Railway Kolkata
+              {transitModeName} &bull; {isTram ? 'Asia’s Oldest Tramway (Est. 1873)' : isFerry ? 'Ganges River Transit' : isBus ? 'City Transit Network' : 'Kolkata Metro Railway'}
             </span>
 
             <button

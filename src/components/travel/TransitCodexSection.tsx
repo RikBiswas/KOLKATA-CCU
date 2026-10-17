@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Train, Ship, Compass, ArrowRight, Clock, Banknote, MessageCircle, Check, Copy, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Train, Ship, Compass, ArrowRight, Clock, Banknote, MessageCircle, Check, Copy, ChevronLeft, ChevronRight, Sparkles, Bus } from 'lucide-react';
 import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { TransitMode, TransitRoute } from '../../types/travel';
 import { MetroRouteModal } from './MetroRouteModal';
@@ -85,6 +85,8 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
         return <Ship className="w-5 h-5" />;
       case 'kolkata-metro':
         return <Train className="w-5 h-5" />;
+      case 'city-buses':
+        return <Bus className="w-5 h-5" />;
       default:
         return <Compass className="w-5 h-5" />;
     }
