@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { 
   X, MapPin, Clock, Utensils, Sparkles, Train, 
-  Lightbulb, Coins, Bookmark, Check, Share2, Compass, Flame, Info
+  Lightbulb, Coins, Bookmark, Check, Share2, Compass, Flame, Info,
+  ExternalLink, Navigation
 } from 'lucide-react';
 import { CulinaryItem } from './FoodAndCultureSection';
 
@@ -259,47 +260,84 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
           {/* TAB 2: FAMOUS STALLS & CORNERS */}
           {activeTab === 'stalls' && (
             <div className="space-y-4 animate-fade-in">
-              <div className="flex items-center justify-between">
-                <h3 className="font-serif text-lg font-bold text-[#351E1A]">
-                  Iconic Establishments &amp; Street Corners
-                </h3>
-                <span className="text-xs font-sans text-[#582822]">
-                  {item.location}
-                </span>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#E8D5C2]/70">
+                <div>
+                  <h3 className="font-serif text-lg font-bold text-[#351E1A]">
+                    Iconic Establishments &amp; Street Corners
+                  </h3>
+                  <p className="text-xs font-sans text-[#582822]/80">
+                    Handpicked heritage stalls across Calcutta with direct Google Maps routes
+                  </p>
+                </div>
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.title} near ${item.location}, Kolkata`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#F7EBDD] hover:bg-[#E8D5C2] border border-[#E8D5C2] text-xs font-sans font-semibold text-[#C6532B] transition-all hover:scale-102 cursor-pointer self-start sm:self-auto shrink-0 shadow-2xs"
+                  title={`Search ${item.title} in ${item.location} on Google Maps`}
+                >
+                  <Navigation className="w-3.5 h-3.5 text-[#C6532B]" />
+                  <span>Explore {item.location}</span>
+                  <ExternalLink className="w-3 h-3 opacity-60" />
+                </a>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {item.famousStalls && item.famousStalls.length > 0 ? (
-                  item.famousStalls.map((stall, idx) => (
-                    <div
-                      key={idx}
-                      className="p-4 rounded-2xl bg-white border border-[#E8D5C2] shadow-xs space-y-2 hover:border-[#C6532B] transition-colors"
-                    >
-                      <div className="flex items-start justify-between gap-2">
-                        <span className="w-6 h-6 rounded-full bg-[#C6532B]/10 text-[#C6532B] text-xs font-mono font-bold flex items-center justify-center shrink-0">
-                          {idx + 1}
-                        </span>
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-[#C6532B] font-bold">
-                          Heritage Stop
-                        </span>
-                      </div>
+                  item.famousStalls.map((stall, idx) => {
+                    const gmapQuery = `${stall.name}, ${stall.address}, Kolkata`;
+                    const gmapUrl =
+                      stall.mapUrl ||
+                      `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(gmapQuery)}`;
 
-                      <h4 className="font-serif text-base font-bold text-[#351E1A]">
-                        {stall.name}
-                      </h4>
+                    return (
+                      <div
+                        key={idx}
+                        className="p-4 rounded-2xl bg-white border border-[#E8D5C2] shadow-xs space-y-3 hover:border-[#C6532B] transition-all flex flex-col justify-between group"
+                      >
+                        <div className="space-y-2">
+                          <div className="flex items-start justify-between gap-2">
+                            <span className="w-6 h-6 rounded-full bg-[#C6532B]/10 text-[#C6532B] text-xs font-mono font-bold flex items-center justify-center shrink-0">
+                              {idx + 1}
+                            </span>
+                            <span className="text-[10px] font-mono uppercase tracking-wider text-[#C6532B] font-bold">
+                              Heritage Stop
+                            </span>
+                          </div>
 
-                      <p className="text-xs font-sans text-[#351E1A]/75 leading-relaxed flex items-start gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#C6532B] shrink-0 mt-0.5" />
-                        <span>{stall.address}</span>
-                      </p>
+                          <h4 className="font-serif text-base font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors">
+                            {stall.name}
+                          </h4>
 
-                      {stall.landmark && (
-                        <div className="text-[11px] font-sans text-[#582822] bg-[#F7EBDD]/60 p-2 rounded-xl">
-                          <strong className="text-[#351E1A]">Landmark:</strong> {stall.landmark}
+                          <p className="text-xs font-sans text-[#351E1A]/75 leading-relaxed flex items-start gap-1.5">
+                            <MapPin className="w-3.5 h-3.5 text-[#C6532B] shrink-0 mt-0.5" />
+                            <span>{stall.address}</span>
+                          </p>
+
+                          {stall.landmark && (
+                            <div className="text-[11px] font-sans text-[#582822] bg-[#F7EBDD]/60 p-2 rounded-xl">
+                              <strong className="text-[#351E1A]">Landmark:</strong> {stall.landmark}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  ))
+
+                        {/* Direct Google Maps Redirection Button */}
+                        <a
+                          href={gmapUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-full inline-flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#F7EBDD] hover:bg-[#C6532B] text-[#582822] hover:text-[#FFF8EF] border border-[#E8D5C2] hover:border-[#C6532B] text-xs font-sans font-bold transition-all duration-200 group/btn shadow-2xs hover:shadow-xs cursor-pointer mt-1"
+                          title={`Navigate to ${stall.name} on Google Maps`}
+                        >
+                          <span className="flex items-center gap-2">
+                            <MapPin className="w-3.5 h-3.5 text-[#C6532B] group-hover/btn:text-[#FFF8EF] transition-colors" />
+                            <span>Open on Google Maps</span>
+                          </span>
+                          <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover/btn:opacity-100 group-hover/btn:translate-x-0.5 transition-all" />
+                        </a>
+                      </div>
+                    );
+                  })
                 ) : (
                   <div className="col-span-2 p-6 rounded-2xl bg-white border border-[#E8D5C2] text-center text-xs font-sans text-[#351E1A]/70">
                     Explore around {item.location}. Best stalls gather near major metro exits and tram crossings!

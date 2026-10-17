@@ -1,5 +1,4 @@
-import React from 'react';
-import { X, MapPin, Clock, Utensils, Train, Compass, Quote, Bookmark, Check } from 'lucide-react';
+import { X, MapPin, Clock, Utensils, Train, Compass, Quote, Bookmark, Check, ExternalLink } from 'lucide-react';
 import { Neighborhood } from '../../types/travel';
 
 interface DistrictDetailModalProps {
@@ -94,13 +93,20 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {district.keySpots.map((spot, idx) => (
-                <div
+                <a
                   key={idx}
-                  className="p-3 rounded-xl bg-[#F7EBDD] border border-[#E8D5C2] text-xs font-sans font-semibold text-[#351E1A] flex items-center gap-2"
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot}, ${district.name}, Kolkata`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl bg-[#F7EBDD] hover:bg-[#F0DDC8] border border-[#E8D5C2] hover:border-[#C6532B] text-xs font-sans font-semibold text-[#351E1A] flex items-center justify-between gap-2 group transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+                  title={`View ${spot} on Google Maps`}
                 >
-                  <MapPin className="w-3.5 h-3.5 text-[#C6532B] shrink-0" />
-                  <span>{spot}</span>
-                </div>
+                  <div className="flex items-center gap-2 min-w-0">
+                    <MapPin className="w-3.5 h-3.5 text-[#C6532B] shrink-0 group-hover:scale-110 transition-transform" />
+                    <span className="truncate">{spot}</span>
+                  </div>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#351E1A]/40 group-hover:text-[#C6532B] shrink-0 transition-colors" />
+                </a>
               ))}
             </div>
           </div>

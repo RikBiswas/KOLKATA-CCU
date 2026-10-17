@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MapPin, Clock, Utensils, Compass, Train, ArrowRight, Quote, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MapPin, Clock, Utensils, Compass, Train, ArrowRight, Quote, Sparkles, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { Neighborhood } from '../../types/travel';
 
 interface NeighborhoodsSectionProps {
@@ -14,6 +15,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
   onExploreDistrictLandmarks,
 }) => {
   const [activeDistrictId, setActiveDistrictId] = useState<string>(neighborhoods[0]?.id || 'north-kolkata');
+  const [direction, setDirection] = useState<number>(1);
   const tabsContainerRef = useRef<HTMLDivElement>(null);
 
   const currentIndex = neighborhoods.findIndex((n) => n.id === activeDistrictId);
@@ -21,14 +23,66 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
   const currentDistrict = neighborhoods[safeIndex] || neighborhoods[0];
 
   const handlePrev = () => {
+    setDirection(-1);
     const prevIdx = (safeIndex - 1 + neighborhoods.length) % neighborhoods.length;
     setActiveDistrictId(neighborhoods[prevIdx].id);
   };
 
   const handleNext = () => {
+    setDirection(1);
     const nextIdx = (safeIndex + 1) % neighborhoods.length;
     setActiveDistrictId(neighborhoods[nextIdx].id);
   };
+
+  const handleSelectTab = (districtId: string) => {
+    const targetIdx = neighborhoods.findIndex((n) => n.id === districtId);
+    if (targetIdx !== -1 && targetIdx !== safeIndex) {
+      setDirection(targetIdx > safeIndex ? 1 : -1);
+      setActiveDistrictId(districtId);
+    }
+  };
+
+  const slideVariants: Variants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 80 : -80,
+      opacity: 0,
+      scale: 0.985,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: {
+        x: { type: 'spring', stiffness: 320, damping: 32, mass: 0.8 },
+        opacity: { duration: 0.28 },
+        scale: { duration: 0.28 },
+      },
+    },
+    exit: (dir: number) => ({
+      x: dir > 0 ? -80 : 80,
+      opacity: 0,
+      scale: 0.985,
+      transition: {
+        duration: 0.2,
+        ease: 'easeIn',
+      },
+    }),
+  };
+
+  // Keyboard navigation for smooth browsing
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (document.body.style.overflow === 'hidden') return;
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      if (e.key === 'ArrowLeft') {
+        handlePrev();
+      } else if (e.key === 'ArrowRight') {
+        handleNext();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [safeIndex, neighborhoods.length]);
 
   // Keep active pill scrolled into center view smoothly
   useEffect(() => {
@@ -87,7 +141,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
             <button
               key={district.id}
               data-active={isActive ? "true" : "false"}
-              onClick={() => setActiveDistrictId(district.id)}
+              onClick={() => handleSelectTab(district.id)}
               className={`px-4 py-2 rounded-2xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 shrink-0 ${
                 isActive
                   ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-md scale-102'
@@ -125,8 +179,18 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:translate-x-0.5" />
         </button>
 
-        {/* Info Card Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-10 shadow-[0_12px_40px_rgba(53,30,26,0.06)] relative overflow-hidden transition-all duration-500">
+        {/* Animated District Card with Sliding Navigation */}
+        <div className="overflow-hidden rounded-3xl">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={currentDistrict.id}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-10 shadow-[0_12px_40px_rgba(53,30,26,0.06)] relative overflow-hidden"
+            >
         {/* Subtle decorative background watermarks */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#C6532B]/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -210,12 +274,17 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
               </span>
               <div className="flex flex-wrap gap-2">
                 {currentDistrict.keySpots.map((spot, i) => (
-                  <span
+                  <a
                     key={i}
-                    className="px-3 py-1.5 rounded-xl bg-[#F7EBDD] border border-[#E8D5C2] text-xs font-sans font-medium text-[#351E1A] shadow-xs"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot}, ${currentDistrict.name}, Kolkata`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-xl bg-[#F7EBDD] hover:bg-[#F0DDC8] border border-[#E8D5C2] hover:border-[#C6532B] text-xs font-sans font-medium text-[#351E1A] shadow-xs flex items-center gap-1.5 group transition-all cursor-pointer"
+                    title={`Locate ${spot} on Google Maps`}
                   >
-                    {spot}
-                  </span>
+                    <span>{spot}</span>
+                    <ExternalLink className="w-3 h-3 text-[#351E1A]/40 group-hover:text-[#C6532B] transition-colors" />
+                  </a>
                 ))}
               </div>
             </div>
@@ -272,8 +341,10 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
             </button>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </motion.div>
+    </AnimatePresence>
+  </div>
+</div>
+</section>
   );
 };

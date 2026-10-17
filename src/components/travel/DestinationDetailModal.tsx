@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, Star, MapPin, Clock, Calendar, Check, Compass, Bus, Info, Lightbulb, Bookmark } from 'lucide-react';
+import { X, Star, MapPin, Clock, Calendar, Check, Compass, Bus, Info, Lightbulb, Bookmark, ExternalLink } from 'lucide-react';
 import { Destination } from '../../types/travel';
 
 interface DestinationDetailModalProps {
@@ -63,14 +63,26 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/95 via-[#351E1A]/40 to-transparent pointer-events-none" />
 
           <div className="absolute bottom-4 left-6 right-6 text-[#FFF8EF] space-y-1.5">
-            <div className="flex items-center gap-2">
-              <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#C6532B] text-[10px] font-mono font-bold uppercase tracking-wider text-white">
-                {destination.category}
-              </span>
-              <span className="text-[11px] font-sans text-[#D9A38E] flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5" />
-                <span>{destination.region}</span>
-              </span>
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#C6532B] text-[10px] font-mono font-bold uppercase tracking-wider text-white">
+                  {destination.category}
+                </span>
+                <span className="text-[11px] font-sans text-[#D9A38E] flex items-center gap-1">
+                  <MapPin className="w-3.5 h-3.5" />
+                  <span>{destination.region}</span>
+                </span>
+              </div>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${destination.name}, Kolkata`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-2.5 py-1 rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-xs text-[11px] font-sans font-semibold text-[#FFF8EF] border border-white/30 flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                title={`Open ${destination.name} on Google Maps`}
+              >
+                <span>Google Maps</span>
+                <ExternalLink className="w-3 h-3 text-[#FFF8EF]/80" />
+              </a>
             </div>
 
             <h2 id="modal-dest-title" className="font-serif text-2xl sm:text-3xl font-bold leading-tight">

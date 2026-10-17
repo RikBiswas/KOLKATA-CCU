@@ -24,7 +24,7 @@ export interface CulinaryItem {
   bengaliTitle?: string;
   priceRange?: string;
   heritageLore?: string;
-  famousStalls?: { name: string; address: string; landmark?: string }[];
+  famousStalls?: { name: string; address: string; landmark?: string; mapUrl?: string }[];
   signatureItems?: string[];
   nativeTips?: string[];
   transitGuide?: string;

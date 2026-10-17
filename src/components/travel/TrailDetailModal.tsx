@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, Clock, Star, MapPin, Footprints, Train, Lightbulb, Compass, Bookmark } from 'lucide-react';
+import { X, Clock, Star, MapPin, Footprints, Train, Lightbulb, Compass, Bookmark, ExternalLink } from 'lucide-react';
 import { SuggestedTrail } from '../../types/travel';
 
 interface TrailDetailModalProps {
@@ -174,13 +174,18 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
             </h3>
             <div className="flex flex-wrap gap-2">
               {trail.keyStops.map((stop, idx) => (
-                <span
+                <a
                   key={idx}
-                  className="px-3 py-1.5 rounded-xl bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-medium border border-[#E8D5C2] flex items-center gap-1.5"
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${stop}, Kolkata`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-1.5 rounded-xl bg-[#F7EBDD] hover:bg-[#F0DDC8] text-[#351E1A] text-xs font-sans font-medium border border-[#E8D5C2] hover:border-[#C6532B] flex items-center gap-1.5 group transition-all cursor-pointer shadow-2xs hover:shadow-xs"
+                  title={`Locate ${stop} on Google Maps`}
                 >
-                  <MapPin className="w-3.5 h-3.5 text-[#C6532B]" />
+                  <MapPin className="w-3.5 h-3.5 text-[#C6532B] group-hover:scale-110 transition-transform" />
                   <span>{stop}</span>
-                </span>
+                  <ExternalLink className="w-3 h-3 text-[#351E1A]/40 group-hover:text-[#C6532B] transition-colors" />
+                </a>
               ))}
             </div>
           </div>

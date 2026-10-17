@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Bookmark, CheckCircle2, Circle, Trash2, Printer, MapPin, Share2, Sparkles, BookOpen, Download, Loader2 } from 'lucide-react';
+import { X, Bookmark, CheckCircle2, Circle, Trash2, Printer, MapPin, Share2, Sparkles, BookOpen, Download, Loader2, ExternalLink } from 'lucide-react';
 import { DiaryItem } from '../../types/travel';
 import { downloadDiaryPDF } from '../../utils/pdfGenerator';
 
@@ -214,10 +214,17 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
                       {item.title}
                     </h4>
 
-                    <div className="flex items-center gap-1 text-[11px] text-[#351E1A]/60 truncate">
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${item.title}, ${item.location}, Kolkata`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[11px] text-[#351E1A]/60 hover:text-[#C6532B] truncate group transition-colors"
+                      title={`Open ${item.title} on Google Maps`}
+                    >
                       <MapPin className="w-3 h-3 text-[#C6532B] shrink-0" />
-                      <span className="truncate">{item.location}</span>
-                    </div>
+                      <span className="truncate underline decoration-dotted decoration-[#351E1A]/30 group-hover:decoration-[#C6532B]">{item.location}</span>
+                      <ExternalLink className="w-2.5 h-2.5 opacity-40 group-hover:opacity-100 shrink-0" />
+                    </a>
 
                     {/* Personal Notes Display */}
                     {item.notes && editingNotesId !== item.id && (
