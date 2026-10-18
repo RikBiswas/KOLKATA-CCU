@@ -14,7 +14,7 @@ import { PhotoGallerySection } from './components/travel/PhotoGallerySection';
 import { TransitCodexSection } from './components/travel/TransitCodexSection';
 import { TravelStoriesSection } from './components/travel/TravelStoriesSection';
 import { HowToExploreSection } from './components/travel/HowToExploreSection';
-import { ClosingMonologueSection } from './components/travel/ClosingMonologueSection';
+import { IntroductoryBanner } from './components/travel/IntroductoryBanner';
 import { ThingsToDoSection } from './components/travel/ThingsToDoSection';
 import { TravelFooter } from './components/travel/TravelFooter';
 import { DestinationDetailModal } from './components/travel/DestinationDetailModal';
@@ -355,6 +355,9 @@ export default function App() {
             {/* 2. Introductory Editorial Section: The Art of Slow Travel in Calcutta */}
             <WhyChooseUs />
 
+            {/* Introductory Atmospheric Banner: Prologue to Calcutta */}
+            <IntroductoryBanner onExploreDestinations={handleExploreDestinations} />
+
             {/* 3. Chapter I: Cultural Districts & Living Quarters */}
             <NeighborhoodsSection
               neighborhoods={travelData.neighborhoods}
@@ -409,10 +412,7 @@ export default function App() {
             {/* 11. Practical 1-2-3 Navigation & Transit Steps */}
             <HowToExploreSection onExploreTrails={handleExploreTrails} />
 
-            {/* 12. Epilogue: Poetic Closing Monologue with Riverside Photography */}
-            <ClosingMonologueSection onExploreDestinations={handleExploreDestinations} />
-
-            {/* 13. Things to Do in Kolkata (Auto-sliding mini cards) */}
+            {/* 12. Things to Do in Kolkata (Auto-sliding mini cards) */}
             <ThingsToDoSection onExploreLandmarks={handleExploreDestinations} />
 
             {/* 14. Community Reviews & Feedback Table Section (Synced with Neon PostgreSQL) */}
