@@ -17,6 +17,7 @@ export interface CulinaryItem {
   region: 'all' | 'north' | 'central' | 'south' | 'sweets';
   regionLabel: string;
   category?: 'cabins-fries' | 'mughlai-biryani' | 'street-bites' | 'sweets-desserts' | 'tea-breakfast' | string;
+  categories?: string[];
   timing: string;
   description: string;
   quote: string;
@@ -34,6 +35,47 @@ export interface CulinaryItem {
 
 const ITEMS_PER_PAGE = 4;
 
+const STORY_CATEGORIES: Record<string, string[]> = {
+  'puchka-alchemy': ['street-bites', 'fast-food-restaurant', 'bengali-restaurant'],
+  'kathi-rolls-nizam': ['street-bites', 'fast-food-restaurant', 'mughlai-restaurant', 'indian-restaurant'],
+  'dacres-lane-stew': ['cabins-fries', 'bistro', 'continental-restaurant', 'fast-food-restaurant'],
+  'mitra-cafe-kabiraji': ['cabins-fries', 'bengali-restaurant', 'fast-food-restaurant', 'indian-restaurant'],
+  'awadhi-calcutta-biryani': ['mughlai-biryani', 'biryani-restaurant', 'mughlai-restaurant', 'indian-restaurant'],
+  'anadi-cabin-mughlai': ['cabins-fries', 'mughlai-restaurant', 'fast-food-restaurant', 'indian-restaurant'],
+  'college-st-coffee-house': ['tea-breakfast', 'cafe', 'coffee-shop', 'bistro'],
+  'paramount-daab-sarbat': ['tea-breakfast', 'cafe', 'dessert-restaurant', 'fast-food-restaurant'],
+  'putiram-hing-kochuri': ['tea-breakfast', 'north-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant'],
+  'jhalmuri-telebhaja': ['street-bites', 'fast-food-restaurant', 'bengali-restaurant'],
+  'flurys-tearoom': ['sweets-desserts', 'bakery', 'cafe', 'coffee-shop', 'continental-restaurant', 'dessert-restaurant', 'bistro'],
+  'amrita-mishti-doi': ['sweets-desserts', 'dessert-restaurant', 'bengali-restaurant'],
+  'tiretta-chinese-breakfast': ['tea-breakfast', 'chinese-restaurant', 'asian-restaurant', 'fast-food-restaurant'],
+  'golbari-kosha-mangsho': ['cabins-fries', 'bengali-restaurant', 'indian-restaurant'],
+  'peter-cat-chelo-kebab': ['cabins-fries', 'continental-restaurant', 'bar-grill', 'bistro'],
+  'kalika-telebhaja': ['street-bites', 'fast-food-restaurant', 'bengali-restaurant'],
+  'balwant-singh-doodh-cola': ['tea-breakfast', 'coffee-shop', 'cafe', 'north-indian-restaurant', 'fast-food-restaurant'],
+  'nakur-nandy-sandesh': ['sweets-desserts', 'dessert-restaurant', 'bengali-restaurant'],
+  'apanjan-fish-fry': ['cabins-fries', 'bengali-restaurant', 'fast-food-restaurant'],
+  'bhim-chandra-nag-ledikeni': ['sweets-desserts', 'dessert-restaurant', 'bengali-restaurant'],
+  'allen-kitchen-prawn-cutlet': ['cabins-fries', 'bengali-restaurant', 'fast-food-restaurant'],
+  'dilkhusha-cabin-dimer-devil': ['cabins-fries', 'bengali-restaurant', 'fast-food-restaurant'],
+  'adi-haridas-modak-luchi': ['tea-breakfast', 'bengali-restaurant', 'indian-restaurant', 'fast-food-restaurant'],
+  'chhangani-club-kachori': ['street-bites', 'north-indian-restaurant', 'fast-food-restaurant', 'indian-restaurant'],
+  'nahoum-sons-bakery': ['sweets-desserts', 'bakery', 'dessert-restaurant', 'cafe'],
+  'mocambo-devilled-crab': ['cabins-fries', 'continental-restaurant', 'bar-grill', 'bistro', 'italian-restaurant'],
+  'royal-indian-hotel-chaap': ['mughlai-biryani', 'mughlai-restaurant', 'biryani-restaurant', 'indian-restaurant', 'north-indian-restaurant'],
+  'shiraz-mutton-biryani': ['mughlai-biryani', 'biryani-restaurant', 'mughlai-restaurant', 'indian-restaurant'],
+  'campari-gariahhat-fish-roll': ['cabins-fries', 'fast-food-restaurant', 'bengali-restaurant'],
+  'balaram-mullick-baked-rosogolla': ['sweets-desserts', 'dessert-restaurant', 'bengali-restaurant'],
+  'maharaja-maharani-kachori': ['tea-breakfast', 'north-indian-restaurant', 'fast-food-restaurant', 'indian-restaurant'],
+  'kasturi-kochu-pata-chingri': ['mughlai-biryani', 'bengali-restaurant', 'biryani-restaurant', 'indian-restaurant'],
+  'fire-and-ice-pizzeria': ['italian-restaurant', 'pizza-restaurant', 'bistro', 'continental-restaurant'],
+  'tangra-chinatown-golden-joy': ['chinese-restaurant', 'asian-restaurant', 'fast-food-restaurant', 'bar-grill'],
+  'anand-restaurant-russell-st': ['south-indian-restaurant', 'indian-restaurant', 'cafe', 'fast-food-restaurant'],
+  'olypub-park-street': ['pub', 'bar-grill', 'bistro', 'continental-restaurant'],
+  'the-dhaba-ballygunge': ['north-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant'],
+  'roastery-coffee-house-kolkata': ['coffee-shop', 'cafe', 'bistro', 'dessert-restaurant'],
+};
+
 export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
   onExploreFoodTrail,
   onBookmarkCulinary,
@@ -46,6 +88,38 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
   const [selectedItem, setSelectedItem] = useState<CulinaryItem | null>(null);
   const [isAutoPlay, setIsAutoPlay] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
+
+  const categoryScrollRef = React.useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
+  const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
+
+  const checkScrollability = () => {
+    const el = categoryScrollRef.current;
+    if (el) {
+      const { scrollLeft, scrollWidth, clientWidth } = el;
+      setCanScrollLeft(scrollLeft > 6);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+    }
+  };
+
+  const handleScrollCategory = (direction: 'left' | 'right') => {
+    const el = categoryScrollRef.current;
+    if (el) {
+      const scrollAmount = 300;
+      el.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth',
+      });
+      setTimeout(checkScrollability, 320);
+    }
+  };
+
+  useEffect(() => {
+    checkScrollability();
+    const handleResize = () => checkScrollability();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const culinaryStories: CulinaryItem[] = [
     {
@@ -1111,6 +1185,210 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       ],
       transitGuide: 'Take Blue Line Metro to Kalighat, followed by a 5-minute auto to Hindustan Park / Gariahat.',
       atmosphere: 'Comfortable, warm heritage dining room filled with families and the pungent, appetizing fragrance of mustard and steamed banana leaves.'
+    },
+    {
+      id: 'fire-and-ice-pizzeria',
+      title: 'Fire and Ice Pizzeria’s Woodfired Thin Crust & Ravioli',
+      subtitle: 'Kolkata’s Iconic Italian Trattoria on Chowringhee',
+      bengaliTitle: 'ফায়ার অ্যান্ড আইস পিজ্জারিয়া',
+      location: 'Kanak Building, 41 Chowringhee Road (Near Park Street)',
+      region: 'central',
+      regionLabel: 'Central Kolkata',
+      category: 'italian-restaurant',
+      categories: ['italian-restaurant', 'pizza-restaurant', 'bistro', 'continental-restaurant'],
+      timing: 'Best: 12:30 PM – 4:00 PM & 7:00 PM – 11:00 PM',
+      priceRange: '₹800 – ₹1,600 for two',
+      description: 'Founded in 2005 by Italian native Annamaria Forgione, Fire and Ice brought authentic wood-fired Neapolitan pizza, handmade spinach ricotta ravioli, and Quattro Formaggi to Kolkata’s heart.',
+      heritageLore: 'Tucked inside the neoclassical Kanak Building right at the intersection of Chowringhee and Park Street, Fire and Ice Pizzeria introduced Calcuttans to authentic Italian culinary standards. Annamaria Forgione imported the traditional wood-fired brick oven and stone-ground flour to replicate Napoli crusts—crisp, blistered, yet tenderly chewy. The "Fire of Bengal" pizza boldly marries Italian San Marzano tomato sauce, fresh mozzarella, and fiery local bird\'s-eye chilies, creating a beloved cross-continental masterpiece.',
+      quote: '“The blistered crackle of true Neapolitan dough meeting Kolkata’s fiery soul.”',
+      tag: 'Authentic Italian',
+      image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Fire and Ice Pizzeria', address: 'Kanak Building, 41 Chowringhee Rd', landmark: 'Opposite Jeevan Deep building / Park Street Metro (Est. 2005)' },
+        { name: 'Fabbrica Della Pizza', address: '8A Allenby Road, Elgin', landmark: 'Renowned for sourdough Neapolitan pizza' }
+      ],
+      signatureItems: [
+        'Fire of the Bengal Pizza (Fiery local chillies, roasted garlic & melted mozzarella)',
+        'Quattro Formaggi (Four cheese woodfired blistered pizza)',
+        'Spinach & Ricotta Ravioli in Sage Butter',
+        'Classic Italian Tiramisu steeped with espresso & mascarpone'
+      ],
+      nativeTips: [
+        'Book a table in advance on weekend evenings as the woodfired oven draws pizza lovers from across the city.',
+        'Try their homemade chili-infused olive oil drizzled right on the blistered crust.'
+      ],
+      transitGuide: 'Park Street Metro Station Gate 1. Walk 50 meters north on Chowringhee Road into Kanak Building.',
+      atmosphere: 'Warm rustic brick walls, aromatic burning oak wood, Italian opera melodies, and clinking wine glasses.'
+    },
+    {
+      id: 'tangra-chinatown-golden-joy',
+      title: 'Golden Joy & Beijing: Tangra Chinatown Hakka Feasts',
+      subtitle: 'The Birthplace of Indian Chinese Cuisine in East Kolkata',
+      bengaliTitle: 'ট্যাংরা চায়নাটাউনের গোল্ডেন জয়',
+      location: 'Matheswartala Road, Tangra Chinatown',
+      region: 'central',
+      regionLabel: 'East-Central Tangra',
+      category: 'chinese-restaurant',
+      categories: ['chinese-restaurant', 'asian-restaurant', 'fast-food-restaurant', 'bar-grill'],
+      timing: 'Best: 12:30 PM – 3:30 PM & 6:30 PM – 11:30 PM',
+      priceRange: '₹600 – ₹1,200 for two',
+      description: 'The beating heart of India’s only Chinatown. Tangra’s legendary family kitchens dish out colossal platters of Hakka Chili Chicken, Golden Fried Prawns, and Crispy Pepper Squid.',
+      heritageLore: 'When Hakka Chinese migrants settled in Kolkata during the late 18th century, they established tanneries in Tangra. Soon, home kitchens began serving fellow workers with ancestral recipes adapted with local fiery green chilies, dark soy sauce, and garlic. Golden Joy and Beijing Restaurant pioneered the globally adored "Indo-Chinese" genre. The woks roar over high-pressure jet flames, tossing noodles and dumplings in seconds.',
+      quote: '“Where century-old Hakka family recipes met Bengal’s insatiable love for heat.”',
+      tag: 'Tangra Chinatown Legend',
+      image: 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Golden Joy Restaurant', address: 'Matheswartala Road, Tangra Chinatown', landmark: 'Chinatown main strip' },
+        { name: 'Beijing Restaurant', address: '77/1 Christopher Road, Tangra', landmark: 'Known for Peking delicacies and golden prawns' }
+      ],
+      signatureItems: [
+        'Tangra Style Dry Chili Chicken with crunchy spring onions',
+        'Crispy Golden Fried Tiger Prawns with hot garlic sauce',
+        'Hakka Pork Chowmein tossed on smoking wok',
+        'Steamed Chicken Wantons in chili garlic oil'
+      ],
+      nativeTips: [
+        'Tangra portions are famously massive—always order family-style to share among friends.',
+        'Visit during Chinese New Year in January/February for dazzling lion and dragon dances on the street.'
+      ],
+      transitGuide: 'Take taxi or auto from Science City or Sealdah Station down the EM Bypass to Matheswartala Road.',
+      atmosphere: 'Red festive lanterns, crackling high-flame woks, joyful multi-generation family gatherings, and aroma of toasted sesame.'
+    },
+    {
+      id: 'anand-restaurant-russell-st',
+      title: 'Anand Restaurant’s Paper Butter Dosa & Filter Kaapi',
+      subtitle: 'Russell Street’s Pure-Ghee Temple of South Indian Craft',
+      bengaliTitle: 'আনন্দ রেস্তোরাঁর সাউথ ইন্ডিয়ান ধোসা',
+      location: '19 Russell Street (Near Park Street)',
+      region: 'central',
+      regionLabel: 'Central Kolkata',
+      category: 'south-indian-restaurant',
+      categories: ['south-indian-restaurant', 'indian-restaurant', 'cafe', 'fast-food-restaurant'],
+      timing: 'Best: 8:00 AM – 11:00 AM Breakfast & 4:30 PM – 9:00 PM Tiffin',
+      priceRange: '₹120 – ₹300 for two',
+      description: 'Since the 1960s, Anand on Russell Street has been the gold standard of authentic South Indian vegetarian cuisine in Kolkata—famous for 2-foot long golden Paper Butter Dosas and frothy brass-tumbler Filter Coffee.',
+      heritageLore: 'Founded in the 1960s by South Indian culinary migrants on quiet Russell Street right behind Park Street, Anand became the cherished morning ritual for Kolkata’s corporate executives, lawyers, and food connoisseurs. Every dosa is poured from perfectly fermented urad dal and parboiled rice batter onto giant circular iron griddles seasoned with pure cow ghee. The sambar is slow-cooked with fresh drumsticks, shallots, and hand-ground spices, accompanied by fresh coconut chutney ground every morning.',
+      quote: '“Two feet of paper-thin golden crunch dunked in scalding drumstick sambar.”',
+      tag: 'Pure South Indian',
+      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Anand Restaurant', address: '19 Russell Street, Park Street area', landmark: 'Opposite Russell Exchange / Near Bengal Club (Est. 1960s)' },
+        { name: 'Banana Leaf', address: 'Lake Market, Southern Avenue', landmark: 'Famous for authentic banana-leaf South Indian thalis' }
+      ],
+      signatureItems: [
+        'Special Paper Butter Masala Dosa with spiced aloo filling',
+        'Steaming Idli-Vada Combo submerged in hot sambar',
+        'Crisp Rava Onion Dosa with green chili chutney',
+        'South Indian Filter Kaapi served in traditional brass dabara'
+      ],
+      nativeTips: [
+        'Pour the filter coffee back and forth between the brass tumbler and dabara to generate a velvety layer of froth before drinking.',
+        'The Onion Rava Dosa arrives laced with roasted cashews and cumin—order it extra crisp!'
+      ],
+      transitGuide: 'Park Street Metro Station. Walk 2 minutes down Park Street and turn into Russell Street.',
+      atmosphere: 'Bustling breakfast hum, aroma of roasted cumin, asafoetida, ghee, and steaming filter coffee in gleaming brass cups.'
+    },
+    {
+      id: 'olypub-park-street',
+      title: 'Olypub’s 1947 Heritage Beef Steak & Chilled Beer Adda',
+      subtitle: 'Kolkata’s Timeless Democratic Park Street Watering Hole',
+      bengaliTitle: 'অলি পাবের ঐতিহাসিক বিয়ার ও আড্ডা',
+      location: '21 Park Street (Est. 1947)',
+      region: 'central',
+      regionLabel: 'Park Street Boulevard',
+      category: 'pub',
+      categories: ['pub', 'bar-grill', 'bistro', 'continental-restaurant'],
+      timing: 'Best: 12:00 PM – 11:00 PM Daily',
+      priceRange: '₹300 – ₹700 for two',
+      description: 'Established in 1947 as Olympia Bar, "Oly" is Park Street’s legendary democratic institution. Famous for dark mahogany booths, chilled beer, Chateaubriand steak, and unending intellectual debates.',
+      heritageLore: 'While glamorous neon lounges come and go on Park Street, Olypub has stood stubbornly timeless since 1947. Founded as Olympia Bar, it democratized Kolkata’s nightlife by providing affordable beers and legendary European grills to university scholars, journalists, artists, and working Calcuttans. Its signature Chateaubriand steak—tenderized fillet sizzled with onions, crushed black pepper, boiled butter veggies, and French fries—is legendary across Bengal.',
+      quote: '“Where poets, professors, and bohemians have debated the fate of the world over cold pints since 1947.”',
+      tag: '1947 Heritage Tavern',
+      image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Olypub (Olympia Bar)', address: '21 Park Street, Karnani Mansion', landmark: 'Right beside Kusum Rolls on Park Street (Est. 1947)' },
+        { name: 'Someplace Else', address: 'The Park Hotel, 17 Park Street', landmark: 'Iconic British pub known for live rock bands' }
+      ],
+      signatureItems: [
+        'Chateaubriand Steak with fried egg and mashed potatoes',
+        'Chicken Steak in rich brown pepper jus',
+        'Crispy Fish Finger with pungent Kasundi mustard',
+        'Chilled Draught Pitchers with spicy fried peanuts'
+      ],
+      nativeTips: [
+        'Grab a wooden booth on the ground floor to immerse yourself in decades of Calcutta intellectual adda.',
+        'Order the steak medium-well with an extra sunny-side-up egg on top.'
+      ],
+      transitGuide: 'Park Street Metro Station. Walk 100 meters east down Park Street, right next to Karnani Mansion.',
+      atmosphere: 'Dark mahogany booths, low ambient lighting, clinking beer glasses, and passionate debates spanning football, politics, and literature.'
+    },
+    {
+      id: 'the-dhaba-ballygunge',
+      title: 'The Dhaba’s 1945 Ballygunge Tadka Dal & Keema Naan',
+      subtitle: 'Generations of Late-Night Smoky Highway Flavors in the Heart of South Kolkata',
+      bengaliTitle: 'বালিগঞ্জের ঐতিহ্যবাহী ধাবার তরকা ডাল',
+      location: '54 Ballygunge Circular Road (Est. 1945)',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'north-indian-restaurant',
+      categories: ['north-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant'],
+      timing: 'Best: 12:00 PM – 3:30 PM & 7:00 PM – 1:30 AM Late Night',
+      priceRange: '₹250 – ₹600 for two',
+      description: 'Founded right after World War II in 1945, The Dhaba on Ballygunge Phari pioneered North Indian highway food in Kolkata, famous for its smoky charcoal-cooked Egg Tadka Dal, Butter Chicken, and stuffed kulchas.',
+      heritageLore: 'When Punjabi transporters and families settled in South Calcutta in the 1940s, The Dhaba brought authentic charcoal clay-tandoor cooking to Ballygunge Circular Road. Its most iconic contribution to Kolkata’s culinary vernacular is "Egg Tadka"—green whole moong dal slow-cooked overnight on charcoal embers, finished on a screaming-hot iron skillet with scrambled eggs, butter, roasted cumin, and ginger. Generations of Calcuttans make midnight car drives to Ballygunge Phari solely for hot rumali rotis and piping egg tadka.',
+      quote: '“The smoky perfume of charcoal tandoor and butter tadka comforting nocturnal Kolkata since 1945.”',
+      tag: '1945 Highway Legend',
+      image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'The Dhaba', address: '54 Ballygunge Circular Road, Ballygunge Phari', landmark: 'Ballygunge Phari crossing (Est. 1945)' },
+        { name: 'Honey Da Dhaba', address: 'VIP Road, Kankurgachi', landmark: 'Late-night Punjabi dining' }
+      ],
+      signatureItems: [
+        'Special Mutton Keema Tadka Dal with scrambled eggs',
+        'Smoky Butter Chicken in velvety tomato gravy',
+        'Tandoori Garlic Naan straight from clay oven',
+        'Kolkata Style Reshmi Kebab with fresh mint chutney'
+      ],
+      nativeTips: [
+        'Ask for "Double Dimer Tadka" (double egg) for an extra rich and creamy texture.',
+        'Late-night adda tip: Park outside after midnight for steaming aluminum foil packages delivered right to your car.'
+      ],
+      transitGuide: 'Netaji Bhavan Metro Station, followed by a 7-minute cab ride down Ballygunge Circular Road.',
+      atmosphere: 'Aroma of charcoal tandoor, melting dollops of white butter, roaring engines, and bustling midnight supper crowds.'
+    },
+    {
+      id: 'roastery-coffee-house-kolkata',
+      title: 'Roastery Coffee House’s Heritage Bungalow & Specialty Brews',
+      subtitle: 'Artisanal Pour-Overs & Cold Brews in a 19th-Century South Calcutta Courtyard',
+      bengaliTitle: 'রোস্টারি কফি হাউস ও স্পেশালিটি কফি',
+      location: '70B Hindustan Park, Gariahat',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'coffee-shop',
+      categories: ['coffee-shop', 'cafe', 'bistro', 'dessert-restaurant'],
+      timing: 'Best: 8:00 AM – 10:30 PM Daily',
+      priceRange: '₹350 – ₹750 for two',
+      description: 'Set inside a vintage colonial bungalow with a verdant courtyard in Hindustan Park, Roastery Coffee House represents Kolkata’s specialty coffee renaissance—serving precision single-origin pour-overs, Cascara brews, and artisanal platters.',
+      heritageLore: 'Kolkata’s storied coffee culture, long centered around the nostalgic debates of College Street Coffee House, found its contemporary revival at Roastery Coffee House in Hindustan Park. Situated inside an aristocratic heritage mansion with red-oxide floors, checkerboard verandahs, and banyan foliage, Roastery sources single-estate beans from Indian plantations in Chikmagalur and Araku Valley. Skilled baristas prepare manual pour-overs using V60, Aeropress, and Syphon brewers.',
+      quote: '“Where slow-dripped single origin coffees brew beneath century-old banyan boughs.”',
+      tag: 'Specialty Coffee Sanctuary',
+      image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Roastery Coffee House', address: '70B Hindustan Park, Gariahat', landmark: 'Inside vintage bungalow, near Gariahat Post Office' },
+        { name: 'Sienna Store & Cafe', address: '49/1 Hindustan Park', landmark: 'Artisanal ceramics and slow food cafe' }
+      ],
+      signatureItems: [
+        'Specialty Cold Brew Coffee poured over crystal ice balls',
+        'Monsoon Malabar Manual Pour-Over (V60)',
+        'Cranberry Coffee Sparkler',
+        'Artisanal Onion Rings & Cheesy Macaroni Sizzler'
+      ],
+      nativeTips: [
+        'Sit in the outdoor garden courtyard during winter afternoons for soft sunlight filtering through vintage trees.',
+        'Try their Cascara iced tea brewed from sun-dried coffee cherry skins.'
+      ],
+      transitGuide: 'Kalighat Metro Station. Walk 8 minutes east down Rash Behari Avenue into Hindustan Park.',
+      atmosphere: 'Chirping songbirds in courtyard trees, aroma of freshly roasted Arabica beans, soft indie jazz, and relaxed creative conversations.'
     }
   ];
 
@@ -1122,42 +1400,162 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
     { id: 'south', label: 'South Kolkata', count: culinaryStories.filter(c => c.region === 'south').length },
   ];
 
+  const getCategoryCount = (categoryId: string) => {
+    if (categoryId === 'all') {
+      return culinaryStories.filter(c => activeRegion === 'all' || c.region === activeRegion).length;
+    }
+    return culinaryStories.filter(c => {
+      const matchesRegion = activeRegion === 'all' || c.region === activeRegion;
+      const itemCategories = c.categories || STORY_CATEGORIES[c.id] || [];
+      const matchesCategory = c.category === categoryId || itemCategories.includes(categoryId);
+      return matchesRegion && matchesCategory;
+    }).length;
+  };
+
   const categoryFilters = [
     {
       id: 'all',
       label: 'All Cuisines',
       icon: '🍽️',
-      count: culinaryStories.filter(c => activeRegion === 'all' || c.region === activeRegion).length,
+      count: getCategoryCount('all'),
+    },
+    {
+      id: 'asian-restaurant',
+      label: 'Asian restaurant',
+      icon: '🥢',
+      count: getCategoryCount('asian-restaurant'),
+    },
+    {
+      id: 'bakery',
+      label: 'Bakery',
+      icon: '🥐',
+      count: getCategoryCount('bakery'),
+    },
+    {
+      id: 'bar-grill',
+      label: 'Bar & grill',
+      icon: '🥩',
+      count: getCategoryCount('bar-grill'),
+    },
+    {
+      id: 'bengali-restaurant',
+      label: 'Bengali restaurant',
+      icon: '🐟',
+      count: getCategoryCount('bengali-restaurant'),
+    },
+    {
+      id: 'biryani-restaurant',
+      label: 'Biryani restaurant',
+      icon: '🍲',
+      count: getCategoryCount('biryani-restaurant'),
+    },
+    {
+      id: 'bistro',
+      label: 'Bistro',
+      icon: '🍷',
+      count: getCategoryCount('bistro'),
+    },
+    {
+      id: 'cafe',
+      label: 'Cafe',
+      icon: '☕',
+      count: getCategoryCount('cafe'),
+    },
+    {
+      id: 'chinese-restaurant',
+      label: 'Chinese restaurant',
+      icon: '🥟',
+      count: getCategoryCount('chinese-restaurant'),
+    },
+    {
+      id: 'coffee-shop',
+      label: 'Coffee shop',
+      icon: '🧋',
+      count: getCategoryCount('coffee-shop'),
+    },
+    {
+      id: 'continental-restaurant',
+      label: 'Continental restaurant',
+      icon: '🍴',
+      count: getCategoryCount('continental-restaurant'),
+    },
+    {
+      id: 'dessert-restaurant',
+      label: 'Dessert restaurant',
+      icon: '🍨',
+      count: getCategoryCount('dessert-restaurant'),
+    },
+    {
+      id: 'fast-food-restaurant',
+      label: 'Fast food restaurant',
+      icon: '🌯',
+      count: getCategoryCount('fast-food-restaurant'),
+    },
+    {
+      id: 'indian-restaurant',
+      label: 'Indian restaurant',
+      icon: '🍛',
+      count: getCategoryCount('indian-restaurant'),
+    },
+    {
+      id: 'italian-restaurant',
+      label: 'Italian restaurant',
+      icon: '🍝',
+      count: getCategoryCount('italian-restaurant'),
+    },
+    {
+      id: 'mughlai-restaurant',
+      label: 'Mughlai restaurant',
+      icon: '🍖',
+      count: getCategoryCount('mughlai-restaurant'),
+    },
+    {
+      id: 'north-indian-restaurant',
+      label: 'North Indian restaurant',
+      icon: '🫓',
+      count: getCategoryCount('north-indian-restaurant'),
+    },
+    {
+      id: 'pizza-restaurant',
+      label: 'Pizza restaurant',
+      icon: '🍕',
+      count: getCategoryCount('pizza-restaurant'),
+    },
+    {
+      id: 'pub',
+      label: 'Pub',
+      icon: '🍺',
+      count: getCategoryCount('pub'),
+    },
+    {
+      id: 'south-indian-restaurant',
+      label: 'South Indian restaurant',
+      icon: '🥥',
+      count: getCategoryCount('south-indian-restaurant'),
     },
     {
       id: 'cabins-fries',
       label: 'Heritage Cabins & Fries',
       icon: '🍗',
-      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'cabins-fries').length,
-    },
-    {
-      id: 'mughlai-biryani',
-      label: 'Biryani & Mughlai',
-      icon: '🍲',
-      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'mughlai-biryani').length,
+      count: getCategoryCount('cabins-fries'),
     },
     {
       id: 'street-bites',
       label: 'Street Bites & Puchka',
       icon: '🥟',
-      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'street-bites').length,
+      count: getCategoryCount('street-bites'),
     },
     {
       id: 'sweets-desserts',
       label: 'Iconic Mishti & Bakes',
       icon: '🍮',
-      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'sweets-desserts').length,
+      count: getCategoryCount('sweets-desserts'),
     },
     {
       id: 'tea-breakfast',
       label: 'Dawn Breakfast & Adda',
       icon: '☕',
-      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'tea-breakfast').length,
+      count: getCategoryCount('tea-breakfast'),
     },
   ];
 
@@ -1175,7 +1573,11 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
 
   const filteredItems = culinaryStories.filter((item) => {
     const matchesRegion = activeRegion === 'all' || item.region === activeRegion;
-    const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+    const itemCategories = item.categories || STORY_CATEGORIES[item.id] || [];
+    const matchesCategory =
+      activeCategory === 'all' ||
+      item.category === activeCategory ||
+      itemCategories.includes(activeCategory);
     return matchesRegion && matchesCategory;
   });
 
@@ -1391,30 +1793,69 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         })}
       </div>
 
-      {/* Food Category Filter Chips */}
-      <div className="relative z-10 flex items-center gap-2 overflow-x-auto pb-4 mb-4 no-scrollbar scroll-smooth">
-        {categoryFilters.map((cat) => {
-          const isActive = activeCategory === cat.id;
-          return (
-            <button
-              key={cat.id}
-              onClick={() => handleCategoryChange(cat.id)}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                isActive
-                  ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-md border border-[#FFF8EF]/35 scale-102'
-                  : 'bg-black/20 text-[#FFF8EF]/80 border border-[#FFF8EF]/15 hover:bg-black/35 hover:text-white'
-              }`}
-            >
-              <span>{cat.icon}</span>
-              <span>{cat.label}</span>
-              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono ${
-                isActive ? 'bg-white/20 text-[#FFF8EF]' : 'bg-black/30 text-[#FFF8EF]/70'
-              }`}>
-                {cat.count}
-              </span>
-            </button>
-          );
-        })}
+      {/* Food Category Filter Chips with Side Navigation Arrows */}
+      <div className="relative z-10 mb-4 flex items-center gap-1.5 sm:gap-2">
+        {/* Left Arrow Button */}
+        <button
+          type="button"
+          onClick={() => handleScrollCategory('left')}
+          disabled={!canScrollLeft}
+          aria-label="Scroll cuisines left"
+          title={canScrollLeft ? 'Scroll cuisines left' : 'Start of cuisines list'}
+          className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ${
+            canScrollLeft
+              ? 'bg-[#351E1A] hover:bg-[#20100d] text-[#FFF8EF] border border-[#FFF8EF]/30 cursor-pointer active:scale-90 hover:scale-105'
+              : 'bg-black/15 text-[#FFF8EF]/25 border border-white/5 cursor-not-allowed opacity-40'
+          }`}
+        >
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+        </button>
+
+        {/* Scrollable Pills Track */}
+        <div
+          ref={categoryScrollRef}
+          onScroll={checkScrollability}
+          className="flex-1 flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth"
+        >
+          {categoryFilters.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => handleCategoryChange(cat.id)}
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                  isActive
+                    ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-md border border-[#FFF8EF]/35 scale-102'
+                    : 'bg-black/20 text-[#FFF8EF]/80 border border-[#FFF8EF]/15 hover:bg-black/35 hover:text-white'
+                }`}
+              >
+                <span>{cat.icon}</span>
+                <span>{cat.label}</span>
+                <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono ${
+                  isActive ? 'bg-white/20 text-[#FFF8EF]' : 'bg-black/30 text-[#FFF8EF]/70'
+                }`}>
+                  {cat.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Right Arrow Button */}
+        <button
+          type="button"
+          onClick={() => handleScrollCategory('right')}
+          disabled={!canScrollRight}
+          aria-label="Scroll cuisines right"
+          title={canScrollRight ? 'Scroll cuisines right' : 'End of cuisines list'}
+          className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ${
+            canScrollRight
+              ? 'bg-[#351E1A] hover:bg-[#20100d] text-[#FFF8EF] border border-[#FFF8EF]/30 cursor-pointer active:scale-90 hover:scale-105'
+              : 'bg-black/15 text-[#FFF8EF]/25 border border-white/5 cursor-not-allowed opacity-40'
+          }`}
+        >
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+        </button>
       </div>
 
       {/* Visual Autoplay Story Progress Bars */}
