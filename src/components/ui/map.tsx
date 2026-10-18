@@ -884,29 +884,42 @@ function MapControls({
   }, [map]);
 
   const handleLocate = useCallback(() => {
-    if (!("geolocation" in navigator)) return;
+    if (!("geolocation" in navigator)) {
+      console.warn("Geolocation is not supported by this browser.");
+      return;
+    }
     setWaitingForLocation(true);
+
+    const onGeoSuccess = (pos: GeolocationPosition) => {
+      const coords = {
+        longitude: pos.coords.longitude,
+        latitude: pos.coords.latitude,
+      };
+      map?.flyTo({
+        center: [coords.longitude, coords.latitude],
+        zoom: 14,
+        duration: 1500,
+      });
+      onLocate?.(coords);
+      setWaitingForLocation(false);
+    };
+
+    // Try high accuracy first (best for devices with hardware GPS)
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const coords = {
-          longitude: pos.coords.longitude,
-          latitude: pos.coords.latitude,
-        };
-        map?.flyTo({
-          center: [coords.longitude, coords.latitude],
-          zoom: 14,
-          duration: 1500,
-        });
-        onLocate?.(coords);
-        setWaitingForLocation(false);
+      onGeoSuccess,
+      (highAccError) => {
+        console.warn("High accuracy GPS timed out or unavailable, retrying network geolocation:", highAccError.message);
+        // Fallback to standard/network accuracy (best for desktop/laptops without GPS hardware)
+        navigator.geolocation.getCurrentPosition(
+          onGeoSuccess,
+          (lowAccError) => {
+            console.error("Network geolocation also failed:", lowAccError.message);
+            setWaitingForLocation(false);
+          },
+          { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }
+        );
       },
-      (error) => {
-        console.error("Error getting location:", error);
-        setWaitingForLocation(false);
-      },
-      // Without a timeout the spec default is Infinity: a dismissed permission
-      // prompt would leave the button disabled forever.
-      { timeout: 10000 },
+      { enableHighAccuracy: true, timeout: 7000, maximumAge: 30000 },
     );
   }, [map, onLocate]);
 

@@ -352,12 +352,14 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
   const mapRef = useRef<MapRef | null>(null);
   const [selectedPlaceId, setSelectedPlaceId] = useState<string>('victoria-memorial');
   const [userLocation, setUserLocation] = useState<UserLocation>({
-    name: 'My Live Location',
+    name: 'Kolkata Center',
     lng: 88.3639,
     lat: 22.5726,
-    isGPS: true,
+    isGPS: false,
   });
   const [isLocatingUser, setIsLocatingUser] = useState(false);
+  const [gpsStatus, setGpsStatus] = useState<'locating' | 'locked' | 'approximate' | 'fallback' | 'denied'>('locating');
+  const [gpsError, setGpsError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All Places');
   const [searchQuery, setSearchQuery] = useState('');
   const [mapTheme, setMapTheme] = useState<'light' | 'dark'>('light');
@@ -366,37 +368,122 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
   // OpenFreeMap 3D style URL
   const openStreetMap3DStyle = 'https://tiles.openfreemap.org/styles/liberty';
 
-  // Automatically detect user's actual live device location on component mount
-  useEffect(() => {
-    if (typeof window !== 'undefined' && 'geolocation' in navigator) {
-      setIsLocatingUser(true);
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const liveLoc: UserLocation = {
-            name: 'My Current Location',
-            lng: pos.coords.longitude,
-            lat: pos.coords.latitude,
-            isGPS: true,
-          };
-          setUserLocation(liveLoc);
-          setIsLocatingUser(false);
-        },
-        (error) => {
-          console.warn('Live location access denied or unavailable, using Kolkata center fallback:', error.message);
-          setUserLocation({
-            name: 'My Location (Kolkata)',
-            lng: 88.3639,
-            lat: 22.5726,
-            isGPS: true,
-          });
-          setIsLocatingUser(false);
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 30000 }
-      );
-    } else {
+  // Robust live location detection: High Accuracy -> Network Geolocation -> IP Fallback -> Center Fallback
+  const detectLiveLocation = useCallback((isManualClick = false) => {
+    if (typeof window === 'undefined' || !('geolocation' in navigator)) {
+      setGpsStatus('fallback');
+      setGpsError('Geolocation is not supported by your browser.');
       setIsLocatingUser(false);
+      return;
     }
+
+    setIsLocatingUser(true);
+    setGpsStatus('locating');
+    setGpsError(null);
+
+    const onGeoSuccess = (pos: GeolocationPosition, _source = 'GPS') => {
+      const liveLoc: UserLocation = {
+        name: 'My Current Location',
+        lng: pos.coords.longitude,
+        lat: pos.coords.latitude,
+        isGPS: true,
+      };
+      setUserLocation(liveLoc);
+      setGpsStatus('locked');
+      setGpsError(null);
+      setIsLocatingUser(false);
+      if (mapRef.current) {
+        mapRef.current.flyTo({ center: [liveLoc.lng, liveLoc.lat], zoom: 13.5, duration: 1000 });
+      }
+    };
+
+    const tryNetworkFallback = () => {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => onGeoSuccess(pos, 'Network'),
+        async (lowAccError) => {
+          console.warn('Network geolocation failed:', lowAccError.message);
+
+          if (lowAccError.code === lowAccError.PERMISSION_DENIED) {
+            setGpsStatus('denied');
+            setGpsError('Location access was denied in browser permissions. Please allow location access in your address bar.');
+            setIsLocatingUser(false);
+            return;
+          }
+
+          // Try client-side IP-based location fallback if GPS and network fail
+          try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 4000);
+            const res = await fetch('https://ipapi.co/json/', { signal: controller.signal });
+            clearTimeout(timeoutId);
+            if (res.ok) {
+              const data = await res.json();
+              if (data.latitude && data.longitude) {
+                const ipLoc: UserLocation = {
+                  name: data.city ? `My Location (${data.city})` : 'My Location (IP)',
+                  lng: Number(data.longitude),
+                  lat: Number(data.latitude),
+                  isGPS: true,
+                };
+                setUserLocation(ipLoc);
+                setGpsStatus('approximate');
+                setGpsError(null);
+                setIsLocatingUser(false);
+                if (mapRef.current) {
+                  mapRef.current.flyTo({ center: [ipLoc.lng, ipLoc.lat], zoom: 12.5, duration: 1000 });
+                }
+                return;
+              }
+            }
+          } catch (e) {
+            console.warn('IP geolocation fallback failed or timed out:', e);
+          }
+
+          // Fallback to Kolkata center if all methods fail
+          setGpsStatus('fallback');
+          if (isManualClick) {
+            setGpsError('Could not retrieve device GPS. Please check location permissions in your browser.');
+          }
+          setIsLocatingUser(false);
+        },
+        { enableHighAccuracy: false, timeout: 15000, maximumAge: 60000 }
+      );
+    };
+
+    // First attempt: High accuracy GPS (for phones/tablets or devices with GPS hardware)
+    navigator.geolocation.getCurrentPosition(
+      (pos) => onGeoSuccess(pos, 'GPS'),
+      (highAccError) => {
+        if (highAccError.code === highAccError.PERMISSION_DENIED) {
+          setGpsStatus('denied');
+          setGpsError('Location permission denied. Click address bar lock icon to allow location.');
+          setIsLocatingUser(false);
+          return;
+        }
+        console.warn('High accuracy GPS timed out or unavailable, retrying network geolocation...');
+        tryNetworkFallback();
+      },
+      { enableHighAccuracy: true, timeout: 6000, maximumAge: 30000 }
+    );
   }, []);
+
+  // Detect live location on mount & watch permission changes
+  useEffect(() => {
+    detectLiveLocation(false);
+
+    if (typeof navigator !== 'undefined' && 'permissions' in navigator && navigator.permissions?.query) {
+      navigator.permissions.query({ name: 'geolocation' as PermissionName }).then((permissionStatus) => {
+        permissionStatus.onchange = () => {
+          if (permissionStatus.state === 'granted') {
+            detectLiveLocation(false);
+          } else if (permissionStatus.state === 'denied') {
+            setGpsStatus('denied');
+            setGpsError('Location permission is blocked in your browser.');
+          }
+        };
+      }).catch(() => {});
+    }
+  }, [detectLiveLocation]);
 
   // Ease map pitch when toggling 3D mode
   useEffect(() => {
@@ -570,33 +657,7 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
 
   // Request browser geolocation for live location
   const handleDetectLiveLocation = () => {
-    if (!('geolocation' in navigator)) {
-      alert('Geolocation is not supported by your browser.');
-      return;
-    }
-
-    setIsLocatingUser(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const coords = {
-          name: 'My Live GPS Location',
-          lng: pos.coords.longitude,
-          lat: pos.coords.latitude,
-          isGPS: true,
-        };
-        setUserLocation(coords);
-        setIsLocatingUser(false);
-        if (mapRef.current) {
-          mapRef.current.flyTo({ center: [coords.lng, coords.lat], zoom: 13.5, duration: 800 });
-        }
-      },
-      (error) => {
-        console.error('Error fetching GPS position:', error);
-        alert('Could not retrieve current location.');
-        setIsLocatingUser(false);
-      },
-      { timeout: 10000, enableHighAccuracy: true }
-    );
+    detectLiveLocation(true);
   };
 
   // Fly smoothly to landmark
@@ -772,20 +833,81 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Map Canvas (8 cols on Desktop) */}
           <div className="lg:col-span-8 bg-[#FFF8EF] rounded-2xl sm:rounded-3xl border border-[#E8D5C2] overflow-hidden shadow-xl p-1 relative">
-            {/* Top Bar inside Map Frame */}
-            <div className="bg-[#F7EBDD]/90 backdrop-blur-md px-4 py-2.5 border-b border-[#E8D5C2] flex items-center justify-between text-xs text-[#582822]">
-              <div className="flex items-center gap-2">
-                <span className="size-2 rounded-full bg-emerald-500 animate-ping" />
-                <span className="font-semibold text-[#351E1A]">
+            {/* Top Bar inside Map Frame with GPS Status & Manual Trigger */}
+            <div className="bg-[#F7EBDD]/95 backdrop-blur-md px-3 sm:px-4 py-2 border-b border-[#E8D5C2] flex flex-wrap items-center justify-between gap-2 text-xs text-[#582822]">
+              <div className="flex items-center gap-2 flex-wrap">
+                {/* Live GPS Status Pill */}
+                <div
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-2xs cursor-pointer hover:bg-[#F7EBDD] transition-colors"
+                  onClick={() => detectLiveLocation(true)}
+                  title="Click to detect or refresh your live device location"
+                >
+                  {isLocatingUser ? (
+                    <Loader2 className="size-3 animate-spin text-[#C6532B]" />
+                  ) : gpsStatus === 'locked' ? (
+                    <span className="size-2 rounded-full bg-emerald-500 animate-ping" />
+                  ) : gpsStatus === 'denied' ? (
+                    <span className="size-2 rounded-full bg-red-500" />
+                  ) : (
+                    <span className="size-2 rounded-full bg-amber-500" />
+                  )}
+                  <span className="text-[11px] font-mono font-semibold">
+                    {isLocatingUser
+                      ? 'Detecting GPS...'
+                      : gpsStatus === 'locked'
+                      ? 'GPS Active'
+                      : gpsStatus === 'approximate'
+                      ? 'Approximate Location'
+                      : gpsStatus === 'denied'
+                      ? 'GPS Denied'
+                      : 'Kolkata Fallback'}
+                  </span>
+                </div>
+
+                <span className="font-semibold text-[#351E1A] truncate max-w-[200px] sm:max-w-xs">
                   {selectedPlace ? `${userLocation.name} ➔ ${selectedPlace.name}` : 'Kolkata Distance Navigator'}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-[11px] font-mono text-[#C6532B]">
+
+              <div className="flex items-center gap-2">
                 {activeRoute && (
-                  <span>{formatDistance(activeRoute.distance)} • {formatDuration(activeRoute.duration)}</span>
+                  <span className="text-[11px] font-mono font-bold text-[#C6532B] bg-[#C6532B]/10 px-2 py-0.5 rounded-md">
+                    {formatDistance(activeRoute.distance)} • {formatDuration(activeRoute.duration)}
+                  </span>
                 )}
+
+                {/* Explicit Detect GPS Button */}
+                <button
+                  type="button"
+                  onClick={() => detectLiveLocation(true)}
+                  disabled={isLocatingUser}
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFF8EF] border border-[#C6532B]/40 hover:bg-[#C6532B] hover:text-white text-[#C6532B] font-sans text-xs font-semibold shadow-2xs transition-all active:scale-95 cursor-pointer disabled:opacity-60"
+                  title="Detect your device's live GPS coordinates"
+                >
+                  <Crosshair className={cn("size-3", isLocatingUser && "animate-spin")} />
+                  <span className="hidden sm:inline">
+                    {gpsStatus === 'locked' ? 'Refresh GPS' : 'Fetch Live GPS'}
+                  </span>
+                </button>
               </div>
             </div>
+
+            {/* GPS Error & Permission Guidance Banner */}
+            {gpsError && (
+              <div className="bg-amber-50/95 backdrop-blur-xs border-b border-amber-200 px-3 sm:px-4 py-2 flex items-center justify-between text-xs text-amber-900 transition-all">
+                <div className="flex items-center gap-2">
+                  <LocateFixed className="size-3.5 text-amber-600 shrink-0" />
+                  <span className="text-[11px] sm:text-xs leading-tight">{gpsError}</span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => detectLiveLocation(true)}
+                  className="text-[11px] font-bold text-[#C6532B] hover:text-[#582822] underline cursor-pointer shrink-0 ml-2"
+                >
+                  Retry GPS
+                </button>
+              </div>
+            )}
 
             {/* mapcn Map Container with explicit height */}
             <div className="h-[480px] sm:h-[540px] lg:h-[620px] w-full relative">
@@ -850,6 +972,18 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
                   showCompass
                   showLocate
                   showFullscreen
+                  onLocate={(coords) => {
+                    const liveLoc: UserLocation = {
+                      name: 'My Current Location',
+                      lng: coords.longitude,
+                      lat: coords.latitude,
+                      isGPS: true,
+                    };
+                    setUserLocation(liveLoc);
+                    setGpsStatus('locked');
+                    setGpsError(null);
+                    setIsLocatingUser(false);
+                  }}
                 />
 
                 {/* 1. OSRM LIVE ROUTE HIGHLIGHT USING MAPCN MapRoute */}
@@ -1153,10 +1287,17 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
             </div>
 
             {/* Bottom Insight Footer */}
-            <div className="p-3 bg-[#F7EBDD]/80 border-t border-[#E8D5C2] text-center">
-              <p className="text-[11px] text-[#582822]/80">
-                📍 <span className="font-semibold">Distance Guide:</span> Distances and routes are calculated in real time from your live device GPS location.
+            <div className="p-3 bg-[#F7EBDD]/80 border-t border-[#E8D5C2] flex items-center justify-between gap-2 text-xs">
+              <p className="text-[11px] text-[#582822]/80 truncate">
+                📍 <span className="font-semibold">Live GPS:</span> {userLocation.name}
               </p>
+              <button
+                type="button"
+                onClick={() => detectLiveLocation(true)}
+                className="text-[11px] font-bold text-[#C6532B] hover:text-[#582822] underline cursor-pointer shrink-0"
+              >
+                {gpsStatus === 'locked' ? 'Update GPS' : 'Detect GPS'}
+              </button>
             </div>
           </div>
         </div>
