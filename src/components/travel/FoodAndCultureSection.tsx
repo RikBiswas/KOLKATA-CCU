@@ -14,7 +14,7 @@ export interface CulinaryItem {
   title: string;
   subtitle: string;
   location: string;
-  region: 'all' | 'north' | 'central' | 'south' | 'sweets';
+  region: 'all' | 'north' | 'central' | 'south' | 'east' | 'outer' | 'sweets';
   regionLabel: string;
   category?: 'cabins-fries' | 'mughlai-biryani' | 'street-bites' | 'sweets-desserts' | 'tea-breakfast' | string;
   categories?: string[];
