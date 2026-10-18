@@ -452,7 +452,7 @@ export const travelData = {
       tag: 'Literary & Academic',
       rating: 4.9,
       reviewsCount: 610,
-      imageUrl: '/images/trails/college-street-boipara.jpg',
+      imageUrl: '/images/trails/college-street-boipara.webp',
       description: 'Immerse yourself in the world’s largest secondhand book open-air bazaar. Stretching over 1.5 kilometers, College Street ("Boi Para") is a literary wonderland of towering wooden kiosks packed to the rafters with rare first editions, antique maps, poetry journals, and academic tomes. Anchored by the intellectual crucible of the Bengal Renaissance, this trail is a dream for bookworms, scholars, and coffee conversationalists.',
       itinerary: [
         { time: '01:30 PM – 02:30 PM', duration: '60 mins', title: 'Presidency University & Calcutta University Campuses', desc: 'Marvel at the red-brick clock towers and neoclassical quadrangles of Presidency University (estd. 1817 as Hindu College) and the imposing colonnaded facade of Calcutta University.' },

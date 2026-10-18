@@ -14,7 +14,7 @@ export interface CulinaryItem {
   title: string;
   subtitle: string;
   location: string;
-  region: 'all' | 'north' | 'central' | 'south' | 'sweets';
+  region: 'all' | 'north' | 'central' | 'south' | 'sweets' | 'east' | 'outer' | string;
   regionLabel: string;
   category?: 'cabins-fries' | 'mughlai-biryani' | 'street-bites' | 'sweets-desserts' | 'tea-breakfast' | string;
   categories?: string[];
@@ -2348,16 +2348,16 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
   };
 
   return (
-    <section id="culture" className="py-16 sm:py-24 my-8 rounded-3xl bg-[#C6532B] text-[#FFF8EF] p-6 sm:p-12 lg:p-16 relative overflow-hidden shadow-[0_16px_50px_rgba(198,83,43,0.22)] scroll-mt-24">
+    <section id="culture" className="py-8 sm:py-10 px-6 sm:px-10 lg:px-12 my-6 rounded-3xl bg-[#C6532B] text-[#FFF8EF] relative overflow-hidden shadow-[0_16px_50px_rgba(198,83,43,0.22)] scroll-mt-24">
       {/* Decorative background motifs */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-80 h-80 bg-black/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-2xl pointer-events-none" />
 
       {/* Header & Page Stepper */}
-      <div className="relative z-10 flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#FFF8EF]/80 uppercase">
+      <div className="relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-5 sm:mb-6">
+        <div className="max-w-3xl">
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#FFF8EF]/80 uppercase">
               Chapter III &bull; Gastronomy &amp; Culture
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
@@ -2366,23 +2366,23 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
             </span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-5xl md:text-6xl font-medium tracking-tight text-[#FFF8EF] leading-[1.08]">
+          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight text-[#FFF8EF] leading-snug">
             Where every street corner smells of <span className="italic text-[#FFF8EF]/90">celebration</span>
           </h2>
 
-          <p className="font-sans text-xs sm:text-sm md:text-base text-[#FFF8EF]/85 leading-relaxed mt-4">
+          <p className="font-sans text-xs sm:text-sm text-[#FFF8EF]/85 leading-relaxed mt-2 max-w-2xl">
             In Kolkata, food is neither a commodity nor an afterthought. It is a cultural sacrament,
             an artistic passion, and the centerpiece of every deep conversation. Explore 4 iconic culinary stops at a time.
           </p>
         </div>
 
         {/* Top-Right Page Indicator, Autoplay Controls & Navigation Dots */}
-        <div className="flex items-center gap-2.5 shrink-0 flex-wrap justify-end">
+        <div className="flex items-center gap-2 shrink-0 flex-wrap justify-start lg:justify-end">
           {/* Autoplay Play/Pause Toggle */}
           {totalPages > 1 && (
             <button
               onClick={() => setIsAutoPlay((prev) => !prev)}
-              className="px-3.5 py-1.5 rounded-full bg-black/25 hover:bg-black/35 border border-[#FFF8EF]/25 text-[#FFF8EF] text-xs font-sans font-medium transition-all flex items-center gap-2 cursor-pointer backdrop-blur-xs shadow-xs active:scale-95"
+              className="px-3 py-1.5 rounded-full bg-black/25 hover:bg-black/35 border border-[#FFF8EF]/25 text-[#FFF8EF] text-xs font-sans font-medium transition-all flex items-center gap-2 cursor-pointer backdrop-blur-xs shadow-xs active:scale-95"
               title={isAutoPlay ? (isHovered ? 'Paused while cursor is over cards' : 'Click to pause auto-carousel') : 'Click to resume auto-carousel'}
               aria-label={isAutoPlay ? 'Pause auto-carousel' : 'Resume auto-carousel'}
             >
@@ -2417,7 +2417,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
 
           {/* Dots Indicator */}
           {totalPages > 1 && (
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/15 backdrop-blur-xs">
+            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-full bg-black/15 backdrop-blur-xs max-w-xs overflow-x-auto no-scrollbar">
               {Array.from({ length: totalPages }).map((_, i) => {
                 const pageNum = i + 1;
                 const isActive = pageNum === safeCurrentPage;
@@ -2432,9 +2432,9 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                     }}
                     aria-label={`Go to page ${pageNum}`}
                     title={`Page ${pageNum}`}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${isActive
-                        ? 'w-6 bg-[#FFF8EF] shadow-xs'
-                        : 'w-2 bg-[#FFF8EF]/40 hover:bg-[#FFF8EF]/75'
+                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${isActive
+                        ? 'w-5 bg-[#FFF8EF] shadow-xs'
+                        : 'w-1.5 bg-[#FFF8EF]/40 hover:bg-[#FFF8EF]/75'
                       }`}
                   />
                 );
@@ -2443,7 +2443,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
           )}
 
           {/* Page Counter */}
-          <div className="px-4 py-2 rounded-full bg-[#FFF8EF] text-[#351E1A] text-xs font-sans font-bold shadow-sm flex items-center gap-2">
+          <div className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] text-[#351E1A] text-xs font-sans font-bold shadow-sm flex items-center gap-1.5">
             <span className="text-[#C6532B]">Page {safeCurrentPage}</span>
             <span className="text-[#351E1A]/40">/</span>
             <span>{totalPages}</span>

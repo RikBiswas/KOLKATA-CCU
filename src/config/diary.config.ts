@@ -282,7 +282,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "College Street \"Boi Para\" & Renaissance Trail",
     "category": "Trail",
     "location": "Kolkata Heritage Trail",
-    "imageUrl": "/images/trails/college-street-boipara.jpg",
+    "imageUrl": "/images/trails/college-street-boipara.webp",
     "addedAt": "Oct 18, 2026",
     "notes": "The world’s largest secondhand book market, academic institutions & Coffee House adda • 3.5 Hours (Afternoon) (2.2 km leisurely walk) • 01:30 PM – 05:00 PM (Monday – Saturday; stalls closed Sundays)",
     "visited": false
