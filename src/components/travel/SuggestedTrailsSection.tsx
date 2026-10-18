@@ -43,14 +43,14 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
   return (
     <section 
       id="trails" 
-      className="py-14 sm:py-20 scroll-mt-24"
+      className="py-10 sm:py-14 scroll-mt-24"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Section Eyebrow */}
       <div className="flex items-center gap-2 mb-3">
         <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
-          Chapter II &bull; Self-Guided Routes
+          Chapter III &bull; Self-Guided Walking &amp; Transit Routes
         </span>
         <span className="text-[#D9A38E]">&bull;</span>
         <span className="font-bengali text-xs text-[#582822] font-semibold">
@@ -147,7 +147,7 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
           {startIndex > 0 && (
             <button
               onClick={handlePrev}
-              className="absolute -left-3 sm:-left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
+              className="absolute left-1 sm:-left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
               aria-label="Previous trails"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -219,11 +219,11 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
                       </span>
                     </div>
 
-                    <h3 className="font-serif text-2xl font-bold group-hover:text-[#D9A38E] transition-colors leading-snug">
+                    <h3 className="font-serif text-2xl font-bold group-hover:text-[#D9A38E] transition-colors leading-snug min-h-[56px] flex items-start">
                       {trail.title}
                     </h3>
 
-                    <p className="font-sans text-xs text-[#FFF8EF]/80 line-clamp-2 leading-relaxed">
+                    <p className="font-sans text-xs text-[#FFF8EF]/80 line-clamp-2 leading-relaxed min-h-[36px]">
                       {trail.subtitle}
                     </p>
 
@@ -259,7 +259,7 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
           {startIndex < maxIndex && (
             <button
               onClick={handleNext}
-              className="absolute -right-3 sm:-right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
+              className="absolute right-1 sm:-right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
               aria-label="Next trails"
             >
               <ChevronRight className="w-5 h-5" />

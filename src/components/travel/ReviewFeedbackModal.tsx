@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Star, X, Send, MessageSquarePlus, CheckCircle, AlertCircle, RefreshCw, User, Briefcase, MessageSquare, Sparkles, Clock, AlertTriangle } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
 
@@ -122,7 +123,11 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
       fetchReviews();
       setSuccessMessage(null);
       setErrorMessage(null);
+      document.body.style.overflow = 'hidden';
     }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, [isOpen]);
 
   // Handle escape key
@@ -215,11 +220,16 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
     }
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-fade-in"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="review-modal-title"
+    >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#351E1A]/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#351E1A]/70 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
@@ -232,10 +242,10 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
               <Star className="w-5 h-5 fill-current text-[#FFF8EF]" />
             </div>
             <div>
-              <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] tracking-tight flex items-center gap-2">
+              <h2 id="review-modal-title" className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] tracking-tight flex items-center gap-2">
                 <span>Feedback & Reviews</span>
               </h2>
-              <p className="text-xs text-[#351E1A]/70 font-sans">
+              <p className="text-xs text-[#351E1A]/80 font-sans">
                 Review this portfolio and share your insights with the author
               </p>
             </div>
@@ -243,10 +253,10 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#351E1A]/5 hover:bg-[#351E1A]/10 text-[#351E1A] flex items-center justify-center transition-colors cursor-pointer"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#351E1A]/10 hover:bg-[#351E1A]/20 text-[#351E1A] flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close review modal"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
 
@@ -563,6 +573,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

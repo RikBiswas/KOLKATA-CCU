@@ -3,8 +3,8 @@ import { Compass, Map, ShieldCheck, Landmark, HeartHandshake, MapPin, Feather, S
 
 export const WhyChooseUs: React.FC = () => {
   return (
-    <section className="py-16 sm:py-24 bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2] p-8 sm:p-12 lg:p-16 my-8 sm:my-14 shadow-[0_8px_30px_rgba(53,30,26,0.04)]">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+    <section className="my-8 sm:my-10 bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2] p-6 sm:p-10 lg:p-12 shadow-[0_8px_30px_rgba(53,30,26,0.04)]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left Column: Editorial Manifesto & Trust Stats */}
         <div className="lg:col-span-6 space-y-6 sm:space-y-8">
           <div className="space-y-3">

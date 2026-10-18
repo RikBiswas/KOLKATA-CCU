@@ -96,13 +96,13 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
   if (!currentDistrict) return null;
 
   return (
-    <section id="neighborhoods" className="py-14 sm:py-20 my-8 scroll-mt-24">
+    <section id="neighborhoods" className="py-10 sm:py-14 scroll-mt-24">
       {/* Editorial Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6 sm:mb-8">
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
-              Chapter II &bull; Cultural Districts &amp; Quarters
+              Chapter I &bull; Cultural Districts &amp; Living Quarters
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
             <span className="font-bengali text-xs text-[#582822] font-semibold">
@@ -133,7 +133,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
       {/* District Pill Navigation Tabs (Scrollbar hidden) */}
       <div
         ref={tabsContainerRef}
-        className="flex items-center gap-2 overflow-x-auto pb-2 mb-8 no-scrollbar scroll-smooth"
+        className="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar scroll-smooth"
       >
         {neighborhoods.map((district) => {
           const isActive = district.id === activeDistrictId;
@@ -162,7 +162,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
         {/* Left Side Navigation Arrow Button */}
         <button
           onClick={handlePrev}
-          className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
+          className="absolute left-1 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
           title={`Previous: ${neighborhoods[(safeIndex - 1 + neighborhoods.length) % neighborhoods.length].name}`}
           aria-label="Previous district card"
         >
@@ -172,7 +172,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
         {/* Right Side Navigation Arrow Button */}
         <button
           onClick={handleNext}
-          className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
+          className="absolute right-1 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
           title={`Next: ${neighborhoods[(safeIndex + 1) % neighborhoods.length].name}`}
           aria-label="Next district card"
         >

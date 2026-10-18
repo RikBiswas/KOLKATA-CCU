@@ -127,13 +127,13 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
   const visibleDestinations = filtered.slice(scrollIndex, scrollIndex + itemsPerPage);
 
   return (
-    <section id="destinations" className="py-14 sm:py-20 my-8 scroll-mt-24">
+    <section id="destinations" className="py-10 sm:py-14 scroll-mt-24">
       {/* Section Header with Editorial Framing */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
-              Chapter I &bull; Historic Landmarks
+              Chapter II &bull; Historic Architectural Landmarks
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
             <span className="font-bengali text-xs text-[#582822] font-semibold">
@@ -280,7 +280,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
         {scrollIndex > 0 && (
           <button
             onClick={handlePrev}
-            className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
+            className="absolute left-1 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
             aria-label="Previous landmarks"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:-translate-x-0.5" />
@@ -360,17 +360,17 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
                   {/* Editorial Card Body */}
                   <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
                     <div className="space-y-1.5">
-                      <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
+                      <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug min-h-[56px] flex items-start">
                         {dest.name}
                       </h3>
 
-                      <p className="font-sans text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed">
+                      <p className="font-sans text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed min-h-[36px]">
                         {dest.tagline}
                       </p>
                     </div>
 
                     {/* Footer Info: Rating + Visiting Hours */}
-                    <div className="pt-2 border-t border-[#E8D5C2]/70 space-y-2">
+                    <div className="pt-2 border-t border-[#E8D5C2]/70 space-y-2 mt-auto">
                       <div className="flex items-center justify-between text-xs font-sans text-[#351E1A]/80">
                         <div className="flex items-center gap-1">
                           <Star className="w-3.5 h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
@@ -402,7 +402,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
       {scrollIndex < maxIndex && (
         <button
           onClick={handleNext}
-          className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
+          className="absolute right-1 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
           aria-label="Next landmarks"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:translate-x-0.5" />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Calendar, Clock, Footprints, Train, Utensils, Download, Copy, Check, Sparkles, MapPin, X, Loader2 } from 'lucide-react';
 import { travelData } from '../../config/travel.config';
@@ -17,6 +17,22 @@ export const ItineraryBuilderModal: React.FC<ItineraryBuilderModalProps> = ({
   const [pace, setPace] = useState<'walking' | 'transit' | 'foodie'>('walking');
   const [copied, setCopied] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -184,7 +200,13 @@ Curated with love by WANDER CCU (https://wanderccu.local)
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fadeIn" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="itinerary-modal-title"
+    >
       <div className="relative w-full max-w-2xl bg-[#FFF8EF] rounded-3xl border-2 border-[#E8D5C2] shadow-[0_24px_60px_rgba(53,30,26,0.25)] overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header with archival deckle border */}
         <div className="p-6 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-start justify-between">
@@ -195,17 +217,18 @@ Curated with love by WANDER CCU (https://wanderccu.local)
                 Interactive Itinerary Planner
               </span>
             </div>
-            <h3 className="font-serif text-2xl font-bold text-[#351E1A]">
+            <h3 id="itinerary-modal-title" className="font-serif text-2xl font-bold text-[#351E1A]">
               Design Your Day in Kolkata
             </h3>
-            <p className="font-sans text-xs text-[#351E1A]/70">
+            <p className="font-sans text-xs text-[#351E1A]/80">
               Customize duration and pacing to generate a verified, self-guided route.
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A]/60 hover:text-[#351E1A] flex items-center justify-center cursor-pointer transition-colors"
+            className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A]/70 hover:text-[#351E1A] flex items-center justify-center cursor-pointer transition-colors"
+            aria-label="Close itinerary planner"
           >
             <X className="w-4 h-4" />
           </button>

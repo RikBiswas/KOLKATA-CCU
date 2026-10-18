@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Bookmark, CheckCircle2, Circle, Trash2, Printer, MapPin, Share2, Sparkles, BookOpen, Download, Loader2, ExternalLink } from 'lucide-react';
 import { DiaryItem } from '../../types/travel';
@@ -30,6 +30,22 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
   const [editingNotesId, setEditingNotesId] = useState<string | null>(null);
   const [tempNote, setTempNote] = useState('');
   const [isDownloading, setIsDownloading] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -69,7 +85,13 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="diary-modal-title"
+    >
       <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden">
         {/* Editorial Top Bar */}
         <div className="p-6 sm:p-8 border-b border-[#E8D5C2] bg-[#F7EBDD]/60 flex items-start justify-between gap-4">
@@ -81,7 +103,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
               </span>
             </div>
 
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
+            <h2 id="diary-modal-title" className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
               My Calcutta Pocket Diary
             </h2>
 

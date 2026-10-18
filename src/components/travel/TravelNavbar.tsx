@@ -120,12 +120,12 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
     >
       {/* Floating Centered Capsule */}
       <div
-        className={`pointer-events-auto w-full max-w-7xl transition-all duration-300 rounded-full border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] ${isScrolled
-            ? 'bg-[#FFF8EF]/95 backdrop-blur-md py-2 px-3 sm:px-5 shadow-[0_12px_36px_rgba(53,30,26,0.12)]'
-            : 'bg-[#F7EBDD]/90 backdrop-blur-md py-2.5 sm:py-3 px-3 sm:px-5'
+        className={`pointer-events-auto w-full max-w-7xl xl:max-w-[1380px] transition-all duration-300 rounded-full border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] ${isScrolled
+            ? 'bg-[#FFF8EF]/95 backdrop-blur-md py-2 px-3 sm:px-4 xl:px-5 shadow-[0_12px_36px_rgba(53,30,26,0.12)]'
+            : 'bg-[#F7EBDD]/90 backdrop-blur-md py-2.5 sm:py-3 px-3 sm:px-4 xl:px-5'
           }`}
       >
-        <div className="flex items-center justify-between gap-2 sm:gap-4">
+        <div className="flex items-center justify-between gap-1.5 sm:gap-3 xl:gap-4">
           {/* Brand Wordmark & Descriptor */}
           <a
             href="#home"
@@ -133,7 +133,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
               e.preventDefault();
               handleLinkClick('home');
             }}
-            className="group flex items-center gap-2.5 focus:outline-none shrink-0"
+            className="group flex items-center gap-2 sm:gap-2.5 focus:outline-none shrink-0"
           >
             <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#351E1A] text-[#FFF8EF] flex items-center justify-center shadow-xs group-hover:bg-[#C6532B] transition-colors duration-300">
               <Compass className="w-4 h-4 text-[#F7EBDD] group-hover:rotate-45 transition-transform duration-500" />
@@ -144,21 +144,22 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                   WANDER<span className="text-[#C6532B] font-sans text-xs font-black tracking-widest ml-0.5">.CCU</span>
                 </span>
               </div>
-              <span className="text-[10px] font-sans font-medium text-[#351E1A]/60 tracking-wider hidden sm:inline-block">
-                The Calcutta Journal &bull; <span className="font-bengali text-[#C6532B] font-semibold">স্মৃতির শহর</span>
+              <span className="text-[10px] font-sans font-medium text-[#351E1A]/75 tracking-wider hidden sm:inline-block">
+                <span className="xl:hidden 2xl:inline">The Calcutta Journal &bull; </span>
+                <span className="font-bengali text-[#C6532B] font-semibold">স্মৃতির শহর</span>
               </span>
             </div>
           </a>
 
           {/* Desktop Nav Links (hidden when search is active to keep review button perfectly aligned inside capsule) */}
-          <nav className={`${showSearchInput ? 'hidden' : 'hidden xl:flex'} items-center space-x-1 font-sans text-[11px] font-medium text-[#351E1A]/80 shrink-0`}>
+          <nav className={`${showSearchInput ? 'hidden' : 'hidden xl:flex'} items-center space-x-0.5 2xl:space-x-1 font-sans text-[11px] font-medium text-[#351E1A]/80 shrink-0`}>
             {navLinks.map((link) => {
               const isActive = activeTab === link.id;
               return (
                 <button
                   key={link.id}
                   onClick={() => handleLinkClick(link.id)}
-                  className={`relative px-2.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${isActive
+                  className={`relative px-2 2xl:px-2.5 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${isActive
                       ? 'text-[#FFF8EF] bg-[#351E1A] font-semibold shadow-xs'
                       : 'text-[#351E1A]/80 hover:text-[#351E1A] hover:bg-[#E8D5C2]/50'
                     }`}
@@ -173,7 +174,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
           </nav>
 
           {/* Search, Diary & CTA Buttons */}
-          <div className={`flex items-center gap-1.5 sm:gap-2.5 ${showSearchInput ? 'flex-1 justify-end min-w-0' : 'shrink-0'}`}>
+          <div className={`flex items-center gap-1.5 sm:gap-2 xl:gap-2 2xl:gap-2.5 ${showSearchInput ? 'flex-1 justify-end min-w-0' : 'shrink-0'}`}>
             {/* Search Input Bar or Toggle */}
             <div
               ref={searchContainerRef}
@@ -194,9 +195,9 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                     }}
                     placeholder="Search Victoria, Tram, Puchka..."
                     autoFocus
-                    className="w-full text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-7 py-1.5 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B] focus:border-[#C6532B] shadow-inner"
+                    className="w-full text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-7 py-1.5 text-[#351E1A] placeholder-[#351E1A]/60 focus:outline-none focus:ring-1 focus:ring-[#C6532B] focus:border-[#C6532B] shadow-inner"
                   />
-                  <Search className="w-3.5 h-3.5 text-[#351E1A]/40 absolute left-2.5 pointer-events-none" />
+                  <Search className="w-3.5 h-3.5 text-[#351E1A]/60 absolute left-2.5 pointer-events-none" />
                   <button
                     onClick={() => {
                       if (searchQuery) onSearchChange('');
@@ -226,7 +227,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                 onClick={onOpenItineraryBuilder}
                 className={`${
                   showSearchInput ? 'hidden' : 'hidden md:flex'
-                } items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer active:scale-95 shrink-0`}
+                } items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer active:scale-95 shrink-0`}
                 title="Build Custom Day-Trip Itinerary"
               >
                 <Calendar className="w-3.5 h-3.5 text-[#C6532B]" />
@@ -238,7 +239,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
             {onOpenDiary && (
               <button
                 onClick={onOpenDiary}
-                className="relative p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] hover:bg-[#E8D5C2] text-[#351E1A] text-xs font-sans font-semibold flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
+                className="relative p-1.5 sm:px-2.5 xl:px-3 sm:py-1.5 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] hover:bg-[#E8D5C2] text-[#351E1A] text-xs font-sans font-semibold flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
                 title="Open My Calcutta Diary"
               >
                 <Bookmark className="w-3.5 h-3.5 text-[#C6532B]" />
@@ -254,7 +255,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
             {/* Review / Feedback CTA Button */}
             <button
               onClick={onOpenReviewModal}
-              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-sans font-bold tracking-wide text-white bg-[#C6532B] hover:bg-[#B04520] active:scale-95 rounded-full shadow-sm transition-all duration-200 cursor-pointer shrink-0 group"
+              className="inline-flex items-center gap-1.5 px-3 xl:px-3.5 py-1.5 text-xs font-sans font-bold tracking-wide text-white bg-[#C6532B] hover:bg-[#B04520] active:scale-95 rounded-full shadow-sm transition-all duration-200 cursor-pointer shrink-0 group"
               title="Leave a Review / Feedback"
               aria-label="Open review and feedback form"
             >
@@ -282,13 +283,15 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder="Search landmarks, trails, food..."
-                className="w-full text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-4 py-2 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
+                aria-label="Search landmarks, trails, food"
+                className="w-full text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-8 py-2 text-[#351E1A] placeholder-[#351E1A]/60 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
               />
-              <Search className="w-3.5 h-3.5 text-[#351E1A]/40 absolute left-2.5 top-2.5 pointer-events-none" />
+              <Search className="w-3.5 h-3.5 text-[#351E1A]/60 absolute left-2.5 top-2.5 pointer-events-none" />
               {searchQuery && (
                 <button
                   onClick={() => onSearchChange('')}
-                  className="absolute right-3 top-2 text-xs text-[#351E1A]/60"
+                  className="absolute right-3 top-2 text-xs text-[#351E1A]/70 hover:text-[#351E1A]"
+                  aria-label="Clear search query"
                 >
                   &times;
                 </button>
@@ -310,7 +313,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
               ))}
             </div>
 
-            <div className="pt-2 flex items-center justify-between text-[11px] text-[#351E1A]/60 px-1">
+            <div className="pt-2 flex items-center justify-between text-[11px] text-[#351E1A]/75 px-1">
               <span>Non-Commercial Calcutta Travel Journal</span>
               <span className="font-bengali text-[#C6532B]">স্মৃতির শহর</span>
             </div>

@@ -50,7 +50,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
   return (
     <section
       id="blog"
-      className="py-14 sm:py-20 my-8"
+      className="py-10 sm:py-14 scroll-mt-24"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -59,7 +59,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
-              Chapter IV &bull; Historical Lores &amp; Places
+              Chapter VII &bull; Historical Lores &amp; Literary Essays
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
             <span className="font-bengali text-xs text-[#582822] font-semibold">
@@ -190,7 +190,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
                       </div>
 
                       <h3 className={cn(
-                        'font-serif font-bold text-[#351E1A] transition-colors leading-snug line-clamp-2',
+                        'font-serif font-bold text-[#351E1A] transition-colors leading-snug line-clamp-2 min-h-[56px] flex items-start',
                         isActive ? 'text-xl sm:text-2xl text-[#351E1A]' : 'text-lg sm:text-xl text-[#351E1A]/90'
                       )}>
                         {story.title}
@@ -202,7 +202,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
                     </div>
 
                     {/* Action Bar */}
-                    <div className="pt-2 border-t border-[#E8D5C2]/70 flex items-center justify-between text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
+                    <div className="pt-2 border-t border-[#E8D5C2]/70 flex items-center justify-between text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform mt-auto">
                       <span>Explore Lore &amp; History</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>

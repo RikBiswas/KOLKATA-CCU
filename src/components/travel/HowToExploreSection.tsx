@@ -7,11 +7,11 @@ interface HowToExploreSectionProps {
 
 export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExploreTrails }) => {
   return (
-    <section id="how-to-explore" className="py-16 sm:py-24 border-t border-[#E8D5C2]">
+    <section id="how-to-explore" className="py-10 sm:py-14 border-t border-[#E8D5C2]">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16 space-y-3">
+      <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12 space-y-3">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[10px] font-mono font-bold uppercase tracking-widest text-[#C6532B]">
-          <span>Chapter V &bull; The Explorer&apos;s Codex</span>
+          <span>Chapter IX &bull; The Slow Explorer&apos;s Guide</span>
         </div>
 
         <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight">
@@ -24,16 +24,16 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
       </div>
 
       {/* 3 Step Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
         {/* Step 1 */}
-        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group">
+        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group flex flex-col justify-start h-full">
           <div className="w-14 h-14 rounded-2xl bg-[#582822] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
             <Compass className="w-6 h-6 text-[#D9A38E]" />
           </div>
           <span className="text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
             Step 01
           </span>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[40px] flex items-center justify-center">
             Select Your Corridor
           </h3>
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
@@ -42,14 +42,14 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
         </div>
 
         {/* Step 2 */}
-        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group">
+        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group flex flex-col justify-start h-full">
           <div className="w-14 h-14 rounded-2xl bg-[#C6532B] text-white mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
             <Train className="w-6 h-6 text-[#FFF8EF]" />
           </div>
           <span className="text-[11px] font-mono font-bold text-[#582822] uppercase tracking-widest block">
             Step 02
           </span>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[40px] flex items-center justify-center">
             Board Nostalgic Transit
           </h3>
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
@@ -58,14 +58,14 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
         </div>
 
         {/* Step 3 */}
-        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group">
+        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group flex flex-col justify-start h-full">
           <div className="w-14 h-14 rounded-2xl bg-[#351E1A] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
             <Heart className="w-6 h-6 text-[#C5A25A]" />
           </div>
           <span className="text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
             Step 03
           </span>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[40px] flex items-center justify-center">
             Immerse in Slow Adda
           </h3>
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">

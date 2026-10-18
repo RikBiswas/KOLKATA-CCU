@@ -19,7 +19,7 @@ export const PhotoGallerySection: React.FC<PhotoGallerySectionProps> = ({ photos
   });
 
   return (
-    <section id="gallery" className="py-14 sm:py-20 my-8 scroll-mt-24">
+    <section id="gallery" className="py-10 sm:py-14 scroll-mt-24">
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
         <div className="space-y-2 max-w-2xl">
@@ -98,14 +98,16 @@ export const PhotoGallerySection: React.FC<PhotoGallerySectionProps> = ({ photos
             </div>
 
             {/* Handwritten Title & Plate Note */}
-            <div className="pt-3.5 pb-1 space-y-1">
-              <h3 className="font-serif text-lg font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
-                {item.title}
-              </h3>
-              <p className="font-script text-base text-[#582822] leading-tight line-clamp-1">
-                {item.caption}
-              </p>
-              <div className="pt-1.5 border-t border-[#E8D5C2]/70 flex items-center justify-between text-[10px] font-mono text-[#351E1A]/60">
+            <div className="pt-3.5 pb-1 space-y-1 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="font-serif text-lg font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug min-h-[48px] flex items-start">
+                  {item.title}
+                </h3>
+                <p className="font-script text-base text-[#582822] leading-tight line-clamp-1">
+                  {item.caption}
+                </p>
+              </div>
+              <div className="pt-1.5 border-t border-[#E8D5C2]/70 flex items-center justify-between text-[10px] font-mono text-[#351E1A]/60 mt-auto">
                 <span>{item.category}</span>
                 <span className="text-[#C6532B] font-bold group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
                   Examine &rarr;

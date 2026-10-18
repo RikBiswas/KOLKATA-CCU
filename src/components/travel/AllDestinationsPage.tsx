@@ -33,13 +33,13 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
   });
 
   return (
-    <div className="pt-28 sm:pt-36 pb-16 sm:pb-24 space-y-8 animate-fade-in text-[#351E1A]">
+    <div className="pt-4 sm:pt-6 pb-16 sm:pb-24 space-y-8 animate-fade-in text-[#351E1A]">
       {/* Navigation header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-[#E8D5C2] pb-6 sm:pb-8">
         <div className="space-y-2">
           <button
             onClick={onBackToHome}
-            className="inline-flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-wider text-[#C6532B] hover:text-[#B04520] transition-colors mb-1 cursor-pointer"
+            className="inline-flex items-center gap-2 text-xs font-sans font-bold uppercase tracking-wider text-[#C6532B] hover:text-[#B04520] transition-colors mb-1 cursor-pointer py-1"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Return to Journal Home</span>
@@ -49,7 +49,7 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
             The Complete Calcutta Landmark Archive
           </h1>
 
-          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 max-w-2xl leading-relaxed">
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/85 max-w-2xl leading-relaxed">
             Browse all curated heritage sites, sacred Hooghly river ghats, century-old artisan quarters, 
             and literary tea houses across North, Central, and South Kolkata.
           </p>
@@ -71,13 +71,15 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search by landmark name, region, or keywords (e.g. marble, ghat, books)..."
-            className="w-full text-xs sm:text-sm bg-[#F7EBDD] border border-[#E8D5C2] rounded-2xl pl-10 pr-10 py-3 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B] focus:border-[#C6532B]"
+            aria-label="Search all landmarks archive"
+            className="w-full text-xs sm:text-sm bg-[#F7EBDD] border border-[#E8D5C2] rounded-2xl pl-10 pr-10 py-3 text-[#351E1A] placeholder-[#351E1A]/60 focus:outline-none focus:ring-2 focus:ring-[#C6532B] focus:border-[#C6532B]"
           />
-          <Search className="w-4 h-4 text-[#351E1A]/40 absolute left-3.5 top-3.5 pointer-events-none" />
+          <Search className="w-4 h-4 text-[#351E1A]/60 absolute left-3.5 top-3.5 pointer-events-none" />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="absolute right-3.5 top-3.5 text-xs text-[#351E1A]/60 hover:text-[#351E1A] font-bold cursor-pointer"
+              className="absolute right-3.5 top-3.5 text-xs text-[#351E1A]/70 hover:text-[#351E1A] font-bold cursor-pointer"
+              aria-label="Clear landmark search"
             >
               Clear
             </button>

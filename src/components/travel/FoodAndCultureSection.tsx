@@ -2348,7 +2348,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
   };
 
   return (
-    <section id="culture" className="py-8 sm:py-10 px-6 sm:px-10 lg:px-12 my-6 rounded-3xl bg-[#C6532B] text-[#FFF8EF] relative overflow-hidden shadow-[0_16px_50px_rgba(198,83,43,0.22)] scroll-mt-24">
+    <section id="culture" className="py-10 sm:py-14 px-6 sm:px-10 lg:px-12 my-8 rounded-3xl bg-[#C6532B] text-[#FFF8EF] relative overflow-hidden shadow-[0_16px_50px_rgba(198,83,43,0.22)] scroll-mt-24">
       {/* Decorative background motifs */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-2xl pointer-events-none" />
@@ -2358,7 +2358,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         <div className="max-w-3xl">
           <div className="flex items-center gap-2 mb-2">
             <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#FFF8EF]/80 uppercase">
-              Chapter III &bull; Gastronomy &amp; Culture
+              Chapter IV &bull; Gastronomy &amp; Living Culture
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
             <span className="font-bengali text-xs text-[#FFF8EF] font-semibold">

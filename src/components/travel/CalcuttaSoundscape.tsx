@@ -875,6 +875,7 @@ export const CalcuttaSoundscape: React.FC = () => {
             <button
               onClick={togglePlay}
               className="px-4 py-2 rounded-full bg-[#C6532B] hover:bg-[#B04520] text-[#FFF8EF] text-xs font-sans font-bold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
+              aria-label={isPlaying ? 'Pause Lo-Fi music' : 'Play Lo-Fi music'}
             >
               {isPlaying ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
               <span>{isPlaying ? 'Pause Music' : 'Play Lo-Fi'}</span>
@@ -904,6 +905,8 @@ export const CalcuttaSoundscape: React.FC = () => {
         }}
         className="group px-4 py-2.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] border border-[#E8D5C2]/30 shadow-[0_8px_24px_rgba(53,30,26,0.22)] flex items-center gap-2.5 text-xs font-sans transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer"
         title="Calcutta Chill Lo-Fi Radio"
+        aria-label="Toggle Calcutta Lo-Fi Radio drawer"
+        aria-expanded={isOpen}
       >
         <div className="relative">
           <Headphones className={`w-3.5 h-3.5 text-[#C5A25A] ${isPlaying ? 'animate-bounce' : ''}`} />

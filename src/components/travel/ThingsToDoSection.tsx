@@ -212,7 +212,7 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
   return (
     <section
       id="things-to-do"
-      className="py-14 sm:py-20 my-8"
+      className="py-10 sm:py-14 scroll-mt-24"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
@@ -332,7 +332,7 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
 
                 {/* Card Title on Image Bottom */}
                 <div className="absolute bottom-3 left-4 right-4 text-[#FFF8EF]">
-                  <h3 className="font-serif text-lg sm:text-xl font-bold leading-tight drop-shadow-sm group-hover:text-[#F7EBDD] transition-colors">
+                  <h3 className="font-serif text-lg sm:text-xl font-bold leading-tight drop-shadow-sm group-hover:text-[#F7EBDD] transition-colors min-h-[48px] flex items-end">
                     {act.title}
                   </h3>
                 </div>
@@ -341,17 +341,17 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
               {/* Card Body */}
               <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5">
                 <div className="space-y-2">
-                  <p className="font-sans text-xs text-[#351E1A]/80 leading-relaxed font-normal">
+                  <p className="font-sans text-xs text-[#351E1A]/80 leading-relaxed font-normal min-h-[36px]">
                     {act.tagline}
                   </p>
 
-                  <div className="p-2.5 rounded-xl bg-[#F7EBDD]/70 border border-[#E8D5C2] text-[11px] font-sans text-[#582822] leading-relaxed">
-                    <strong className="text-[#C6532B]">Native Tip:</strong> {act.insiderTip}
+                  <div className="p-2.5 rounded-xl bg-[#F7EBDD]/70 border border-[#E8D5C2] text-[11px] font-sans text-[#582822] leading-relaxed min-h-[56px] flex items-start">
+                    <strong className="text-[#C6532B] mr-1">Native Tip:</strong> {act.insiderTip}
                   </div>
                 </div>
 
                 {/* Mini Practical Meta Grid */}
-                <div className="pt-3 border-t border-[#E8D5C2]/80 space-y-1.5 text-[11px] font-sans text-[#351E1A]/70">
+                <div className="pt-3 border-t border-[#E8D5C2]/80 space-y-1.5 text-[11px] font-sans text-[#351E1A]/70 mt-auto">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-1.5 truncate max-w-[180px]">
                       <MapPin className="w-3 h-3 text-[#C6532B] shrink-0" />

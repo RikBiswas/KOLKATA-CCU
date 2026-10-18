@@ -56,7 +56,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
       />
 
       {/* 2. Main Content Grid (Fills full viewport height) */}
-      <div className="relative z-10 w-full max-w-[1720px] mx-auto px-6 sm:px-10 lg:px-16 xl:px-20 pt-28 sm:pt-32 lg:pt-24 pb-4 sm:pb-6 flex-1 flex flex-col justify-between">
+      <div className="relative z-10 w-full max-w-7xl xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-24 sm:pt-28 lg:pt-20 pb-4 sm:pb-6 flex-1 flex flex-col justify-between">
         
         {/* Top Bar: Archival Plate Badge & Live Time Watcher */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 sm:mb-8">
@@ -150,18 +150,18 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-4 sm:mb-5"
+              className="mb-3 sm:mb-4"
             >
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-[62px] xl:text-[74px] font-medium tracking-tight text-[#351E1A] leading-[1.06]">
+              <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-[50px] xl:text-[62px] font-medium tracking-tight text-[#351E1A] leading-[1.08]">
                 Some cities are visited.{' '}
-                <span className="italic block mt-1 sm:mt-1.5 text-[#C6532B]">
+                <span className="italic block mt-1 text-[#C6532B]">
                   Kolkata is felt.
                 </span>
               </h1>
 
               {/* Overlapping Handwritten Cursive Accent */}
-              <div className="mt-2 sm:mt-3">
-                <span className="font-script text-2xl sm:text-3xl md:text-4xl text-[#582822] select-none">
+              <div className="mt-1.5 sm:mt-2">
+                <span className="font-script text-xl sm:text-2xl md:text-3xl text-[#582822] select-none">
                   ~ where time pauses for a cup of tea ~
                 </span>
               </div>
@@ -172,7 +172,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
-              className="font-sans text-sm sm:text-base md:text-lg text-[#351E1A]/85 leading-relaxed font-normal mb-6 sm:mb-8 max-w-xl"
+              className="font-sans text-xs sm:text-sm md:text-base text-[#351E1A]/85 leading-relaxed font-normal mb-4 sm:mb-6 max-w-xl"
             >
               From forgotten colonial lanes and morning wooden trams to riverfront ghat sunsets and legendary earthen-cup tea stalls, discover the city beyond the ordinary. Curated with love by native Calcuttans.
             </motion.p>
@@ -182,7 +182,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8"
+              className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 sm:mb-6"
             >
               <button
                 onClick={onExploreDestinations}

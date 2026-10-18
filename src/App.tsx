@@ -292,6 +292,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F7EBDD] text-[#351E1A] selection:bg-[#C6532B] selection:text-[#FFF8EF] relative">
+      {/* Accessible Skip to Content Link (WCAG 2.4.1 Bypass Blocks) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#351E1A] focus:text-[#FFF8EF] focus:rounded-full focus:shadow-xl focus:border focus:border-[#C6532B] focus:font-sans focus:text-xs focus:font-bold focus:outline-none"
+      >
+        Skip to main content
+      </a>
+
       {/* Subtle Parchment Paper Grain Overlay */}
       <div className="parchment-grain-overlay" aria-hidden="true" />
 
@@ -309,7 +317,7 @@ export default function App() {
 
       {currentPage === 'all-destinations' ? (
         /* Full Destination Gallery Page */
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-28">
+        <main id="main-content" className="flex-1 max-w-7xl xl:max-w-[1380px] w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20 sm:pt-24">
           <AllDestinationsPage
             destinations={travelData.destinations}
             onSelectDestination={(dest) => setSelectedDestination(dest)}
@@ -321,7 +329,7 @@ export default function App() {
         <>
           {/* Search Results Notification Banner if querying */}
           {searchQuery.trim() && (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-4 relative z-20">
+            <div className="max-w-7xl xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-4 relative z-20">
               <div className="p-4 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans text-[#351E1A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs animate-slide-in-right">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#C6532B]" />
@@ -356,7 +364,7 @@ export default function App() {
           />
 
           {/* Main Content Area for all subsequent chapters */}
-          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <main id="main-content" className="flex-1 max-w-7xl xl:max-w-[1380px] w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {/* 2. Introductory Editorial Section: The Art of Slow Travel in Calcutta */}
             <WhyChooseUs />
 

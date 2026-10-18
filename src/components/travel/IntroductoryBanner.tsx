@@ -7,10 +7,10 @@ interface IntroductoryBannerProps {
 
 export const IntroductoryBanner: React.FC<IntroductoryBannerProps> = () => {
   return (
-    <section className="my-10 sm:my-14 relative overflow-hidden">
+    <section className="my-8 sm:my-10 relative overflow-hidden">
       <div className="relative rounded-3xl overflow-hidden bg-[#351E1A] text-[#FFF8EF] shadow-[0_20px_50px_rgba(53,30,26,0.2)] border-4 border-[#FFF8EF]">
         {/* Full-width atmospheric background photograph */}
-        <div className="relative h-[440px] sm:h-[480px] md:h-[520px] w-full overflow-hidden">
+        <div className="relative h-[380px] sm:h-[420px] md:h-[460px] w-full overflow-hidden">
           <img
             src="/images/destinations/princep-ghat.jpg"
             alt="Wooden country boat floating on the holy Hooghly beneath Vidyasagar Setu at dusk"

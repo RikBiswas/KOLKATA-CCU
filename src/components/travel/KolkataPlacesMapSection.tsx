@@ -642,9 +642,9 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
   return (
     <section
       id="kolkata-map-atlas"
-      className="py-16 sm:py-24 border-t border-[#E8D5C2] relative bg-[#F7EBDD]/50"
+      className="py-12 sm:py-16 border-t border-[#E8D5C2] relative bg-[#F7EBDD]/50"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs mb-3">

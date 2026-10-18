@@ -93,13 +93,13 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
   };
 
   return (
-    <section id="transit" className="py-14 sm:py-20 my-8 scroll-mt-24">
+    <section id="transit" className="py-10 sm:py-14 scroll-mt-24">
       {/* Editorial Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
         <div className="space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
             <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
-              Chapter V &bull; The Public Transit Codex
+              Chapter VIII &bull; The Public Transit Codex
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
             <span className="font-bengali text-xs text-[#582822] font-semibold">

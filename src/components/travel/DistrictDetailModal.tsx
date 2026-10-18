@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { X, MapPin, Clock, Utensils, Train, Compass, Quote, Bookmark, Check, ExternalLink } from 'lucide-react';
 import { Neighborhood } from '../../types/travel';
@@ -16,10 +16,32 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
   onBookmarkDistrict,
   isBookmarked = false,
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (district) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [district, onClose]);
+
   if (!district) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in"
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="district-modal-title"
+    >
       <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative">
         {/* Sticky Close Button */}
         <button
@@ -48,7 +70,7 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
             <span className="text-[11px] font-mono text-[#C5A25A] uppercase tracking-wider">
               {district.era} &bull; Cultural Dossier
             </span>
-            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+            <h2 id="district-modal-title" className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight">
               {district.name}
             </h2>
             <p className="font-serif italic text-xs sm:text-sm text-[#D9A38E]">
