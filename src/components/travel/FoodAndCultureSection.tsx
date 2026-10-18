@@ -16,6 +16,7 @@ export interface CulinaryItem {
   location: string;
   region: 'all' | 'north' | 'central' | 'south' | 'sweets';
   regionLabel: string;
+  category?: 'cabins-fries' | 'mughlai-biryani' | 'street-bites' | 'sweets-desserts' | 'tea-breakfast' | string;
   timing: string;
   description: string;
   quote: string;
@@ -39,6 +40,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
   isBookmarked,
 }) => {
   const [activeRegion, setActiveRegion] = useState<string>('all');
+  const [activeCategory, setActiveCategory] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [direction, setDirection] = useState<number>(1);
   const [selectedItem, setSelectedItem] = useState<CulinaryItem | null>(null);
@@ -54,6 +56,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Vivekananda Park & Southern Avenue',
       region: 'south',
       regionLabel: 'South Kolkata',
+      category: 'street-bites',
       timing: 'Best: 5:00 PM – 8:30 PM',
       priceRange: '₹30 – ₹60 for 6–8 pcs',
       description: 'Unlike generic pani puri, Kolkata puchka is an explosive craft: paper-thin semolina spheres filled with warm spiced potato mash, black chickpeas, crushed green chilies, and iced water infused with fragrant Gandharaj lemon juice.',
@@ -88,6 +91,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'New Market & Park Street',
       region: 'central',
       regionLabel: 'Central Kolkata',
+      category: 'street-bites',
       timing: 'Best: 6:00 PM – 10:30 PM',
       priceRange: '₹70 – ₹180 per roll',
       description: 'Invented at Nizam’s in 1932 to let British sahibs eat kebabs without greasing their hands. Tender charcoal-skewered mutton and spiced onions wrapped in crisp egg-layered paratha.',
@@ -122,6 +126,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Dacres Lane (James Hickey Sarani)',
       region: 'central',
       regionLabel: 'Central Kolkata',
+      category: 'cabins-fries',
       timing: 'Best: 12:30 PM – 3:30 PM Lunch',
       priceRange: '₹80 – ₹170 per meal',
       description: 'Since colonial times, Dacres Lane has fed Kolkata’s Secretariat. Chitto Da’s aromatic, hearty pepper-spiced chicken stew with thick slices of butter-toasted pav and fish roll is a rite of passage.',
@@ -154,6 +159,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Mitra Cafe, Sovabazar & Shyambazar',
       region: 'north',
       regionLabel: 'North Kolkata',
+      category: 'cabins-fries',
       timing: 'Best: 5:00 PM – 9:00 PM Evening Adda',
       priceRange: '₹140 – ₹240',
       description: 'Born in Edwardian Calcutta (from "coverage" -> Kabiraji). A tender bhetki fish fillet marinated in ginger-garlic and green chili, plunged into boiling oil wrapped in an intricate spun egg-net canopy.',
@@ -187,6 +193,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Park Circus, Shiraz & Arsalan',
       region: 'south',
       regionLabel: 'Central-South',
+      category: 'mughlai-biryani',
       timing: 'Best: 1:00 PM Lunch & 8:30 PM Dinner',
       priceRange: '₹220 – ₹420',
       description: 'Brought to Metiabruz by the exiled Nawab of Awadh in 1856. Fragrant long-grain basmati cooked in dum with ghee, kewra, saffron, tender meat, and the legendary golden potato that absorbs every ounce of rich broth.',
@@ -220,6 +227,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Esplanade & Jawaharlal Nehru Road',
       region: 'central',
       regionLabel: 'Central Kolkata',
+      category: 'cabins-fries',
       timing: 'Best: 4:30 PM – 9:00 PM',
       priceRange: '₹80 – ₹170',
       description: 'Operating for over a century near Esplanade, Anadi Cabin masters the Mughlai paratha: paper-thin dough folded into envelopes of spiced duck eggs, minced mutton keema, and deep-fried to crisp perfection.',
@@ -252,6 +260,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'College Street Boi Para (Est. 1876)',
       region: 'north',
       regionLabel: 'North Kolkata',
+      category: 'tea-breakfast',
       timing: 'Best: 2:00 PM – 5:30 PM',
       priceRange: '₹25 – ₹110',
       description: 'Under massive 30-foot ceilings and slowly whirring fans, generations of Calcuttans have discussed French cinema, Marxism, and modern poetry over ₹25 cups of black Infusion coffee and crisp mutton kobiraji cutlets.',
@@ -284,6 +293,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'College Square & Boi Para',
       region: 'north',
       regionLabel: 'North Kolkata',
+      category: 'tea-breakfast',
       timing: 'Best: 11:30 AM – 7:30 PM',
       priceRange: '₹60 – ₹140 per glass',
       description: 'Frequented by Subhas Chandra Bose and Satyajit Ray, this 100-year-old heritage sherbet shop serves its legendary Daab Sarbat—a revitalising chilled concoction of tender green coconut water, scraped malai, and secret herbal syrup.',
@@ -315,6 +325,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Putiram (College St) & Mohan Bhandar',
       region: 'north',
       regionLabel: 'North Kolkata',
+      category: 'tea-breakfast',
       timing: 'Best: 7:00 AM – 10:30 AM Morning',
       priceRange: '₹35 – ₹75',
       description: 'The definitive Bengali morning breakfast: piping hot club kachoris stuffed with fragrant hing (asafoetida) paste or lentil urad dal, paired with spicy alur dom, rich chholar dal with coconut bits, and syrupy jalebi.',
@@ -348,6 +359,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Gariahat, Princep Ghat & Dhiren Cabin',
       region: 'south',
       regionLabel: 'South Kolkata',
+      category: 'street-bites',
       timing: 'Best: 4:30 PM – 7:30 PM Sunset',
       priceRange: '₹20 – ₹45',
       description: 'Crisp puffed rice thrown into a tin can with boiled potatoes, raw coconut slices, roasted cumin, black salt, and a pungent splash of raw mustard oil. Accompanied by batter-fried beguni (eggplant) and alur chop.',
@@ -382,6 +394,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Park Street Boulevard (Est. 1927)',
       region: 'central',
       regionLabel: 'Park Street',
+      category: 'sweets-desserts',
       timing: 'Best: 8:00 AM Breakfast / 4:00 PM High Tea',
       priceRange: '₹250 – ₹650 per person',
       description: 'Founded by Mr. and Mrs. J. Flury in 1927, this tearoom remains Kolkata’s most cherished morning ritual. Enjoy classic English breakfast platters, chocolate boat pastries, and legendary dark rum balls.',
@@ -412,8 +425,9 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       subtitle: 'Centuries of Bengal Milk Confectionery & Nolen Gur',
       bengaliTitle: 'মাটির ভাঁড়ের মিষ্টি দই ও রসগোল্লা',
       location: 'Balaram Mullick, K.C. Das & Nakur Nandy',
-      region: 'sweets',
-      regionLabel: 'Citywide Sweetcraft',
+      region: 'central',
+      regionLabel: 'Central & Esplanade',
+      category: 'sweets-desserts',
       timing: 'Best: Anytime after morning prayers',
       priceRange: '₹25 – ₹70 per piece',
       description: 'Bengal is the world capital of sweetcraft. From slow-steamed caramelised Mishti Doi served in porous earthenware pots that cool the curd naturally, to warm spongy baked Rosogolla and seasonal winter Nolen Gur Sandesh.',
@@ -448,13 +462,14 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Sun Yat Sen Street, Old Chinatown',
       region: 'central',
       regionLabel: 'Central Chinatown',
+      category: 'tea-breakfast',
       timing: 'Best: 6:00 AM – 8:30 AM (Dawn Only)',
       priceRange: '₹40 – ₹120 per plate',
       description: 'Every dawn since the 19th century, Kolkata’s Hakka and Cantonese community transforms Sun Yat Sen Street into a bustling open-air breakfast feast of steaming wontons, sweet pork baozi, and fish-meatball soup.',
       heritageLore: 'Kolkata is home to India’s only historical Chinatown. Starting in the late 18th century when Chinese businessman Tong Achew landed near the Hooghly river, Hakka and Cantonese immigrants established thriving leather, dental, and culinary crafts. Before the morning sun clears the rooftops of Poddar Court, elderly Chinese women and home cooks set up wooden tables serving piping hot pork and chicken dumplings with chili-garlic oil, delicate fishball noodle broth, sesame sweet rice balls, and crisp prawn crackers.',
       quote: '“Dawn arrives in Central Calcutta with the clatter of bamboo steam baskets on Sun Yat Sen Street.”',
       tag: 'Historic Chinatown',
-      image: 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=600&q=80',
+      image: 'https://assets.telegraphindia.com/telegraph/DSC_1922.jpg',
       famousStalls: [
         { name: "Hap Hoi Chinese Association Porch", address: "Sun Yat Sen Street, Tiretta Bazaar", landmark: "Near Poddar Court" },
         { name: "Seav Voi Yuen Food Corner", address: "Sun Yat Sen St & Blackwood Square", landmark: "Opposite Sea Ip Church" },
@@ -481,6 +496,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Shyambazar Five-Point Crossing',
       region: 'north',
       regionLabel: 'North Kolkata',
+      category: 'cabins-fries',
       timing: 'Best: 12:30 PM Lunch / 7:00 PM Dinner',
       priceRange: '₹220 – ₹380',
       description: 'Operating for over a century inside a semi-circular heritage cabin at Shyambazar 5-point, Golbari creates Kolkata’s most intense, deeply caramelized black mutton Kosha Mangsho.',
@@ -512,6 +528,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: '18A Park Street',
       region: 'central',
       regionLabel: 'Park Street Boulevard',
+      category: 'cabins-fries',
       timing: 'Best: 12:30 PM Lunch / 7:30 PM Dinner',
       priceRange: '₹350 – ₹650 per person',
       description: 'Kolkata’s culinary temple on Park Street since 1975, where tender charcoal-broiled Iranian-style kebabs rest on steaming fragrant basmati rice crowned with melting butter and a golden poached egg.',
@@ -543,6 +560,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Surya Sen Street, College Square',
       region: 'north',
       regionLabel: 'North Kolkata',
+      category: 'street-bites',
       timing: 'Best: 4:30 PM – 8:00 PM Evening',
       priceRange: '₹15 – ₹45 per piece',
       description: 'Since 1965, students, bookbinders, and professors have flocked to this tiny hole-in-the-wall near College Square for crackling golden fritters straight out of smoking mustard oil.',
@@ -576,6 +594,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Harish Mukherjee Road, Bhowanipore',
       region: 'south',
       regionLabel: 'South Kolkata',
+      category: 'tea-breakfast',
       timing: 'Best: 6:00 AM Morning & 10:00 PM – 2:00 AM Late Night',
       priceRange: '₹40 – ₹130',
       description: 'Kolkata’s legendary nocturnal hotspot where night owls, drivers, and midnight travelers gather on the sidewalk for clay cups of saffron tea, club kachoris, and the world-famous Doodh Cola.',
@@ -606,8 +625,9 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       subtitle: 'Over 180 Years of Bengal’s Highest Sweetcraft',
       bengaliTitle: 'গিরিশচন্দ্র দে ও নকুড়চন্দ্র নন্দীর সন্দেশ',
       location: '56 Ramdulal Sarkar Street, Hedua',
-      region: 'sweets',
-      regionLabel: 'North Sweetcraft',
+      region: 'north',
+      regionLabel: 'North Kolkata',
+      category: 'sweets-desserts',
       timing: 'Best: 7:00 AM – 11:00 AM & 4:30 PM – 9:00 PM',
       priceRange: '₹20 – ₹60 per piece',
       description: 'Established in 1844, Nakur Nandy is the undisputed royal court of Bengali Sandesh, where chhana (cottage cheese) is sculpted into melt-in-the-mouth Parijat, Monohora, and seasonal Nolen Gur masterpieces.',
@@ -640,6 +660,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       location: 'Sadananda Road, Kalighat',
       region: 'south',
       regionLabel: 'South Kolkata',
+      category: 'cabins-fries',
       timing: 'Best: 5:00 PM – 9:00 PM Evening',
       priceRange: '₹140 – ₹220',
       description: 'A timeless South Kolkata institution near Kalighat temple, frying the definitive Diamond-cut fresh Hooghly Bhetki fish fry with pungent fermented Kasundi and shredded salad.',
@@ -670,8 +691,9 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       subtitle: 'Invented in 1858 for Viceroy Lady Charlotte Canning',
       bengaliTitle: 'ভীমচন্দ্র নাগের লেডিকেনি ও মিষ্টি',
       location: '5 Nirmal Chandra Street, Bowbazar',
-      region: 'sweets',
-      regionLabel: 'Bowbazar Sweetcraft',
+      region: 'central',
+      regionLabel: 'Central Kolkata',
+      category: 'sweets-desserts',
       timing: 'Best: 8:00 AM – 8:30 PM',
       priceRange: '₹25 – ₹60 per piece',
       description: 'Operating continuously since 1826 in the gold quarter of Bowbazar, Bhim Chandra Nag invented the historical "Ledikeni" sweet to honor Governor-General Lord Canning’s wife in 1858.',
@@ -697,6 +719,399 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       transitGuide: 'Central Metro Station. Walk 3 minutes east into Nirmal Chandra Street.',
       atmosphere: 'Historic wooden cabinetry, antique brass scales, and a 200-year-old aroma of cardamom syrup.'
     },
+    {
+      id: 'allen-kitchen-prawn-cutlet',
+      title: 'Allen Kitchen’s 130-Year Pure Ghee Prawn Cutlet',
+      subtitle: 'Flattened King Tiger Prawns Fried in Pure Clarified Ghee',
+      bengaliTitle: 'অ্যালেন কিচেনের স্পেশাল প্রন কাটলেট',
+      location: '40/1 Jatindra Mohan Avenue, Shobhabazar',
+      region: 'north',
+      regionLabel: 'North Kolkata',
+      category: 'cabins-fries',
+      timing: 'Best: 4:30 PM – 8:30 PM Evening',
+      priceRange: '₹180 – ₹290 per cutlet',
+      description: 'Founded in the 1880s by a Scottish gentleman named Mr. Allen and inherited by Jiban Krishna Saha, Allen Kitchen is famous across Bengal for frying colossal flattened tiger prawns exclusively in pure clarified cow ghee.',
+      heritageLore: 'In the late 19th century, British merchant Mr. Allen set up a small eatery near Shobhabazar serving Anglo-Scottish cutlets. When he departed India, he handed the kitchen to his trusted Bengali cook, Jiban Krishna Saha. Unlike typical fish fries cooked in mustard or refined oil, Allen Kitchen uses exclusively pure fragrant desi ghee. A whole king tiger prawn is de-veined, butterflied, gently tenderized with green chili, garlic, and mint, dipped in egg wash, and rolled in fine breadcrumbs before being sizzled in a bubbling pool of smoking ghee. The aroma of boiling ghee wafts across Jatindra Mohan Avenue every single evening.',
+      quote: '“Fried in pure golden ghee, the prawn cutlet of Allen Kitchen is the aristocrat of North Calcutta cabins.”',
+      tag: '130-Year Ghee Fry',
+      image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Allen Kitchen (Original Heritage Branch)", address: "40/1 Jatindra Mohan Avenue, Shobhabazar", landmark: "Opposite Shobhabazar Metro Gate 2 (Est. 1880s)" }
+      ],
+      signatureItems: [
+        'Special Prawn Cutlet in Pure Ghee (King tiger prawn butterflied and ghee-fried)',
+        'Fish Roll & Diamond Bhetki Fry',
+        'Mutton Steak Cutlet & Kasundi',
+        'Mughlai Chicken Cutlet'
+      ],
+      nativeTips: [
+        'Eat it piping hot the second it lands on your table; the rich clarified ghee fragrance is at its absolute peak in the first 5 minutes.',
+        'The owner still sits at the vintage teak cash counter—ask about the framed certificate from the British era.'
+      ],
+      transitGuide: 'Shobhabazar Sutanuti Metro Station. Exit Gate 2 and walk 40 meters south on Jatindra Mohan Avenue.',
+      atmosphere: 'Sepia-toned walls, antique marble tabletops, rhythmic clanking of cast-iron spatulas, and the intoxicating perfume of sizzling cow ghee.'
+    },
+    {
+      id: 'dilkhusha-cabin-dimer-devil',
+      title: 'Dilkhusha Cabin’s Freedom-Era Dimer Devil & Mutton Cutlet',
+      subtitle: 'Where Revolutionaries & Poets Plotted Over Duck Egg Devils',
+      bengaliTitle: 'দিলখুশা কেবিনের ডিমের ডেভিল',
+      location: '88 College Street (Est. 1907)',
+      region: 'north',
+      regionLabel: 'North Kolkata',
+      category: 'cabins-fries',
+      timing: 'Best: 3:30 PM – 8:30 PM',
+      priceRange: '₹40 – ₹130',
+      description: 'Over 115 years old, Dilkhusha Cabin was the secretive gathering place of freedom fighters, Netaji Subhas Chandra Bose, and poet Kazi Nazrul Islam over duck egg devils and crispy Kabirajis.',
+      heritageLore: 'Established in 1907 by Trailokyanath Dey, Dilkhusha Cabin sits right at the College Street and MG Road intersection. In pre-independence India, British CID spies hovered outside while revolutionaries like Rash Behari Bose and Netaji Subhas Chandra Bose sat behind wooden curtain partitions ("cabins") planning resistance movements. Their Dimer Devil remains legendary: a hard-boiled duck egg enveloped in rich, aromatic minced mutton keema and spiced potato mash, double-dipped in batter, and fried to a deep golden amber.',
+      quote: '“Behind these wooden partitions, revolutions were scripted over cups of tea and spicy duck egg devils.”',
+      tag: 'Swadeshi Era Cabin',
+      image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Dilkhusha Cabin", address: "88 Mahatma Gandhi Road & College Street", landmark: "Near Presidency University & College Square (Est. 1907)" }
+      ],
+      signatureItems: [
+        'Signature Dimer Devil (Spiced keema & duck egg cutlet with fermented kasundi)',
+        'Mutton Kabiraji Cutlet wrapped in gossamer egg net',
+        'Doi Chicken (Light curd chicken curry with parathas)',
+        'Fish Roll with fresh bhetki'
+      ],
+      nativeTips: [
+        'Ask for their home-pounded Kasundi; it is fermented with green mangoes and clears the sinuses instantly.',
+        'Combine your snack with an afternoon book hunt across the pavement stalls of College Street.'
+      ],
+      transitGuide: 'Mahatma Gandhi Road Metro Station. Walk 2 minutes east towards the College Street crossing.',
+      atmosphere: 'Century-old wooden booths, historic mirrors, students debating history, and the crunch of freshly fried cutlets.'
+    },
+    {
+      id: 'adi-haridas-modak-luchi',
+      title: 'Adi Haridas Modak’s 200-Year Sal-Pata Luchi & Chholar Dal',
+      subtitle: 'Two Centuries of Puffed Breakfast Puris on Fresh Forest Leaves',
+      bengaliTitle: 'আদি হরিদাস মোদকের শালপাতার লুচি',
+      location: 'Shyambazar 5-Point Crossing',
+      region: 'north',
+      regionLabel: 'North Kolkata',
+      category: 'tea-breakfast',
+      timing: 'Best: 6:30 AM – 10:00 AM Dawn Breakfast',
+      priceRange: '₹25 – ₹60 for full plate',
+      description: 'Operating continuously since 1818 (over 200 years!), Adi Haridas Modak serves hand-rolled puffed luchis on dried Sal leaf plates with sweet-savory coconut chholar dal and hot rasgullas.',
+      heritageLore: 'Before modern roads and tramlines were laid at Shyambazar, Haridas Modak founded this breakfast haven in 1818 to feed horse-carriage travelers arriving from northern Bengal. For over two centuries, little has changed in their morning preparation. The luchis are kneaded by hand with fine maida, rolled into translucent rounds, and dropped into smoking iron cauldrons where they puff into pristine white clouds in seconds. They are plated on traditional dried green Sal tree leaves (sal pata) alongside slow-cooked Chholar Dal flavored with fried coconut chips, ginger, and cumin.',
+      quote: '“Over two hundred years of Calcuttans have started their morning with hot luchis on fresh Sal leaves.”',
+      tag: 'Two-Century Breakfast',
+      image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Adi Haridas Modak", address: "220 Acharya Prafulla Chandra Rd, Shyambazar", landmark: "Facing Shyambazar Five-Point crossing (Est. 1818)" }
+      ],
+      signatureItems: [
+        'Four Fluffy Luchis served on Sal Pata with Chholar Dal & Aloo Dom',
+        'Nolen Gur Rosogolla (Warm seasonal date-palm syrup rasgulla)',
+        'Singara (Bengali samosa stuffed with spicy cauliflower & potatoes)',
+        'Mishti Doi in mini clay pots'
+      ],
+      nativeTips: [
+        'Arrive before 8:30 AM; on Sunday mornings the queue extends down the pavement towards Shyambazar metro.',
+        'The Sal leaf infuses the warm luchi and dal with a subtle earthy forest aroma that paper plates can never match.'
+      ],
+      transitGuide: 'Shyambazar Metro Station. Exit Gate 1, directly adjacent to the crossing.',
+      atmosphere: 'Clanging tram bells, morning commuters reading the morning Anandabazar Patrika, and boiling pots of fresh chholar dal.'
+    },
+    {
+      id: 'chhangani-club-kachori',
+      title: 'Chhangani’s Fiery Burrabazar Club Kachori & Jalebi',
+      subtitle: 'Coin-Sized Puffed Kachoris Drowned in Peppery Hing Aloo Sabzi',
+      bengaliTitle: 'ছাঙ্গানির ক্লাব কচুরি ও জিলাপি',
+      location: 'C.I.T. Road & Burrabazar Trading Quarter',
+      region: 'north',
+      regionLabel: 'North Kolkata',
+      category: 'street-bites',
+      timing: 'Best: 7:00 AM – 11:30 AM Morning Only',
+      priceRange: '₹30 – ₹60 for 4 pcs + sabzi',
+      description: 'The bustling trading alleys of Burrabazar run on Chhangani’s bite-sized, deep-fried club kachoris, swimming in a fiery, peppery, black-gram aloo sabzi served on leaf thongas with smoking-hot crispy jalebis.',
+      heritageLore: 'In the heart of Kolkata’s legendary trading quarter Burrabazar, Chhangani Club Kachori has fueled bullion merchants, cloth traders, and dock workers for decades. Unlike large inflated kachoris, their "Club Kachoris" are tiny, coin-sized discs stuffed with urad dal and hing, fried ultra-crisp. A generous ladle of dark, spicy potato sabzi—cooked without onion or garlic but loaded with crushed black pepper, cloves, and asafoetida—is poured on top, accompanied by a spoonful of spicy pickled green chilies and followed by giant swirls of syrup-drenched crispy jalebis.',
+      quote: '“A fiery, pepper-spiced morning punch that awakens the senses faster than double-shot espresso.”',
+      tag: 'Burrabazar Street Legend',
+      image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Chhangani Club Kachori", address: "C.I.T. Scheme VII-M, Kankurgachi / Burrabazar", landmark: "Near Cotton Street & Burrabazar wholesale bazaar" },
+        { name: "Tewari Brothers Confectioners", address: "225 C.R. Avenue, Burrabazar", landmark: "Renowned for pure ghee samosas & motichoor laddoos" }
+      ],
+      signatureItems: [
+        'Plate of 4 Mini Club Kachoris drenched in peppery Hing Aloo Sabzi',
+        'Fresh Ghee Jalebis straight from the sizzling kadai',
+        'Kashmiri Malai Toast with saffron rabri',
+        'Spicy Chana Chaat with lime'
+      ],
+      nativeTips: [
+        'Be prepared to eat standing up on the bustling footpath shoulder-to-shoulder with merchants.',
+        'The aloo sabzi is fiery hot—always pair your plate with at least two warm jalebis to balance the spice!'
+      ],
+      transitGuide: 'Mahatma Gandhi Road Metro Station. Walk 500m west into the Burrabazar bazaar lanes.',
+      atmosphere: 'Whistling hand-pulled carts, traders haggling over textiles, sizzling oil vats, and mouth-watering asafoetida steam.'
+    },
+    {
+      id: 'nahoum-sons-bakery',
+      title: 'Nahoum & Sons’ 120-Year Jewish Rich Fruit Cake & Lemon Puffs',
+      subtitle: 'Edwardian Teak Counters Holding Kolkata’s Last Baghdadi Jewish Bakery',
+      bengaliTitle: 'নাহুমের ঐতিহ্যবাহী প্লাম কেক ও লেমন পাফ',
+      location: 'F-20 Sir Stuart Hogg Market (New Market)',
+      region: 'central',
+      regionLabel: 'Central Kolkata',
+      category: 'sweets-desserts',
+      timing: 'Best: 10:00 AM – 8:00 PM Daily',
+      priceRange: '₹40 – ₹350',
+      description: 'Kolkata’s last surviving Baghdadi Jewish bakery since 1902. Teakwood glass cabinets hold legendary rum-soaked Rich Fruit Cakes, crumbly lemon puffs, almond macaroons, and Jewish baklava.',
+      heritageLore: 'Founded in 1902 by Nahoum Israel Mordecai, a Baghdadi Jew who immigrated to Calcutta, Nahoum & Sons is an irreplaceable living artifact of Kolkata’s multicultural soul. Housed inside the sprawling Victorian brick corridors of New Market, the bakery’s original Belgian glass display cases, polished Burma teak counters, and cash drawers remain intact from the Edwardian era. Generations of Calcuttans, from Archbishop of Calcutta to former chief ministers and film stars, consider Christmas incomplete without standing in hour-long queues for Nahoum’s rum-infused Rich Fruit Cake and crispy layered Lemon Puffs.',
+      quote: '“Walking into Nahoum is stepping straight into an Edwardian confectionery parlor where time stood still.”',
+      tag: '1902 Jewish Bakery',
+      image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Nahoum & Sons Bakery", address: "F-20 Sir Stuart Hogg Market (New Market), Lindsay Street", landmark: "Central corridor inside New Market (Est. 1902)" },
+        { name: "Saldanha Bakery", address: "19 Nawab Abdur Rahman Street", landmark: "Century-old Goan family bakery famous for Walnut Cake" }
+      ],
+      signatureItems: [
+        'Rich Plum Fruit Cake (Infused with rum, candied peel & raisins)',
+        'Flaky Lemon Puffs filled with tangy citrus curd',
+        'Almond & Cashew Macaroons',
+        'Chocolate Fudge Brownies and Chicken Patties'
+      ],
+      nativeTips: [
+        'During the December Christmas week, order or visit early in the morning—the fruit cake sells out by 2:00 PM daily!',
+        'Take home a box of their crumbly cheese straws for evening tea.'
+      ],
+      transitGuide: 'Esplanade Metro Interchange. Exit towards Lindsay Street and enter New Market Gate 1.',
+      atmosphere: 'Aromatic vanilla, cinnamon, and baked butter pastry under century-old teak cabinetry in the Victorian market.'
+    },
+    {
+      id: 'mocambo-devilled-crab',
+      title: 'Mocambo’s 1950s Devilled Crab & Chicken Tetrazzini',
+      subtitle: 'Mid-Century Italian Red Booth Glamour on Park Street',
+      bengaliTitle: 'মোকাম্বোর ডেভিলড ক্র্যাব ও টেট্রাজিনি',
+      location: '25B Park Street (Est. 1956)',
+      region: 'central',
+      regionLabel: 'Park Street Boulevard',
+      category: 'cabins-fries',
+      timing: 'Best: 12:30 PM Lunch / 7:30 PM Dinner',
+      priceRange: '₹450 – ₹850 per person',
+      description: 'Opened in 1956 as Kolkata’s first premier European nightclub with a live Italian jazz band, Mocambo remains the supreme temple of retro Continental dining, famed for Devilled Crab baked in real shells and Chicken Tetrazzini.',
+      heritageLore: 'Founded in 1956 by Shivji V. Kothari with interior design by legendary Italian architect Antonio Prandhe, Mocambo was the glamorous epicenter of Calcutta’s jazz age. Legendary crooners like Pam Crain sang on its glass dance floor while waiters in immaculate white jackets served British-Continental and Russian delicacies. Mocambo’s Devilled Crab is an all-time classic: succulent fresh river crab meat sautéed with mustard, white wine, cream, and green chilies, stuffed back into the natural crab carapace, blanketed with English cheddar cheese, and baked until the crust bubbles and turns golden brown.',
+      quote: '“Dim lamps, red booths, and bubbling cheddar cheese—Park Street’s mid-century culinary time machine.”',
+      tag: '1956 Continental Legend',
+      image: 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Mocambo Restaurant", address: "25B Park Street, Kolkata 700016", landmark: "Near Free School Street intersection (Est. 1956)" },
+        { name: "Peter Cat", address: "18A Park Street", landmark: "Sister heritage establishment famous for Chelo Kebab" }
+      ],
+      signatureItems: [
+        'Devilled Crab (Fresh crab meat baked in real shell with bubbling cheese)',
+        'Chicken Tetrazzini (Rich creamy baked spaghetti casserole with chicken)',
+        'Fish Florentine with spinach and Mornay sauce',
+        'Baked Alaska flambéed with rum at your table'
+      ],
+      nativeTips: [
+        'Ask for a booth table on the ground floor for the most nostalgic, ambient dining experience.',
+        'Always save room for their dramatic Baked Alaska—the waiter ignites the rum-soaked meringue right at your table!'
+      ],
+      transitGuide: 'Park Street Metro Station. Walk 200m down Park Street towards Free School Street.',
+      atmosphere: 'Plush crimson armchairs, soft vintage lighting, attentive tuxedo-clad stewards, and sizzling sizzler platters.'
+    },
+    {
+      id: 'royal-indian-hotel-chaap',
+      title: 'Royal Indian Hotel’s 1905 Mutton Chaap & Pasinda',
+      subtitle: 'Imperial Awadhi Royalty Simmered Opposite Nakhoda Mosque',
+      bengaliTitle: 'রয়্যাল ইন্ডিয়ান হোটেলের মাটন চাপ',
+      location: '147 Rabindra Sarani, Chitpur',
+      region: 'central',
+      regionLabel: 'Central Kolkata',
+      category: 'mughlai-biryani',
+      timing: 'Best: 12:30 PM – 4:00 PM & 7:00 PM – 11:00 PM',
+      priceRange: '₹220 – ₹450',
+      description: 'Founded in 1905 by Ahmed Hussain, royal bawarchi of the exiled Nawab of Awadh. Famous for its pristine Lucknowi mutton biryani without potato and slow-roasted, velvety Mutton Chaap simmered in pure ghee and poppy seed paste.',
+      heritageLore: 'When Nawab Wajid Ali Shah passed away in Metiabruz, his royal culinary descendants preserved the unadulterated Awadhi cooking tradition. Ahmed Hussain opened Royal Indian Hotel in 1905 opposite Nakhoda Mosque in Chitpur. While the rest of Kolkata embraced the potato in biryani, Royal fiercely adhered to the imperial Lucknow recipe—steaming long-grain basmati with melt-in-the-mouth mutton pieces, saffron, and ghee, completely potato-free. Their crowning achievement is the Mutton Chaap: rib chops marinated for hours in crushed brown onions, poppy seeds (posto), charmagaz, and mace, slow-roasted on giant flat cast-iron lagans until the ghee separates into an aromatic, glossy pool.',
+      quote: '“Over a century of imperial Awadhi royalty, simmering on Chitpur’s most historic boulevard.”',
+      tag: '1905 Royal Bawarchi',
+      image: 'https://images.unsplash.com/photo-1545247181-516773cae7be?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Royal Indian Hotel", address: "147 Rabindra Sarani, Chitpur", landmark: "Directly opposite Nakhoda Grand Mosque (Est. 1905)" },
+        { name: "Nafees Restaurant", address: "Park Circus", landmark: "Awadhi specialities" }
+      ],
+      signatureItems: [
+        'Royal Special Mutton Chaap (Slow-roasted rib cutlet in Posto-Charmagaz ghee gravy)',
+        'Traditional Lucknowi Mutton Biryani (Potato-free with tender spiced goat meat)',
+        'Mutton Pasinda (Flattened marinated escalopes grilled in ghee)',
+        'Shahi Tukda (Crisp fried bread steeped in saffron rabri & pistachios)'
+      ],
+      nativeTips: [
+        'Order one Mutton Chaap with crisp Rumali Roti to dip before tackling your biryani plate.',
+        'Take a quiet moment on the first-floor balcony to gaze across the majestic minarets of Nakhoda Mosque.'
+      ],
+      transitGuide: 'Central or Mahatma Gandhi Road Metro Station. Take a 5-minute cycle rickshaw down Rabindra Sarani.',
+      atmosphere: 'Aroma of rosewater, kewra, roasting meat, and the majestic evening call to prayer echoing across Chitpur.'
+    },
+    {
+      id: 'shiraz-mutton-biryani',
+      title: 'Shiraz Golden Restaurant’s Awadhi Dum Biryani & Rezala',
+      subtitle: 'The 1941 Citadel of Sealed Copper Handi Biryani & Silky White Rezala',
+      bengaliTitle: 'সিরাজের বিরিয়ানি ও মটন রেজালা',
+      location: '135 Park Street & Mullick Bazar Crossing',
+      region: 'central',
+      regionLabel: 'Central-South',
+      category: 'mughlai-biryani',
+      timing: 'Best: 12:30 PM – 3:30 PM & 7:30 PM – 11:30 PM',
+      priceRange: '₹200 – ₹420',
+      description: 'Operating since 1941 at the Mullick Bazar crossing, Shiraz is Kolkata’s undisputed titan of Awadhi Biryani and aromatic Mutton Rezala simmered in yogurt, cashew paste, and whole dried red chilies.',
+      heritageLore: 'Founded in 1941 by Arshad Ali and Mohammad Hussain, Shiraz Golden Restaurant popularized the royal dum-cooked biryani among middle-class Calcuttans and visiting dignitaries. Their massive copper degchis are sealed with wet flour dough (dum pukht) and placed over smoldering coal embers. The rice grains remain distinct, translucent, and fragrant with saffron and cardamom. Alongside their biryani, Shiraz perfected the Kolkata "Rezala"—an exquisite, silky white stew made from tender goat shank braised in thick yogurt, cashew paste, makhana (foxnuts), and whole Kashmiri dried red chilies.',
+      quote: '“The fragrance of Shiraz’s sealed copper handis has welcomed night wanderers since 1941.”',
+      tag: '1941 Biryani Citadel',
+      image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1a/Kolkata_mutton_biryani.jpg/500px-Kolkata_mutton_biryani.jpg',
+      famousStalls: [
+        { name: "Shiraz Golden Restaurant", address: "135 Park Street, Mullick Bazar Crossing", landmark: "Near Park Circus approach (Est. 1941)" },
+        { name: "Aliah Hotel", address: "Bentinck Street, Esplanade", landmark: "Heritage colonial Mughlai outlet" }
+      ],
+      signatureItems: [
+        'Shiraz Special Mutton Biryani with tender dum potato and spiced boiled egg',
+        'Mutton Rezala (Aromatic white yogurt stew with whole dry chilies & makhana)',
+        'Chicken Tikka Butter Masala with garlic naan',
+        'Shahi Firni served cold in traditional unglazed clay cups'
+      ],
+      nativeTips: [
+        'Always order a bowl of Mutton Rezala alongside your biryani; spooning the aromatic white gravy over the saffron rice is a culinary revelation.',
+        'Late-night diners: Shiraz stays open past 11:30 PM, making it the ideal post-cinema dinner stop.'
+      ],
+      transitGuide: 'Park Street Metro or take a yellow taxi directly to Mullick Bazar crossing on Park Street.',
+      atmosphere: 'Sprawling multi-level dining hall, bustling families, clattering brass plates, and rich aromas of dum-sealed biryani.'
+    },
+    {
+      id: 'campari-gariahhat-fish-roll',
+      title: 'Campari’s Legendary Fish Roll & Mutton Cutlet',
+      subtitle: 'South Kolkata’s Revered Gariahat Evening Frying Pavilion',
+      bengaliTitle: 'কাম্পারির ফিশ রোল ও মাটন কাটলেট',
+      location: '155B Rash Behari Avenue, Gariahat',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'cabins-fries',
+      timing: 'Best: 4:30 PM – 9:00 PM Evening',
+      priceRange: '₹90 – ₹180 per roll/cutlet',
+      description: 'South Kolkata’s most beloved evening snack institution since 1979. Known for its colossal Fish Roll—a whole fillet of fresh Hooghly Bhetki wrapped around spicy minced fish stuffing, crusted in crisp crumbs.',
+      heritageLore: 'Founded in 1979 in the pulsing shopping hub of Gariahat, Campari redefined Kolkata’s deep-fried street culture for South Calcuttans. While Gariahat is famous for silk sarees and street markets, the evening pilgrimage inevitably ends on Campari’s pavement. Their iconic "Fish Roll" is an engineering marvel: a prime, delicate fillet of fresh Bhetki fish is marinated in coriander and green chili paste, rolled snugly around a spicy, aromatic fish-keema stuffing, encased in coarse golden breadcrumbs, and deep-fried to a crackling crunch. Paired with fiery homemade Kasundi, it is the quintessential South Kolkata treat.',
+      quote: '“After an evening of haggling for sarees at Gariahat, nothing rewards the soul like Campari’s steaming fish roll.”',
+      tag: 'Gariahat Street Legend',
+      image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Campari", address: "155B Rash Behari Avenue, Gariahat", landmark: "Near Gariahat Crossing & Gariahat Police Station (Est. 1979)" },
+        { name: "Bedwin", address: "Gariahat Flyover", landmark: "Famous for South Kolkata kathi rolls" }
+      ],
+      signatureItems: [
+        'Special Fish Roll (Fresh Bhetki fillet wrapped around spicy fish keema)',
+        'Mutton Cutlet & Kasundi mustard',
+        'Chicken Roll in flaky laccha paratha',
+        'Fish Kobiraji with golden egg mesh'
+      ],
+      nativeTips: [
+        'There are no seats—join the lively sidewalk crowd, eat standing up, and watch the yellow double-decker buses and trams rattle down Rash Behari Avenue.',
+        'Ask for extra sliced red onions and raw green chilies.'
+      ],
+      transitGuide: 'Kalighat Metro Station, followed by a 5-minute auto down Rash Behari Avenue to Gariahat crossing.',
+      atmosphere: 'Vibrant South Calcutta retail energy, clinking tongs, crackling oil, and laughter under the streetlamps.'
+    },
+    {
+      id: 'balaram-mullick-baked-rosogolla',
+      title: 'Balaram Mullick’s Artisanal Baked Rosogolla & Nolen Gur Soufflé',
+      subtitle: 'Pioneers Who Reinvented Bengal Confectionery in 1885',
+      bengaliTitle: 'বলরাম মল্লিকের বেকড রসগোল্লা ও নলেন গুড়',
+      location: '2 Jadunath Dey Rd & Bhowanipore (Est. 1885)',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'sweets-desserts',
+      timing: 'Best: 8:00 AM – 9:30 PM',
+      priceRange: '₹30 – ₹80 per piece',
+      description: 'Operating since 1885 in aristocratic Bhowanipore, Balaram Mullick & Radharaman Mullick revolutionized Bengal confectionery by inventing the warm, caramelized Baked Rosogolla and silky Nolen Gur Soufflé.',
+      heritageLore: 'Founded in 1885 by Ganesh Chandra Mullick, who migrated to Calcutta from Konnagar, this confectionery house has delighted sweet-lovers for over 140 years. While respecting traditional Sandesh craftsmanship, the family became famous for pioneering modern dessert hybrids. In the 1990s, they invented the "Baked Rosogolla": fresh spongy cottage-cheese balls steeped in thick, saffron-infused reduced rabri, baked inside clay terracotta bowls in high-temperature ovens until the crown caramelizes into a golden, smoky brûlée crust.',
+      quote: '“Where traditional Bengali chhana meets French patisserie innovation.”',
+      tag: '1885 Artisanal Pioneer',
+      image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Mishti_Doi.jpg/500px-Mishti_Doi.jpg',
+      famousStalls: [
+        { name: "Balaram Mullick & Radharaman Mullick (Flagship)", address: "2 Jadunath Dey Road, Bhowanipore", landmark: "Near Bhowanipore Police Station (Est. 1885)" },
+        { name: "Ganguram Sweets", address: "Bowbazar & Gariahat", landmark: "Famous for classic Mishti Doi" }
+      ],
+      signatureItems: [
+        'Baked Rosogolla (Served warm in clay cup with caramelized rabri crust)',
+        'Nolen Gur Soufflé (Whipped date-palm jaggery mousse)',
+        'Mango Gelato Sandesh & Chocolate Mudpie Sandesh',
+        'Classic Kacha Golla and Chhanar Jilipi'
+      ],
+      nativeTips: [
+        'Always eat the Baked Rosogolla warm—the contrast between the piping hot spongy center and the cold creamy rabri is extraordinary.',
+        'In winter (Dec–Feb), try their fresh Jalbhara Sandesh made with morning-tapped date-palm sap.'
+      ],
+      transitGuide: 'Netaji Bhavan Metro Station. Walk 300m down Ashutosh Mukherjee Road into Bhowanipore.',
+      atmosphere: 'Gleaming brass display cases, heritage portraits, aroma of reduced condensed milk, and neighborhood families picking up sweet boxes.'
+    },
+    {
+      id: 'maharaja-maharani-kachori',
+      title: 'Maharaja & Maharani’s Morning Club Kachori & Malpua',
+      subtitle: 'The Epic South Kolkata Breakfast Rivalry Across Sarat Bose Road',
+      bengaliTitle: 'মহারাজা ও মহারানীর ক্লাব কচুরি',
+      location: 'Sarat Bose Road, Southern Avenue',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'tea-breakfast',
+      timing: 'Best: 6:30 AM – 10:30 AM Morning',
+      priceRange: '₹30 – ₹70 per plate',
+      description: 'The twin institutions facing each other across Sarat Bose Road where morning joggers, doctors, and south Kolkata intellectuals congregate under rain trees for hot club kachoris, spicy chana sabzi, and syrupy malpua.',
+      heritageLore: 'Sitting opposite each other on Sarat Bose Road, "Maharaja" and "Maharani" form South Kolkata’s most fiercely contested morning breakfast rivalry. Starting at dawn, morning walkers from the nearby Rabindra Sarobar Lake arrive in tracksuits to join college students and elderly intellectuals. The breakfast is legendary: four small, blistered, golden-crisp club kachoris stuffed with urad dal paste, floating on an earthy, aromatic curry of diced potatoes and black chickpeas seasoned with dry roasted spices, topped with fiery mango-chili pickle and followed by hot, soft, syrup-dripping malpua.',
+      quote: '“Morning joggers from the Lake invariably abandon their diet at the hypnotic aroma of Maharaja’s boiling kachori vats.”',
+      tag: 'South Morning Ritual',
+      image: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/Kachori-sabzi.jpg/500px-Kachori-sabzi.jpg',
+      famousStalls: [
+        { name: "Maharaja Snack Bar", address: "196 Sarat Bose Road, Deshapriya Park", landmark: "Opposite Deshapriya Park & Southern Avenue (Morning hotspot)" },
+        { name: "Maharani Sweets", address: "174 Sarat Bose Road", landmark: "Facing Maharaja across the avenue" }
+      ],
+      signatureItems: [
+        'Club Kachori Plate (4 golden puffed kachoris with hing aloo sabzi & pickle)',
+        'Warm Ghee Malpua steeped in cardamom syrup',
+        'Kesariya Jalebi straight from the frying kadai',
+        'Kulhad Masala Chai (Clay cup spiced tea)'
+      ],
+      nativeTips: [
+        'Debate the eternal South Calcutta question with the locals: Is Maharaja better or Maharani? (Try two kachoris at each to decide!)',
+        'Follow your breakfast with a tranquil stroll under the canopy of giant mahogany trees around Rabindra Sarobar Lake.'
+      ],
+      transitGuide: 'Kalighat or Jatin Das Park Metro Station. Walk 500m east to the Sarat Bose Road intersection.',
+      atmosphere: 'Morning birds chirping, lively political discussions on the pavement, clinking earthen tea cups, and bubbling oil cauldrons.'
+    },
+    {
+      id: 'kasturi-kochu-pata-chingri',
+      title: 'Kasturi’s Dhakai Kacchi Biryani & Kochu Pata Chingri',
+      subtitle: 'Steamed Prawns in Taro Leaves & Heritage Opar Bangla Cooking',
+      bengaliTitle: 'কস্তুরীর ঢাকাই কাচ্চি ও কচুপাতা চিংড়ি',
+      location: 'Ballygunge & Hindustan Park',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'mughlai-biryani',
+      timing: 'Best: 12:30 PM – 4:00 PM & 7:30 PM – 10:30 PM',
+      priceRange: '₹260 – ₹550 per person',
+      description: 'Pioneers of authentic Dhakai Bangladeshi heritage cuisine in Kolkata since 1994. Celebrated for its sublime Kochu Pata Chingri (sweet river prawns steamed in taro leaves with mustard) and slow-cooked Dhakai Kacchi Biryani.',
+      heritageLore: 'Founded in 1994, Kasturi brought the soulful, piquant flavors of undivided Bengal’s eastern culinary heritage (Dhakai and Opar Bangla cooking) into mainstream Kolkata restaurant lore. Their signature creation, Kochu Pata Chingri, is a revered culinary masterclass: succulent river prawns (Chingri) are folded into tender young green taro leaves (kochu pata), ground mustard seed paste (shorshe bata), grated fresh coconut, green chilies, and cold-pressed mustard oil, and gently steamed inside banana leaf parcels until the leaves melt into a rich, savory emerald puree.',
+      quote: '“A nostalgic ode to the kitchens of old Dhaka, steamed inside tender green leaves with cold-pressed mustard oil.”',
+      tag: 'Dhakai Heritage',
+      image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: "Kasturi Restaurant (Hindustan Park Branch)", address: "11A Hindustan Road, Gariahat", landmark: "Near Gariahat Crossing & Fabindia (Est. 1994)" },
+        { name: "Bhojohori Manna", address: "Ekdalia Rd, Ballygunge", landmark: "Traditional Bengali home-style cuisine" }
+      ],
+      signatureItems: [
+        'Kochu Pata Chingri Bhapa (Prawns steamed in taro leaves with mustard & coconut)',
+        'Dhakai Kacchi Biryani (Slow-cooked dum biryani with marinated mutton)',
+        'Bhetki Paturi (Fish fillet steamed in charred banana leaves)',
+        'Chitol Machher Muitha (Featherback fish dumplings in rich gravy)'
+      ],
+      nativeTips: [
+        'Mix the emerald Kochu Pata Chingri directly with steaming hot Gobindobhog white rice and a squeeze of fresh Gandharaj lime.',
+        'Try the Bhetki Paturi—unwrap the fragrant charred banana leaf parcel carefully to release the warm mustard steam.'
+      ],
+      transitGuide: 'Take Blue Line Metro to Kalighat, followed by a 5-minute auto to Hindustan Park / Gariahat.',
+      atmosphere: 'Comfortable, warm heritage dining room filled with families and the pungent, appetizing fragrance of mustard and steamed banana leaves.'
+    }
   ];
 
 
@@ -707,15 +1122,61 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
     { id: 'south', label: 'South Kolkata', count: culinaryStories.filter(c => c.region === 'south').length },
   ];
 
+  const categoryFilters = [
+    {
+      id: 'all',
+      label: 'All Cuisines',
+      icon: '🍽️',
+      count: culinaryStories.filter(c => activeRegion === 'all' || c.region === activeRegion).length,
+    },
+    {
+      id: 'cabins-fries',
+      label: 'Heritage Cabins & Fries',
+      icon: '🍗',
+      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'cabins-fries').length,
+    },
+    {
+      id: 'mughlai-biryani',
+      label: 'Biryani & Mughlai',
+      icon: '🍲',
+      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'mughlai-biryani').length,
+    },
+    {
+      id: 'street-bites',
+      label: 'Street Bites & Puchka',
+      icon: '🥟',
+      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'street-bites').length,
+    },
+    {
+      id: 'sweets-desserts',
+      label: 'Iconic Mishti & Bakes',
+      icon: '🍮',
+      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'sweets-desserts').length,
+    },
+    {
+      id: 'tea-breakfast',
+      label: 'Dawn Breakfast & Adda',
+      icon: '☕',
+      count: culinaryStories.filter(c => (activeRegion === 'all' || c.region === activeRegion) && c.category === 'tea-breakfast').length,
+    },
+  ];
+
   const handleFilterChange = (regionId: string) => {
     setDirection(1);
     setActiveRegion(regionId);
     setCurrentPage(1);
   };
 
+  const handleCategoryChange = (categoryId: string) => {
+    setDirection(1);
+    setActiveCategory(categoryId);
+    setCurrentPage(1);
+  };
+
   const filteredItems = culinaryStories.filter((item) => {
-    if (activeRegion === 'all') return true;
-    return item.region === activeRegion;
+    const matchesRegion = activeRegion === 'all' || item.region === activeRegion;
+    const matchesCategory = activeCategory === 'all' || item.category === activeCategory;
+    return matchesRegion && matchesCategory;
   });
 
 
@@ -750,6 +1211,8 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
 
     // Reset region to 'all' and calculate page so the background carousel updates
     setActiveRegion('all');
+    setActiveCategory('all');
+    setActiveCategory('all');
     const targetPage = Math.floor(randomIndex / ITEMS_PER_PAGE) + 1;
     setCurrentPage(targetPage);
 
@@ -904,7 +1367,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       </div>
 
       {/* Region Filter Tabs */}
-      <div className="relative z-10 flex items-center gap-2 overflow-x-auto pb-4 mb-4 no-scrollbar scroll-smooth">
+      <div className="relative z-10 flex items-center gap-2 overflow-x-auto pb-2 mb-2 no-scrollbar scroll-smooth">
         {filterTabs.map((tab) => {
           const isActive = activeRegion === tab.id;
           return (
@@ -922,6 +1385,32 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                 isActive ? 'bg-[#C6532B]/15 text-[#C6532B] font-bold' : 'bg-black/20 text-[#FFF8EF]/80'
               }`}>
                 {tab.count}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Food Category Filter Chips */}
+      <div className="relative z-10 flex items-center gap-2 overflow-x-auto pb-4 mb-4 no-scrollbar scroll-smooth">
+        {categoryFilters.map((cat) => {
+          const isActive = activeCategory === cat.id;
+          return (
+            <button
+              key={cat.id}
+              onClick={() => handleCategoryChange(cat.id)}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                isActive
+                  ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-md border border-[#FFF8EF]/35 scale-102'
+                  : 'bg-black/20 text-[#FFF8EF]/80 border border-[#FFF8EF]/15 hover:bg-black/35 hover:text-white'
+              }`}
+            >
+              <span>{cat.icon}</span>
+              <span>{cat.label}</span>
+              <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono ${
+                isActive ? 'bg-white/20 text-[#FFF8EF]' : 'bg-black/30 text-[#FFF8EF]/70'
+              }`}>
+                {cat.count}
               </span>
             </button>
           );
@@ -983,7 +1472,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         <div className="overflow-hidden py-1">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
-              key={`${activeRegion}-${safeCurrentPage}`}
+              key={`${activeRegion}-${activeCategory}-${safeCurrentPage}`}
               custom={direction}
               variants={slideVariants}
               initial="enter"
@@ -991,7 +1480,8 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
               exit="exit"
               className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 min-h-[460px]"
             >
-              {currentItems.map((item) => (
+              {currentItems.length > 0 ? (
+                currentItems.map((item) => (
                 <div
                   key={item.id}
                   onClick={() => setSelectedItem(item)}
@@ -1069,7 +1559,27 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+              ) : (
+                <div className="col-span-full flex flex-col items-center justify-center py-20 px-6 text-center rounded-3xl bg-black/25 border border-[#FFF8EF]/20 space-y-3">
+                  <span className="text-4xl">🍲</span>
+                  <p className="font-serif text-xl sm:text-2xl text-[#FFF8EF] font-medium">
+                    No spots found for this cuisine in the selected zone.
+                  </p>
+                  <p className="font-sans text-xs sm:text-sm text-[#FFF8EF]/75 max-w-md">
+                    Try switching back to &ldquo;All Cuisines&rdquo; or explore another zone of Kolkata to uncover hidden delicacies.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setActiveCategory('all');
+                      setCurrentPage(1);
+                    }}
+                    className="mt-3 px-5 py-2.5 rounded-full bg-[#FFF8EF] text-[#351E1A] font-bold text-xs shadow-md hover:bg-[#F7EBDD] transition-all cursor-pointer active:scale-95"
+                  >
+                    View All Cuisines
+                  </button>
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>

@@ -85,13 +85,6 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/50 to-transparent pointer-events-none" />
 
-          {/* Bengali Watermark Silhouette */}
-          <div className="absolute top-4 left-6 pointer-events-none opacity-20">
-            <span className="font-bengali text-5xl font-black text-[#FFF8EF]">
-              {item.bengaliTitle || 'রসনা বিলাস'}
-            </span>
-          </div>
-
           {/* Banner Captions */}
           <div className="absolute bottom-4 left-6 right-6 text-[#FFF8EF] space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">

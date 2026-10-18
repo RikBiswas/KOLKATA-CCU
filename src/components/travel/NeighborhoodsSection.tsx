@@ -209,11 +209,6 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
               {currentDistrict.bengaliName}
             </div>
 
-            {/* Era Tag (Top Right) */}
-            <div className="absolute top-3.5 right-3.5 bg-[#351E1A]/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono text-[#FFF8EF] border border-[#FFF8EF]/20">
-              {currentDistrict.era}
-            </div>
-
             {/* Bottom Floating Info */}
             <div className="absolute bottom-4 left-4 right-4 text-[#FFF8EF] space-y-1">
               <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#C5A25A]">
@@ -245,11 +240,11 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
         <div className="lg:col-span-7 flex flex-col justify-between space-y-6">
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-sm bg-[#C6532B]/10 text-[#C6532B] font-mono text-[10px] font-bold uppercase tracking-wider">
                   Enclave Overview
                 </span>
-                <span className="text-[11px] font-sans text-[#351E1A]/60 font-medium">
+                <span className="text-[11px] font-mono text-[#582822]/85 font-medium bg-[#F7EBDD] px-2.5 py-0.5 rounded-full border border-[#E8D5C2]">
                   {currentDistrict.era}
                 </span>
               </div>

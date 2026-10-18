@@ -86,7 +86,7 @@ const THINGS_TO_DO: KolkataActivity[] = [
     bestTime: '6:30 AM – 8:00 AM daily',
     cost: '₹120 – ₹200 for full breakfast',
     icon: '🥟',
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSR3UZuGyRRNnIWTin5yCPM5YeqNFTIRECryYm3K8sCv1F4drs5LzV6hw8&s=10',
+    imageUrl: 'https://assets.telegraphindia.com/telegraph/DSC_1922.jpg',
     insiderTip: 'Arrive before 7:15 AM; the best steamed fish dumpling bowls sell out in 45 minutes.',
     highlightTag: 'Foodie Must',
   },
