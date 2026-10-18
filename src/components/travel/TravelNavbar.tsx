@@ -90,6 +90,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
     { id: 'home', label: 'Home' },
     { id: 'neighborhoods', label: 'Districts' },
     { id: 'destinations', label: 'Landmarks' },
+    { id: 'kolkata-map-atlas', label: 'Atlas Map' },
     { id: 'trails', label: 'Trails' },
     { id: 'culture', label: 'Gastronomy' },
     { id: 'festivals', label: 'Festivals' },

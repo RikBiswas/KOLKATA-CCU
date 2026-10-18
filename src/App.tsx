@@ -26,6 +26,7 @@ import { CalcuttaSoundscape } from './components/travel/CalcuttaSoundscape';
 import { ItineraryBuilderModal } from './components/travel/ItineraryBuilderModal';
 import { ReviewFeedbackModal } from './components/travel/ReviewFeedbackModal';
 import { ReviewsSection } from './components/travel/ReviewsSection';
+import { KolkataPlacesMapSection } from './components/travel/KolkataPlacesMapSection';
 import { DEFAULT_CURATED_DIARY_ITEMS } from './config/diary.config';
 export { DEFAULT_CURATED_DIARY_ITEMS };
 
@@ -306,21 +307,22 @@ export default function App() {
         diaryCount={diaryItems.length}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {currentPage === 'all-destinations' ? (
-          /* Full Destination Gallery Page */
+      {currentPage === 'all-destinations' ? (
+        /* Full Destination Gallery Page */
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-28">
           <AllDestinationsPage
             destinations={travelData.destinations}
             onSelectDestination={(dest) => setSelectedDestination(dest)}
             onBackToHome={handleBackToHome}
           />
-        ) : (
-          /* Home Overview Layout */
-          <>
-            {/* Search Results Notification Banner if querying */}
-            {searchQuery.trim() && (
-              <div className="mt-24 mb-4 p-4 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans text-[#351E1A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs animate-slide-in-right">
+        </main>
+      ) : (
+        /* Home Overview Layout */
+        <>
+          {/* Search Results Notification Banner if querying */}
+          {searchQuery.trim() && (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-4 relative z-20">
+              <div className="p-4 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans text-[#351E1A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs animate-slide-in-right">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#C6532B]" />
                   <span>
@@ -343,15 +345,18 @@ export default function App() {
                   </button>
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* 1. Signature Hero Banner Section */}
-            <HeroBanner
-              onExploreDestinations={handleExploreDestinations}
-              onExploreTrails={handleExploreTrails}
-              onOpenItineraryBuilder={() => setIsItineraryOpen(true)}
-            />
+          {/* 1. Signature Hero Banner Section (Full Screen Width & Viewport Height) */}
+          <HeroBanner
+            onExploreDestinations={handleExploreDestinations}
+            onExploreTrails={handleExploreTrails}
+            onOpenItineraryBuilder={() => setIsItineraryOpen(true)}
+          />
 
+          {/* Main Content Area for all subsequent chapters */}
+          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             {/* 2. Introductory Editorial Section: The Art of Slow Travel in Calcutta */}
             <WhyChooseUs />
 
@@ -370,6 +375,11 @@ export default function App() {
               destinations={filteredDestinations}
               onSelectDestination={(dest) => setSelectedDestination(dest)}
               onViewAll={handleOpenAllDestinations}
+            />
+
+            {/* 4-B. Chapter II-B: Cartographic Atlas & Interactive Kolkata Places Map (mapcn) */}
+            <KolkataPlacesMapSection
+              onSelectDestination={(dest) => setSelectedDestination(dest)}
             />
 
             {/* 5. Chapter III: Curated Walking & Transit Trails */}
@@ -420,9 +430,9 @@ export default function App() {
               onOpenReviewModal={() => setIsReviewModalOpen(true)}
               refreshTrigger={reviewRefreshTrigger}
             />
-          </>
-        )}
-      </main>
+          </main>
+        </>
+      )}
 
       {/* Kolkata Travel & Heritage Footer */}
       <TravelFooter onSelectTab={handleSelectTab} />
