@@ -85,6 +85,12 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
     }
   };
 
+  const handleWheelHorizontal = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX) && e.deltaY !== 0) {
+      e.currentTarget.scrollLeft += e.deltaY * 1.2;
+    }
+  };
+
   // Surprise Me / Random Heritage Spot generator
   const handleSurpriseMe = () => {
     if (destinations.length === 0) return;
@@ -179,6 +185,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
         <div
           ref={vibeScrollRef}
           onScroll={checkVibeScroll}
+          onWheel={handleWheelHorizontal}
           className="flex items-center gap-2 overflow-x-auto pb-2 scroll-smooth no-scrollbar"
         >
           <span className="text-[11px] font-mono font-bold text-[#582822] shrink-0 mr-1">
@@ -233,6 +240,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
         <div
           ref={categoryScrollRef}
           onScroll={checkCategoryScroll}
+          onWheel={handleWheelHorizontal}
           className="flex items-center gap-2 overflow-x-auto pb-2 scroll-smooth no-scrollbar"
         >
           {categories.map((cat) => (

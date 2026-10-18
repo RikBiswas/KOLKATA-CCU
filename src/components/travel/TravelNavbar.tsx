@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Compass, Map, Menu, X, BookOpen, Sparkles, Bookmark, Calendar } from 'lucide-react';
+import { Search, Compass, Map, Menu, X, BookOpen, Sparkles, Bookmark, Calendar, Star } from 'lucide-react';
 
 interface TravelNavbarProps {
   activeTab: string;
@@ -9,6 +9,7 @@ interface TravelNavbarProps {
   onOpenDiary?: () => void;
   onOpenItineraryBuilder?: () => void;
   diaryCount?: number;
+  onOpenReviewModal?: () => void;
 }
 
 export const TravelNavbar: React.FC<TravelNavbarProps> = ({
@@ -19,6 +20,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   onOpenDiary,
   onOpenItineraryBuilder,
   diaryCount = 0,
+  onOpenReviewModal,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -127,9 +129,9 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
     >
       {/* Floating Centered Capsule */}
       <div
-        className={`pointer-events-auto w-full max-w-6xl transition-all duration-300 rounded-full border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] ${isScrolled
-            ? 'bg-[#FFF8EF]/95 backdrop-blur-md py-2 px-3.5 sm:px-6 shadow-[0_12px_36px_rgba(53,30,26,0.12)]'
-            : 'bg-[#F7EBDD]/90 backdrop-blur-md py-2.5 sm:py-3 px-3.5 sm:px-6'
+        className={`pointer-events-auto w-full max-w-7xl transition-all duration-300 rounded-full border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] ${isScrolled
+            ? 'bg-[#FFF8EF]/95 backdrop-blur-md py-2 px-3 sm:px-5 shadow-[0_12px_36px_rgba(53,30,26,0.12)]'
+            : 'bg-[#F7EBDD]/90 backdrop-blur-md py-2.5 sm:py-3 px-3 sm:px-5'
           }`}
       >
         <div className="flex items-center justify-between gap-2 sm:gap-4">
@@ -246,12 +248,15 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
               </button>
             )}
 
-            {/* Primary Terracotta CTA */}
+            {/* Review / Feedback CTA Button */}
             <button
-              onClick={() => handleLinkClick('destinations')}
-              className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 text-xs font-sans font-bold tracking-wide text-white bg-[#C6532B] hover:bg-[#B04520] active:scale-95 rounded-full shadow-sm transition-all duration-200 cursor-pointer shrink-0"
+              onClick={onOpenReviewModal}
+              className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 text-xs font-sans font-bold tracking-wide text-white bg-[#C6532B] hover:bg-[#B04520] active:scale-95 rounded-full shadow-sm transition-all duration-200 cursor-pointer shrink-0 group"
+              title="Leave a Review / Feedback"
+              aria-label="Open review and feedback form"
             >
-              <span>Explore</span>
+              <Star className="w-3.5 h-3.5 fill-current text-[#F7EBDD] group-hover:rotate-12 transition-transform" />
+              <span>Review</span>
             </button>
 
             {/* Mobile Menu Button */}

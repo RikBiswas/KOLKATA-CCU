@@ -38,8 +38,8 @@ export const PhotoGallerySection: React.FC<PhotoGallerySectionProps> = ({ photos
           </h2>
 
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
-            A curated photographic archive captured on traditional 35mm and medium format film stocks 
-            (Kodak Portra, Tri-X, Fujifilm Velvia, and Ilford HP5). Click any print to examine exposure notes and location context.
+            A curated photographic archive of Calcutta&rsquo;s timeless architecture, riverfront ghats, 
+            living quarters, and historic transit. Click any photograph to view the full plate and location context.
           </p>
         </div>
 
@@ -69,7 +69,7 @@ export const PhotoGallerySection: React.FC<PhotoGallerySectionProps> = ({ photos
             onClick={() => setActivePhoto(item)}
             className="group relative bg-[#FFF8EF] p-3.5 sm:p-4 rounded-3xl border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.14)] transition-all duration-400 hover:-translate-y-1.5 cursor-pointer flex flex-col justify-between"
           >
-            {/* Photographic Negative Print Box */}
+            {/* Photographic Print Box */}
             <div className="relative h-60 sm:h-64 w-full rounded-2xl overflow-hidden bg-[#1f100d]">
               <img
                 src={item.imageUrl}
@@ -79,16 +79,11 @@ export const PhotoGallerySection: React.FC<PhotoGallerySectionProps> = ({ photos
 
               <div className="absolute inset-0 bg-gradient-to-t from-[#1f100d]/80 via-transparent to-transparent pointer-events-none" />
 
-              {/* Film Stock Stamp Pill */}
-              <div className="absolute top-3 left-3 bg-[#FFF8EF]/95 backdrop-blur-md px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold text-[#351E1A] shadow-xs border border-[#E8D5C2]">
-                {item.filmStock.split(' ')[0]}
-              </div>
-
               {/* View Overlay on Hover */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30 backdrop-blur-xs">
                 <span className="px-4 py-2 rounded-full bg-[#FFF8EF] text-[#351E1A] text-xs font-sans font-bold flex items-center gap-1.5 shadow-md transform scale-90 group-hover:scale-100 transition-transform">
                   <Eye className="w-3.5 h-3.5 text-[#C6532B]" />
-                  <span>Inspect Negative</span>
+                  <span>View Photograph</span>
                 </span>
               </div>
 

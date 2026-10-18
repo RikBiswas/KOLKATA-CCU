@@ -24,6 +24,8 @@ import { AllDestinationsPage } from './components/travel/AllDestinationsPage';
 import { PocketDiaryModal } from './components/travel/PocketDiaryModal';
 import { CalcuttaSoundscape } from './components/travel/CalcuttaSoundscape';
 import { ItineraryBuilderModal } from './components/travel/ItineraryBuilderModal';
+import { ReviewFeedbackModal } from './components/travel/ReviewFeedbackModal';
+import { ReviewsSection } from './components/travel/ReviewsSection';
 
 const DIARY_STORAGE_KEY = 'wander_ccu_diary_v2';
 
@@ -227,6 +229,8 @@ export default function App() {
   const [selectedDistrict, setSelectedDistrict] = useState<Neighborhood | null>(null);
   const [isDiaryOpen, setIsDiaryOpen] = useState(false);
   const [isItineraryOpen, setIsItineraryOpen] = useState(false);
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviewRefreshTrigger, setReviewRefreshTrigger] = useState(0);
 
   // Personal Pocket Diary state with persistent localStorage
   const [diaryItems, setDiaryItems] = useState<DiaryItem[]>(() => {
@@ -339,6 +343,7 @@ export default function App() {
       'festivals',
       'gallery',
       'transit',
+      'reviews',
     ];
 
     const handleScroll = () => {
@@ -449,6 +454,7 @@ export default function App() {
         onSearchChange={setSearchQuery}
         onOpenDiary={() => setIsDiaryOpen(true)}
         onOpenItineraryBuilder={() => setIsItineraryOpen(true)}
+        onOpenReviewModal={() => setIsReviewModalOpen(true)}
         diaryCount={diaryItems.length}
       />
 
@@ -560,6 +566,12 @@ export default function App() {
 
             {/* 13. Things to Do in Kolkata (Auto-sliding mini cards) */}
             <ThingsToDoSection onExploreLandmarks={handleExploreDestinations} />
+
+            {/* 14. Community Reviews & Feedback Table Section (Synced with Neon PostgreSQL) */}
+            <ReviewsSection
+              onOpenReviewModal={() => setIsReviewModalOpen(true)}
+              refreshTrigger={reviewRefreshTrigger}
+            />
           </>
         )}
       </main>
@@ -638,6 +650,13 @@ export default function App() {
       <ItineraryBuilderModal
         isOpen={isItineraryOpen}
         onClose={() => setIsItineraryOpen(false)}
+      />
+
+      {/* Review & Feedback Modal */}
+      <ReviewFeedbackModal
+        isOpen={isReviewModalOpen}
+        onClose={() => setIsReviewModalOpen(false)}
+        onReviewSubmitted={() => setReviewRefreshTrigger((prev) => prev + 1)}
       />
 
       {/* Ambient Calcutta Audio Vignettes Soundscape Player */}

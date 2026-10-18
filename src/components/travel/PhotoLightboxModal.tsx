@@ -42,7 +42,7 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
             {currentIndex + 1} / {photos.length}
           </span>
           <span className="text-xs font-mono text-[#D9A38E] hidden sm:inline">
-            ARCHIVAL NEGATIVE &bull; {photo.filmStock}
+            ARCHIVE PHOTOGRAPH &bull; {photo.yearTaken}
           </span>
         </div>
 
@@ -82,15 +82,9 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
             alt={photo.title}
             className="max-h-full max-w-full object-contain"
           />
-
-          {/* Film stock stamp on image corner */}
-          <div className="absolute bottom-3 left-3 bg-[#1A0E0C]/80 backdrop-blur-md px-3 py-1 rounded-sm border border-white/20 text-[10px] font-mono text-[#D9A38E] flex items-center gap-1.5 pointer-events-none">
-            <Film className="w-3 h-3 text-[#C5A25A]" />
-            <span>{photo.filmStock}</span>
-          </div>
         </div>
 
-        {/* Right Editorial Sidebar: Notes, Camera details & Story */}
+        {/* Right Editorial Sidebar: Notes & Story */}
         <div className="w-full md:w-80 lg:w-96 p-6 sm:p-8 flex flex-col justify-between space-y-6 text-[#351E1A] bg-[#FFF8EF]">
           <div className="space-y-4">
             <div className="flex items-center justify-between gap-2 border-b border-[#E8D5C2] pb-3">
@@ -115,22 +109,6 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
             <p className="font-sans text-xs text-[#351E1A]/80 leading-relaxed italic">
               &ldquo;{photo.caption}&rdquo;
             </p>
-
-            {/* Technical EXIF & Analog Simulation Box */}
-            <div className="p-4 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-2 text-xs font-sans">
-              <span className="text-[10px] font-mono font-bold uppercase text-[#582822] flex items-center gap-1.5">
-                <Camera className="w-3.5 h-3.5 text-[#C6532B]" />
-                <span>Camera &amp; Negative Details</span>
-              </span>
-              <p
-                className="font-mono text-[11px] text-[#351E1A]/85"
-                dangerouslySetInnerHTML={{ __html: photo.cameraNote }}
-              />
-              <div className="pt-1 flex items-center justify-between text-[11px] text-[#351E1A]/60">
-                <span>Film: {photo.filmStock}</span>
-                <span>Archived: {photo.yearTaken}</span>
-              </div>
-            </div>
           </div>
 
           {/* Bottom Bar: Instructions */}

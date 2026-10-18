@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Utensils, MapPin, ChevronLeft, ChevronRight, Sparkles, Compass, Play, Pause } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Utensils, MapPin, ChevronLeft, ChevronRight, Sparkles, Compass, Play, Pause, Search, LayoutGrid, X, Check, SlidersHorizontal, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { CulinaryDetailModal } from './CulinaryDetailModal';
 
@@ -74,6 +74,26 @@ const STORY_CATEGORIES: Record<string, string[]> = {
   'olypub-park-street': ['pub', 'bar-grill', 'bistro', 'continental-restaurant'],
   'the-dhaba-ballygunge': ['north-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant'],
   'roastery-coffee-house-kolkata': ['coffee-shop', 'cafe', 'bistro', 'dessert-restaurant'],
+  'trincas-park-street': ['pub', 'bar-grill', 'bistro', 'continental-restaurant'],
+  'someplace-else-the-park': ['pub', 'bar-grill', 'bistro'],
+  'broadway-hotel-bar': ['pub', 'bistro', 'continental-restaurant'],
+  'the-grid-brewery': ['pub', 'bar-grill', 'bistro', 'pizza-restaurant'],
+  'fabbrica-della-pizza': ['pizza-restaurant', 'italian-restaurant', 'bistro'],
+  'sorano-ho-chi-minh': ['italian-restaurant', 'bistro', 'continental-restaurant'],
+  'sienna-cafe-hindustan-park': ['cafe', 'bistro', 'coffee-shop', 'continental-restaurant'],
+  'eau-chew-chimney-soup': ['chinese-restaurant', 'asian-restaurant', 'fast-food-restaurant'],
+  'beijing-restaurant-tangra': ['chinese-restaurant', 'asian-restaurant', 'bar-grill'],
+  'banana-leaf-south-indian': ['south-indian-restaurant', 'indian-restaurant', 'cafe'],
+  'ramkrishna-lunch-home': ['south-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant'],
+  'kookie-jar-rawdon': ['bakery', 'cafe', 'dessert-restaurant', 'fast-food-restaurant'],
+  'saldanha-bakery-wellesley': ['bakery', 'sweets-desserts', 'fast-food-restaurant'],
+  'mrs-magpie-southern-ave': ['cafe', 'bakery', 'dessert-restaurant', 'coffee-shop'],
+  'dada-boudi-biryani-barrackpore': ['biryani-restaurant', 'mughlai-biryani', 'mughlai-restaurant', 'indian-restaurant'],
+  'india-restaurant-kidderpore': ['biryani-restaurant', 'mughlai-biryani', 'mughlai-restaurant', 'north-indian-restaurant'],
+  'oudh-1590-deshapriya': ['mughlai-biryani', 'biryani-restaurant', 'mughlai-restaurant', 'indian-restaurant'],
+  'ballygunge-place-heritage': ['bengali-restaurant', 'indian-restaurant', 'bistro'],
+  'azad-hind-dhaba-ballygunge': ['north-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant', 'mughlai-restaurant'],
+  'eighth-day-cafe-bakery': ['coffee-shop', 'cafe', 'bakery', 'bistro'],
 };
 
 export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
@@ -89,37 +109,21 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
   const [isAutoPlay, setIsAutoPlay] = useState<boolean>(true);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
-  const categoryScrollRef = React.useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState<boolean>(false);
-  const [canScrollRight, setCanScrollRight] = useState<boolean>(true);
-
-  const checkScrollability = () => {
-    const el = categoryScrollRef.current;
-    if (el) {
-      const { scrollLeft, scrollWidth, clientWidth } = el;
-      setCanScrollLeft(scrollLeft > 6);
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
-    }
-  };
-
-  const handleScrollCategory = (direction: 'left' | 'right') => {
-    const el = categoryScrollRef.current;
-    if (el) {
-      const scrollAmount = 300;
-      el.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
-        behavior: 'smooth',
-      });
-      setTimeout(checkScrollability, 320);
-    }
-  };
+  // User-friendly Category Browsing & Modal State
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
+  const [modalCategorySearch, setModalCategorySearch] = useState<string>('');
+  const [modalGroupFilter, setModalGroupFilter] = useState<string>('all');
+  const modalSearchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    checkScrollability();
-    const handleResize = () => checkScrollability();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isCategoryModalOpen) setIsCategoryModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isCategoryModalOpen]);
 
   const culinaryStories: CulinaryItem[] = [
     {
@@ -1389,15 +1393,650 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       ],
       transitGuide: 'Kalighat Metro Station. Walk 8 minutes east down Rash Behari Avenue into Hindustan Park.',
       atmosphere: 'Chirping songbirds in courtyard trees, aroma of freshly roasted Arabica beans, soft indie jazz, and relaxed creative conversations.'
+    },
+    {
+      id: 'trincas-park-street',
+      title: 'Trincas & The Golden Era of Park Street Live Jazz & Sizzlers',
+      subtitle: 'The 1959 Birthplace of Indian Pop Music, Sizzling Steaks & Nightlife',
+      bengaliTitle: 'ট্রিঙ্কাস ও পার্ক স্ট্রিটের লাইভ জ্যাজ',
+      location: '17 Park Street, Central Kolkata',
+      region: 'central',
+      regionLabel: 'Central & Park Street',
+      category: 'pub',
+      categories: ['pub', 'bar-grill', 'bistro', 'continental-restaurant'],
+      timing: 'Best: 12:00 PM – 11:30 PM (Live Music: 6:00 PM onwards)',
+      priceRange: '₹800 – ₹1,500 for two',
+      description: 'The legendary birthplace of Park Street nightlife since 1959. Usha Uthup began her career here. Sip chilled draughts and cocktails under amber chandeliers while savoring classic mixed sizzlers and listening to live retro pop and jazz.',
+      heritageLore: 'Originally established in 1939 as a tea room by Swiss confectioner Mr. Trinca, it was bought in 1959 by Om Prakash Puri and Ellis Joshua, who converted it into a live music restaurant. Trincas became the epicenter of India’s swinging sixties. Iconic singers like Usha Uthup, Biddu, and Eve performed here before jam-packed crowds of diplomats, movie stars, and jazz aficionados. The old-world hospitality, deep mahogany arches, and live band stage remain entirely preserved.',
+      quote: '“Park Street’s original stage where Calcutta learned to swing, dine, and dance.”',
+      tag: 'Heritage Live Pub',
+      image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Trincas (Main Dining & Tavern)', address: '17 Park Street', landmark: 'Opposite Stephen Court' },
+        { name: 'The Other Room at Trincas', address: '17 Park Street (Annex)', landmark: 'Intimate cocktail lounge' }
+      ],
+      signatureItems: [
+        'Classic Tenderloin Steak Sizzler with herb butter & grilled onions',
+        'Shredded Crispy Lamb with dry chilies & scallions',
+        'Signature Trincas Gin Tonic & draught ale'
+      ],
+      nativeTips: [
+        'Book or walk in by 6:30 PM on weekends to grab a table right in front of the live music bandstand.',
+        'Order their sizzlers—the cast iron sizzler platter arrives billowing with fragrant, buttery steam.'
+      ],
+      transitGuide: 'Park Street Metro Station. Walk 2 minutes east along Park Street.',
+      atmosphere: 'Amber lights, live saxophone melodies, clinking beer mugs, and nostalgic Park Street glamour.'
+    },
+    {
+      id: 'someplace-else-the-park',
+      title: 'Someplace Else & Classic British Pub Rock',
+      subtitle: 'India’s Most Iconic Live Blues & Rock Sanctuary Since 1994',
+      bengaliTitle: 'সামপ্লেস এলস লাইভ রক পাব',
+      location: 'The Park Hotel, 17 Park Street, Central Kolkata',
+      region: 'central',
+      regionLabel: 'Central & Park Street',
+      category: 'pub',
+      categories: ['pub', 'bar-grill', 'bistro'],
+      timing: 'Best: 4:30 PM – Midnight (Live bands start around 8:00 PM)',
+      priceRange: '₹1,200 – ₹2,200 for two',
+      description: 'A dark, wood-paneled British pub nestled inside The Park. Famous as India’s longest-running live rock venue, where top independent bands perform blues, classic rock, and alternative tracks every single evening.',
+      heritageLore: 'Since opening in 1994, Someplace Else has had no rival in India’s rock culture. With no entry fee and zero pretense, it became a holy sanctuary for live indie musicians. Renowned acts like Skinny Alley, Lou Majaw, Cactus, and Fossils played here. With dark oak tables, brass footrails, and vintage rock memorabilia, the pub has delivered uninterrupted live music 365 nights a year for three decades.',
+      quote: '“No cover charges, no fake poses—strictly pure rock and roll and cold draught beer.”',
+      tag: 'Legendary Rock Pub',
+      image: 'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Someplace Else', address: 'Ground Floor, The Park Hotel, 17 Park Street', landmark: 'Park Street entrance' }
+      ],
+      signatureItems: [
+        'Fresh Draught Beer on Tap (Pitchers & Mugs)',
+        'Devilled Chicken Skewers with mustard dip',
+        'Loaded Pub Nachos with spiced salsa & melted cheese'
+      ],
+      nativeTips: [
+        'Arrive by 7:45 PM to grab bar stools near the stage—by 9:00 PM, the pub is packed wall-to-wall with music lovers singing every lyric.'
+      ],
+      transitGuide: 'Park Street Metro Station. Direct entrance via The Park Hotel lobby.',
+      atmosphere: 'Electric guitar riffs, cheering crowds, vintage dark wood, and ice-cold beer mugs.'
+    },
+    {
+      id: 'broadway-hotel-bar',
+      title: 'The Historic 1903 Broadway Hotel & Babu Bar',
+      subtitle: 'Chandni Chowk’s Century-Old Bohemian Tavern & Fish Fingers',
+      bengaliTitle: 'ব্রডওয়ে হোটেল ও বাবুদের ঐতিহাসিক বার',
+      location: '27A Ganesh Chandra Avenue, Chandni Chowk, Central Kolkata',
+      region: 'central',
+      regionLabel: 'Central & Esplanade',
+      category: 'pub',
+      categories: ['pub', 'bistro', 'continental-restaurant'],
+      timing: 'Best: 1:00 PM – 10:00 PM',
+      priceRange: '₹400 – ₹800 for two',
+      description: 'Founded in 1903, Broadway Hotel preserves the nostalgic charm of colonial Calcutta’s watering holes: high ceilings, whirring antique fans, vintage waiters, affordable chilled beer, and legendary crispy crumbed fish fingers.',
+      heritageLore: 'During the Second World War, American and British soldiers frequented Broadway Hotel along Central Calcutta’s bustling commercial district. Through the decades, journalists from The Statesman, High Court barristers, artists, and university professors made it their beloved adda tavern. The interior remains delightfully suspended in time: green and cream walls, cast-iron pillars, heavy teak furniture, and vintage beer coasters.',
+      quote: '“Unchanged since 1903—where generations of Calcutta babus debate over beer and kasundi fish fingers.”',
+      tag: 'Century-Old Tavern',
+      image: 'https://images.unsplash.com/photo-1538488881522-4326c36da6ac?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Broadway Hotel Bar', address: '27A Ganesh Chandra Avenue', landmark: 'Near Chandni Chowk Metro Gate 2 (Est. 1903)' }
+      ],
+      signatureItems: [
+        'Classic Kolkata Crumb-Fried Bhetki Fish Fingers with Kasundi',
+        'Crispy Chili Chicken (Old Calcutta style)',
+        'Affordable Chilled Draught & Bottled Beers'
+      ],
+      nativeTips: [
+        'Dip your fish fingers into their fiery house-ground Kasundi mustard.',
+        'Best experienced on a rainy afternoon while watching yellow cabs splash through Ganesh Chandra Avenue.'
+      ],
+      transitGuide: 'Chandni Chowk Metro Station (Exit Gate 2). Walk 150 meters down Ganesh Chandra Avenue.',
+      atmosphere: 'Sepia-toned nostalgic adda, clinking porcelain and glassware, and friendly banter.'
+    },
+    {
+      id: 'the-grid-brewery',
+      title: 'The Grid Microbrewery & Gastropub Lounge',
+      subtitle: 'Kolkata’s Flagship Craft Microbrewery & Artisanal Wood-Fired Pies',
+      bengaliTitle: 'দ্য গ্রিড মাইক্রোব্রুয়ারি ও গ্যাস্ট্রোপাব',
+      location: '86A Topsia Road, EM Bypass, East Kolkata',
+      region: 'east',
+      regionLabel: 'East Kolkata & Tangra',
+      category: 'pub',
+      categories: ['pub', 'bar-grill', 'bistro', 'pizza-restaurant'],
+      timing: 'Best: 12:00 PM – Midnight',
+      priceRange: '₹1,200 – ₹2,400 for two',
+      description: 'A sprawling 10,000 sq ft industrial-chic craft microbrewery along the EM Bypass. Famous for in-house crafted Belgian Witbiers, IPAs, craft ciders, and blistered sourdough pizzas baked in an imported wood oven.',
+      heritageLore: 'Pioneering Kolkata’s modern microbrewery movement, The Grid transformed the city’s nightlife with state-of-the-art German brewing equipment. Its design features exposed brick, copper pipes, and a giant Lego bar that pays homage to design architecture. It has won numerous national awards for Best Microbrewery in Eastern India.',
+      quote: '“Craft beer brewed to precision along the eastern arteries of the city.”',
+      tag: 'Craft Microbrewery',
+      image: 'https://images.unsplash.com/photo-1518176258769-f227c798150e?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'The Grid Microbrewery', address: '86A Haute Street Corporate Park, Topsia', landmark: 'Off EM Bypass, near Topsia police station' }
+      ],
+      signatureItems: [
+        'Calcutta Wheat Belgian Wit with coriander & Gondhoraj zest',
+        'Wood-Fired Truffle & Wild Mushroom Sourdough Pizza',
+        'Smoked BBQ Pork Ribs with house cider glaze'
+      ],
+      nativeTips: [
+        'Order the Beer Flight Sampler to taste 4 seasonal craft brews before committing to a pint.'
+      ],
+      transitGuide: 'Take EM Bypass via yellow taxi or cab towards Topsia / Science City.',
+      atmosphere: 'Industrial copper vats, pulsating DJ beats, chic urban crowd, and fresh malt aroma.'
+    },
+    {
+      id: 'fabbrica-della-pizza',
+      title: 'Fabbrica della Pizza’s Wood-Fired Neapolitan Pies',
+      subtitle: 'Kolkata’s Benchmark Sourdough Pizza Baked at 450°C',
+      bengaliTitle: 'ফ্যাব্রিকা দেল্লা পিৎজা',
+      location: '8A Allenby Road, Forum Mall area, South Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'pizza-restaurant',
+      categories: ['pizza-restaurant', 'italian-restaurant', 'bistro'],
+      timing: 'Best: 12:00 PM – 10:30 PM',
+      priceRange: '₹800 – ₹1,500 for two',
+      description: 'The pizzeria that redefined Italian dining in Kolkata. Hand-stretched sourdough crusts, Italian Caputo flour, San Marzano tomato sauce, and creamy Fior di Latte cheese baked in 90 seconds inside a roaring imported wood-fired oven.',
+      heritageLore: 'Founded to bring true Neapolitan pizza standards to Bengal, Fabbrica respects strict Verace Pizza Napoletana traditions. Their sourdough dough is slow-fermented for over 48 hours, creating light, digestible crusts with signature leopard-spotted char blisters.',
+      quote: '“Leopard-spotted sourdough crusts that transport you straight to the cobblestones of Naples.”',
+      tag: 'Neapolitan Pizzeria',
+      image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Fabbrica della Pizza', address: '8A Allenby Road, Lala Lajpat Rai Sarani', landmark: 'Behind Forum Mall Elgin Road' }
+      ],
+      signatureItems: [
+        'Pizza Margherita D.O.P with Buffalo Mozzarella & Fresh Basil',
+        'Quattro Formaggi (Four Cheese with Gorgonzola & hot honey)',
+        'Polenta Truffle Fries & House Tiramisu'
+      ],
+      nativeTips: [
+        'Eat the pizza immediately when served hot—fold the soft, pillowy tip like a Neapolitan local.'
+      ],
+      transitGuide: 'Netaji Bhavan Metro Station. Walk 4 minutes down Elgin Road past Forum Mall into Allenby Road.',
+      atmosphere: 'Wood smoke aromas, warm Mediterranean brick decor, and cozy trattoria energy.'
+    },
+    {
+      id: 'sorano-ho-chi-minh',
+      title: 'Sorano’s Tuscan Villa & Handmade Artisanal Pasta',
+      subtitle: 'Courtyard Italian Elegance, Truffle Agnolotti & Burrata',
+      bengaliTitle: 'সোরাণো ইতালিয়ান কোর্টইয়ার্ড',
+      location: '24 Ho Chi Minh Sarani, Central Kolkata',
+      region: 'central',
+      regionLabel: 'Central & Park Street',
+      category: 'italian-restaurant',
+      categories: ['italian-restaurant', 'bistro', 'continental-restaurant'],
+      timing: 'Best: 12:30 PM – 11:00 PM',
+      priceRange: '₹1,500 – ₹2,800 for two',
+      description: 'An idyllic Italian villa retreat hidden on Ho Chi Minh Sarani. Offering sun-kissed terracotta terraces, house-made extruded pastas, fresh burrata imported from Puglia, and exquisite Italian wine pairings.',
+      heritageLore: 'Sorano was designed like an authentic Tuscan farmhouse with stucco walls, brick arches, and lemon trees. It quickly emerged as Kolkata’s premier fine-dining destination for authentic Northern and Southern Italian recipes, focusing on scratch-made pastas and delicate emulsions.',
+      quote: '“A secret Italian courtyard where hand-rolled pastas and Tuscan sunlight meet.”',
+      tag: 'Fine Italian Trattoria',
+      image: 'https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Sorano', address: '1st Floor, 24 Ho Chi Minh Sarani', landmark: 'Near US Consulate & British Council' }
+      ],
+      signatureItems: [
+        'Truffle Cacio e Pepe in handmade Tagliolini',
+        'Pugliese Burrata with Heirloom Tomatoes & Pesto',
+        'Classic Sicilian Cannoli with pistachio ricotta'
+      ],
+      nativeTips: [
+        'Reserve in advance for the alfresco courtyard tables during winter evenings.'
+      ],
+      transitGuide: 'Maidan or Rabindra Sadan Metro Station. Walk 5 minutes down Ho Chi Minh Sarani.',
+      atmosphere: 'Terracotta walls, olive branches, intimate candlelit tables, and soft Italian classical strings.'
+    },
+    {
+      id: 'sienna-cafe-hindustan-park',
+      title: 'Sienna Store & Cafe’s Bengal Farm-to-Table Plates',
+      subtitle: 'Artisanal Studio Cafe Celebrating Indigenous Terroir & Specialty Coffee',
+      bengaliTitle: 'সিয়েনা স্টোর ও ক্যাফে',
+      location: '49/1 Hindustan Park, Gariahat, South Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'cafe',
+      categories: ['cafe', 'bistro', 'coffee-shop', 'continental-restaurant'],
+      timing: 'Best: 9:00 AM – 9:30 PM',
+      priceRange: '₹800 – ₹1,600 for two',
+      description: 'Globally celebrated in international culinary journals, Sienna marries handcrafted studio pottery with farm-fresh regional cooking: Gondhoraj fried chicken, Bhetki carpaccio, seasonal Bengal greens, and artisanal hand-brewed coffees.',
+      heritageLore: 'Starting as an indigenous ceramics workshop in Santiniketan, Sienna expanded into a bohemian courtyard cafe in South Kolkata. The chefs work closely with local Bengal farmers, transforming humble indigenous ingredients—like Kalonji, Bandel cheese, and Gondhoraj lime—into cutting-edge contemporary bistro plates served on handmade earthenware.',
+      quote: '“An artisanal celebration of Bengal’s soul, from Santiniketan pottery to hyper-local produce.”',
+      tag: 'Artisanal Studio Cafe',
+      image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Sienna Store & Cafe (Main)', address: '49/1 Hindustan Park, Gariahat', landmark: 'Inside artistic red brick alley' },
+        { name: 'Sienna Cafe Salt Lake', address: 'Block IB, Sector III, Salt Lake', landmark: 'Near Karunamoyee' }
+      ],
+      signatureItems: [
+        'Fried Chicken with Gondhoraj Lemon & house Kasundi Mayo',
+        'Handmade Gnocchi in seasonal Bengal greens & Bandel cheese sauce',
+        'Dark Chocolate Sea Salt Tart on hand-thrown clay plates'
+      ],
+      nativeTips: [
+        'Browse the handcrafted ceramics and handwoven linen jackets in the adjacent boutique while your order brews.'
+      ],
+      transitGuide: 'Kalighat or Gariahat crossing. Walk into Hindustan Park lane.',
+      atmosphere: 'Clay lamps, leafy terracotta courtyard, Indie folk music, and vibrant artistic adda.'
+    },
+    {
+      id: 'eau-chew-chimney-soup',
+      title: 'Eau Chew & The 1927 Charcoal Chimney Soup',
+      subtitle: 'India’s Oldest Family-Run Chinese Dining Institution',
+      bengaliTitle: 'ও চিউ ও ঐতিহাসিক চিমনি স্যুপ',
+      location: '12 Ganesh Chandra Avenue, Central Kolkata',
+      region: 'central',
+      regionLabel: 'Central & Esplanade',
+      category: 'chinese-restaurant',
+      categories: ['chinese-restaurant', 'asian-restaurant', 'fast-food-restaurant'],
+      timing: 'Best: 12:00 PM – 2:30 PM Lunch / 6:30 PM – 10:00 PM Dinner',
+      priceRange: '₹600 – ₹1,200 for two',
+      description: 'Founded in 1927 by the Huang family, Eau Chew is India’s oldest continuously run Chinese restaurant. Revered for its brass Chimney Soup heated by glowing coal briquettes at the center of the table and original Josephine noodles.',
+      heritageLore: 'When founder Huang Lou Cheu arrived in Calcutta from Guangzhou in the 1920s, he cooked authentic Cantonese home recipes for Chinese traders and merchants. Four generations later, the family still personally supervises the kitchen. Their Chimney Soup arrives in an antique brass samovar-style pot with glowing coals burning up a central chimney, boiling a delicate broth of chicken, bhetki fish, pork meatballs, and greens.',
+      quote: '“A glowing coal chimney boiling century-old Cantonese family broths.”',
+      tag: '1927 Heritage Chinese',
+      image: 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Eau Chew Restaurant', address: '12 Ganesh Chandra Avenue (1st Floor)', landmark: 'Near Chandni Chowk Metro Gate 1 (Est. 1927)' }
+      ],
+      signatureItems: [
+        'Legendary Coal-Fired Chimney Soup (with fish, chicken, egg & greens)',
+        'Josephine Noodles (crispy pan-fried noodles blanketed in gravy)',
+        'Steamed Whole Bhetki Fish in ginger, scallions & light soy'
+      ],
+      nativeTips: [
+        'Chimney Soup must be ordered at least 2 hours in advance or right at the start of your meal so the coal handis can be fired!'
+      ],
+      transitGuide: 'Chandni Chowk Metro Station. Walk 2 minutes down Ganesh Chandra Avenue.',
+      atmosphere: 'Clattering porcelain soup spoons, nostalgic red booths, and rich simmering bone broth aromas.'
+    },
+    {
+      id: 'beijing-restaurant-tangra',
+      title: 'Beijing Restaurant & The Wok Legends of Tangra Chinatown',
+      subtitle: 'Hakka Chinese Feasts, Golden Prawns & Crispy Pork',
+      bengaliTitle: 'বেইজিং রেস্তোরাঁ ও ট্যাংরা চাইনিজ',
+      location: '77/1 Christopher Road, Tangra Chinatown, East Kolkata',
+      region: 'east',
+      regionLabel: 'East Kolkata & Tangra',
+      category: 'chinese-restaurant',
+      categories: ['chinese-restaurant', 'asian-restaurant', 'bar-grill'],
+      timing: 'Best: 12:30 PM – 3:30 PM & 6:30 PM – 11:30 PM',
+      priceRange: '₹800 – ₹1,600 for two',
+      description: 'The shining crown of Tangra Chinatown. Renowned for authentic wok hei (breath of the wok), offering succulent Golden Fried Prawns, Hakka chili pork, and sizzling platters inside a vibrant, lantern-lit dining room.',
+      heritageLore: 'Tangra was historically Kolkata’s Hakka leather-tanning hub. When tanneries relocated, the community turned their ancestral residences into magnificent restaurants, birthing the world-famous "Indian-Chinese" flavor profile. Beijing Restaurant has welcomed dignitaries, celebrities, and families for over four decades.',
+      quote: '“Where giant iron woks roar with fire, creating the definitive flavor of Tangra.”',
+      tag: 'Tangra Chinatown Flagship',
+      image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Beijing Restaurant', address: '77/1 Christopher Road, Tangra', landmark: 'Near Tangra Chinatown arch' },
+        { name: 'Big Boss Restaurant', address: '54C Matheswartala Road, Tangra', landmark: 'Adjacent Tangra dining institution' }
+      ],
+      signatureItems: [
+        'Golden Fried Butterfly Prawns with sweet chili dip',
+        'Crispy Chili Honey Pork with scallions',
+        'Hakka Mixed Wok Chowmein loaded with egg, chicken & prawns'
+      ],
+      nativeTips: [
+        'Tangra restaurants have generous portion sizes—order dishes to share family-style across the table.'
+      ],
+      transitGuide: 'Drive down EM Bypass to the Science City junction and turn into Tangra Chinatown.',
+      atmosphere: 'Red Chinese paper lanterns, dragon motifs, sizzling woks, and buzzing weekend family banquets.'
+    },
+    {
+      id: 'banana-leaf-south-indian',
+      title: 'Banana Leaf’s Ghee Roast Dosas & Filter Kaapi',
+      subtitle: 'The South Kolkata Benchmark for Piping Hot Dosas on Fresh Leaves',
+      bengaliTitle: 'ব্যানানা লিফ দক্ষিণ ভারতীয় খাবার',
+      location: '77/1A Rash Behari Avenue, Lake Market, South Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'south-indian-restaurant',
+      categories: ['south-indian-restaurant', 'indian-restaurant', 'cafe'],
+      timing: 'Best: 7:00 AM – 10:30 PM Daily',
+      priceRange: '₹250 – ₹550 for two',
+      description: 'The indisputable South Kolkata standard for South Indian comfort. Crispy paper-thin ghee roast dosas, fluffy steamed idlis, and spicy Chettinad gravies served on cut green banana leaves with frothy filter coffee.',
+      heritageLore: 'For generations of South Kolkata residents living around Southern Avenue and Lake Market, weekend morning breakfast means queueing on Rash Behari Avenue for Banana Leaf. The aromatic hiss of fermented lentil batter on giant black tawas and bubbling kettles of sambar define the neighborhood ritual.',
+      quote: '“Crisp golden dosas glistening with ghee, unrolled on fresh emerald banana leaves.”',
+      tag: 'Authentic South Indian',
+      image: 'https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Banana Leaf (Lake Market)', address: '77/1A Rash Behari Avenue', landmark: 'Opposite Lake Market complex' },
+        { name: 'Ramkrishna Lunch Home', address: 'Sarat Bose Road', landmark: 'Decades-old Udipi classic' }
+      ],
+      signatureItems: [
+        'Special Mysore Ghee Masala Dosa with red chili-garlic chutney spread',
+        'Medu Vada dipped in hot Drumstick Sambar',
+        'Frothy South Indian Degree Filter Coffee served in brass dabara'
+      ],
+      nativeTips: [
+        'Pour your hot filter coffee back and forth between the brass dabara and tumbler from high up to aerate the frothy crema.'
+      ],
+      transitGuide: 'Kalighat Metro Station. Walk 3 minutes east toward Lake Market on Rash Behari Avenue.',
+      atmosphere: 'Fast, efficient brass service, aromatic wafts of curry leaves and roasted asafoetida.'
+    },
+    {
+      id: 'ramkrishna-lunch-home',
+      title: 'Ramkrishna Lunch Home’s Udipi Delights & Vada Sambar',
+      subtitle: 'Decades of Traditional Vegetarian Comfort on Sarat Bose Road',
+      bengaliTitle: 'রামকৃষ্ণ লাঞ্চ হোম',
+      location: '36 Sarat Bose Road, Lansdowne, South Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'south-indian-restaurant',
+      categories: ['south-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant'],
+      timing: 'Best: 6:30 AM – 9:30 PM',
+      priceRange: '₹200 – ₹450 for two',
+      description: 'A no-frills, beloved Udipi heritage eatery on Sarat Bose Road. Famous for featherlight steamed idlis, peppery hot rasam, crisp onion rava dosas, and authentic coconut chutney.',
+      heritageLore: 'Founded by South Indian migrants who settled in Calcutta mid-20th century, Ramkrishna Lunch Home has fed university students, morning walkers from Rabindra Sarobar, and working professionals with unpretentious, pocket-friendly homestyle Udipi fare.',
+      quote: '“Simple, unhurried, and soul-comforting Udipi breakfast since the 1960s.”',
+      tag: 'Heritage Udipi Eatery',
+      image: 'https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Ramkrishna Lunch Home', address: '36 Sarat Bose Road', landmark: 'Near Paddapukur crossing' }
+      ],
+      signatureItems: [
+        'Onion Rava Masala Dosa (ultra-crisp lacy semolina crepe)',
+        'Rasam Vada (crispy medu vada soaked in peppery herbal broth)',
+        'Upma with roasted cashews & fresh coconut'
+      ],
+      nativeTips: [
+        'Arrive early between 7:30 AM and 9:00 AM for fresh steaming idlis straight from the multi-tiered aluminum steamers.'
+      ],
+      transitGuide: 'Netaji Bhavan Metro Station, followed by a 4-minute walk to Sarat Bose Road.',
+      atmosphere: 'Retro steel tables, bustling morning regulars with newspapers, and hot filter coffee aromas.'
+    },
+    {
+      id: 'kookie-jar-rawdon',
+      title: 'Kookie Jar’s Confectionery Royalty & Chocolate Boats',
+      subtitle: 'The Undisputed Monarch of Kolkata Cakes & Savory Puffs Since 1985',
+      bengaliTitle: 'কুকি জার ও চকোলেট বোট প্যাস্ট্রি',
+      location: '42A Rawdon Street & Alipore, Central/South Kolkata',
+      region: 'central',
+      regionLabel: 'Central Kolkata',
+      category: 'bakery',
+      categories: ['bakery', 'cafe', 'dessert-restaurant', 'fast-food-restaurant'],
+      timing: 'Best: 8:30 AM – 9:30 PM',
+      priceRange: '₹300 – ₹700 for two',
+      description: 'Founded in 1985 by sisters Lovey and Puja Kapur, Kookie Jar is Kolkata’s premier confectionery royalty. Celebrated for iconic Chocolate Boat pastries, Lemon Soufflé tarts, and flaky mushroom patties.',
+      heritageLore: 'Before Kookie Jar, European confectionery in Calcutta was limited to old colonial tearooms. Kookie Jar revolutionized the city’s sweet tooth with Belgian chocolate ganache, crisp butter crusts, and warm savory bakes. It is an indispensable feature of birthdays, weddings, and high-society tea tables across Bengal.',
+      quote: '“No Kolkata celebration is complete without the glossy gold-and-black boxes of Kookie Jar.”',
+      tag: 'Confectionery Royalty',
+      image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Kookie Jar Rawdon Street (Flagship)', address: '42A Rawdon Street', landmark: 'Near Rawdon Square' },
+        { name: 'Kookie Jar Alipore', address: 'Alipore Road', landmark: 'South Kolkata flagship' }
+      ],
+      signatureItems: [
+        'Iconic Chocolate Boat Pastry (glossy dark chocolate ganache in crisp shortcrust)',
+        'Flaky Mushroom & Cheese Envelopes',
+        'Lemon Tarts with tangy citrus curd',
+        'Mocha Praline Gateau'
+      ],
+      nativeTips: [
+        'Grab a Chocolate Boat pastry to-go; the crisp butter shell holds a velvety pool of rich chocolate that melts in the mouth.'
+      ],
+      transitGuide: 'Rabindra Sadan or Park Street Metro, then a short taxi ride down Park Street to Rawdon Street.',
+      atmosphere: 'Gleaming glass showcases, aroma of vanilla extract and warm butter pastry, and busy celebratory patrons.'
+    },
+    {
+      id: 'saldanha-bakery-wellesley',
+      title: 'Saldanha Bakery’s 90-Year Goan-Anglo Indian Bakes',
+      subtitle: 'Heritage Spiced Walnut Fruit Cakes & Savory Envelope Patties',
+      bengaliTitle: 'সালদানহা বেকারি ও ওয়ালনাট কেক',
+      location: '19 Nawab Abdur Rahman Street, Wellesley, Central Kolkata',
+      region: 'central',
+      regionLabel: 'Central & Esplanade',
+      category: 'bakery',
+      categories: ['bakery', 'sweets-desserts', 'fast-food-restaurant'],
+      timing: 'Best: 9:00 AM – 7:30 PM',
+      priceRange: '₹200 – ₹600 for two',
+      description: 'Established in 1930 by Ubaldo Saldanha, this heritage Goan-Catholic family bakery tucked into a narrow Wellesley lane produces Kolkata’s most revered Rich Walnut Fruit Cake, coconut macaroons, and spiced chicken puffs.',
+      heritageLore: 'Running continuously for four generations, Saldanha is the last remaining culinary bridge between Goa, Anglo-India, and Old Calcutta. During Christmas time, queues snake down the alley as thousands order their century-old secret recipe fruit cakes soaked with rum, orange peel, and toasted walnuts.',
+      quote: '“A ninety-year-old family oven still baking the city’s favorite spiced fruit cakes.”',
+      tag: 'Heritage Anglo-Indian Bakery',
+      image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Saldanha Bakery', address: '19 Nawab Abdur Rahman Street (Wellesley)', landmark: 'Off Rafi Ahmed Kidwai Road (Est. 1930)' }
+      ],
+      signatureItems: [
+        'Rich Fruit & Walnut Cake (dense with dried peel & butter)',
+        'Chicken Envelope Patties with pepper filling',
+        'Coconut Snowball Macaroons'
+      ],
+      nativeTips: [
+        'Call ahead during December to reserve your Christmas plum cakes before stocks vanish.'
+      ],
+      transitGuide: 'Take Metro to Park Street or Esplanade, walk 6 minutes down Rafi Ahmed Kidwai Road.',
+      atmosphere: 'Cozy colonial home counter, antique biscuit tins, and warm scents of cinnamon and nutmeg.'
+    },
+    {
+      id: 'mrs-magpie-southern-ave',
+      title: 'Mrs. Magpie’s Fairytale Teatime & Artisanal Cupcakes',
+      subtitle: 'Whimsical Pastel Parlor, Belgian Hot Chocolate & Scones',
+      bengaliTitle: 'মিসেস ম্যাগপাই ক্যাফে ও কাপকেক',
+      location: '570 Lake Terrace Road, Southern Avenue, South Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'cafe',
+      categories: ['cafe', 'bakery', 'dessert-restaurant', 'coffee-shop'],
+      timing: 'Best: 9:30 AM – 9:30 PM',
+      priceRange: '₹500 – ₹1,000 for two',
+      description: 'A charming pastel fairy-tale cafe near Southern Avenue. Renowned for miniature iced cupcakes, decadent Belgian hot chocolate with toasted marshmallows, and English cream tea platters.',
+      heritageLore: 'Opened by Le Cordon Bleu-trained pastry chef Sohini Basu, Mrs. Magpie brought artisanal British baking aesthetics to Kolkata. Its playful birdhouse wallpaper, vintage floral teacups, and hand-decorated miniature bakes created a cherished sanctuary for slow afternoon teatime adda.',
+      quote: '“A whimsical storybook escape filled with the scent of butter cream and hot cocoa.”',
+      tag: 'Artisanal Teatime Cafe',
+      image: 'https://images.unsplash.com/photo-1587314168485-3236d6710814?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Mrs. Magpie (Southern Avenue)', address: '570 Lake Terrace Road', landmark: 'Near Southern Avenue boulevard' },
+        { name: 'Mrs. Magpie (Salt Lake)', address: 'Block EC, Sector I, Salt Lake', landmark: 'City Centre 1 area' }
+      ],
+      signatureItems: [
+        'Belgian Hot Chocolate served with toasted marshmallows',
+        'Miniature Cupcakes (Red Velvet, Chocolate Peanut Butter & Salted Caramel)',
+        'Traditional English Scones with strawberry preserve & clotted cream'
+      ],
+      nativeTips: [
+        'Order the Afternoon High Tea Platter to sample savory finger sandwiches and sweet mini bakes together.'
+      ],
+      transitGuide: 'Rabindra Sarobar Metro Station. Walk 5 minutes down Southern Avenue into Lake Terrace.',
+      atmosphere: 'Cozy pastel hues, storybook birdhouses, sweet vanilla warmth, and relaxed afternoon tea.'
+    },
+    {
+      id: 'dada-boudi-biryani-barrackpore',
+      title: 'Dada Boudi Biryani’s Legendary Mountain of Mutton',
+      subtitle: 'The Undisputed Biryani Pilgrimage of Greater Kolkata',
+      bengaliTitle: 'দাদা বৌদি বিরিয়ানি (ব্যারাকপুর)',
+      location: 'SN Banerjee Road, Barrackpore (Greater North & Side Area)',
+      region: 'outer',
+      regionLabel: 'Side & Greater Areas',
+      category: 'biryani-restaurant',
+      categories: ['biryani-restaurant', 'mughlai-biryani', 'mughlai-restaurant', 'indian-restaurant'],
+      timing: 'Best: 12:00 PM – 4:00 PM Lunch & 6:30 PM – 10:30 PM Dinner',
+      priceRange: '₹350 – ₹700 for two',
+      description: 'The supreme biryani destination of Greater Kolkata. Thousands travel on local trains to Barrackpore for colossal 250g succulent falling-off-the-bone mutton shanks served over long-grain fragrant saffron rice and golden potatoes.',
+      heritageLore: 'Started in 1968 as a humble railway stall in Barrackpore by Sanjib Saha and his wife (affectionately called Dada and Boudi by locals), this eatery grew into a multi-story culinary powerhouse. Food lovers from all over Bengal make the pilgrimage for their signature rich, aromatic Awadhi-Calcutta hybrid biryani.',
+      quote: '“A mountain of golden basmati crowned with a colossal, buttery 250g mutton shank.”',
+      tag: 'Greater Kolkata Sensation',
+      image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Dada Boudi Restaurant (Main)', address: '1/1 SN Banerjee Road, Barrackpore', landmark: 'Near Barrackpore Railway Station Gate 1 (Est. 1968)' }
+      ],
+      signatureItems: [
+        'Special Mutton Biryani (features colossal 250g tender mutton piece & golden aloo)',
+        'Mutton Chaap cooked in thick poppy-seed gravy',
+        'Special Shahi Firni in earthen bhaars'
+      ],
+      nativeTips: [
+        'Take a fast local train from Sealdah to Barrackpore (just 35 minutes)—the restaurant is a 2-minute walk from the station exit!'
+      ],
+      transitGuide: 'Sealdah Suburban Railway to Barrackpore Station (Platform 1 exit).',
+      atmosphere: 'Bustling queues, colossal copper degchis opening with aromatic saffron steam, and euphoric foodies.'
+    },
+    {
+      id: 'india-restaurant-kidderpore',
+      title: 'India Restaurant’s Awadhi Daan Kebab & Mutton Biryani',
+      subtitle: 'The Historic West Calcutta Food Citadel of Karl Marx Sarani',
+      bengaliTitle: 'ইন্ডিয়া রেস্তোরাঁ ও খিদিরপুরের বিরিয়ানি',
+      location: '34 Karl Marx Sarani, Kidderpore, West Kolkata',
+      region: 'outer',
+      regionLabel: 'Side & Greater Areas',
+      category: 'biryani-restaurant',
+      categories: ['biryani-restaurant', 'mughlai-biryani', 'mughlai-restaurant', 'north-indian-restaurant'],
+      timing: 'Best: 11:30 AM – 11:30 PM',
+      priceRange: '₹400 – ₹850 for two',
+      description: 'For over 50 years, India Restaurant has reigned supreme in Kidderpore. Famous for melt-in-the-mouth Daan Kebabs, aromatic Kolkata mutton biryani, and rich Awadhi Galawatis slow-cooked with royal Lucknowi spices.',
+      heritageLore: 'Kidderpore, the historic dockland of Kolkata, developed a rich culinary scene influenced by Awadhi nawabs and migrant traders. Founded in 1974, India Restaurant elevated Mughlai dining in the area, winning state awards for the best Mughlai cuisine in Eastern India.',
+      quote: '“The unsung jewel of Kidderpore, where kebabs melt on the tongue like silk.”',
+      tag: 'Kidderpore Mughlai Legend',
+      image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'India Restaurant', address: '34 Karl Marx Sarani, Kidderpore', landmark: 'Near Kidderpore Tram Depot (Est. 1974)' }
+      ],
+      signatureItems: [
+        'Special Mutton Biryani with tender dum meat and spiced aloo',
+        'Daan Kebab (succulent marinated tender meat char-grilled to velvet perfection)',
+        'Mutton Galawati Kebab with Ulta Tawa Paratha'
+      ],
+      nativeTips: [
+        'Pair your biryani with their famous Daan Kebab—a signature dish unique to India Restaurant.'
+      ],
+      transitGuide: 'Take a yellow taxi down Diamond Harbour Road to the Karl Marx Sarani crossing.',
+      atmosphere: 'Family-friendly banquet halls, wafts of rose water and mace, and royal Mughlai hospitality.'
+    },
+    {
+      id: 'oudh-1590-deshapriya',
+      title: 'Oudh 1590’s Royal Awadhi Period Dining & Raan Biryani',
+      subtitle: 'Recreating 19th-Century Lucknowi Court Feasts in South Calcutta',
+      bengaliTitle: 'অবধ ১৫৯০ ও রাজকীয় বিরিয়ানি',
+      location: 'Deshapriya Park & Salt Lake Sector I, South/East Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'mughlai-biryani',
+      categories: ['mughlai-biryani', 'biryani-restaurant', 'mughlai-restaurant', 'indian-restaurant'],
+      timing: 'Best: 12:00 PM – 3:30 PM & 6:30 PM – 10:30 PM',
+      priceRange: '₹800 – ₹1,600 for two',
+      description: 'India’s first period-dining Awadhi restaurant. Guests step into a 19th-century royal court with antique bronze lamps, Sarod ragas, Dum Pukht Raan Biryani, tender Kakori kebabs, and Shahi Tukda.',
+      heritageLore: 'Conceived to revive the gastronomic zenith of Nawab Wajid Ali Shah’s royal kitchens, Oudh 1590 uses authentic brass handis sealed with dough. The chefs recreate centuries-old recipes utilizing saffron, kewra, mace, and rose petals.',
+      quote: '“A royal durbar feast steeped in the romantic poetry and slow-dum aromas of Awadh.”',
+      tag: 'Period Awadhi Dining',
+      image: 'https://images.unsplash.com/photo-1633945274405-b6c8069047b0?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Oudh 1590 Deshapriya Park', address: '23/B Manoharpukur Road', landmark: 'Beside Priya Cinema' },
+        { name: 'Oudh 1590 Salt Lake', address: 'Plot CJ 262, Sector II', landmark: 'Near Karunamoyee' }
+      ],
+      signatureItems: [
+        'Awadhi Handi Biryani cooked slow in earthen pots',
+        'Galawati Kebab (melt-in-mouth spiced minced mutton patty)',
+        'Raan Biryani (whole slow-braised spiced leg of lamb)',
+        'Shahi Tukda with saffron rabri'
+      ],
+      nativeTips: [
+        'The handi comes sealed with a crisp wheat crust—crack it open at the table to release the aromatic burst of saffron steam.'
+      ],
+      transitGuide: 'Kalighat Metro Station. Walk 5 minutes down Rash Behari Avenue toward Priya Cinema.',
+      atmosphere: 'Classical Sarod and sitar melodies, brass goblets, royal carved wooden screens, and regal lighting.'
+    },
+    {
+      id: 'ballygunge-place-heritage',
+      title: '6 Ballygunge Place’s Aristocratic Bengali Thali & Daab Chingri',
+      subtitle: 'Ancestral Zamindari Banquets in a Restored 1920s Colonial Bungalow',
+      bengaliTitle: '৬ বালিগঞ্জ প্লেস ও বনেদি ভুরিভোজ',
+      location: '6 Ballygunge Place, South Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'bengali-restaurant',
+      categories: ['bengali-restaurant', 'indian-restaurant', 'bistro'],
+      timing: 'Best: 12:30 PM – 3:30 PM Lunch / 7:00 PM – 10:30 PM Dinner',
+      priceRange: '₹900 – ₹1,800 for two',
+      description: 'Housed in a restored 1920s white townhouse, 6 Ballygunge Place serves Bengal’s finest aristocratic recipes: Daab Chingri (jumbo prawns baked inside green coconut shell), Kacha Lanka Mangsho, and Bhetki Paturi.',
+      heritageLore: 'Inspired by the private recipe manuscripts of Kolkata’s 19th-century zamindar families and the Tagore household, 6 Ballygunge Place elevated traditional Bengali home cuisine into an elegant dining experience. With sepia photos, Belgian chandeliers, and vintage teak furniture, it is the city’s premier cultural feast.',
+      quote: '“Ancestral Bengali culinary art perfected over generations of aristocratic banquets.”',
+      tag: 'Aristocratic Bengali Heritage',
+      image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: '6 Ballygunge Place (Main)', address: '6 Ballygunge Place', landmark: 'Near Ballygunge Post Office' },
+        { name: '6 Ballygunge Place (Sector V)', address: 'Salt Lake Sector V', landmark: 'Near Technopolis' }
+      ],
+      signatureItems: [
+        'Daab Chingri (jumbo prawns simmered in mustard-coconut cream inside tender coconut)',
+        'Kacha Lanka Dhonepata Mangsho (coriander & green chili mutton curry)',
+        'Bhetki Paturi steamed in banana leaf with sharp Kasundi mustard'
+      ],
+      nativeTips: [
+        'Scrape the tender coconut malai from inside the Daab shell with your fork—it soaks up all the prawn broth flavors!'
+      ],
+      transitGuide: 'Ballygunge Railway Station or take a taxi down Gariahat Road into Ballygunge Place.',
+      atmosphere: 'Vintage gramophones, antique chandeliers, warm Bengali greetings, and rich mustard aromas.'
+    },
+    {
+      id: 'azad-hind-dhaba-ballygunge',
+      title: 'Azad Hind Dhaba’s Midnight Butter Chicken & Tandoori Feast',
+      subtitle: 'Kolkata’s Legendary Late-Night Highway Dhaba on Ballygunge Circular Road',
+      bengaliTitle: 'আজাদ হিন্দ ধাবা ও তন্দুরি খাবার',
+      location: 'Ballygunge Circular Road & EM Bypass, South/East Kolkata',
+      region: 'south',
+      regionLabel: 'South Kolkata',
+      category: 'north-indian-restaurant',
+      categories: ['north-indian-restaurant', 'indian-restaurant', 'fast-food-restaurant', 'mughlai-restaurant'],
+      timing: 'Best: 7:00 PM – 2:00 AM Midnight',
+      priceRange: '₹400 – ₹850 for two',
+      description: 'Kolkata’s legendary midnight dining icon. Piping-hot clay tandoor naans, velvety Butter Chicken, Dal Makhani, Chicken Bharta, and smoky kebabs served until the early hours of dawn.',
+      heritageLore: 'Azad Hind Dhaba started decades ago to feed nocturnal transport drivers and revelers returning from Park Street night clubs. It evolved into a beloved urban institution where college students, executives, and families park their cars for midnight foil-wrapped parcels of tandoori delights.',
+      quote: '“Where the tandoors roar until 2:00 AM and midnight cravings find their home.”',
+      tag: 'Late-Night Dhaba Legend',
+      image: 'https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: 'Azad Hind Dhaba (Ballygunge)', address: 'Ballygunge Circular Road', landmark: 'Near Rowland Row' },
+        { name: 'Azad Hind Dhaba (Phoolbagan)', address: 'Kankurgachi crossing', landmark: 'East Kolkata hub' }
+      ],
+      signatureItems: [
+        'Rich Butter Chicken with charred tandoori roti',
+        'Kolkata Style Chicken Bharta with shredded egg yolk',
+        'Dal Makhani slow-simmered overnight with white butter'
+      ],
+      nativeTips: [
+        'Order their Tandoori Chicken straight from the skewer—it comes sprinkled with chaat masala and lime.'
+      ],
+      transitGuide: 'Drive down Ballygunge Circular Road; open late into the night.',
+      atmosphere: 'Glowing charcoal fires, sizzling tawas, late-night car addas, and robust Punjabi spices.'
+    },
+    {
+      id: 'eighth-day-cafe-bakery',
+      title: '8th Day Cafe & Bakery’s Hand-Rolled NYC Bagels & Pour-Overs',
+      subtitle: 'Artisanal Specialty Roasts, Boiled Bagels & Cinnamon Rolls in Park Circus',
+      bengaliTitle: 'এইথ ডে ক্যাফে ও বেকারি',
+      location: '6 West Range, Park Circus & Jodhpur Park, Central/South Kolkata',
+      region: 'central',
+      regionLabel: 'Central & Park Circus',
+      category: 'coffee-shop',
+      categories: ['coffee-shop', 'cafe', 'bakery', 'bistro'],
+      timing: 'Best: 8:00 AM – 9:00 PM',
+      priceRange: '₹450 – ₹900 for two',
+      description: 'Kolkata’s pioneer in specialty third-wave coffee and hand-rolled New York-style boiled bagels. Renowned for house-roasted single origin espressos, cream cheese bagels, and towering frosted cinnamon rolls.',
+      heritageLore: 'Founded by American expat Grant Walsh, 8th Day Cafe established Kolkata’s contemporary specialty bakery landscape. They source beans directly from ethical growers across southern India, roast them on-site, and boil their authentic kettle bagels daily from scratch.',
+      quote: '“A community hub of slow-dripped coffees, warm bagels, and quiet creative work.”',
+      tag: 'Third-Wave Coffee & Bagels',
+      image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=600&q=80',
+      famousStalls: [
+        { name: '8th Day Cafe (Park Circus)', address: '6 West Range', landmark: 'Near AJC Bose Road crossing' },
+        { name: '8th Day Cafe (Jodhpur Park)', address: 'Jodhpur Park', landmark: 'Near South City Mall' }
+      ],
+      signatureItems: [
+        'Hand-Rolled Bagel with house Herb Garlic Cream Cheese',
+        'Signature Giant Cinnamon Roll with cream cheese frosting',
+        'Cold Brew Tonic & Single Origin Flat White'
+      ],
+      nativeTips: [
+        'Their warm Cinnamon Rolls sell out quickly—grab one fresh from the morning oven by 10:30 AM!'
+      ],
+      transitGuide: 'Rabindra Sadan Metro, followed by a short auto-rickshaw down AJC Bose Road toward Park Circus.',
+      atmosphere: 'Sunlit rustic tables, warm scent of baked yeast and freshly ground coffee, and cozy reading corners.'
     }
   ];
 
-
   const filterTabs = [
-    { id: 'all', label: 'All Kolkata', count: culinaryStories.length },
+    { id: 'all', label: 'All Kolkata & Suburbs', count: culinaryStories.length },
+    { id: 'central', label: 'Central & Park St', count: culinaryStories.filter(c => c.region === 'central').length },
     { id: 'north', label: 'North Kolkata', count: culinaryStories.filter(c => c.region === 'north').length },
-    { id: 'central', label: 'Central & Esplanade', count: culinaryStories.filter(c => c.region === 'central').length },
     { id: 'south', label: 'South Kolkata', count: culinaryStories.filter(c => c.region === 'south').length },
+    { id: 'east', label: 'East & Tangra / Salt Lake', count: culinaryStories.filter(c => c.region === 'east').length },
+    { id: 'outer', label: 'Side & Outer Areas', count: culinaryStories.filter(c => c.region === 'outer').length },
   ];
 
   const getCategoryCount = (categoryId: string) => {
@@ -1417,145 +2056,180 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       id: 'all',
       label: 'All Cuisines',
       icon: '🍽️',
+      group: 'all',
       count: getCategoryCount('all'),
     },
+    // Kolkata Heritage Specialties First
     {
-      id: 'asian-restaurant',
-      label: 'Asian restaurant',
-      icon: '🥢',
-      count: getCategoryCount('asian-restaurant'),
-    },
-    {
-      id: 'bakery',
-      label: 'Bakery',
-      icon: '🥐',
-      count: getCategoryCount('bakery'),
-    },
-    {
-      id: 'bar-grill',
-      label: 'Bar & grill',
-      icon: '🥩',
-      count: getCategoryCount('bar-grill'),
-    },
-    {
-      id: 'bengali-restaurant',
-      label: 'Bengali restaurant',
-      icon: '🐟',
-      count: getCategoryCount('bengali-restaurant'),
-    },
-    {
-      id: 'biryani-restaurant',
-      label: 'Biryani restaurant',
-      icon: '🍲',
-      count: getCategoryCount('biryani-restaurant'),
-    },
-    {
-      id: 'bistro',
-      label: 'Bistro',
-      icon: '🍷',
-      count: getCategoryCount('bistro'),
-    },
-    {
-      id: 'cafe',
-      label: 'Cafe',
-      icon: '☕',
-      count: getCategoryCount('cafe'),
-    },
-    {
-      id: 'chinese-restaurant',
-      label: 'Chinese restaurant',
+      id: 'street-bites',
+      label: 'Street Bites & Puchka',
       icon: '🥟',
-      count: getCategoryCount('chinese-restaurant'),
-    },
-    {
-      id: 'coffee-shop',
-      label: 'Coffee shop',
-      icon: '🧋',
-      count: getCategoryCount('coffee-shop'),
-    },
-    {
-      id: 'continental-restaurant',
-      label: 'Continental restaurant',
-      icon: '🍴',
-      count: getCategoryCount('continental-restaurant'),
-    },
-    {
-      id: 'dessert-restaurant',
-      label: 'Dessert restaurant',
-      icon: '🍨',
-      count: getCategoryCount('dessert-restaurant'),
-    },
-    {
-      id: 'fast-food-restaurant',
-      label: 'Fast food restaurant',
-      icon: '🌯',
-      count: getCategoryCount('fast-food-restaurant'),
-    },
-    {
-      id: 'indian-restaurant',
-      label: 'Indian restaurant',
-      icon: '🍛',
-      count: getCategoryCount('indian-restaurant'),
-    },
-    {
-      id: 'italian-restaurant',
-      label: 'Italian restaurant',
-      icon: '🍝',
-      count: getCategoryCount('italian-restaurant'),
-    },
-    {
-      id: 'mughlai-restaurant',
-      label: 'Mughlai restaurant',
-      icon: '🍖',
-      count: getCategoryCount('mughlai-restaurant'),
-    },
-    {
-      id: 'north-indian-restaurant',
-      label: 'North Indian restaurant',
-      icon: '🫓',
-      count: getCategoryCount('north-indian-restaurant'),
-    },
-    {
-      id: 'pizza-restaurant',
-      label: 'Pizza restaurant',
-      icon: '🍕',
-      count: getCategoryCount('pizza-restaurant'),
-    },
-    {
-      id: 'pub',
-      label: 'Pub',
-      icon: '🍺',
-      count: getCategoryCount('pub'),
-    },
-    {
-      id: 'south-indian-restaurant',
-      label: 'South Indian restaurant',
-      icon: '🥥',
-      count: getCategoryCount('south-indian-restaurant'),
+      group: 'heritage',
+      count: getCategoryCount('street-bites'),
     },
     {
       id: 'cabins-fries',
       label: 'Heritage Cabins & Fries',
       icon: '🍗',
+      group: 'heritage',
       count: getCategoryCount('cabins-fries'),
     },
     {
-      id: 'street-bites',
-      label: 'Street Bites & Puchka',
-      icon: '🥟',
-      count: getCategoryCount('street-bites'),
+      id: 'mughlai-biryani',
+      label: 'Awadhi Biryani & Mughlai',
+      icon: '🍲',
+      group: 'heritage',
+      count: getCategoryCount('mughlai-biryani'),
     },
     {
       id: 'sweets-desserts',
       label: 'Iconic Mishti & Bakes',
       icon: '🍮',
+      group: 'heritage',
       count: getCategoryCount('sweets-desserts'),
     },
     {
       id: 'tea-breakfast',
       label: 'Dawn Breakfast & Adda',
       icon: '☕',
+      group: 'heritage',
       count: getCategoryCount('tea-breakfast'),
+    },
+    {
+      id: 'bengali-restaurant',
+      label: 'Bengali restaurant',
+      icon: '🐟',
+      group: 'heritage',
+      count: getCategoryCount('bengali-restaurant'),
+    },
+    // Regional & Indian
+    {
+      id: 'biryani-restaurant',
+      label: 'Biryani restaurant',
+      icon: '🍛',
+      group: 'regional',
+      count: getCategoryCount('biryani-restaurant'),
+    },
+    {
+      id: 'mughlai-restaurant',
+      label: 'Mughlai restaurant',
+      icon: '🍖',
+      group: 'regional',
+      count: getCategoryCount('mughlai-restaurant'),
+    },
+    {
+      id: 'north-indian-restaurant',
+      label: 'North Indian restaurant',
+      icon: '🫓',
+      group: 'regional',
+      count: getCategoryCount('north-indian-restaurant'),
+    },
+    {
+      id: 'south-indian-restaurant',
+      label: 'South Indian restaurant',
+      icon: '🥥',
+      group: 'regional',
+      count: getCategoryCount('south-indian-restaurant'),
+    },
+    {
+      id: 'indian-restaurant',
+      label: 'Indian restaurant',
+      icon: '🥘',
+      group: 'regional',
+      count: getCategoryCount('indian-restaurant'),
+    },
+    // Global & World Cuisines
+    {
+      id: 'chinese-restaurant',
+      label: 'Chinese restaurant',
+      icon: '🥢',
+      group: 'global',
+      count: getCategoryCount('chinese-restaurant'),
+    },
+    {
+      id: 'asian-restaurant',
+      label: 'Asian restaurant',
+      icon: '🍜',
+      group: 'global',
+      count: getCategoryCount('asian-restaurant'),
+    },
+    {
+      id: 'italian-restaurant',
+      label: 'Italian restaurant',
+      icon: '🍝',
+      group: 'global',
+      count: getCategoryCount('italian-restaurant'),
+    },
+    {
+      id: 'continental-restaurant',
+      label: 'Continental restaurant',
+      icon: '🍴',
+      group: 'global',
+      count: getCategoryCount('continental-restaurant'),
+    },
+    {
+      id: 'pizza-restaurant',
+      label: 'Pizza restaurant',
+      icon: '🍕',
+      group: 'global',
+      count: getCategoryCount('pizza-restaurant'),
+    },
+    // Cafes, Bakeries & Hangouts
+    {
+      id: 'cafe',
+      label: 'Cafe',
+      icon: '☕',
+      group: 'cafes',
+      count: getCategoryCount('cafe'),
+    },
+    {
+      id: 'coffee-shop',
+      label: 'Coffee shop',
+      icon: '🧋',
+      group: 'cafes',
+      count: getCategoryCount('coffee-shop'),
+    },
+    {
+      id: 'bakery',
+      label: 'Bakery',
+      icon: '🥐',
+      group: 'cafes',
+      count: getCategoryCount('bakery'),
+    },
+    {
+      id: 'pub',
+      label: 'Pub',
+      icon: '🍺',
+      group: 'cafes',
+      count: getCategoryCount('pub'),
+    },
+    {
+      id: 'bar-grill',
+      label: 'Bar & grill',
+      icon: '🥩',
+      group: 'cafes',
+      count: getCategoryCount('bar-grill'),
+    },
+    {
+      id: 'bistro',
+      label: 'Bistro',
+      icon: '🍷',
+      group: 'cafes',
+      count: getCategoryCount('bistro'),
+    },
+    {
+      id: 'fast-food-restaurant',
+      label: 'Fast food restaurant',
+      icon: '🌯',
+      group: 'cafes',
+      count: getCategoryCount('fast-food-restaurant'),
+    },
+    {
+      id: 'dessert-restaurant',
+      label: 'Dessert restaurant',
+      icon: '🍨',
+      group: 'cafes',
+      count: getCategoryCount('dessert-restaurant'),
     },
   ];
 
@@ -1570,6 +2244,16 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
     setActiveCategory(categoryId);
     setCurrentPage(1);
   };
+
+  const modalCategoryFilters = categoryFilters.filter((cat) => {
+    if (modalGroupFilter !== 'all' && cat.group !== modalGroupFilter && cat.id !== 'all') {
+      return false;
+    }
+    if (!modalCategorySearch.trim()) return true;
+    return cat.label.toLowerCase().includes(modalCategorySearch.toLowerCase().trim());
+  });
+
+  const currentCategoryObj = categoryFilters.find((c) => c.id === activeCategory);
 
   const filteredItems = culinaryStories.filter((item) => {
     const matchesRegion = activeRegion === 'all' || item.region === activeRegion;
@@ -1687,7 +2371,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
           </h2>
 
           <p className="font-sans text-xs sm:text-sm md:text-base text-[#FFF8EF]/85 leading-relaxed mt-4">
-            In Kolkata, food is neither a commodity nor an afterthought. It is a cultural sacrament, 
+            In Kolkata, food is neither a commodity nor an afterthought. It is a cultural sacrament,
             an artistic passion, and the centerpiece of every deep conversation. Explore 4 iconic culinary stops at a time.
           </p>
         </div>
@@ -1748,11 +2432,10 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                     }}
                     aria-label={`Go to page ${pageNum}`}
                     title={`Page ${pageNum}`}
-                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                      isActive
+                    className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${isActive
                         ? 'w-6 bg-[#FFF8EF] shadow-xs'
                         : 'w-2 bg-[#FFF8EF]/40 hover:bg-[#FFF8EF]/75'
-                    }`}
+                      }`}
                   />
                 );
               })}
@@ -1776,16 +2459,14 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
             <button
               key={tab.id}
               onClick={() => handleFilterChange(tab.id)}
-              className={`px-4 py-2 rounded-2xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 shrink-0 ${
-                isActive
+              className={`px-4 py-2 rounded-2xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 shrink-0 ${isActive
                   ? 'bg-[#FFF8EF] text-[#351E1A] font-bold shadow-md scale-102'
                   : 'bg-[#FFF8EF]/15 text-[#FFF8EF] border border-[#FFF8EF]/20 hover:bg-[#FFF8EF]/25 hover:text-white'
-              }`}
+                }`}
             >
               <span>{tab.label}</span>
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
-                isActive ? 'bg-[#C6532B]/15 text-[#C6532B] font-bold' : 'bg-black/20 text-[#FFF8EF]/80'
-              }`}>
+              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${isActive ? 'bg-[#C6532B]/15 text-[#C6532B] font-bold' : 'bg-black/20 text-[#FFF8EF]/80'
+                }`}>
                 {tab.count}
               </span>
             </button>
@@ -1793,69 +2474,59 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         })}
       </div>
 
-      {/* Food Category Filter Chips with Side Navigation Arrows */}
-      <div className="relative z-10 mb-4 flex items-center gap-1.5 sm:gap-2">
-        {/* Left Arrow Button */}
-        <button
-          type="button"
-          onClick={() => handleScrollCategory('left')}
-          disabled={!canScrollLeft}
-          aria-label="Scroll cuisines left"
-          title={canScrollLeft ? 'Scroll cuisines left' : 'Start of cuisines list'}
-          className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ${
-            canScrollLeft
-              ? 'bg-[#351E1A] hover:bg-[#20100d] text-[#FFF8EF] border border-[#FFF8EF]/30 cursor-pointer active:scale-90 hover:scale-105'
-              : 'bg-black/15 text-[#FFF8EF]/25 border border-white/5 cursor-not-allowed opacity-40'
-          }`}
-        >
-          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
-        </button>
-
-        {/* Scrollable Pills Track */}
-        <div
-          ref={categoryScrollRef}
-          onScroll={checkScrollability}
-          className="flex-1 flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth"
-        >
-          {categoryFilters.map((cat) => {
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => handleCategoryChange(cat.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                  isActive
-                    ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-md border border-[#FFF8EF]/35 scale-102'
-                    : 'bg-black/20 text-[#FFF8EF]/80 border border-[#FFF8EF]/15 hover:bg-black/35 hover:text-white'
-                }`}
-              >
-                <span>{cat.icon}</span>
-                <span>{cat.label}</span>
-                <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-mono ${
-                  isActive ? 'bg-white/20 text-[#FFF8EF]' : 'bg-black/30 text-[#FFF8EF]/70'
-                }`}>
-                  {cat.count}
-                </span>
-              </button>
-            );
-          })}
+      {/* Category Selection Bar (Clean Modal Selector with Active Category Badge) */}
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 mb-5">
+        {/* Left: Open All Categories & Cuisines Picker Modal */}
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setModalCategorySearch('');
+              setModalGroupFilter('all');
+              setIsCategoryModalOpen(true);
+            }}
+            className="px-4 py-2.5 rounded-2xl bg-[#FFF8EF] hover:bg-white text-[#351E1A] text-xs sm:text-sm font-sans font-bold shadow-md flex items-center gap-2.5 transition-all cursor-pointer active:scale-95 group border border-[#FFF8EF]/50"
+            title="Browse all culinary categories"
+            aria-label="Open category picker modal"
+          >
+            <LayoutGrid className="w-4 h-4 text-[#C6532B] transition-transform group-hover:rotate-12" />
+            <span>Select Category / Cuisine</span>
+            <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-[#C6532B]/10 text-[#C6532B]">
+              {categoryFilters.length - 1} Categories
+            </span>
+            <ChevronDown className="w-3.5 h-3.5 text-[#351E1A]/60 transition-transform group-hover:translate-y-0.5" />
+          </button>
         </div>
 
-        {/* Right Arrow Button */}
-        <button
-          type="button"
-          onClick={() => handleScrollCategory('right')}
-          disabled={!canScrollRight}
-          aria-label="Scroll cuisines right"
-          title={canScrollRight ? 'Scroll cuisines right' : 'End of cuisines list'}
-          className={`shrink-0 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ${
-            canScrollRight
-              ? 'bg-[#351E1A] hover:bg-[#20100d] text-[#FFF8EF] border border-[#FFF8EF]/30 cursor-pointer active:scale-90 hover:scale-105'
-              : 'bg-black/15 text-[#FFF8EF]/25 border border-white/5 cursor-not-allowed opacity-40'
-          }`}
-        >
-          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
-        </button>
+        {/* Right: Active Filter Badge or Current Status */}
+        <div className="flex items-center gap-2">
+          {activeCategory !== 'all' && currentCategoryObj ? (
+            <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#FFF8EF] text-[#351E1A] text-xs font-sans font-semibold shadow-md border border-white/40">
+              <span className="text-base">{currentCategoryObj.icon}</span>
+              <span className="font-bold">{currentCategoryObj.label}</span>
+              <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#C6532B]/15 text-[#C6532B] font-mono font-bold">
+                {currentCategoryObj.count} {currentCategoryObj.count === 1 ? 'place' : 'places'}
+              </span>
+              <button
+                type="button"
+                onClick={() => handleCategoryChange('all')}
+                className="p-1 hover:bg-black/10 rounded-full cursor-pointer transition-colors ml-1"
+                title="Reset to All Cuisines"
+                aria-label="Clear active category filter"
+              >
+                <X className="w-3.5 h-3.5 text-[#351E1A]/80" />
+              </button>
+            </div>
+          ) : (
+            <div className="text-xs font-sans text-[#FFF8EF]/90 flex items-center gap-2 bg-black/20 backdrop-blur-xs px-3.5 py-2 rounded-2xl border border-white/10">
+              <span>Showing:</span>
+              <span className="font-bold text-white flex items-center gap-1.5">
+                <span>🍽️</span>
+                <span>All Cuisines ({filteredItems.length} curated stops)</span>
+              </span>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Visual Autoplay Story Progress Bars */}
@@ -1877,9 +2548,8 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                         duration: isAutoPlay && !isHovered ? 4 : 0,
                         ease: 'linear',
                       }}
-                      className={`h-full rounded-full transition-colors ${
-                        isHovered ? 'bg-amber-300' : 'bg-[#FFF8EF]'
-                      }`}
+                      className={`h-full rounded-full transition-colors ${isHovered ? 'bg-amber-300' : 'bg-[#FFF8EF]'
+                        }`}
                     />
                   ) : (
                     <div className={`h-full rounded-full ${isPast ? 'bg-[#FFF8EF]/80' : 'bg-transparent'}`} />
@@ -1892,7 +2562,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       )}
 
       {/* 4 Cards Per Page Grid with Floating Side Navigation Controls & Hover Pause */}
-      <div 
+      <div
         className="relative z-10 group/foodgrid"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -1923,84 +2593,84 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
             >
               {currentItems.length > 0 ? (
                 currentItems.map((item) => (
-                <div
-                  key={item.id}
-                  onClick={() => setSelectedItem(item)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setSelectedItem(item);
-                    }
-                  }}
-                  className="group rounded-3xl bg-[#FFF8EF] text-[#351E1A] p-6 sm:p-8 border border-[#E8D5C2] shadow-[0_10px_30px_rgba(53,30,26,0.1)] transition-all duration-300 hover:shadow-[0_22px_48px_rgba(53,30,26,0.18)] hover:-translate-y-1.5 hover:border-[#C6532B]/50 flex flex-col justify-between cursor-pointer select-none active:scale-[0.99] relative"
-                >
-                  <div>
-                    {/* Card Header with Tag & Location */}
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="px-3 py-1 rounded-full bg-[#C6532B]/10 text-[#C6532B] font-mono text-[10px] font-bold uppercase tracking-wider">
-                        {item.tag}
-                      </span>
-                      <span className="text-[11px] font-sans text-[#351E1A]/60 flex items-center gap-1 shrink-0 max-w-[55%] truncate">
-                        <MapPin className="w-3 h-3 text-[#C6532B] shrink-0" />
-                        <span className="truncate">{item.location}</span>
-                      </span>
-                    </div>
-
-                    {/* Title & Image Layout */}
-                    <div className="flex flex-col sm:flex-row gap-5 items-start mb-4">
-                      <div className="space-y-1.5 flex-1 min-w-0">
-                        <h3 className="font-serif text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
-                          {item.title}
-                        </h3>
-                        <p className="font-sans text-xs font-semibold text-[#582822]">
-                          {item.subtitle}
-                        </p>
+                  <div
+                    key={item.id}
+                    onClick={() => setSelectedItem(item)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        setSelectedItem(item);
+                      }
+                    }}
+                    className="group rounded-3xl bg-[#FFF8EF] text-[#351E1A] p-6 sm:p-8 border border-[#E8D5C2] shadow-[0_10px_30px_rgba(53,30,26,0.1)] transition-all duration-300 hover:shadow-[0_22px_48px_rgba(53,30,26,0.18)] hover:-translate-y-1.5 hover:border-[#C6532B]/50 flex flex-col justify-between cursor-pointer select-none active:scale-[0.99] relative"
+                  >
+                    <div>
+                      {/* Card Header with Tag & Location */}
+                      <div className="flex items-center justify-between gap-2 mb-4">
+                        <span className="px-3 py-1 rounded-full bg-[#C6532B]/10 text-[#C6532B] font-mono text-[10px] font-bold uppercase tracking-wider">
+                          {item.tag}
+                        </span>
+                        <span className="text-[11px] font-sans text-[#351E1A]/60 flex items-center gap-1 shrink-0 max-w-[55%] truncate">
+                          <MapPin className="w-3 h-3 text-[#C6532B] shrink-0" />
+                          <span className="truncate">{item.location}</span>
+                        </span>
                       </div>
 
-                      <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-[#E8D5C2] shadow-xs bg-[#351E1A]/5">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          referrerPolicy="no-referrer"
-                          loading="lazy"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/images/stories/puchka.jpg';
-                          }}
-                          className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
-                        />
+                      {/* Title & Image Layout */}
+                      <div className="flex flex-col sm:flex-row gap-5 items-start mb-4">
+                        <div className="space-y-1.5 flex-1 min-w-0">
+                          <h3 className="font-serif text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
+                            {item.title}
+                          </h3>
+                          <p className="font-sans text-xs font-semibold text-[#582822]">
+                            {item.subtitle}
+                          </p>
+                        </div>
+
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-[#E8D5C2] shadow-xs bg-[#351E1A]/5">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = '/images/stories/puchka.jpg';
+                            }}
+                            className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed mb-4">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    <div className="space-y-3 mt-auto">
+                      {/* Bottom Quote & Timing */}
+                      <div className="pt-3 border-t border-[#E8D5C2]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <span className="font-script text-xs sm:text-sm text-[#582822] italic leading-tight">
+                          {item.quote}
+                        </span>
+                        <span className="text-[10px] font-mono font-bold text-[#C6532B] uppercase tracking-wider shrink-0">
+                          {item.timing}
+                        </span>
+                      </div>
+
+                      {/* Interactive Tap Prompt Banner */}
+                      <div className="pt-2.5 border-t border-dashed border-[#E8D5C2] flex items-center justify-between text-[11px] font-sans font-bold text-[#C6532B] group-hover:text-[#9A3816] transition-colors">
+                        <span className="flex items-center gap-1.5">
+                          <Sparkles className="w-3.5 h-3.5 text-[#C6532B]" />
+                          <span>Tap for lore, stalls &amp; native secrets</span>
+                        </span>
+                        <span className="font-mono text-xs group-hover:translate-x-1 transition-transform">&rarr;</span>
                       </div>
                     </div>
-
-                    {/* Description */}
-                    <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed mb-4">
-                      {item.description}
-                    </p>
                   </div>
-
-                  <div className="space-y-3 mt-auto">
-                    {/* Bottom Quote & Timing */}
-                    <div className="pt-3 border-t border-[#E8D5C2]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                      <span className="font-script text-xs sm:text-sm text-[#582822] italic leading-tight">
-                        {item.quote}
-                      </span>
-                      <span className="text-[10px] font-mono font-bold text-[#C6532B] uppercase tracking-wider shrink-0">
-                        {item.timing}
-                      </span>
-                    </div>
-
-                    {/* Interactive Tap Prompt Banner */}
-                    <div className="pt-2.5 border-t border-dashed border-[#E8D5C2] flex items-center justify-between text-[11px] font-sans font-bold text-[#C6532B] group-hover:text-[#9A3816] transition-colors">
-                      <span className="flex items-center gap-1.5">
-                        <Sparkles className="w-3.5 h-3.5 text-[#C6532B]" />
-                        <span>Tap for lore, stalls &amp; native secrets</span>
-                      </span>
-                      <span className="font-mono text-xs group-hover:translate-x-1 transition-transform">&rarr;</span>
-                    </div>
-                  </div>
-                </div>
-              ))
+                ))
               ) : (
                 <div className="col-span-full flex flex-col items-center justify-center py-20 px-6 text-center rounded-3xl bg-black/25 border border-[#FFF8EF]/20 space-y-3">
                   <span className="text-4xl">🍲</span>
@@ -2118,6 +2788,218 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
           </button>
         </div>
       </div>
+
+      {/* All Categories & Cuisines Picker Modal */}
+      <AnimatePresence>
+        {isCategoryModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsCategoryModalOpen(false)}
+              className="absolute inset-0 bg-black/75 backdrop-blur-sm cursor-pointer"
+            />
+
+            {/* Modal Dialog Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 15 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 15 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-3xl max-h-[90vh] bg-[#2A1410] border border-[#FFF8EF]/25 rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden text-[#FFF8EF] z-10"
+            >
+              {/* Modal Header */}
+              <div className="p-4 sm:p-6 pb-3 border-b border-[#FFF8EF]/15 flex items-start justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-[#FFF8EF] text-[#C6532B] flex items-center justify-center shadow-md shrink-0">
+                    <LayoutGrid className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-lg sm:text-xl font-bold text-[#FFF8EF] tracking-tight flex items-center gap-2">
+                      <span>All Cuisines & Eateries</span>
+                      <span className="text-xs font-mono font-normal px-2 py-0.5 rounded-full bg-white/10 text-[#FFF8EF]/80">
+                        {categoryFilters.length - 1} categories
+                      </span>
+                    </h3>
+                    <p className="text-xs text-[#FFF8EF]/70 font-sans mt-0.5">
+                      Select any category directly without clicking through navigation arrows.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono text-[#FFF8EF]/40 px-2 py-1 rounded bg-white/5 border border-white/10 hidden sm:inline-block">
+                    ESC to close
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setIsCategoryModalOpen(false)}
+                    className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-[#FFF8EF] flex items-center justify-center transition-colors cursor-pointer"
+                    aria-label="Close categories modal"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Search & Group Filter Tabs */}
+              <div className="px-4 sm:px-6 pt-3 pb-2 space-y-3 bg-black/15">
+                {/* Search Bar */}
+                <div className="relative">
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#FFF8EF]/50 pointer-events-none" />
+                  <input
+                    ref={modalSearchInputRef}
+                    type="text"
+                    value={modalCategorySearch}
+                    onChange={(e) => setModalCategorySearch(e.target.value)}
+                    placeholder="Search by cuisine (e.g. biryani, cabin, sweets, cafe)..."
+                    className="w-full bg-[#351E1A] border border-[#FFF8EF]/20 focus:border-[#FFF8EF]/60 rounded-2xl pl-10 pr-9 py-2.5 text-xs sm:text-sm text-[#FFF8EF] placeholder-[#FFF8EF]/40 outline-none transition-all shadow-inner font-sans"
+                    autoFocus
+                  />
+                  {modalCategorySearch && (
+                    <button
+                      type="button"
+                      onClick={() => setModalCategorySearch('')}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-white/10 rounded-full text-[#FFF8EF]/60 hover:text-white cursor-pointer"
+                      title="Clear search"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Category Groups Pills */}
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs font-sans">
+                  {[
+                    { id: 'all', label: 'All Cuisines', icon: '🍽️' },
+                    { id: 'heritage', label: '👑 Heritage Specials', icon: '🏛️' },
+                    { id: 'regional', label: '🍛 Indian & Regional', icon: '🍲' },
+                    { id: 'global', label: '🥢 World Cuisines', icon: '🌍' },
+                    { id: 'cafes', label: '☕ Cafes & Nightlife', icon: '🍸' },
+                  ].map((grp) => {
+                    const isSelected = modalGroupFilter === grp.id;
+                    return (
+                      <button
+                        key={grp.id}
+                        type="button"
+                        onClick={() => setModalGroupFilter(grp.id)}
+                        className={`px-3 py-1.5 rounded-xl whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                          isSelected
+                            ? 'bg-[#FFF8EF] text-[#351E1A] font-bold shadow-xs'
+                            : 'bg-white/5 text-[#FFF8EF]/75 border border-white/10 hover:bg-white/10 hover:text-white'
+                        }`}
+                      >
+                        <span>{grp.icon}</span>
+                        <span>{grp.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Categories Grid List */}
+              <div className="flex-1 overflow-y-auto p-4 sm:p-6 max-h-[55vh] space-y-2">
+                {modalCategoryFilters.length === 0 ? (
+                  <div className="py-12 text-center">
+                    <p className="text-sm font-sans text-[#FFF8EF]/70">
+                      No categories found matching "{modalCategorySearch}".
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setModalCategorySearch('');
+                        setModalGroupFilter('all');
+                      }}
+                      className="mt-2 text-xs text-[#FFF8EF] underline hover:text-white font-medium cursor-pointer"
+                    >
+                      Reset filters
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                    {modalCategoryFilters.map((cat) => {
+                      const isActive = activeCategory === cat.id;
+                      const hasCount = cat.count > 0 || cat.id === 'all';
+                      return (
+                        <button
+                          key={cat.id}
+                          type="button"
+                          onClick={() => {
+                            handleCategoryChange(cat.id);
+                            setIsCategoryModalOpen(false);
+                          }}
+                          className={`group relative flex items-center justify-between p-3 rounded-2xl border transition-all text-left cursor-pointer ${
+                            isActive
+                              ? 'bg-[#FFF8EF] text-[#351E1A] border-[#FFF8EF] shadow-md font-bold scale-[1.01]'
+                              : 'bg-black/25 hover:bg-black/45 text-[#FFF8EF] border-[#FFF8EF]/15 hover:border-[#FFF8EF]/35'
+                          } ${!hasCount ? 'opacity-40 hover:opacity-70' : ''}`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                            <span className="text-xl shrink-0 p-1 rounded-lg bg-black/10 group-hover:scale-110 transition-transform">
+                              {cat.icon}
+                            </span>
+                            <span className="text-xs sm:text-sm font-sans truncate">
+                              {cat.label}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            <span
+                              className={`text-[10px] font-mono px-2 py-0.5 rounded-full ${
+                                isActive
+                                  ? 'bg-[#C6532B]/15 text-[#C6532B] font-bold'
+                                  : 'bg-white/10 text-[#FFF8EF]/80'
+                              }`}
+                            >
+                              {cat.count}
+                            </span>
+                            {isActive && (
+                              <Check className="w-4 h-4 text-[#C6532B] stroke-[2.5]" />
+                            )}
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-3 sm:p-4 px-6 border-t border-[#FFF8EF]/15 bg-black/25 flex items-center justify-between gap-3 text-xs font-sans">
+                <div className="flex items-center gap-2">
+                  <span className="text-[#FFF8EF]/60">Current Filter:</span>
+                  <span className="font-bold text-[#FFF8EF] flex items-center gap-1">
+                    <span>{currentCategoryObj?.icon}</span>
+                    <span>{currentCategoryObj?.label}</span>
+                  </span>
+                  {activeCategory !== 'all' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        handleCategoryChange('all');
+                        setIsCategoryModalOpen(false);
+                      }}
+                      className="ml-2 text-[11px] underline text-[#FFF8EF]/80 hover:text-white cursor-pointer"
+                    >
+                      Reset to All
+                    </button>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setIsCategoryModalOpen(false)}
+                  className="px-4 py-1.5 rounded-xl bg-[#FFF8EF] text-[#351E1A] font-bold hover:bg-white transition-colors cursor-pointer"
+                >
+                  Done
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
       {/* Culinary Deep-Dive Detail Modal */}
       <CulinaryDetailModal
