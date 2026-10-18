@@ -25,7 +25,6 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -45,36 +44,14 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showSearchInput, searchQuery]);
 
-  // Scroll direction detection (hide smoothly on scroll down, reveal on scroll up)
+  // Keep track of scroll for background styling (without hiding navbar)
   useEffect(() => {
-    let lastScrollY = window.scrollY;
     let ticking = false;
 
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
       if (!ticking) {
         window.requestAnimationFrame(() => {
-          setIsScrolled(currentScrollY > 30);
-
-          // If near the very top of the page, always keep navbar visible
-          if (currentScrollY < 60) {
-            setIsVisible(true);
-          } else {
-            const diff = currentScrollY - lastScrollY;
-            // Ignore tiny jitters
-            if (Math.abs(diff) > 8) {
-              if (diff > 0 && currentScrollY > 100) {
-                // Scrolling down -> hide navbar
-                setIsVisible(false);
-                setMobileMenuOpen(false);
-              } else if (diff < 0) {
-                // Scrolling up -> reveal navbar
-                setIsVisible(true);
-              }
-            }
-          }
-
-          lastScrollY = currentScrollY;
+          setIsScrolled(window.scrollY > 30);
           ticking = false;
         });
         ticking = true;
@@ -136,13 +113,9 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
 
   return (
     <header 
-      className={`fixed top-3 sm:top-5 inset-x-0 flex justify-center pointer-events-none px-3 sm:px-6 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+      className={`fixed top-3 sm:top-5 inset-x-0 flex justify-center pointer-events-none px-3 sm:px-6 transition-all duration-300 ease-out ${
         isModalOpen ? 'z-10 opacity-40 pointer-events-none' : 'z-40'
-      } ${
-        !isVisible && !mobileMenuOpen
-          ? '-translate-y-28 opacity-0 scale-95 pointer-events-none'
-          : 'translate-y-0 opacity-100 scale-100'
-      }`}
+      } translate-y-0 opacity-100 scale-100`}
     >
       {/* Floating Centered Capsule */}
       <div

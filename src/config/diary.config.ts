@@ -392,7 +392,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "The Gothic Tombs & Melancholy Shadows of South Park Street Cemetery",
     "category": "Story",
     "location": "Park Street",
-    "imageUrl": "/images/stories/park-street-cemetery.jpg",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST9mkPVDySqtIK2I5NBZUoFe9DNHo5bKiWy936lELPhDFwRCENFffiLPk&s=10",
     "addedAt": "Oct 18, 2026",
     "notes": "1767 – Georgian Era • Shrouded beneath massive mahogany trees and mossy ivy, walk among 1,600 towering stone pyramids, Grecian urns, and sepulchral obelisks steeped in colonial romance and supernatural lore.",
     "visited": false
@@ -402,7 +402,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "The Phantom Carriage of Warren Hastings at Alipore Estate",
     "category": "Story",
     "location": "Alipore, South Kolkata",
-    "imageUrl": "/images/stories/hastings-house.jpg",
+    "imageUrl": "https://www.theparanormalguide.com/uploads/1/7/3/8/17382059/3903809.jpg?402",
     "addedAt": "Oct 18, 2026",
     "notes": "1770s – East India Company • Behind the stately white colonnades of Hastings House in Alipore lives Kolkata’s most famous supernatural chronicle—the midnight gallop of an impeached Governor-General searching for lost documents.",
     "visited": false
@@ -412,7 +412,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Putulbari: The Haunting Romanesque House of Dolls on Ahiritola Ghat",
     "category": "Story",
     "location": "Ahiritola Ghat / Sovabazar",
-    "imageUrl": "/images/stories/putulbari-house-of-dolls.jpg",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZut7AlQO08LZyT7RBCWYZ2u9VUNkI7Jd0Xq4SCwtTeZp7XGUMJknr7x1s&s=10",
     "addedAt": "Oct 18, 2026",
     "notes": "Late 19th Century – Zamindari Era • Perched directly along the sacred river ghats of North Kolkata, this mysterious 150-year-old mansion blends Romanesque grandeur with chilling river lore and eerie doll-adorned pediments.",
     "visited": false
@@ -422,7 +422,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "The Gallop of Pride: The Phantom White Stallion of the Maidan Racecourse",
     "category": "Story",
     "location": "Maidan / Racecourse",
-    "imageUrl": "/images/stories/calcutta-turf-club.jpg",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT650KWEbXUlY3ZwV1SsOwVmNRxW7LGzyHmTfsLbdCoIg&s=10",
     "addedAt": "Oct 18, 2026",
     "notes": "1930s – British Raj Turf Club • On foggy winter dawns, when the Victoria Memorial dome disappears into mist, the Maidan racecourse comes alive with the tragic legend of Sir George Evers and his undefeated white thoroughbred.",
     "visited": false
@@ -632,7 +632,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Balwant Singh’s Doodh Cola & Kesar Chai",
     "category": "Food",
     "location": "Harish Mukherjee Road, Bhowanipore",
-    "imageUrl": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrQdDQ0AffYnke_yS6xiML-h-ro4x10e9B7LfPued3zRZcW5HgSSFo667q&s=10",
     "addedAt": "Oct 18, 2026",
     "notes": "Late-Night Adda, Saffron Tea & Fizzy Milk Cola • Midnight Adda • Best: 6:00 AM Morning & 10:00 PM – 2:00 AM Late Night • (₹40 – ₹130)",
     "visited": false
@@ -672,7 +672,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Allen Kitchen’s 130-Year Pure Ghee Prawn Cutlet",
     "category": "Food",
     "location": "40/1 Jatindra Mohan Avenue, Shobhabazar",
-    "imageUrl": "https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80",
+    "imageUrl": "https://www.sumitsurai.com/wp-content/uploads/2011/07/allen-kitchen-fish-cutlet.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "Flattened King Tiger Prawns Fried in Pure Clarified Ghee • 130-Year Ghee Fry • Best: 4:30 PM – 8:30 PM Evening • (₹180 – ₹290 per cutlet)",
     "visited": false
@@ -682,7 +682,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Dilkhusha Cabin’s Freedom-Era Dimer Devil & Mutton Cutlet",
     "category": "Food",
     "location": "88 College Street (Est. 1907)",
-    "imageUrl": "https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80",
+    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1oG3nRi2oaZLG8YG2BmRALlF7FzZKz_hUYVdginBrfdVTd21T7-6N_sdd&s=10",
     "addedAt": "Oct 18, 2026",
     "notes": "Where Revolutionaries & Poets Plotted Over Duck Egg Devils • Swadeshi Era Cabin • Best: 3:30 PM – 8:30 PM • (₹40 – ₹130)",
     "visited": false

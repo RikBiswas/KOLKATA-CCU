@@ -679,7 +679,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       heritageLore: 'Started in the 1920s as a humble tea stall by Balwant Singh near the Gurdwara in Bhowanipore, this joint invented a drink that sounds bizarre until you take the first sip: Doodh Cola. In giant aluminum churns, ice-cold buffalo milk is blended with Thums Up or Coca-Cola, creating a frothy, chocolate-caramel malted cream drink. During early mornings and midnight hours, luxury sedans and yellow cabs park bumper-to-bumper while servers deliver boiling scalding earthen cups (matka) of Kesar milk tea directly to your window.',
       quote: '“When the rest of Calcutta sleeps, Harish Mukherjee Road is wide awake with scalding clay cups of saffron tea.”',
       tag: 'Midnight Adda',
-      image: 'https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=600&q=80',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrQdDQ0AffYnke_yS6xiML-h-ro4x10e9B7LfPued3zRZcW5HgSSFo667q&s=10',
       famousStalls: [
         { name: "Balwant Singh Eating House", address: "10/1 Harish Mukherjee Rd, Bhowanipore", landmark: "Beside Sant Kuti Gurdwara (Open 20+ hours daily)" },
         { name: "Sharma Tea House", address: "Ashutosh Mukherjee Rd, Bhowanipore", landmark: "Famous for morning kachori & jalebi" }
@@ -812,7 +812,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       heritageLore: 'In the late 19th century, British merchant Mr. Allen set up a small eatery near Shobhabazar serving Anglo-Scottish cutlets. When he departed India, he handed the kitchen to his trusted Bengali cook, Jiban Krishna Saha. Unlike typical fish fries cooked in mustard or refined oil, Allen Kitchen uses exclusively pure fragrant desi ghee. A whole king tiger prawn is de-veined, butterflied, gently tenderized with green chili, garlic, and mint, dipped in egg wash, and rolled in fine breadcrumbs before being sizzled in a bubbling pool of smoking ghee. The aroma of boiling ghee wafts across Jatindra Mohan Avenue every single evening.',
       quote: '“Fried in pure golden ghee, the prawn cutlet of Allen Kitchen is the aristocrat of North Calcutta cabins.”',
       tag: '130-Year Ghee Fry',
-      image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?auto=format&fit=crop&w=600&q=80',
+      image: 'https://www.sumitsurai.com/wp-content/uploads/2011/07/allen-kitchen-fish-cutlet.jpg',
       famousStalls: [
         { name: "Allen Kitchen (Original Heritage Branch)", address: "40/1 Jatindra Mohan Avenue, Shobhabazar", landmark: "Opposite Shobhabazar Metro Gate 2 (Est. 1880s)" }
       ],
@@ -844,7 +844,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
       heritageLore: 'Established in 1907 by Trailokyanath Dey, Dilkhusha Cabin sits right at the College Street and MG Road intersection. In pre-independence India, British CID spies hovered outside while revolutionaries like Rash Behari Bose and Netaji Subhas Chandra Bose sat behind wooden curtain partitions ("cabins") planning resistance movements. Their Dimer Devil remains legendary: a hard-boiled duck egg enveloped in rich, aromatic minced mutton keema and spiced potato mash, double-dipped in batter, and fried to a deep golden amber.',
       quote: '“Behind these wooden partitions, revolutions were scripted over cups of tea and spicy duck egg devils.”',
       tag: 'Swadeshi Era Cabin',
-      image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=600&q=80',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT1oG3nRi2oaZLG8YG2BmRALlF7FzZKz_hUYVdginBrfdVTd21T7-6N_sdd&s=10',
       famousStalls: [
         { name: "Dilkhusha Cabin", address: "88 Mahatma Gandhi Road & College Street", landmark: "Near Presidency University & College Square (Est. 1907)" }
       ],
