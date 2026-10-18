@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { X, Bookmark, CheckCircle2, Circle, Trash2, Printer, MapPin, Share2, Sparkles, BookOpen, Download, Loader2, ExternalLink } from 'lucide-react';
 import { DiaryItem } from '../../types/travel';
+import { DEFAULT_CURATED_DIARY_ITEMS } from '../../config/diary.config';
 import { downloadDiaryPDF } from '../../utils/pdfGenerator';
 
 interface PocketDiaryModalProps {
@@ -112,10 +113,10 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
               <button
                 onClick={onAddCuratedItems}
                 className="hidden sm:inline-flex items-center gap-1 ml-2 px-2.5 py-0.5 rounded-full bg-[#C6532B]/10 hover:bg-[#C6532B]/20 text-[#C6532B] font-semibold text-[10px] transition-colors cursor-pointer"
-                title="Restore or add the 18 curated places, activities, and foods"
+                title={`Restore or add all ${DEFAULT_CURATED_DIARY_ITEMS.length} curated places, activities, and culinary stops`}
               >
                 <Sparkles className="w-3 h-3" />
-                <span>Reset to Curated Spots (18)</span>
+                <span>Reset to Curated Spots ({DEFAULT_CURATED_DIARY_ITEMS.length})</span>
               </button>
             )}
           </div>
@@ -156,7 +157,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
                   className="mt-2 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold shadow-sm transition-all cursor-pointer"
                 >
                   <Sparkles className="w-3.5 h-3.5 text-[#C5A25A]" />
-                  <span>Load 18 Curated Places, Activities &amp; Foods</span>
+                  <span>Load All {DEFAULT_CURATED_DIARY_ITEMS.length} Curated Spots &amp; Stories</span>
                 </button>
               )}
             </div>

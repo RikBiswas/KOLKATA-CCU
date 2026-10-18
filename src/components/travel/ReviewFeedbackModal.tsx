@@ -197,7 +197,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
       localStorage.setItem(STORAGE_KEY_LAST_SUBMIT, String(Date.now()));
       setCooldownRemaining(RATE_LIMIT_SECONDS);
 
-      setSuccessMessage('Thank you! Your review was successfully saved to Neon PostgreSQL.');
+      setSuccessMessage('Thank you! Your review has been successfully published.');
       setName('');
       setReview('');
       setRole('Peer Reviewer');
@@ -208,7 +208,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
         setActiveTab('list');
       }, 1400);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Could not connect to FastAPI backend at http://127.0.0.1:8000';
+      const msg = err instanceof Error ? err.message : 'Unable to submit review right now. Please try again shortly.';
       setErrorMessage(msg);
     } finally {
       setIsSubmitting(false);
@@ -469,7 +469,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                   {isSubmitting ? (
                     <>
                       <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                      <span>Saving to Backend...</span>
+                      <span>Publishing Review...</span>
                     </>
                   ) : cooldownRemaining > 0 ? (
                     <>
@@ -486,18 +486,18 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
               </div>
             </form>
           ) : (
-            /* Reviews Table Tab matching backend */
+            /* Reviews Table Tab */
             <div className="space-y-4">
               {isLoadingReviews ? (
                 <div className="py-12 text-center text-xs text-[#351E1A]/60 flex flex-col items-center gap-2">
                   <RefreshCw className="w-5 h-5 animate-spin text-[#C6532B]" />
-                  <span>Loading reviews from Neon backend...</span>
+                  <span>Loading community reviews...</span>
                 </div>
               ) : reviewsList.length === 0 ? (
                 <div className="py-12 text-center bg-[#F7EBDD]/40 rounded-2xl border border-[#E8D5C2] p-6">
                   <Sparkles className="w-8 h-8 text-[#C6532B] mx-auto mb-2 opacity-60" />
-                  <p className="text-sm font-serif font-bold text-[#351E1A]">No reviews found in database</p>
-                  <p className="text-xs text-[#351E1A]/60 mt-1">Be the first to leave feedback!</p>
+                  <p className="text-sm font-serif font-bold text-[#351E1A]">No reviews published yet</p>
+                  <p className="text-xs text-[#351E1A]/60 mt-1">Be the first to share your thoughts!</p>
                   <button
                     onClick={() => setActiveTab('form')}
                     className="mt-4 px-4 py-2 rounded-full bg-[#C6532B] text-white text-xs font-bold cursor-pointer"
@@ -511,19 +511,18 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
                         <tr className="bg-[#F7EBDD] border-b border-[#E8D5C2] text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/70">
-                          <th className="py-2.5 px-3 whitespace-nowrap">ID</th>
+                          <th className="py-2.5 px-3 whitespace-nowrap">Date</th>
                           <th className="py-2.5 px-3 whitespace-nowrap">Reviewer</th>
                           <th className="py-2.5 px-3 whitespace-nowrap">Role</th>
                           <th className="py-2.5 px-3 whitespace-nowrap">Rating</th>
                           <th className="py-2.5 px-3 min-w-[200px]">Review</th>
-                          <th className="py-2.5 px-3 whitespace-nowrap">Date</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#E8D5C2]/50">
                         {reviewsList.map((item) => (
                           <tr key={item.id} className="hover:bg-[#F7EBDD]/40 transition-colors">
-                            <td className="py-3 px-3 font-mono text-[10px] text-[#C6532B] font-semibold whitespace-nowrap align-top">
-                              #{item.id}
+                            <td className="py-3 px-3 text-[10px] font-mono text-[#351E1A]/60 whitespace-nowrap align-top">
+                              {item.date}
                             </td>
                             <td className="py-3 px-3 font-bold text-[#351E1A] whitespace-nowrap align-top">
                               {item.name}
@@ -552,9 +551,6 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                             </td>
                             <td className="py-3 px-3 text-[#351E1A]/90 italic font-serif leading-relaxed align-top">
                               &ldquo;{item.review}&rdquo;
-                            </td>
-                            <td className="py-3 px-3 text-[10px] font-mono text-[#351E1A]/60 whitespace-nowrap align-top">
-                              {item.date}
                             </td>
                           </tr>
                         ))}

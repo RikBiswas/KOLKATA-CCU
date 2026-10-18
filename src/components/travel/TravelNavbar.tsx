@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search, Compass, Map, Menu, X, BookOpen, Sparkles, Bookmark, Calendar, Star } from 'lucide-react';
 
 interface TravelNavbarProps {
@@ -27,6 +27,23 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  // Close search on click outside if search query is empty
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        showSearchInput &&
+        !searchQuery &&
+        searchContainerRef.current &&
+        !searchContainerRef.current.contains(e.target as Node)
+      ) {
+        setShowSearchInput(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showSearchInput, searchQuery]);
 
   // Scroll direction detection (hide smoothly on scroll down, reveal on scroll up)
   useEffect(() => {
@@ -159,8 +176,8 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
             </div>
           </a>
 
-          {/* Desktop Nav Links */}
-          <nav className="hidden xl:flex items-center space-x-1 font-sans text-[11px] font-medium text-[#351E1A]/80">
+          {/* Desktop Nav Links (hidden when search is active to keep review button perfectly aligned inside capsule) */}
+          <nav className={`${showSearchInput ? 'hidden' : 'hidden xl:flex'} items-center space-x-1 font-sans text-[11px] font-medium text-[#351E1A]/80 shrink-0`}>
             {navLinks.map((link) => {
               const isActive = activeTab === link.id;
               return (
@@ -182,18 +199,28 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
           </nav>
 
           {/* Search, Diary & CTA Buttons */}
-          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          <div className={`flex items-center gap-1.5 sm:gap-2.5 ${showSearchInput ? 'flex-1 justify-end min-w-0' : 'shrink-0'}`}>
             {/* Search Input Bar or Toggle */}
-            <div className="relative flex items-center">
+            <div
+              ref={searchContainerRef}
+              className={`relative flex items-center transition-all duration-300 ${
+                showSearchInput ? 'flex-1 max-w-xs sm:max-w-sm md:max-w-md min-w-0' : ''
+              }`}
+            >
               {showSearchInput ? (
-                <div className="flex items-center relative animate-slide-in-right">
+                <div className="flex items-center w-full relative animate-slide-in-right">
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => onSearchChange(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Escape') {
+                        setShowSearchInput(false);
+                      }
+                    }}
                     placeholder="Search Victoria, Tram, Puchka..."
                     autoFocus
-                    className="w-36 sm:w-48 text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-7 py-1.5 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B] focus:border-[#C6532B]"
+                    className="w-full text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-7 py-1.5 text-[#351E1A] placeholder-[#351E1A]/40 focus:outline-none focus:ring-1 focus:ring-[#C6532B] focus:border-[#C6532B] shadow-inner"
                   />
                   <Search className="w-3.5 h-3.5 text-[#351E1A]/40 absolute left-2.5 pointer-events-none" />
                   <button
@@ -223,7 +250,9 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
             {onOpenItineraryBuilder && (
               <button
                 onClick={onOpenItineraryBuilder}
-                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer active:scale-95"
+                className={`${
+                  showSearchInput ? 'hidden' : 'hidden md:flex'
+                } items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-semibold transition-all shadow-xs cursor-pointer active:scale-95 shrink-0`}
                 title="Build Custom Day-Trip Itinerary"
               >
                 <Calendar className="w-3.5 h-3.5 text-[#C6532B]" />
@@ -235,13 +264,13 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
             {onOpenDiary && (
               <button
                 onClick={onOpenDiary}
-                className="relative p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] hover:bg-[#E8D5C2] text-[#351E1A] text-xs font-sans font-semibold flex items-center gap-1.5 transition-all cursor-pointer"
+                className="relative p-1.5 sm:px-3 sm:py-1.5 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] hover:bg-[#E8D5C2] text-[#351E1A] text-xs font-sans font-semibold flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
                 title="Open My Calcutta Diary"
               >
                 <Bookmark className="w-3.5 h-3.5 text-[#C6532B]" />
                 <span className="hidden sm:inline">Diary</span>
                 {diaryCount > 0 && (
-                  <span className="w-4 h-4 rounded-full bg-[#C6532B] text-white text-[9px] font-mono font-bold flex items-center justify-center">
+                  <span className="min-w-4 h-4 px-1 rounded-full bg-[#C6532B] text-white text-[9px] font-mono font-bold flex items-center justify-center leading-none">
                     {diaryCount}
                   </span>
                 )}
@@ -262,7 +291,7 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-1.5 rounded-full text-[#351E1A] hover:bg-[#E8D5C2]/50 transition-colors cursor-pointer"
+              className="xl:hidden p-1.5 rounded-full text-[#351E1A] hover:bg-[#E8D5C2]/50 transition-colors cursor-pointer shrink-0"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
