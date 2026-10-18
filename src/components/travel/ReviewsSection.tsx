@@ -1,5 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Star, MessageSquarePlus, RefreshCw, Search, Filter, Database, CheckCircle2, User, Calendar, Tag, ShieldCheck } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Star,
+  MessageSquarePlus,
+  RefreshCw,
+  Search,
+  Filter,
+  Sparkles,
+  CheckCircle2,
+  Calendar,
+  Tag,
+  ShieldCheck,
+  ChevronLeft,
+  ChevronRight,
+  Pause,
+  Play,
+  Quote,
+} from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
 
 interface ReviewsSectionProps {
@@ -16,6 +32,31 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [ratingFilter, setRatingFilter] = useState<number | 'all'>('all');
   const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'highest'>('newest');
+
+  // Horizontal Auto-Carousel States
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [cardsPerView, setCardsPerView] = useState(3);
+  const timerRef = useRef<number | null>(null);
+
+  // Responsive cards per view (1 on mobile, 2 on tablet, 3 on desktop)
+  useEffect(() => {
+    const updateCardsPerView = () => {
+      if (typeof window !== 'undefined') {
+        if (window.innerWidth < 640) {
+          setCardsPerView(1);
+        } else if (window.innerWidth < 1024) {
+          setCardsPerView(2);
+        } else {
+          setCardsPerView(3);
+        }
+      }
+    };
+    updateCardsPerView();
+    window.addEventListener('resize', updateCardsPerView);
+    return () => window.removeEventListener('resize', updateCardsPerView);
+  }, []);
+
   const [backendStatus, setBackendStatus] = useState<{
     database: string;
     branch: string;
@@ -82,6 +123,39 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
       return 0;
     });
 
+  const maxIndex = Math.max(0, filteredReviews.length - cardsPerView);
+
+  // Clamp currentIndex when filtered items list changes
+  useEffect(() => {
+    if (currentIndex > maxIndex) {
+      setCurrentIndex(0);
+    }
+  }, [maxIndex, currentIndex]);
+
+  // Auto-carousel timer (advances every 4.5 seconds when not paused)
+  useEffect(() => {
+    if (isPaused || filteredReviews.length <= cardsPerView) {
+      if (timerRef.current) clearInterval(timerRef.current);
+      return;
+    }
+
+    timerRef.current = window.setInterval(() => {
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 4500);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPaused, maxIndex, filteredReviews.length, cardsPerView]);
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : maxIndex));
+  };
+
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
+  };
+
   const averageRating =
     reviews.length > 0
       ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
@@ -94,14 +168,14 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-mono text-[#C6532B] mb-3 shadow-2xs">
-              <Database className="w-3.5 h-3.5" />
-              <span>Neon PostgreSQL Ledger &bull; Branch: {backendStatus.branch}</span>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Explorer Guestbook &bull; পাঠক ও পর্যটকদের কথা</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-[#351E1A] tracking-tight">
               Community Reviews &amp; Feedback
             </h2>
             <p className="mt-2 text-sm sm:text-base text-[#351E1A]/70 font-sans max-w-2xl leading-relaxed">
-              Persisted in real-time to the cloud with Neon PostgreSQL. Inspect verified community critiques, reviewer affiliations, ratings, and travel feedback.
+              Authentic reflections, critiques, and travel notes shared by explorers and culture enthusiasts wandering the historic lanes of Calcutta.
             </p>
           </div>
 
@@ -110,10 +184,10 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
               onClick={fetchReviews}
               disabled={loading}
               className="px-3.5 py-2 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
-              title="Refresh reviews from Neon PostgreSQL"
+              title="Refresh reviews"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-[#C6532B] ${loading ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">Sync DB</span>
+              <span className="hidden sm:inline">Refresh</span>
             </button>
 
             <button
@@ -151,24 +225,21 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
               <span className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
                 {reviews.length}
               </span>
-              <p className="text-xs text-[#351E1A]/70 font-sans font-medium">Verified Entries in Neon</p>
+              <p className="text-xs text-[#351E1A]/70 font-sans font-medium">Verified Explorer Reviews</p>
             </div>
           </div>
 
           <div className="p-4 sm:p-5 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 shrink-0">
-              <CheckCircle2 className="w-6 h-6" />
+            <div className="w-12 h-12 rounded-xl bg-[#C6532B]/10 flex items-center justify-center text-[#C6532B] shrink-0">
+              <CheckCircle2 className="w-6 h-6 text-[#C6532B]" />
             </div>
             <div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="font-serif text-base sm:text-lg font-bold text-[#351E1A]">
-                  PostgreSQL Active
-                </span>
-              </div>
-              <p className="text-xs text-[#351E1A]/70 font-mono mt-0.5">
-                Table: <code className="text-[#C6532B]">reviews</code> (OLTP)
-              </p>
+              <span className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
+                {reviews.length > 0
+                  ? `${Math.round((reviews.filter((r) => r.rating >= 4).length / reviews.length) * 100)}%`
+                  : '100%'}
+              </span>
+              <p className="text-xs text-[#351E1A]/70 font-sans font-medium">Positive Recommendations</p>
             </div>
           </div>
         </div>
@@ -233,119 +304,199 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
           </div>
         </div>
 
-        {/* Backend Data Table */}
-        <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
-              <thead>
-                <tr className="bg-[#F7EBDD] border-b border-[#E8D5C2] text-[11px] font-mono uppercase tracking-wider text-[#351E1A]/80">
-                  <th scope="col" className="py-3.5 px-4 sm:px-6">ID &amp; Date</th>
-                  <th scope="col" className="py-3.5 px-4 sm:px-6">Reviewer</th>
-                  <th scope="col" className="py-3.5 px-4 sm:px-6">Role / Affiliation</th>
-                  <th scope="col" className="py-3.5 px-4 sm:px-6">Rating</th>
-                  <th scope="col" className="py-3.5 px-4 sm:px-6 min-w-[280px]">Review / Feedback</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#E8D5C2]/60 text-xs font-sans text-[#351E1A]">
-                {loading ? (
-                  <tr>
-                    <td colSpan={5} className="py-12 text-center text-xs text-[#351E1A]/60">
-                      <div className="flex flex-col items-center justify-center gap-2">
-                        <RefreshCw className="w-5 h-5 animate-spin text-[#C6532B]" />
-                        <span>Querying Neon PostgreSQL table...</span>
-                      </div>
-                    </td>
-                  </tr>
-                ) : filteredReviews.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="py-12 text-center text-xs text-[#351E1A]/60">
-                      <p className="font-serif font-bold text-sm text-[#351E1A]">No reviews match your filters</p>
-                      <p className="text-xs text-[#351E1A]/60 mt-1">Try resetting the search or rating filter.</p>
-                    </td>
-                  </tr>
-                ) : (
-                  filteredReviews.map((item) => (
-                    <tr
-                      key={item.id}
-                      className="hover:bg-[#F7EBDD]/40 transition-colors group"
-                    >
-                      {/* ID & Date */}
-                      <td className="py-4 px-4 sm:px-6 align-top whitespace-nowrap">
-                        <div className="flex flex-col gap-1">
-                          <span className="font-mono text-[11px] font-semibold text-[#C6532B] bg-[#C6532B]/10 px-2 py-0.5 rounded-md inline-block w-fit">
-                            #{item.id}
-                          </span>
-                          <span className="flex items-center gap-1 text-[11px] text-[#351E1A]/60 font-mono">
-                            <Calendar className="w-3 h-3 text-[#351E1A]/40" />
-                            {item.date}
-                          </span>
-                        </div>
-                      </td>
+        {/* Horizontal Reviews Auto-Carousel */}
+        <div
+          className="relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Carousel Action & Autoplay Controls */}
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <div className="text-xs font-sans text-[#351E1A]/70 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-[#C6532B]" />
+              <span>
+                Showing {filteredReviews.length} community review{filteredReviews.length !== 1 ? 's' : ''}
+              </span>
+            </div>
 
-                      {/* Reviewer Name */}
-                      <td className="py-4 px-4 sm:px-6 align-top">
-                        <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-full bg-[#C6532B]/15 text-[#C6532B] font-bold text-xs flex items-center justify-center shrink-0 uppercase">
-                            {item.name.charAt(0)}
+            {filteredReviews.length > cardsPerView && (
+              <div className="flex items-center gap-2">
+                {/* Pause / Play Toggle */}
+                <button
+                  onClick={() => setIsPaused((prev) => !prev)}
+                  className="p-2 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] transition-colors cursor-pointer shadow-2xs"
+                  title={isPaused ? 'Resume auto-carousel' : 'Pause auto-carousel'}
+                >
+                  {isPaused ? <Play className="w-3.5 h-3.5 text-[#C6532B]" /> : <Pause className="w-3.5 h-3.5 text-[#C6532B]" />}
+                </button>
+
+                {/* Previous Button */}
+                <button
+                  onClick={handlePrev}
+                  className="p-2 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] transition-colors cursor-pointer shadow-2xs"
+                  title="Previous review"
+                >
+                  <ChevronLeft className="w-4 h-4 text-[#351E1A]" />
+                </button>
+
+                {/* Next Button */}
+                <button
+                  onClick={handleNext}
+                  className="p-2 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] transition-colors cursor-pointer shadow-2xs"
+                  title="Next review"
+                >
+                  <ChevronRight className="w-4 h-4 text-[#351E1A]" />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {loading ? (
+            /* Skeleton Loading State */
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[1, 2, 3].map((n) => (
+                <div
+                  key={n}
+                  className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-7 shadow-xs animate-pulse space-y-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-2xl bg-[#E8D5C2]/60" />
+                    <div className="space-y-1.5 flex-1">
+                      <div className="h-4 w-28 bg-[#E8D5C2]/60 rounded-md" />
+                      <div className="h-3 w-16 bg-[#E8D5C2]/40 rounded-md" />
+                    </div>
+                  </div>
+                  <div className="h-3 w-20 bg-[#E8D5C2]/50 rounded-md" />
+                  <div className="space-y-2 pt-2">
+                    <div className="h-3.5 w-full bg-[#E8D5C2]/50 rounded-md" />
+                    <div className="h-3.5 w-4/5 bg-[#E8D5C2]/40 rounded-md" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredReviews.length === 0 ? (
+            /* Empty State */
+            <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-12 text-center shadow-xs">
+              <Sparkles className="w-10 h-10 text-[#C6532B] mx-auto mb-3 opacity-70" />
+              <h3 className="font-serif font-bold text-lg text-[#351E1A]">
+                No reviews match your filters
+              </h3>
+              <p className="text-xs text-[#351E1A]/60 mt-1 max-w-sm mx-auto">
+                Try resetting your search query or rating filter, or be the first to share your travel reflections.
+              </p>
+              <button
+                onClick={onOpenReviewModal}
+                className="mt-5 inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#C6532B] hover:bg-[#B04520] active:scale-95 text-white font-sans text-xs font-bold tracking-wide shadow-sm transition-all cursor-pointer"
+              >
+                <MessageSquarePlus className="w-4 h-4" />
+                <span>Write a Review</span>
+              </button>
+            </div>
+          ) : (
+            /* Horizontal Slider Track */
+            <div className="overflow-hidden py-1 -mx-2 sm:-mx-3">
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{
+                  transform: `translateX(-${currentIndex * (100 / cardsPerView)}%)`,
+                }}
+              >
+                {filteredReviews.map((item) => (
+                  <div
+                    key={item.id}
+                    className="shrink-0 px-2.5 sm:px-3 flex flex-col"
+                    style={{ width: `${100 / cardsPerView}%` }}
+                  >
+                    <div className="h-full bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden group min-h-[220px]">
+                      {/* Top Accent Gradient Line */}
+                      <div className="absolute top-0 left-6 right-6 h-0.5 bg-gradient-to-r from-transparent via-[#C6532B]/30 to-transparent" />
+
+                      <div className="space-y-4">
+                        {/* Reviewer Header */}
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-11 h-11 rounded-2xl bg-[#C6532B]/15 text-[#C6532B] font-bold text-sm flex items-center justify-center shrink-0 uppercase shadow-2xs">
+                              {item.name.charAt(0)}
+                            </div>
+                            <div className="min-w-0">
+                              <h4 className="font-serif font-bold text-base text-[#351E1A] leading-snug truncate">
+                                {item.name}
+                              </h4>
+                              <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#F7EBDD] text-[#C5A25A] text-[10px] font-mono font-medium border border-[#E8D5C2]/60 mt-0.5">
+                                <Tag className="w-2.5 h-2.5 shrink-0" />
+                                <span className="truncate max-w-[120px]">{item.role || 'Peer Reviewer'}</span>
+                              </div>
+                            </div>
                           </div>
-                          <span className="font-bold text-xs sm:text-sm text-[#351E1A]">
-                            {item.name}
-                          </span>
-                        </div>
-                      </td>
 
-                      {/* Role */}
-                      <td className="py-4 px-4 sm:px-6 align-top">
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[11px] font-medium text-[#351E1A]/80 shadow-2xs">
-                          <Tag className="w-3 h-3 text-[#C5A25A]" />
-                          <span>{item.role || 'Peer Reviewer'}</span>
+                          <div className="flex items-center gap-1 text-[11px] font-mono text-[#351E1A]/50 shrink-0">
+                            <Calendar className="w-3 h-3 text-[#C6532B]/60" />
+                            <span>{item.date}</span>
+                          </div>
                         </div>
-                      </td>
 
-                      {/* Rating */}
-                      <td className="py-4 px-4 sm:px-6 align-top whitespace-nowrap">
-                        <div className="flex items-center gap-1">
+                        {/* Star Rating */}
+                        <div className="flex items-center gap-1.5">
                           <div className="flex items-center">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star
                                 key={star}
-                                className={`w-3.5 h-3.5 ${
+                                className={`w-4 h-4 ${
                                   star <= item.rating
                                     ? 'text-[#C6532B] fill-[#C6532B]'
-                                    : 'text-[#351E1A]/20'
+                                    : 'text-[#351E1A]/15'
                                 }`}
                               />
                             ))}
                           </div>
-                          <span className="ml-1 text-[11px] font-mono font-bold text-[#C6532B]">
+                          <span className="font-mono text-xs font-bold text-[#C6532B]">
                             {item.rating}.0
                           </span>
                         </div>
-                      </td>
 
-                      {/* Review Content */}
-                      <td className="py-4 px-4 sm:px-6 align-top">
-                        <p className="text-xs sm:text-sm leading-relaxed text-[#351E1A]/90 italic font-serif">
-                          &ldquo;{item.review}&rdquo;
-                        </p>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                        {/* Review Quote Body */}
+                        <div className="relative pt-1">
+                          <Quote className="w-5 h-5 text-[#C6532B]/25 mb-1 shrink-0" />
+                          <p className="font-serif italic text-sm sm:text-base text-[#351E1A]/90 leading-relaxed">
+                            &ldquo;{item.review}&rdquo;
+                          </p>
+                        </div>
+                      </div>
 
-          {/* Table Footer */}
-          <div className="px-6 py-3.5 bg-[#F7EBDD]/60 border-t border-[#E8D5C2] flex flex-col sm:flex-row items-center justify-between text-xs text-[#351E1A]/60 gap-2">
-            <span>
-              Showing {filteredReviews.length} of {reviews.length} entries &bull; Synced with Neon Database
-            </span>
-            <div className="flex items-center gap-2 font-mono text-[11px]">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span>Table: public.reviews</span>
+                      {/* Card Bottom / Verified Footer */}
+                      <div className="pt-5 mt-5 border-t border-[#E8D5C2]/50 flex items-center justify-between text-[11px] text-[#351E1A]/50">
+                        <span className="inline-flex items-center gap-1 text-[#C6532B] font-mono text-[10px] font-semibold uppercase tracking-wider">
+                          <Sparkles className="w-3 h-3" />
+                          Verified Explorer
+                        </span>
+                        <span className="font-bengali text-xs text-[#582822]/60">
+                          স্মৃতির শহর
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Dot Pagination Indicators */}
+          {!loading && filteredReviews.length > cardsPerView && (
+            <div className="flex items-center justify-center gap-1.5 mt-6">
+              {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentIndex(idx)}
+                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                    currentIndex === idx
+                      ? 'w-6 bg-[#C6532B]'
+                      : 'w-2 bg-[#E8D5C2] hover:bg-[#C6532B]/50'
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

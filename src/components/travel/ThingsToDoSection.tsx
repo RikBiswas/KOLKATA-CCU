@@ -72,7 +72,7 @@ const THINGS_TO_DO: KolkataActivity[] = [
     bestTime: '11:00 AM – 4:00 PM',
     cost: 'Free entry (Cutlet ₹70)',
     icon: '☕',
-    imageUrl: '/images/stories/coffee-house.jpg',
+    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQd8vPye0_p6ks_0jA6YKprl0ZdpFbjKrDIElPkAF6cgmJRplpsXIUwFA5M&s=10',
     insiderTip: 'Ask the mezzanine server for infused black coffee and mutton afghani cutlet.',
     highlightTag: 'Literary Hub',
   },

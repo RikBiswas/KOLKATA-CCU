@@ -113,36 +113,44 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         </div>
 
         {/* Quick Spec Pills Bar */}
-        <div className="bg-[#582822] text-[#FFF8EF] px-6 py-3 border-b border-[#351E1A] grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-sans shrink-0">
-          <div className="flex items-center gap-2">
-            <Coins className="w-4 h-4 text-[#C5A25A] shrink-0" />
-            <div>
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold">Price Range</span>
-              <span className="font-bold text-[#FFF8EF] text-[11px] truncate">{item.priceRange || '₹30 – ₹120'}</span>
+        <div className="bg-[#582822] text-[#FFF8EF] px-5 sm:px-6 py-3 border-b border-[#351E1A] grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 text-xs font-sans shrink-0">
+          <div className="flex items-start gap-2.5 min-w-0">
+            <Coins className="w-4 h-4 text-[#C5A25A] shrink-0 mt-0.5" />
+            <div className="min-w-0 flex-1">
+              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Price Range</span>
+              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title={item.priceRange || '₹30 – ₹120'}>
+                {item.priceRange || '₹30 – ₹120'}
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-[#D9A38E] shrink-0" />
-            <div>
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold">Best Timing</span>
-              <span className="font-bold text-[#FFF8EF] text-[11px] truncate">{item.timing}</span>
+          <div className="flex items-start gap-2.5 min-w-0">
+            <Clock className="w-4 h-4 text-[#D9A38E] shrink-0 mt-0.5" />
+            <div className="min-w-0 flex-1">
+              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Best Timing</span>
+              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title={item.timing}>
+                {item.timing}
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Train className="w-4 h-4 text-[#C5A25A] shrink-0" />
-            <div>
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold">Transit Route</span>
-              <span className="font-bold text-[#FFF8EF] text-[11px] truncate">Metro &amp; Vintage Trams</span>
+          <div className="flex items-start gap-2.5 min-w-0">
+            <Train className="w-4 h-4 text-[#C5A25A] shrink-0 mt-0.5" />
+            <div className="min-w-0 flex-1">
+              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Transit Route</span>
+              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title="Metro & Vintage Trams">
+                Metro &amp; Vintage Trams
+              </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
-            <Utensils className="w-4 h-4 text-[#D9A38E] shrink-0" />
-            <div>
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold">Experience</span>
-              <span className="font-bold text-[#FFF8EF] text-[11px] truncate">Authentic Calcutta Adda</span>
+          <div className="flex items-start gap-2.5 min-w-0">
+            <Utensils className="w-4 h-4 text-[#D9A38E] shrink-0 mt-0.5" />
+            <div className="min-w-0 flex-1">
+              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Experience</span>
+              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title="Authentic Calcutta Adda">
+                Authentic Calcutta Adda
+              </span>
             </div>
           </div>
         </div>
