@@ -308,6 +308,56 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "visited": false
   },
   {
+    "id": "synagogues-bow-barracks-melting-pot-trail",
+    "title": "Old Chinatown, Jewish Synagogues & Bow Barracks",
+    "category": "Trail",
+    "location": "Kolkata Heritage Trail",
+    "imageUrl": "/images/trails/magen-david.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "The cosmopolitan melting pot of Armenian, Jewish, Chinese, and Anglo-Indian heritage • 3.5 Hours (Morning) (2.6 km on foot) • 08:30 AM – 12:00 PM (morning market aromas & open sanctuary hours)",
+    "visited": false
+  },
+  {
+    "id": "dakshineswar-belur-river-pilgrimage",
+    "title": "Dakshineswar Sanctum & Belur Math River Trail",
+    "category": "Trail",
+    "location": "Kolkata Heritage Trail",
+    "imageUrl": "/images/destinations/dakshineswar-temple.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "Holy Ganges ferry journey between Ramakrishna’s temple and Vivekananda’s universalist cathedral • 4 Hours (Morning to Midday) (2.2 km walking + 1 river ferry) • 07:30 AM – 11:30 AM",
+    "visited": false
+  },
+  {
+    "id": "park-street-cemeteries-cathedral-trail",
+    "title": "South Park Street Cemetery, Cathedrals & Jazz Lore",
+    "category": "Trail",
+    "location": "Kolkata Heritage Trail",
+    "imageUrl": "/images/destinations/st-pauls-cathedral.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "Gothic obelisks, Indo-Gothic stained glass, and the legendary music corridor • 3.5 Hours (Afternoon to Twilight) (2.8 km walking) • 02:30 PM – 06:00 PM",
+    "visited": false
+  },
+  {
+    "id": "pareshnath-jain-mosaic-temple-trail",
+    "title": "The Belgian Glass Mosaics & Pareshnath Temple Trail",
+    "category": "Trail",
+    "location": "Kolkata Heritage Trail",
+    "imageUrl": "/images/destinations/pareshnath-jain-temple.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "Gleaming jewel-box architecture, Parisian silver sculptures & quiet North Kolkata courtyards • 3 Hours (Morning) (2.1 km walking) • 08:00 AM – 11:00 AM",
+    "visited": false
+  },
+  {
+    "id": "south-kolkata-art-deco-lakes-trail",
+    "title": "South Kolkata Art Deco, Lakes & Bohemian Adda",
+    "category": "Trail",
+    "location": "Kolkata Heritage Trail",
+    "imageUrl": "/images/destinations/great-banyan-tree.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "Canopy banyans of Southern Avenue, lakeside promenades, and designer artisanal studios • 3 Hours (Late Afternoon to Dusk) (3.1 km leisurely walk) • 04:00 PM – 07:00 PM",
+    "visited": false
+  },
+  {
     "id": "tram-ride-maidan",
     "title": "Ride Vintage Route 24 Tram",
     "category": "Trail",

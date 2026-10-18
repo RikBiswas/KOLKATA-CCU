@@ -82,64 +82,72 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
             </span>
           </div>
 
-          <div className="space-y-3 max-h-[740px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-[#C6532B]/30 hover:scrollbar-thumb-[#C6532B]/60 scrollbar-track-transparent">
-            {filteredEvents.map((ev) => {
-              const isCurrent = ev.id === activeEvent.id;
-              return (
-                <div
-                  key={ev.id}
-                  onClick={() => setActiveEventId(ev.id)}
-                  className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${
-                    isCurrent
-                      ? 'bg-[#351E1A] text-[#FFF8EF] border-[#351E1A] shadow-md -translate-y-0.5'
-                      : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD] hover:border-[#D9A38E]'
-                  }`}
-                >
-                  {/* Thumbnail Image */}
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#E8D5C2]/50 bg-neutral-900">
-                    <img
-                      src={ev.imageUrl}
-                      alt={ev.title}
-                      className="w-full h-full object-cover object-center"
-                    />
-                  </div>
-
-                  {/* Event Summary */}
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center justify-between gap-1">
-                      <span
-                        className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
-                          isCurrent
-                            ? 'bg-[#C6532B] text-white'
-                            : 'bg-[#C6532B]/10 text-[#C6532B]'
-                        }`}
-                      >
-                        {ev.season}
-                      </span>
-                      <span
-                        className={`text-[10px] font-sans ${
-                          isCurrent ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'
-                        }`}
-                      >
-                        {ev.months.split('(')[0]}
-                      </span>
+          <div className="relative">
+            <div className="space-y-3 max-h-[740px] overflow-y-auto pr-2 pb-14 scrollbar-thin scrollbar-thumb-[#C6532B]/30 hover:scrollbar-thumb-[#C6532B]/60 scrollbar-track-transparent">
+              {filteredEvents.map((ev) => {
+                const isCurrent = ev.id === activeEvent.id;
+                return (
+                  <div
+                    key={ev.id}
+                    onClick={() => setActiveEventId(ev.id)}
+                    className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${
+                      isCurrent
+                        ? 'bg-[#351E1A] text-[#FFF8EF] border-[#351E1A] shadow-md -translate-y-0.5'
+                        : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD] hover:border-[#D9A38E]'
+                    }`}
+                  >
+                    {/* Thumbnail Image */}
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#E8D5C2]/50 bg-neutral-900">
+                      <img
+                        src={ev.imageUrl}
+                        alt={ev.title}
+                        className="w-full h-full object-cover object-center"
+                      />
                     </div>
 
-                    <h3 className="font-serif text-lg font-bold leading-snug">
-                      {ev.title.split('—')[0].trim()}
-                    </h3>
+                    {/* Event Summary */}
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center justify-between gap-1">
+                        <span
+                          className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
+                            isCurrent
+                              ? 'bg-[#C6532B] text-white'
+                              : 'bg-[#C6532B]/10 text-[#C6532B]'
+                          }`}
+                        >
+                          {ev.season}
+                        </span>
+                        <span
+                          className={`text-[10px] font-sans ${
+                            isCurrent ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'
+                          }`}
+                        >
+                          {ev.months.split('(')[0]}
+                        </span>
+                      </div>
 
-                    <p
-                      className={`font-bengali text-xs font-medium ${
-                        isCurrent ? 'text-[#D9A38E]' : 'text-[#582822]'
-                      }`}
-                    >
-                      {ev.bengaliTitle}
-                    </p>
+                      <h3 className="font-serif text-lg font-bold leading-snug">
+                        {ev.title.split('—')[0].trim()}
+                      </h3>
+
+                      <p
+                        className={`font-bengali text-xs font-medium ${
+                          isCurrent ? 'text-[#D9A38E]' : 'text-[#582822]'
+                        }`}
+                      >
+                        {ev.bengaliTitle}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+
+            {/* Bottom Fade Style Overlay */}
+            <div
+              className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F7EBDD] via-[#F7EBDD]/80 to-transparent rounded-b-2xl z-10"
+              aria-hidden="true"
+            />
           </div>
         </div>
 
