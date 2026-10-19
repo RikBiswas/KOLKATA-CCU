@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Clock, Calendar, MapPin, ArrowRight, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, Calendar, MapPin, ArrowRight, Sparkles, Play, Pause } from 'lucide-react';
+import Autoplay from 'embla-carousel-autoplay';
 import { GuideStory } from '../../types/travel';
 import { cn } from '../../lib/utils';
 import {
@@ -21,7 +22,16 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
 }) => {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  // Official Embla Autoplay plugin: slides smoothly every 3.2s, auto-resumes after user clicks
+  const autoplay = useRef(
+    Autoplay({
+      delay: 3200,
+      stopOnInteraction: false,
+      stopOnMouseEnter: true,
+    })
+  );
 
   // Sync active slide index with Embla Carousel (guarantees middle card tracking)
   const onSelect = useCallback(() => {
@@ -42,23 +52,24 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
     };
   }, [api, onSelect]);
 
-  // Autoplay with hover pause
-  useEffect(() => {
-    if (isHovered || !api || stories.length <= 1) return;
+  // Toggle autoplay play / pause
+  const toggleAutoplay = useCallback(() => {
+    const autoplayPlugin = api?.plugins()?.autoplay;
+    if (!autoplayPlugin) return;
 
-    const timer = setInterval(() => {
-      api.scrollNext();
-    }, 4500);
-
-    return () => clearInterval(timer);
-  }, [api, isHovered, stories.length]);
+    if (isPlaying) {
+      autoplayPlugin.stop();
+      setIsPlaying(false);
+    } else {
+      autoplayPlugin.play();
+      setIsPlaying(true);
+    }
+  }, [api, isPlaying]);
 
   return (
     <section
       id="blog"
       className="py-10 sm:py-14 scroll-mt-24 select-none"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Editorial Header */}
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
@@ -82,11 +93,36 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
           </p>
         </div>
 
-        {/* Carousel controls with slide counter */}
+        {/* Carousel controls with slide counter & Auto play/pause */}
         <div className="flex items-center gap-3 shrink-0">
+          {/* Autoplay Play/Pause Button */}
+          <button
+            onClick={toggleAutoplay}
+            className={cn(
+              'flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-[11px] font-sans font-medium transition-all cursor-pointer',
+              isPlaying
+                ? 'bg-[#C6532B]/10 border-[#C6532B]/30 text-[#C6532B] hover:bg-[#C6532B]/20'
+                : 'bg-[#FFF8EF] border-[#E8D5C2] text-[#351E1A]/70 hover:bg-[#F7EBDD]'
+            )}
+            title={isPlaying ? 'Pause Auto-Carousel' : 'Start Auto-Carousel'}
+          >
+            {isPlaying ? (
+              <>
+                <Pause className="w-3 h-3 fill-current" />
+                <span className="text-[10px] uppercase font-mono tracking-wider">Auto</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-3 h-3 fill-current" />
+                <span className="text-[10px] uppercase font-mono tracking-wider">Play</span>
+              </>
+            )}
+          </button>
+
           <span className="text-xs font-sans text-[#351E1A]/60 font-medium">
             {current + 1} of {stories.length}
           </span>
+
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => api?.scrollPrev()}
@@ -106,9 +142,10 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
         </div>
       </div>
 
-      {/* Embla-Powered Centered Carousel with Native Infinite Loop: Fast-Scroll Safe */}
+      {/* Embla-Powered Centered Carousel with Native Infinite Loop & Auto Carousel */}
       <Carousel
         setApi={setApi}
+        plugins={[autoplay.current]}
         className="w-full"
         opts={{
           loop: true,
