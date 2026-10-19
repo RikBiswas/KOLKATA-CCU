@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, Clock, Calendar, MapPin, ArrowRight, BookOpen, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Clock, Calendar, MapPin, ArrowRight, Sparkles } from 'lucide-react';
 import { GuideStory } from '../../types/travel';
 import { cn } from '../../lib/utils';
 import {
@@ -23,18 +23,24 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
   const [current, setCurrent] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Sync active slide index with Embla Carousel (guarantees middle card tracking)
+  const onSelect = useCallback(() => {
+    if (!api) return;
+    setCurrent(api.selectedScrollSnap());
+  }, [api]);
+
   useEffect(() => {
     if (!api) return;
 
-    const onSelect = () => {
-      setCurrent(api.selectedScrollSnap());
-    };
+    onSelect();
+    api.on('select', onSelect);
+    api.on('reInit', onSelect);
 
-    const unsubscribe = api.on('select', onSelect);
     return () => {
-      unsubscribe();
+      api.off('select', onSelect);
+      api.off('reInit', onSelect);
     };
-  }, [api]);
+  }, [api, onSelect]);
 
   // Autoplay with hover pause
   useEffect(() => {
@@ -50,7 +56,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
   return (
     <section
       id="blog"
-      className="py-10 sm:py-14 scroll-mt-24"
+      className="py-10 sm:py-14 scroll-mt-24 select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -78,7 +84,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
 
         {/* Carousel controls with slide counter */}
         <div className="flex items-center gap-3 shrink-0">
-          <span className="text-xs font-sans text-[#351E1A]/60">
+          <span className="text-xs font-sans text-[#351E1A]/60 font-medium">
             {current + 1} of {stories.length}
           </span>
           <div className="flex items-center gap-1.5">
@@ -100,13 +106,14 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
         </div>
       </div>
 
-      {/* Skiper 54 Carousel with Dynamic Accordion ClipPath & Blur Reveal */}
+      {/* Embla-Powered Centered Carousel with Native Infinite Loop: Fast-Scroll Safe */}
       <Carousel
         setApi={setApi}
         className="w-full"
         opts={{
           loop: true,
-          slidesToScroll: 1,
+          align: 'center',
+          skipSnaps: false,
         }}
       >
         <CarouselContent className="h-[540px] sm:h-[580px] w-full py-4 items-center">
@@ -128,7 +135,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
                     scale: isActive ? 1 : 0.96,
                   }}
                   transition={{
-                    duration: 0.5,
+                    duration: 0.45,
                     ease: [0.32, 0.72, 0, 1],
                   }}
                   onClick={() => {
@@ -141,8 +148,8 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
                   className={cn(
                     'relative h-full w-full overflow-hidden rounded-[1.75rem] cursor-pointer flex flex-col justify-between transition-shadow duration-500',
                     isActive
-                      ? 'shadow-[0_20px_50px_rgba(53,30,26,0.18)] border-2 border-[#C6532B]/40 bg-[#FFF8EF]'
-                      : 'shadow-md border border-[#E8D5C2] bg-[#FFF8EF]/95 hover:opacity-90'
+                      ? 'shadow-[0_24px_54px_rgba(53,30,26,0.22)] border-2 border-[#C6532B]/60 bg-[#FFF8EF] z-20'
+                      : 'shadow-md border border-[#E8D5C2] bg-[#FFF8EF]/95 hover:opacity-90 z-10'
                   )}
                 >
                   {/* Top Photo Container */}
@@ -189,10 +196,12 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
                         </span>
                       </div>
 
-                      <h3 className={cn(
-                        'font-serif font-bold text-[#351E1A] transition-colors leading-snug line-clamp-2 min-h-[56px] flex items-start',
-                        isActive ? 'text-xl sm:text-2xl text-[#351E1A]' : 'text-lg sm:text-xl text-[#351E1A]/90'
-                      )}>
+                      <h3
+                        className={cn(
+                          'font-serif font-bold text-[#351E1A] transition-colors leading-snug line-clamp-2 min-h-[56px] flex items-start',
+                          isActive ? 'text-xl sm:text-2xl text-[#351E1A]' : 'text-lg sm:text-xl text-[#351E1A]/90'
+                        )}
+                      >
                         {story.title}
                       </h3>
 

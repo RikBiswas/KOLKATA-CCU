@@ -1,53 +1,35 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useMemo,
-} from 'react';
+import * as React from 'react';
+import useEmblaCarousel, {
+  type UseEmblaCarouselType,
+} from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../../lib/utils';
 
-export interface CarouselApi {
-  scrollPrev: () => void;
-  scrollNext: () => void;
-  scrollTo: (index: number) => void;
-  selectedScrollSnap: () => number;
-  canScrollPrev: () => boolean;
-  canScrollNext: () => boolean;
-  on: (event: 'select' | 'reInit', callback: () => void) => () => void;
-}
+export type CarouselApi = UseEmblaCarouselType[1];
+type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
+type CarouselOptions = UseCarouselParameters[0];
+type CarouselPlugin = UseCarouselParameters[1];
 
 interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-  opts?: {
-    loop?: boolean;
-    slidesToScroll?: number;
-    startIndex?: number;
-    align?: 'start' | 'center';
-  };
-  plugins?: any[];
+  opts?: CarouselOptions;
+  plugins?: CarouselPlugin;
+  orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;
 }
 
 interface CarouselContextProps {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  trackRef: React.RefObject<HTMLDivElement | null>;
-  currentIndex: number;
-  totalSlides: number;
-  setTotalSlides: React.Dispatch<React.SetStateAction<number>>;
-  scrollTo: (index: number) => void;
+  carouselRef: ReturnType<typeof useEmblaCarousel>[0];
+  api: CarouselApi;
   scrollPrev: () => void;
   scrollNext: () => void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
 }
 
-const CarouselContext = createContext<CarouselContextProps | null>(null);
+const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
 export function useCarousel() {
-  const context = useContext(CarouselContext);
+  const context = React.useContext(CarouselContext);
   if (!context) {
     throw new Error('useCarousel must be used within a <Carousel />');
   }
@@ -55,105 +37,61 @@ export function useCarousel() {
 }
 
 export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
-  ({ opts, plugins, setApi, className, children, ...props }, ref) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const trackRef = useRef<HTMLDivElement>(null);
-    const [currentIndex, setCurrentIndex] = useState(opts?.startIndex || 0);
-    const [totalSlides, setTotalSlides] = useState(0);
-    const listenersRef = useRef<Map<string, Set<() => void>>>(new Map());
-
-    const loop = opts?.loop ?? true;
-
-    const canScrollPrev = loop || currentIndex > 0;
-    const canScrollNext = loop || currentIndex < totalSlides - 1;
-
-    const emit = useCallback((event: string) => {
-      listenersRef.current.get(event)?.forEach((cb) => cb());
-    }, []);
-
-    const scrollTo = useCallback(
-      (index: number) => {
-        if (totalSlides <= 0) return;
-        let target = index;
-        if (loop) {
-          target = ((index % totalSlides) + totalSlides) % totalSlides;
-        } else {
-          target = Math.max(0, Math.min(index, totalSlides - 1));
-        }
-        setCurrentIndex(target);
+  (
+    {
+      orientation = 'horizontal',
+      opts,
+      plugins,
+      setApi,
+      className,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const [carouselRef, api] = useEmblaCarousel(
+      {
+        ...opts,
+        axis: orientation === 'vertical' ? 'y' : 'x',
       },
-      [totalSlides, loop]
+      plugins
     );
 
-    const scrollPrev = useCallback(() => {
-      scrollTo(currentIndex - 1);
-    }, [currentIndex, scrollTo]);
+    const [canScrollPrev, setCanScrollPrev] = React.useState(false);
+    const [canScrollNext, setCanScrollNext] = React.useState(false);
 
-    const scrollNext = useCallback(() => {
-      scrollTo(currentIndex + 1);
-    }, [currentIndex, scrollTo]);
+    const onSelect = React.useCallback((emblaApi: CarouselApi) => {
+      if (!emblaApi) return;
+      setCanScrollPrev(emblaApi.canScrollPrev());
+      setCanScrollNext(emblaApi.canScrollNext());
+    }, []);
 
-    // Notify listeners when currentIndex changes
-    useEffect(() => {
-      emit('select');
-    }, [currentIndex, emit]);
+    const scrollPrev = React.useCallback(() => {
+      api?.scrollPrev();
+    }, [api]);
 
-    // Center the active slide in view smoothly
-    useEffect(() => {
-      if (!trackRef.current) return;
-      const items = trackRef.current.children;
-      if (items && items[currentIndex]) {
-        const item = items[currentIndex] as HTMLElement;
-        const container = containerRef.current;
-        if (container) {
-          const containerCenter = container.offsetWidth / 2;
-          const itemCenter = item.offsetLeft + item.offsetWidth / 2;
-          const scrollLeft = itemCenter - containerCenter;
+    const scrollNext = React.useCallback(() => {
+      api?.scrollNext();
+    }, [api]);
 
-          container.scrollTo({
-            left: scrollLeft,
-            behavior: 'smooth',
-          });
-        }
-      }
-    }, [currentIndex]);
+    React.useEffect(() => {
+      if (!api) return;
+      setApi?.(api);
+      onSelect(api);
+      api.on('reInit', onSelect);
+      api.on('select', onSelect);
 
-    // Build the shadcn-compatible API
-    const api = useMemo<CarouselApi>(() => {
-      return {
-        scrollPrev,
-        scrollNext,
-        scrollTo,
-        selectedScrollSnap: () => currentIndex,
-        canScrollPrev: () => canScrollPrev,
-        canScrollNext: () => canScrollNext,
-        on: (event: string, callback: () => void) => {
-          if (!listenersRef.current.has(event)) {
-            listenersRef.current.set(event, new Set());
-          }
-          listenersRef.current.get(event)?.add(callback);
-          return () => {
-            listenersRef.current.get(event)?.delete(callback);
-          };
-        },
+      return () => {
+        api.off('select', onSelect);
+        api.off('reInit', onSelect);
       };
-    }, [scrollPrev, scrollNext, scrollTo, currentIndex, canScrollPrev, canScrollNext]);
-
-    useEffect(() => {
-      if (setApi) {
-        setApi(api);
-      }
-    }, [setApi, api]);
+    }, [api, setApi, onSelect]);
 
     return (
       <CarouselContext.Provider
         value={{
-          containerRef,
-          trackRef,
-          currentIndex,
-          totalSlides,
-          setTotalSlides,
-          scrollTo,
+          carouselRef,
+          api,
           scrollPrev,
           scrollNext,
           canScrollPrev,
@@ -162,7 +100,7 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
       >
         <div
           ref={ref}
-          className={cn('relative w-full overflow-hidden select-none', className)}
+          className={cn('relative w-full', className)}
           role="region"
           aria-roledescription="carousel"
           {...props}
@@ -173,37 +111,24 @@ export const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
     );
   }
 );
-
 Carousel.displayName = 'Carousel';
 
 export const CarouselContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => {
-  const { containerRef, trackRef, setTotalSlides } = useCarousel();
-
-  useEffect(() => {
-    if (trackRef.current) {
-      setTotalSlides(trackRef.current.children.length);
-    }
-  });
+>(({ className, ...props }, ref) => {
+  const { carouselRef } = useCarousel();
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full overflow-x-auto no-scrollbar scroll-smooth"
-    >
+    <div ref={carouselRef} className="overflow-hidden w-full">
       <div
-        ref={trackRef}
+        ref={ref}
         className={cn('flex items-center', className)}
         {...props}
-      >
-        {children}
-      </div>
+      />
     </div>
   );
 });
-
 CarouselContent.displayName = 'CarouselContent';
 
 export const CarouselItem = React.forwardRef<
@@ -220,7 +145,6 @@ export const CarouselItem = React.forwardRef<
     />
   );
 });
-
 CarouselItem.displayName = 'CarouselItem';
 
 export const CarouselPrevious = React.forwardRef<
@@ -245,7 +169,6 @@ export const CarouselPrevious = React.forwardRef<
     </button>
   );
 });
-
 CarouselPrevious.displayName = 'CarouselPrevious';
 
 export const CarouselNext = React.forwardRef<
@@ -270,5 +193,4 @@ export const CarouselNext = React.forwardRef<
     </button>
   );
 });
-
 CarouselNext.displayName = 'CarouselNext';
