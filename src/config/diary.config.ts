@@ -4,7 +4,7 @@ import { DiaryItem } from '../types/travel';
  * Complete Curated Diary & Field Codex for Kolkata Travelers.
  * Contains EVERY activity, landmark, neighborhood, walking trail,
  * historic lore, iconic food stall, heritage cabin, cafe, pub, and bar
- * featured on the site (104 total curated items).
+ * featured on the site (115 total curated items).
  */
 export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
   {
@@ -162,7 +162,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Dalhousie & B.B.D. Bagh",
     "category": "Neighborhood",
     "location": "Dalhousie & B.B.D. Bagh",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/35/Bbbagh.png?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original",
+    "imageUrl": "/images/trails/writers-building.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "Imperial Heart of the British Raj • Vibe: Monumental, neoclassical, Greco-Roman colonnades, heritage grandeur • Walk: Sunday Morning (08:00 AM – 11:30 AM) when office crowds are absent",
     "visited": false
@@ -172,7 +172,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "College Street & Boi Para",
     "category": "Neighborhood",
     "location": "College Street & Boi Para",
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV59SyK2TomRrE1aAKRJe5mkX8eDvSzke_Ay6f7wotepDwMzOtRGtb_hE&s=10",
+    "imageUrl": "/images/destinations/college-street.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "The Intellectual Republic of Bengal • Vibe: Scholarly, vibrant, endless paper stacks, caffeinated ideological debates • Walk: Afternoon (01:30 PM – 05:30 PM) [Closed Sundays]",
     "visited": false
@@ -192,7 +192,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Park Street & South Calcutta",
     "category": "Neighborhood",
     "location": "Park Street & South Calcutta",
-    "imageUrl": "https://s7ap1.scene7.com/is/image/incredibleindia/park-street-kolkata-west-bengal-1-attr-hero?qlt=82&ts=1742152704187",
+    "imageUrl": "/images/destinations/park-street-queens-mansion.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "Cosmopolitan Glamour & Colonial Tearooms • Vibe: Lively, culinary boulevard, shaded avenues, jazz heritage, bohemian modernism • Walk: Late Afternoon into Midnight",
     "visited": false
@@ -212,7 +212,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Tiretta Bazaar & Chinatown",
     "category": "Neighborhood",
     "location": "Tiretta Bazaar & Chinatown",
-    "imageUrl": "https://mapapi.sahapedia.org/assets/images/202109291447459Fig_5.jpg",
+    "imageUrl": "/images/destinations/bow-barracks.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "Dawn Dim Sum & Anglo-Indian Red Brick Enclaves • Vibe: Steaming baozi, Chinese calligraphy scrolls, red brick barracks, morning bustle • Walk: Dawn (06:00 AM – 08:30 AM for the legendary street breakfast)",
     "visited": false
@@ -324,7 +324,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "location": "Kolkata Heritage Trail",
     "imageUrl": "/images/destinations/dakshineswar-temple.jpg",
     "addedAt": "Oct 18, 2026",
-    "notes": "Holy Ganges ferry journey between Ramakrishna’s temple and Vivekananda’s universalist cathedral • 4 Hours (Morning to Midday) (2.2 km walking + 1 river ferry) • 07:30 AM – 11:30 AM",
+    "notes": "Holy Ganges ferry journey between Ramakrishna’s temple and Vivekananda’s universalist cathedral • 4 Hours (Morning to Midday) (2.2 km walking + 1 river ferry crossing) • 07:30 AM – 11:30 AM (tranquil morning prayers & river breezes)",
     "visited": false
   },
   {
@@ -334,7 +334,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "location": "Kolkata Heritage Trail",
     "imageUrl": "/images/destinations/st-pauls-cathedral.jpg",
     "addedAt": "Oct 18, 2026",
-    "notes": "Gothic obelisks, Indo-Gothic stained glass, and the legendary music corridor • 3.5 Hours (Afternoon to Twilight) (2.8 km walking) • 02:30 PM – 06:00 PM",
+    "notes": "Gothic obelisks, Indo-Gothic stained glass, and the legendary music corridor • 3.5 Hours (Afternoon to Twilight) (2.8 km walking) • 02:30 PM – 06:00 PM (gentle cemetery shade into evening neon lights)",
     "visited": false
   },
   {
@@ -344,7 +344,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "location": "Kolkata Heritage Trail",
     "imageUrl": "/images/destinations/pareshnath-jain-temple.jpg",
     "addedAt": "Oct 18, 2026",
-    "notes": "Gleaming jewel-box architecture, Parisian silver sculptures & quiet North Kolkata courtyards • 3 Hours (Morning) (2.1 km walking) • 08:00 AM – 11:00 AM",
+    "notes": "Gleaming jewel-box architecture, Parisian silver sculptures & quiet North Kolkata courtyards • 3 Hours (Morning) (2.1 km walking) • 08:00 AM – 11:00 AM (reflective sun on Belgian glass & fountain gardens)",
     "visited": false
   },
   {
@@ -354,7 +354,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "location": "Kolkata Heritage Trail",
     "imageUrl": "/images/destinations/great-banyan-tree.jpg",
     "addedAt": "Oct 18, 2026",
-    "notes": "Canopy banyans of Southern Avenue, lakeside promenades, and designer artisanal studios • 3 Hours (Late Afternoon to Dusk) (3.1 km leisurely walk) • 04:00 PM – 07:00 PM",
+    "notes": "Canopy banyans of Southern Avenue, lakeside promenades, and designer artisanal studios • 3 Hours (Late Afternoon to Dusk) (3.1 km leisurely walk) • 04:00 PM – 07:00 PM (golden hour shade and evening lake breezes)",
     "visited": false
   },
   {
@@ -442,7 +442,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "The Gothic Tombs & Melancholy Shadows of South Park Street Cemetery",
     "category": "Story",
     "location": "Park Street",
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST9mkPVDySqtIK2I5NBZUoFe9DNHo5bKiWy936lELPhDFwRCENFffiLPk&s=10",
+    "imageUrl": "/images/stories/park-street-cemetery.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "1767 – Georgian Era • Shrouded beneath massive mahogany trees and mossy ivy, walk among 1,600 towering stone pyramids, Grecian urns, and sepulchral obelisks steeped in colonial romance and supernatural lore.",
     "visited": false
@@ -452,7 +452,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "The Phantom Carriage of Warren Hastings at Alipore Estate",
     "category": "Story",
     "location": "Alipore, South Kolkata",
-    "imageUrl": "https://www.theparanormalguide.com/uploads/1/7/3/8/17382059/3903809.jpg?402",
+    "imageUrl": "/images/stories/hastings-house.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "1770s – East India Company • Behind the stately white colonnades of Hastings House in Alipore lives Kolkata’s most famous supernatural chronicle—the midnight gallop of an impeached Governor-General searching for lost documents.",
     "visited": false
@@ -462,7 +462,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "Putulbari: The Haunting Romanesque House of Dolls on Ahiritola Ghat",
     "category": "Story",
     "location": "Ahiritola Ghat / Sovabazar",
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZut7AlQO08LZyT7RBCWYZ2u9VUNkI7Jd0Xq4SCwtTeZp7XGUMJknr7x1s&s=10",
+    "imageUrl": "/images/stories/putulbari-house-of-dolls.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "Late 19th Century – Zamindari Era • Perched directly along the sacred river ghats of North Kolkata, this mysterious 150-year-old mansion blends Romanesque grandeur with chilling river lore and eerie doll-adorned pediments.",
     "visited": false
@@ -472,7 +472,7 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "title": "The Gallop of Pride: The Phantom White Stallion of the Maidan Racecourse",
     "category": "Story",
     "location": "Maidan / Racecourse",
-    "imageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT650KWEbXUlY3ZwV1SsOwVmNRxW7LGzyHmTfsLbdCoIg&s=10",
+    "imageUrl": "/images/stories/calcutta-turf-club.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "1930s – British Raj Turf Club • On foggy winter dawns, when the Victoria Memorial dome disappears into mist, the Maidan racecourse comes alive with the tragic legend of Sir George Evers and his undefeated white thoroughbred.",
     "visited": false
@@ -515,6 +515,66 @@ export const DEFAULT_CURATED_DIARY_ITEMS: DiaryItem[] = [
     "imageUrl": "/images/destinations/st-pauls-cathedral.jpg",
     "addedAt": "Oct 18, 2026",
     "notes": "1695 – 1787 Foundation of Calcutta • The true cradle of British Calcutta, St. John’s Church preserves the city’s oldest stone structure, the Black Hole memorial, and one of art history’s cheekiest altar paintings.",
+    "visited": false
+  },
+  {
+    "id": "great-banyan-tree-living-titan",
+    "title": "The Motherless Forest: The 250-Year Great Banyan of Shibpur",
+    "category": "Story",
+    "location": "AJC Bose Botanical Garden, Shibpur",
+    "imageUrl": "/images/destinations/great-banyan-tree.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "1787 – Company Botanical Era • Wider than the Roman Colosseum and covering 3.5 acres with 3,700 roots, this two-century-old wonder lost its central trunk in 1925—now living as an immortal clonal forest.",
+    "visited": false
+  },
+  {
+    "id": "kumartuli-divine-clay-sculptors",
+    "title": "Kumartuli: The Divine Sculptors & The Sacred Soil of Patitoddhar",
+    "category": "Story",
+    "location": "Banamali Sarkar Street, Kumartuli",
+    "imageUrl": "/images/stories/kumartuli-sculptors.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "1750s – Clay Guild Tradition • Along the labyrinthine river alleys of North Calcutta, master artisans uphold a 300-year esoteric ritual: blending sacred Hooghly silt with clay gathered from the threshold of forbidden quarters.",
+    "visited": false
+  },
+  {
+    "id": "college-street-coffee-house-relics",
+    "title": "College Street Boi Para: The Phantom Scholars & The Coffee House Manifesto",
+    "category": "Story",
+    "location": "College Street & Bankim Chatterjee St.",
+    "imageUrl": "/images/stories/coffee-house.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "1876 – Bengal Renaissance & The 1960s • The world’s largest open-air book bazaar holds tales of clandestine radical printing presses, lost first editions, and smoky 30-foot ceilings where Nobel laureates and rebellious poets forged modern Bengal.",
+    "visited": false
+  },
+  {
+    "id": "prinsep-ghat-alinagar-siege-lore",
+    "title": "The River of Souls: Prinsep Ghat & The Lost Cannons of Alinagar",
+    "category": "Story",
+    "location": "Strand Road, Hooghly Riverbank",
+    "imageUrl": "/images/stories/princep-ghat.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "1756 – 1843 Palladian Heritage • Under the majestic Palladian colonnade of James Prinsep, the silty Hooghly river conceals remnants of the 1756 siege when Calcutta was briefly conquered and renamed Alinagar by Siraj-ud-Daulah.",
+    "visited": false
+  },
+  {
+    "id": "magen-david-jewish-spice-aristocracy",
+    "title": "The Magen David & The Lost Baghdadi Spice Aristocracy",
+    "category": "Story",
+    "location": "Brabourne Road / Canning Street",
+    "imageUrl": "/images/destinations/magen-david-synagogue.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "1884 – Victorian Renaissance • Hidden in the dizzying din of Burrabazar rises an Italian Renaissance cathedral-like synagogue with stained glass from London, built by merchant prince Elias David Ezra and lovingly preserved by Muslim caretakers.",
+    "visited": false
+  },
+  {
+    "id": "heritage-tramways-1873-lore",
+    "title": "The Midnight Car: Asia’s Oldest Electric Tram & Freedom Fighter Escapes",
+    "category": "Story",
+    "location": "Esplanade to Shyambazar Tramline",
+    "imageUrl": "/images/stories/heritage-tram.jpg",
+    "addedAt": "Oct 18, 2026",
+    "notes": "1873 – 1902 Asia’s First Electric Tram • Asia’s oldest operating electric tram network holds tales of midnight maintenance cars gliding silently on moonlit tracks, carrying memories of freedom fighters who used the wooden cars to evade colonial police.",
     "visited": false
   },
   {

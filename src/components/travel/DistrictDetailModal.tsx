@@ -57,9 +57,15 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
           <img
             src={district.coverImage}
             alt={district.name}
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (!target.src.endsWith('/images/destinations/bow-barracks.jpg')) {
+                target.src = '/images/destinations/bow-barracks.jpg';
+              }
+            }}
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/40 to-transparent pointer-events-none" />
 
           {/* Bengali Name Callout */}
           <div className="absolute top-5 left-5 bg-[#FFF8EF]/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bengali font-bold text-[#582822] shadow-xs border border-[#E8D5C2]">

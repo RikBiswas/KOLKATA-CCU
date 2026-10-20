@@ -200,9 +200,15 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
             <img
               src={currentDistrict.coverImage}
               alt={currentDistrict.name}
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.src.endsWith('/images/destinations/bow-barracks.jpg')) {
+                  target.src = '/images/destinations/bow-barracks.jpg';
+                }
+              }}
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/85 via-[#351E1A]/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/85 via-[#351E1A]/20 to-transparent pointer-events-none" />
 
             {/* Top Badge: Bengali Name */}
             <div className="absolute top-3.5 left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bengali font-bold text-[#582822] shadow-xs border border-[#E8D5C2]">
