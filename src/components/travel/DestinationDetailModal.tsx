@@ -55,7 +55,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
         </button>
 
         {/* Top Hero Image Banner */}
-        <div className="relative h-64 sm:h-72 w-full shrink-0 bg-[#351E1A]">
+        <div className="relative h-48 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A]">
           <img
             src={destination.imageUrl}
             alt={destination.name}
@@ -63,7 +63,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/95 via-[#351E1A]/40 to-transparent pointer-events-none" />
 
-          <div className="absolute bottom-4 left-6 right-6 text-[#FFF8EF] space-y-1.5">
+          <div className="absolute bottom-4 left-4 sm:left-6 right-4 sm:right-6 text-[#FFF8EF] space-y-1.5">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#C6532B] text-[10px] font-mono font-bold uppercase tracking-wider text-white">
@@ -86,7 +86,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
               </a>
             </div>
 
-            <h2 id="modal-dest-title" className="font-serif text-2xl sm:text-3xl font-bold leading-tight">
+            <h2 id="modal-dest-title" className="font-serif text-xl sm:text-3xl font-bold leading-tight">
               {destination.name}
             </h2>
 
@@ -101,7 +101,7 @@ export const DestinationDetailModal: React.FC<DestinationDetailModalProps> = ({
         </div>
 
         {/* Modal Scrollable Content */}
-        <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+        <div className="p-4 sm:p-8 overflow-y-auto space-y-5 sm:space-y-6">
           <div className="space-y-2">
             <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-[#C6532B]">
               Historical Significance &amp; Lore

@@ -17,6 +17,8 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
   const [routeDirection, setRouteDirection] = useState<number>(1);
   const [isRouteHovered, setIsRouteHovered] = useState<boolean>(false);
   const [selectedRoute, setSelectedRoute] = useState<TransitRoute | null>(null);
+  const [touchStartX, setTouchStartX] = useState<number | null>(null);
+  const [touchEndX, setTouchEndX] = useState<number | null>(null);
 
   const activeMode = transitModes.find((m) => m.id === activeTransitId) || transitModes[0];
 
@@ -39,6 +41,27 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
   const handleNextRoute = () => {
     setRouteDirection(1);
     setCurrentRoutePage((prev) => (prev < totalRoutePages ? prev + 1 : 1));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStartX(e.targetTouches[0].clientX);
+    setTouchEndX(null);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEndX(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX === null || touchEndX === null) return;
+    const diff = touchStartX - touchEndX;
+    if (diff > 45) {
+      handleNextRoute();
+    } else if (diff < -45) {
+      handlePrevRoute();
+    }
+    setTouchStartX(null);
+    setTouchEndX(null);
   };
 
   // Auto-slide carousel effect every 5 seconds (paused on hover)
@@ -140,7 +163,7 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
 
       {/* Main Vintage Transit Pass Layout */}
       {activeMode && (
-        <div className="bg-[#FFF8EF] border-2 border-dashed border-[#D9A38E] rounded-3xl p-6 sm:p-10 shadow-[0_12px_36px_rgba(53,30,26,0.06)] relative overflow-hidden">
+        <div className="bg-[#FFF8EF] border-2 border-dashed border-[#D9A38E] rounded-3xl p-4 sm:p-8 md:p-10 shadow-[0_12px_36px_rgba(53,30,26,0.06)] relative overflow-hidden">
           {/* Top Stamp Header */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E8D5C2] pb-6 mb-6">
             <div className="flex items-center gap-3.5">
@@ -253,7 +276,12 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
               </div>
 
               {/* Animated Sliding Routes Container */}
-              <div className="overflow-hidden py-0.5">
+              <div 
+                className="overflow-hidden py-0.5 touch-pan-y"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 <AnimatePresence mode="wait" custom={routeDirection}>
                   <motion.div
                     key={`${activeMode.id}-${safeRoutePage}`}

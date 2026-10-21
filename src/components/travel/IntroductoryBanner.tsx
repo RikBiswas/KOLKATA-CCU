@@ -10,11 +10,11 @@ export const IntroductoryBanner: React.FC<IntroductoryBannerProps> = () => {
     <section className="my-8 sm:my-10 relative overflow-hidden">
       <div className="relative rounded-3xl overflow-hidden bg-[#351E1A] text-[#FFF8EF] shadow-[0_20px_50px_rgba(53,30,26,0.2)] border-4 border-[#FFF8EF]">
         {/* Full-width atmospheric background photograph */}
-        <div className="relative h-[380px] sm:h-[420px] md:h-[460px] w-full overflow-hidden">
+        <div className="relative min-h-[460px] sm:h-[430px] md:h-[460px] w-full overflow-hidden flex items-center justify-center">
           <img
             src="/images/destinations/princep-ghat.jpg"
             alt="Wooden country boat floating on the holy Hooghly beneath Vidyasagar Setu at dusk"
-            className="w-full h-full object-cover object-center transform scale-102 hover:scale-105 transition-transform duration-1000 ease-out"
+            className="absolute inset-0 w-full h-full object-cover object-center transform scale-102 hover:scale-105 transition-transform duration-1000 ease-out"
           />
 
           {/* Warm analog dusk vignette gradient */}
@@ -22,19 +22,19 @@ export const IntroductoryBanner: React.FC<IntroductoryBannerProps> = () => {
           <div className="absolute inset-0 bg-gradient-to-r from-[#351E1A]/80 via-transparent to-[#351E1A]/80" />
 
           {/* Centered Editorial Poetry Overlay */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6 sm:px-12 md:px-20 z-10 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FFF8EF]/15 border border-[#FFF8EF]/25 text-[#D9A38E] text-[10px] font-mono uppercase tracking-widest backdrop-blur-xs">
+          <div className="relative flex flex-col items-center justify-center text-center px-4 sm:px-10 md:px-16 py-8 sm:py-0 z-10 space-y-3.5 sm:space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF8EF]/15 border border-[#FFF8EF]/25 text-[#D9A38E] text-[10px] font-mono uppercase tracking-widest backdrop-blur-xs">
               <Sparkles className="w-3 h-3 text-[#C5A25A]" />
               <span>Prologue &bull; An Eternal City</span>
             </div>
 
             {/* Oversized Bengali Editorial Quote */}
-            <div className="space-y-3 max-w-4xl">
-              <p className="font-bengali text-2xl sm:text-4xl md:text-5xl font-semibold text-[#FFF8EF] leading-relaxed drop-shadow-md">
+            <div className="space-y-2 sm:space-y-3 max-w-4xl">
+              <p className="font-bengali text-lg sm:text-3xl md:text-5xl font-semibold text-[#FFF8EF] leading-relaxed drop-shadow-md">
                 &ldquo;যদি তুমি ভালোবাসো, তবে এই শহর তোমায় কোনোদিন ভুলবে না&rdquo;
               </p>
 
-              <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal italic text-[#D9A38E] leading-snug drop-shadow-sm">
+              <h3 className="font-serif text-base sm:text-2xl md:text-3xl font-normal italic text-[#D9A38E] leading-snug drop-shadow-sm">
                 &ldquo;If you give this city your heart, she will never let you feel alone.&rdquo;
               </h3>
             </div>

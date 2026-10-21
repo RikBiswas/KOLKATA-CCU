@@ -2289,6 +2289,29 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
     }
   };
 
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      handleNextPage();
+    } else if (distance < -minSwipeDistance) {
+      handlePrevPage();
+    }
+  };
+
   const handleImHungry = () => {
     // Pick a random card from all culinary delicacies
     const randomIndex = Math.floor(Math.random() * culinaryStories.length);
@@ -2442,11 +2465,32 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
             </div>
           )}
 
-          {/* Page Counter */}
-          <div className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] text-[#351E1A] text-xs font-sans font-bold shadow-sm flex items-center gap-1.5">
-            <span className="text-[#C6532B]">Page {safeCurrentPage}</span>
-            <span className="text-[#351E1A]/40">/</span>
-            <span>{totalPages}</span>
+          {/* Page Counter & Controls */}
+          <div className="flex items-center gap-1.5">
+            <div className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] text-[#351E1A] text-xs font-sans font-bold shadow-sm flex items-center gap-1.5">
+              <span className="text-[#C6532B]">Page {safeCurrentPage}</span>
+              <span className="text-[#351E1A]/40">/</span>
+              <span>{totalPages}</span>
+            </div>
+
+            {totalPages > 1 && (
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={handlePrevPage}
+                  className="w-7 h-7 rounded-full bg-[#FFF8EF] text-[#351E1A] hover:bg-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-90"
+                  aria-label="Previous culinary page"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  onClick={handleNextPage}
+                  className="w-7 h-7 rounded-full bg-[#FFF8EF] text-[#351E1A] hover:bg-white flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-90"
+                  aria-label="Next culinary page"
+                >
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -2567,11 +2611,11 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Floating Left Side Arrow Button */}
+        {/* Floating Left Side Arrow Button (Hidden on small mobile) */}
         {totalPages > 1 && (
           <button
             onClick={handlePrevPage}
-            className="absolute -left-3 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 shadow-[0_8px_24px_rgba(53,30,26,0.25)] cursor-pointer active:scale-90 group/btn"
+            className="hidden sm:flex absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] items-center justify-center transition-all duration-300 shadow-[0_8px_24px_rgba(53,30,26,0.25)] cursor-pointer active:scale-90 group/btn"
             title="Previous 4 culinary stops"
             aria-label="Previous page of food cards"
           >
@@ -2580,7 +2624,12 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
         )}
 
         {/* Animated Cards Grid Container */}
-        <div className="overflow-hidden py-1">
+        <div 
+          className="overflow-hidden py-1 touch-pan-y"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={`${activeRegion}-${activeCategory}-${safeCurrentPage}`}
@@ -2695,11 +2744,11 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
           </AnimatePresence>
         </div>
 
-        {/* Floating Right Side Arrow Button */}
+        {/* Floating Right Side Arrow Button (Hidden on small mobile) */}
         {totalPages > 1 && (
           <button
             onClick={handleNextPage}
-            className="absolute -right-3 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 shadow-[0_8px_24px_rgba(53,30,26,0.25)] cursor-pointer active:scale-90 group/btn"
+            className="hidden sm:flex absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] items-center justify-center transition-all duration-300 shadow-[0_8px_24px_rgba(53,30,26,0.25)] cursor-pointer active:scale-90 group/btn"
             title="Next 4 culinary stops"
             aria-label="Next page of food cards"
           >

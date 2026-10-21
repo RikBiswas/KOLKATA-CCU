@@ -201,6 +201,29 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
     setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
   };
 
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      handleNext();
+    } else if (distance < -minSwipeDistance) {
+      handlePrev();
+    }
+  };
+
   const averageRating =
     reviews.length > 0
       ? (reviews.reduce((acc, r) => acc + r.rating, 0) / reviews.length).toFixed(1)
@@ -442,7 +465,12 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
             </div>
           ) : (
             /* Horizontal Slider Track */
-            <div className="overflow-hidden py-1 -mx-2 sm:-mx-3">
+            <div 
+              className="overflow-hidden py-1 -mx-2 sm:-mx-3 touch-pan-y"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               <div
                 className="flex transition-transform duration-500 ease-out"
                 style={{

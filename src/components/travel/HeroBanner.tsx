@@ -20,7 +20,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
       className="relative w-full min-h-screen lg:h-screen flex flex-col justify-between overflow-hidden bg-gradient-to-b from-[#FEF9E2] via-[#FEF9E2] to-[#F7EBDD] text-[#351E1A] scroll-mt-0"
     >
       {/* 1. Full-bleed Edge-to-Edge Illustrated Background with Soft Feathered Bottom */}
-      <div 
+      <div
         className="absolute inset-0 pointer-events-none overflow-hidden select-none z-0"
         style={{
           maskImage: 'linear-gradient(to bottom, black 65%, rgba(0,0,0,0.85) 80%, rgba(0,0,0,0.3) 93%, transparent 100%)',
@@ -50,45 +50,64 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
       </div>
 
       {/* Seamless bottom fade: smoothly transitions the road and monuments into the page background with zero harsh lines */}
-      <div 
+      <div
         className="absolute bottom-0 left-0 right-0 h-44 sm:h-64 bg-gradient-to-t from-[#F7EBDD] via-[#F7EBDD]/90 via-45% to-transparent pointer-events-none z-[1]"
-        aria-hidden="true" 
+        aria-hidden="true"
       />
 
       {/* 2. Main Content Grid (Fills full viewport height) */}
-      <div className="relative z-10 w-full max-w-7xl xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-24 sm:pt-28 lg:pt-20 pb-4 sm:pb-6 flex-1 flex flex-col justify-between">
-        
-        {/* Top Bar: Archival Plate Badge & Live Time Watcher */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 sm:mb-8">
-          {/* Museum / Archival Plate Tag */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF8EF]/90 backdrop-blur-sm border border-[#E8D5C2] shadow-xs text-[#582822]"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#C6532B] animate-pulse" />
-            <span className="text-[11px] font-sans font-bold tracking-widest uppercase">
-              Archival Plate &bull; Landmarks of old Calcutta
-            </span>
-          </motion.div>
+      <div className="relative z-10 w-full max-w-7xl xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 pt-24 sm:pt-28 lg:pt-32 xl:pt-36 pb-4 sm:pb-6 flex-1 flex flex-col justify-between">
 
-          {/* Live Vintage Calcutta Time & Golden Hour Watcher */}
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            <CalcuttaTimeWatcher />
-          </motion.div>
-        </div>
+        {/* Creative Archival Dateline Ribbon — Vintage Calcutta Gazette & Ephemeris */}
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="w-full mb-4 sm:mb-6 lg:mb-8"
+        >
+          <div className="relative flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-2xl md:rounded-full bg-[#FFF8EF]/80 backdrop-blur-md border border-[#E8D5C2]/90 shadow-[0_4px_24px_rgba(53,30,26,0.05)] hover:border-[#C5A25A]/60 transition-all duration-300">
+
+            {/* Left: Archival Curatorial Plate Docket */}
+            <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#351E1A] text-[#FFF8EF] shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] animate-pulse" />
+                <span className="text-[10px] font-mono font-bold tracking-widest uppercase">
+                  Plate N° 01
+                </span>
+              </div>
+              <div className="flex items-baseline gap-1.5 flex-wrap">
+                <span className="font-serif text-xs sm:text-sm font-bold tracking-wide text-[#351E1A] uppercase">
+                  Landmarks of Old Calcutta
+                </span>
+                <span className="hidden xl:inline text-[11px] font-serif italic text-[#C6532B]">
+                  &mdash; Architectural Vignettes &amp; Living Heritage
+                </span>
+                <span className="hidden sm:inline-block font-bengali text-[11px] text-[#582822]/70">
+                  স্মৃতির স্থাপত্য
+                </span>
+              </div>
+            </div>
+
+            {/* Center: Delicate Antique Ornamental Rule (Laptop/Desktop) */}
+            <div className="hidden lg:flex items-center gap-2 text-[#C5A25A]/60 px-2 shrink-0">
+              <span className="h-px w-6 xl:w-10 bg-gradient-to-r from-transparent to-[#C5A25A]/50" />
+              <span className="font-serif text-xs text-[#C5A25A] select-none">✦</span>
+              <span className="h-px w-6 xl:w-10 bg-gradient-to-l from-transparent to-[#C5A25A]/50" />
+            </div>
+
+            {/* Right: Calcutta Ephemeris & Live Observatory (Time, Golden Hour, Breeze) */}
+            <div className="flex items-center justify-between md:justify-end gap-2 pt-2 md:pt-0 border-t border-[#E8D5C2]/50 md:border-t-0 shrink-0">
+              <CalcuttaTimeWatcher variant="embedded" />
+            </div>
+          </div>
+        </motion.div>
 
         {/* Middle Two-Column Grid: Left showcases illustration, Right houses editorial copy */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center flex-1 my-auto">
-          
+
           {/* Left Column (Desktop): Open artistic showcase with interactive archival badges */}
           <div className="hidden lg:flex lg:col-span-5 xl:col-span-6 flex-col justify-end h-full pb-8 xl:pb-12 space-y-4">
-            
+
             {/* Interactive Badge 1: Heritage Skyline */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -123,7 +142,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
           {/* Right Column: Signature Editorial Headlines, Calligraphy & Action CTAs */}
           <div className="lg:col-span-7 xl:col-span-6 flex flex-col justify-center text-left lg:pl-6 xl:pl-10">
-            
+
             {/* Bengali Accent Badge */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -182,11 +201,11 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
-              className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4 sm:mb-6"
+              className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6"
             >
               <button
                 onClick={onExploreDestinations}
-                className="px-7 py-3.5 rounded-full bg-[#C6532B] hover:bg-[#B04520] text-white text-xs sm:text-sm font-sans font-bold tracking-wide shadow-[0_8px_20px_rgba(198,83,43,0.25)] hover:shadow-[0_12px_28px_rgba(198,83,43,0.35)] transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#C6532B] hover:bg-[#B04520] text-white text-xs sm:text-sm font-sans font-bold tracking-wide shadow-[0_8px_20px_rgba(198,83,43,0.25)] hover:shadow-[0_12px_28px_rgba(198,83,43,0.35)] transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Compass className="w-4 h-4 text-[#FFF8EF]" />
                 <span>Explore Kolkata</span>
@@ -194,7 +213,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
               <button
                 onClick={onExploreTrails}
-                className="px-6 py-3.5 rounded-full bg-[#FFF8EF] hover:bg-[#FFFDF9] border border-[#E8D5C2] text-[#351E1A] hover:text-[#582822] text-xs sm:text-sm font-sans font-semibold tracking-wide shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#FFF8EF] hover:bg-[#FFFDF9] border border-[#E8D5C2] text-[#351E1A] hover:text-[#582822] text-xs sm:text-sm font-sans font-semibold tracking-wide shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Footprints className="w-4 h-4 text-[#C6532B]" />
                 <span>Wander the old lanes</span>
@@ -203,7 +222,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               {onOpenItineraryBuilder && (
                 <button
                   onClick={onOpenItineraryBuilder}
-                  className="px-5 py-3.5 rounded-full bg-[#FFF8EF]/80 hover:bg-[#FFF8EF] border border-[#C5A25A] text-[#582822] text-xs sm:text-sm font-sans font-semibold tracking-wide shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-3.5 rounded-full bg-[#FFF8EF]/80 hover:bg-[#FFF8EF] border border-[#C5A25A] text-[#582822] text-xs sm:text-sm font-sans font-semibold tracking-wide shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Calendar className="w-4 h-4 text-[#C5A25A]" />
                   <span>Plan My Day</span>
@@ -240,7 +259,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.6 }}
-          className="pt-4 pb-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] font-sans text-[#351E1A]/75 pr-28 sm:pr-36 relative z-10"
+          className="pt-4 pb-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] font-sans text-[#351E1A]/75 pr-0 sm:pr-32 md:pr-36 relative z-10"
         >
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF8EF]/80 backdrop-blur-xs border border-[#E8D5C2]/70 shadow-xs">
             <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B]" />

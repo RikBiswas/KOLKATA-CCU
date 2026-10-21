@@ -73,7 +73,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         </button>
 
         {/* Top Hero Image Banner */}
-        <div className="relative h-64 sm:h-72 w-full shrink-0 bg-[#351E1A] overflow-hidden">
+        <div className="relative h-48 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A] overflow-hidden">
           <img
             src={item.image}
             alt={item.title}
@@ -86,7 +86,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/50 to-transparent pointer-events-none" />
 
           {/* Banner Captions */}
-          <div className="absolute bottom-4 left-6 right-6 text-[#FFF8EF] space-y-1.5">
+          <div className="absolute bottom-4 left-4 sm:left-6 right-4 sm:right-6 text-[#FFF8EF] space-y-1.5">
             <div className="flex flex-wrap items-center gap-2">
               <span className="px-3 py-1 rounded-full bg-[#C6532B] text-[10px] font-mono font-bold uppercase tracking-wider text-[#FFF8EF] shadow-xs">
                 {item.tag}
@@ -102,7 +102,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
               )}
             </div>
 
-            <h2 id="modal-culinary-title" className="font-serif text-2xl sm:text-3xl font-bold leading-snug drop-shadow-sm">
+            <h2 id="modal-culinary-title" className="font-serif text-xl sm:text-3xl font-bold leading-snug drop-shadow-sm">
               {item.title}
             </h2>
 
@@ -113,7 +113,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         </div>
 
         {/* Quick Spec Pills Bar */}
-        <div className="bg-[#582822] text-[#FFF8EF] px-5 sm:px-6 py-3 border-b border-[#351E1A] grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 text-xs font-sans shrink-0">
+        <div className="bg-[#582822] text-[#FFF8EF] px-4 sm:px-6 py-3 border-b border-[#351E1A] grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 text-xs font-sans shrink-0">
           <div className="flex items-start gap-2.5 min-w-0">
             <Coins className="w-4 h-4 text-[#C5A25A] shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
@@ -156,10 +156,10 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center border-b border-[#E8D5C2] bg-[#F7EBDD]/60 px-6 pt-3 gap-2 overflow-x-auto no-scrollbar shrink-0">
+        <div className="flex items-center border-b border-[#E8D5C2] bg-[#F7EBDD]/60 px-4 sm:px-6 pt-2.5 sm:pt-3 gap-2 overflow-x-auto no-scrollbar shrink-0">
           <button
             onClick={() => setActiveTab('lore')}
-            className={`px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 ${
+            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'lore'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
@@ -171,7 +171,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
 
           <button
             onClick={() => setActiveTab('stalls')}
-            className={`px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 ${
+            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'stalls'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
@@ -188,7 +188,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
 
           <button
             onClick={() => setActiveTab('orders')}
-            className={`px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 ${
+            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'orders'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
@@ -200,7 +200,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
 
           <button
             onClick={() => setActiveTab('tips')}
-            className={`px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 ${
+            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'tips'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
@@ -212,7 +212,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         </div>
 
         {/* Tabbed Content Body */}
-        <div className="p-6 sm:p-8 overflow-y-auto space-y-6 flex-1">
+        <div className="p-4 sm:p-8 overflow-y-auto space-y-5 sm:space-y-6 flex-1">
           {/* TAB 1: HERITAGE LORE */}
           {activeTab === 'lore' && (
             <div className="space-y-5 animate-fade-in">

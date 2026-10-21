@@ -236,7 +236,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
       {/* Modal Dialog Card */}
       <div className="relative w-full max-w-2xl bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl shadow-[0_20px_50px_rgba(53,30,26,0.25)] overflow-hidden z-10 flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="px-6 py-5 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-center justify-between gap-4 shrink-0">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-center justify-between gap-4 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-[#C6532B] text-white flex items-center justify-center shadow-xs">
               <Star className="w-5 h-5 fill-current text-[#FFF8EF]" />
@@ -261,11 +261,11 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
         </div>
 
         {/* Tab Switcher */}
-        <div className="px-6 pt-4 pb-2 bg-[#F7EBDD]/60 border-b border-[#E8D5C2] flex items-center justify-between gap-2 shrink-0">
+        <div className="px-4 sm:px-6 pt-3 pb-2 bg-[#F7EBDD]/60 border-b border-[#E8D5C2] flex items-center justify-between gap-2 shrink-0">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('form')}
-              className={`px-4 py-1.5 rounded-full text-xs font-sans font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-sans font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'form'
                   ? 'bg-[#C6532B] text-white shadow-xs'
                   : 'bg-[#FFF8EF] text-[#351E1A]/70 border border-[#E8D5C2] hover:bg-[#FFF8EF]/80'
@@ -280,7 +280,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                 setActiveTab('list');
                 fetchReviews();
               }}
-              className={`px-4 py-1.5 rounded-full text-xs font-sans font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
+              className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-sans font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeTab === 'list'
                   ? 'bg-[#C6532B] text-white shadow-xs'
                   : 'bg-[#FFF8EF] text-[#351E1A]/70 border border-[#E8D5C2] hover:bg-[#FFF8EF]/80'
@@ -314,7 +314,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 overflow-y-auto flex-1 font-sans">
+        <div className="p-4 sm:p-6 overflow-y-auto flex-1 font-sans">
           {activeTab === 'form' ? (
             <form onSubmit={handleSubmit} className="space-y-4 max-w-xl mx-auto">
               {/* Success Notification */}
@@ -338,8 +338,8 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                 <label className="block text-xs font-bold text-[#351E1A] mb-1.5">
                   Rating & Recommendation
                 </label>
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1 bg-[#F7EBDD] p-2 rounded-2xl border border-[#E8D5C2]">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                  <div className="flex items-center gap-1 bg-[#F7EBDD] p-2 rounded-2xl border border-[#E8D5C2] w-fit">
                     {[1, 2, 3, 4, 5].map((star) => {
                       const isFilled = (hoverRating !== null ? hoverRating : rating) >= star;
                       return (
@@ -353,7 +353,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                           aria-label={`Rate ${star} star`}
                         >
                           <Star
-                            className={`w-6 h-6 transition-colors ${
+                            className={`w-5 h-5 sm:w-6 sm:h-6 transition-colors ${
                               isFilled
                                 ? 'text-[#C6532B] fill-[#C6532B]'
                                 : 'text-[#351E1A]/20 hover:text-[#C6532B]/50'
@@ -363,7 +363,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
                       );
                     })}
                   </div>
-                  <span className="text-xs font-semibold text-[#C6532B] font-mono ml-2">
+                  <span className="text-xs font-semibold text-[#C6532B] font-mono">
                     {RATING_LABELS[hoverRating !== null ? hoverRating : rating]}
                   </span>
                 </div>

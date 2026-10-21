@@ -143,7 +143,7 @@ export const TravelReviewsSection: React.FC = () => {
 
         <button
           onClick={() => setShowForm(!showForm)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] font-sans text-xs font-semibold tracking-wide shadow-xs transition-all active:scale-95 self-start sm:self-end cursor-pointer"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] font-sans text-xs font-semibold tracking-wide shadow-xs transition-all active:scale-95 self-stretch sm:self-end cursor-pointer"
         >
           <MessageSquarePlus className="w-3.5 h-3.5 text-[#D9A38E]" />
           <span>{showForm ? 'Close Note Form' : 'Leave an Explorer Note'}</span>
@@ -152,7 +152,7 @@ export const TravelReviewsSection: React.FC = () => {
 
       {/* Review Submission Form Drawer */}
       {showForm && (
-        <div className="mb-10 p-6 sm:p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] animate-slide-in-right">
+        <div className="mb-8 sm:mb-10 p-4 sm:p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.08)] animate-slide-in-right">
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] mb-2">
             Share Your Kolkata Travel Discovery
           </h3>
@@ -235,18 +235,18 @@ export const TravelReviewsSection: React.FC = () => {
               </div>
             )}
 
-            <div className="flex justify-end gap-3 pt-2">
+            <div className="flex flex-col-reverse sm:flex-row justify-end gap-2.5 sm:gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="px-5 py-2 rounded-full border border-[#E8D5C2] text-xs font-sans text-[#351E1A] hover:bg-[#F7EBDD] cursor-pointer"
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-[#E8D5C2] text-xs font-sans text-[#351E1A] hover:bg-[#F7EBDD] cursor-pointer text-center"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-6 py-2 rounded-full bg-[#C6532B] hover:bg-[#B04520] text-white text-xs font-sans font-bold shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#C6532B] hover:bg-[#B04520] text-white text-xs font-sans font-bold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>{isSubmitting ? 'Publishing...' : 'Publish Travel Note'}</span>
@@ -261,7 +261,7 @@ export const TravelReviewsSection: React.FC = () => {
         {reviews.map((rev) => (
           <div
             key={rev.id}
-            className="p-6 sm:p-7 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all flex flex-col justify-between relative group"
+            className="p-4 sm:p-7 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all flex flex-col justify-between relative group"
           >
             <div>
               <div className="flex items-center justify-between mb-4">

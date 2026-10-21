@@ -111,8 +111,48 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
     return searchable.includes(kw);
   });
 
-  const itemsPerPage = 4;
+  const [viewportSize, setViewportSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 640) {
+        setViewportSize('mobile');
+      } else if (window.innerWidth < 1024) {
+        setViewportSize('tablet');
+      } else {
+        setViewportSize('desktop');
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const itemsPerPage = viewportSize === 'mobile' ? 1 : viewportSize === 'tablet' ? 2 : 4;
   const maxIndex = Math.max(0, filtered.length - itemsPerPage);
+
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      handleNext();
+    } else if (distance < -minSwipeDistance) {
+      handlePrev();
+    }
+  };
 
   const handlePrev = () => {
     setSlideDirection('left');
@@ -151,20 +191,39 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
           </p>
         </div>
 
-        {/* Surprise Me & Landmark Counter */}
-        <div className="flex items-center gap-3 shrink-0">
+        {/* Surprise Me & Landmark Counter & Navigation Controls */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={handleSurpriseMe}
-            className="px-4 py-2 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-bold flex items-center gap-2 shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer group"
+            className="px-3 sm:px-4 py-2 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-bold flex items-center gap-1.5 sm:gap-2 shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer group"
             title="Roll the dice to discover a random Calcutta secret"
           >
-            <Dices className="w-4 h-4 text-[#C6532B] group-hover:rotate-180 transition-transform duration-500" />
-            <span>Surprise Me</span>
+            <Dices className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C6532B] group-hover:rotate-180 transition-transform duration-500" />
+            <span className="hidden xs:inline">Surprise Me</span>
           </button>
 
-          <span className="text-xs font-sans font-medium text-[#351E1A]/70 px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs">
+          <span className="text-xs font-sans font-medium text-[#351E1A]/70 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs">
             {filtered.length > 0 ? scrollIndex + 1 : 0}&ndash;{Math.min(scrollIndex + itemsPerPage, filtered.length)} of {filtered.length}
           </span>
+
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handlePrev}
+              disabled={scrollIndex === 0}
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
+              aria-label="Previous landmarks"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleNext}
+              disabled={scrollIndex >= maxIndex}
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
+              aria-label="Next landmarks"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -276,18 +335,23 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
 
       {/* Asymmetric Editorial Destination Cards with Floating Side Arrows */}
       <div className="relative group/cards">
-        {/* Floating Left Side Arrow */}
+        {/* Floating Left Side Arrow (Hidden on small mobile) */}
         {scrollIndex > 0 && (
           <button
             onClick={handlePrev}
-            className="absolute left-1 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
+            className="hidden sm:flex absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
             aria-label="Previous landmarks"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:-translate-x-0.5" />
           </button>
         )}
 
-        <div className="overflow-hidden">
+        <div 
+          className="overflow-hidden touch-pan-y"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
         {filtered.length === 0 ? (
           <div className="p-12 text-center bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2]">
             <p className="font-serif text-lg text-[#351E1A]">No landmarks match this vibe or category.</p>
@@ -398,11 +462,11 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
         )}
       </div>
 
-      {/* Floating Right Side Arrow */}
+      {/* Floating Right Side Arrow (Hidden on small mobile) */}
       {scrollIndex < maxIndex && (
         <button
           onClick={handleNext}
-          className="absolute right-1 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
+          className="hidden sm:flex absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90 group/btn"
           aria-label="Next landmarks"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:translate-x-0.5" />

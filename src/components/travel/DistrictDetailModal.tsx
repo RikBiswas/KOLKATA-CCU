@@ -53,7 +53,7 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
         </button>
 
         {/* Hero Image Header with Vignette & Bengali Calligraphy */}
-        <div className="relative h-64 sm:h-72 w-full overflow-hidden bg-[#351E1A] rounded-t-3xl">
+        <div className="relative h-48 sm:h-64 md:h-72 w-full overflow-hidden bg-[#351E1A] rounded-t-3xl">
           <img
             src={district.coverImage}
             alt={district.name}
@@ -68,15 +68,15 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/40 to-transparent pointer-events-none" />
 
           {/* Bengali Name Callout */}
-          <div className="absolute top-5 left-5 bg-[#FFF8EF]/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bengali font-bold text-[#582822] shadow-xs border border-[#E8D5C2]">
+          <div className="absolute top-4 left-4 sm:top-5 sm:left-5 bg-[#FFF8EF]/95 backdrop-blur-md px-3.5 py-1.5 rounded-full text-xs font-bengali font-bold text-[#582822] shadow-xs border border-[#E8D5C2]">
             {district.bengaliName}
           </div>
 
-          <div className="absolute bottom-5 left-5 right-5 text-[#FFF8EF] space-y-1">
-            <span className="text-[11px] font-mono text-[#C5A25A] uppercase tracking-wider">
+          <div className="absolute bottom-4 left-4 sm:left-5 right-4 sm:right-5 text-[#FFF8EF] space-y-1">
+            <span className="text-[10px] sm:text-[11px] font-mono text-[#C5A25A] uppercase tracking-wider">
               {district.era} &bull; Cultural Dossier
             </span>
-            <h2 id="district-modal-title" className="font-serif text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight">
+            <h2 id="district-modal-title" className="font-serif text-xl sm:text-3xl md:text-4xl font-bold tracking-tight leading-tight">
               {district.name}
             </h2>
             <p className="font-serif italic text-xs sm:text-sm text-[#D9A38E]">
@@ -86,7 +86,7 @@ export const DistrictDetailModal: React.FC<DistrictDetailModalProps> = ({
         </div>
 
         {/* Modal Body */}
-        <div className="p-6 sm:p-8 space-y-6 text-[#351E1A]">
+        <div className="p-4 sm:p-8 space-y-5 sm:space-y-6 text-[#351E1A]">
           {/* Literary Quote */}
           <div className="p-4 sm:p-5 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-2">
             <div className="flex items-start gap-2.5">

@@ -24,16 +24,16 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
       </div>
 
       {/* 3 Step Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 items-stretch">
         {/* Step 1 */}
-        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group flex flex-col justify-start h-full">
-          <div className="w-14 h-14 rounded-2xl bg-[#582822] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
-            <Compass className="w-6 h-6 text-[#D9A38E]" />
+        <div className="p-5 sm:p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-3.5 sm:space-y-4 group flex flex-col justify-start h-full">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#582822] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
+            <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-[#D9A38E]" />
           </div>
-          <span className="text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
+          <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
             Step 01
           </span>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[40px] flex items-center justify-center">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[36px] sm:min-h-[40px] flex items-center justify-center">
             Select Your Corridor
           </h3>
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
@@ -42,14 +42,14 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
         </div>
 
         {/* Step 2 */}
-        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group flex flex-col justify-start h-full">
-          <div className="w-14 h-14 rounded-2xl bg-[#C6532B] text-white mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
-            <Train className="w-6 h-6 text-[#FFF8EF]" />
+        <div className="p-5 sm:p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-3.5 sm:space-y-4 group flex flex-col justify-start h-full">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#C6532B] text-white mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
+            <Train className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFF8EF]" />
           </div>
-          <span className="text-[11px] font-mono font-bold text-[#582822] uppercase tracking-widest block">
+          <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#582822] uppercase tracking-widest block">
             Step 02
           </span>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[40px] flex items-center justify-center">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[36px] sm:min-h-[40px] flex items-center justify-center">
             Board Nostalgic Transit
           </h3>
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
@@ -58,14 +58,14 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
         </div>
 
         {/* Step 3 */}
-        <div className="p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-4 group flex flex-col justify-start h-full">
-          <div className="w-14 h-14 rounded-2xl bg-[#351E1A] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
-            <Heart className="w-6 h-6 text-[#C5A25A]" />
+        <div className="p-5 sm:p-8 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.05)] hover:shadow-md transition-all text-center space-y-3.5 sm:space-y-4 group flex flex-col justify-start h-full">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#351E1A] text-[#FFF8EF] mx-auto flex items-center justify-center font-bold text-lg shadow-xs group-hover:scale-105 transition-transform">
+            <Heart className="w-5 h-5 sm:w-6 sm:h-6 text-[#C5A25A]" />
           </div>
-          <span className="text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
+          <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#C6532B] uppercase tracking-widest block">
             Step 03
           </span>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[40px] flex items-center justify-center">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] min-h-[36px] sm:min-h-[40px] flex items-center justify-center">
             Immerse in Slow Adda
           </h3>
           <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
@@ -75,7 +75,7 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
       </div>
 
       {/* Practical Transit Reference Box */}
-      <div className="mt-10 sm:mt-12 p-6 sm:p-8 rounded-3xl bg-[#F7EBDD] border border-[#E8D5C2] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-sans">
+      <div className="mt-8 sm:mt-12 p-4 sm:p-8 rounded-3xl bg-[#F7EBDD] border border-[#E8D5C2] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs font-sans">
         <div className="space-y-1">
           <span className="font-bold text-[#582822] block font-serif text-sm">Electric Tramway</span>
           <p className="text-[#351E1A]/70">Route 24/25 from Esplanade through the green Maidan. ₹6–₹10 tickets.</p>
@@ -95,10 +95,10 @@ export const HowToExploreSection: React.FC<HowToExploreSectionProps> = ({ onExpl
       </div>
 
       {/* Center CTA */}
-      <div className="mt-10 text-center">
+      <div className="mt-8 sm:mt-10 text-center">
         <button
           onClick={onExploreTrails}
-          className="inline-flex items-center gap-2 px-8 py-3.5 text-xs sm:text-sm font-sans font-bold text-white bg-[#C6532B] hover:bg-[#B04520] rounded-full transition-all duration-200 shadow-md transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 text-xs sm:text-sm font-sans font-bold text-white bg-[#C6532B] hover:bg-[#B04520] rounded-full transition-all duration-200 shadow-md transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
         >
           <Footprints className="w-4 h-4 text-[#FFF8EF]" />
           <span>Browse Self-Guided Walking Routes</span>

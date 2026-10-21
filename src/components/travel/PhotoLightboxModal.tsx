@@ -22,6 +22,29 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
   const prevPhoto = photos[currentIndex - 1] || photos[photos.length - 1];
   const nextPhoto = photos[currentIndex + 1] || photos[0];
 
+  const touchStartX = React.useRef<number | null>(null);
+  const touchEndX = React.useRef<number | null>(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      onSelectPhoto(nextPhoto);
+    } else if (distance < -minSwipeDistance) {
+      onSelectPhoto(prevPhoto);
+    }
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') onClose();
     if (e.key === 'ArrowLeft') onSelectPhoto(prevPhoto);
@@ -56,27 +79,32 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
       </div>
 
       {/* Main Photographic Display Frame */}
-      <div className="relative max-w-5xl w-full max-h-[88vh] flex flex-col md:flex-row items-center justify-center bg-[#FFF8EF] rounded-3xl overflow-hidden shadow-2xl border border-[#E8D5C2]">
-        {/* Left Arrow Button */}
-        <button
-          onClick={() => onSelectPhoto(prevPhoto)}
-          className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-white flex items-center justify-center transition-transform active:scale-95 cursor-pointer shadow-md"
-          aria-label="Previous photograph"
-        >
-          <ArrowLeft className="w-4 h-4" />
-        </button>
-
-        {/* Right Arrow Button */}
-        <button
-          onClick={() => onSelectPhoto(nextPhoto)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-white flex items-center justify-center transition-transform active:scale-95 cursor-pointer shadow-md"
-          aria-label="Next photograph"
-        >
-          <ArrowRight className="w-4 h-4" />
-        </button>
-
+      <div className="relative max-w-5xl w-full max-h-[88vh] flex flex-col md:flex-row items-center justify-start md:justify-center bg-[#FFF8EF] rounded-3xl overflow-y-auto md:overflow-hidden shadow-2xl border border-[#E8D5C2]">
         {/* Big Photographic Plate with Analog White Postcard Margin */}
-        <div className="flex-1 h-[340px] sm:h-[450px] md:h-[580px] w-full bg-[#1A0E0C] relative flex items-center justify-center overflow-hidden">
+        <div 
+          className="flex-1 h-[260px] sm:h-[420px] md:h-[580px] w-full bg-[#1A0E0C] relative flex items-center justify-center overflow-hidden shrink-0 touch-pan-y"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          {/* Left Arrow Button */}
+          <button
+            onClick={() => onSelectPhoto(prevPhoto)}
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-white flex items-center justify-center transition-transform active:scale-95 cursor-pointer shadow-md"
+            aria-label="Previous photograph"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={() => onSelectPhoto(nextPhoto)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-white flex items-center justify-center transition-transform active:scale-95 cursor-pointer shadow-md"
+            aria-label="Next photograph"
+          >
+            <ArrowRight className="w-4 h-4" />
+          </button>
+
           <img
             src={photo.imageUrl}
             alt={photo.title}
@@ -85,7 +113,7 @@ export const PhotoLightboxModal: React.FC<PhotoLightboxModalProps> = ({
         </div>
 
         {/* Right Editorial Sidebar: Notes & Story */}
-        <div className="w-full md:w-80 lg:w-96 p-6 sm:p-8 flex flex-col justify-between space-y-6 text-[#351E1A] bg-[#FFF8EF]">
+        <div className="w-full md:w-80 lg:w-96 p-4 sm:p-8 flex flex-col justify-between space-y-4 sm:space-y-6 text-[#351E1A] bg-[#FFF8EF]">
           <div className="space-y-4">
             <div className="flex items-center justify-between gap-2 border-b border-[#E8D5C2] pb-3">
               <span className="px-2.5 py-0.5 rounded-sm bg-[#C6532B]/10 text-[#C6532B] font-mono text-[10px] font-bold uppercase tracking-wider">

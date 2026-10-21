@@ -62,7 +62,7 @@ export const PhotoGallerySection: React.FC<PhotoGallerySectionProps> = ({ photos
       </div>
 
       {/* Asymmetric Gallery Masonry / Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {filteredPhotos.map((item, idx) => (
           <div
             key={item.id}

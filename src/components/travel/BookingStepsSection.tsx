@@ -18,9 +18,9 @@ export const BookingStepsSection: React.FC<BookingStepsSectionProps> = ({ onStar
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 relative">
         {/* Step 1 */}
-        <div className="relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
+        <div className="relative p-5 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
           <div className="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 mx-auto flex items-center justify-center font-bold text-lg">
             <MapPin className="w-6 h-6" />
           </div>
@@ -36,7 +36,7 @@ export const BookingStepsSection: React.FC<BookingStepsSectionProps> = ({ onStar
         </div>
 
         {/* Step 2 */}
-        <div className="relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
+        <div className="relative p-5 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
           <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 mx-auto flex items-center justify-center font-bold text-lg">
             <SlidersHorizontal className="w-6 h-6" />
           </div>
@@ -52,7 +52,7 @@ export const BookingStepsSection: React.FC<BookingStepsSectionProps> = ({ onStar
         </div>
 
         {/* Step 3 */}
-        <div className="relative p-6 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
+        <div className="relative p-5 sm:p-8 rounded-2xl bg-white dark:bg-[#151c27] border border-neutral-200/80 dark:border-neutral-800 shadow-xs hover:shadow-md transition-all text-center space-y-4">
           <div className="w-14 h-14 rounded-2xl bg-amber-100 dark:bg-amber-950/70 text-amber-700 dark:text-amber-300 mx-auto flex items-center justify-center font-bold text-lg">
             <CheckCircle2 className="w-6 h-6" />
           </div>
@@ -68,10 +68,10 @@ export const BookingStepsSection: React.FC<BookingStepsSectionProps> = ({ onStar
         </div>
       </div>
 
-      <div className="mt-10 text-center">
+      <div className="mt-8 sm:mt-10 text-center">
         <button
           onClick={onStartBooking}
-          className="inline-flex items-center gap-2 px-8 py-3.5 text-xs sm:text-sm font-bold text-white bg-[#1a2e3b] dark:bg-emerald-600 hover:bg-[#12222d] dark:hover:bg-emerald-500 rounded-full transition-all shadow-md active:scale-95"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 text-xs sm:text-sm font-bold text-white bg-[#1a2e3b] dark:bg-emerald-600 hover:bg-[#12222d] dark:hover:bg-emerald-500 rounded-full transition-all shadow-md active:scale-95 cursor-pointer"
         >
           <span>Get Started &mdash; Book Your Tour</span>
           <ArrowRight className="w-4 h-4" />

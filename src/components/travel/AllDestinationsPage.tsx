@@ -63,7 +63,7 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
       </div>
 
       {/* Filter and Search Controls */}
-      <div className="p-6 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.05)] space-y-5">
+      <div className="p-4 sm:p-6 rounded-3xl bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_30px_rgba(53,30,26,0.05)] space-y-4 sm:space-y-5">
         {/* Search input */}
         <div className="relative">
           <input
@@ -181,9 +181,9 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
                 </div>
               </div>
 
-              <div className="p-6 flex-1 flex flex-col justify-between space-y-3">
+              <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
                 <div className="space-y-1.5">
-                  <h3 className="font-serif text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
+                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
                     {dest.name}
                   </h3>
                   <p className="font-sans text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed">
@@ -220,7 +220,7 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
       <div className="pt-8 text-center">
         <button
           onClick={onBackToHome}
-          className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] font-sans text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] font-sans text-xs sm:text-sm font-bold shadow-sm transition-all cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to WANDER.CCU Overview</span>

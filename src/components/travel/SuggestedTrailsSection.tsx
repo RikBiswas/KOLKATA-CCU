@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ArrowRight, Clock, Star, Map, Compass, Footprints, Train, ChevronLeft, ChevronRight, Navigation } from 'lucide-react';
 import { SuggestedTrail } from '../../types/travel';
 
@@ -16,10 +16,44 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
   const [startIndex, setStartIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
   const [isPaused, setIsPaused] = useState<boolean>(false);
-  const itemsVisible = 2;
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const itemsVisible = isMobile ? 1 : 2;
   const maxIndex = Math.max(0, trails.length - itemsVisible);
 
-  React.useEffect(() => {
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      handleNext();
+    } else if (distance < -minSwipeDistance) {
+      handlePrev();
+    }
+  };
+
+  useEffect(() => {
     if (isPaused || maxIndex <= 0) return;
     const timer = setInterval(() => {
       setSlideDirection('right');
@@ -147,14 +181,19 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
           {startIndex > 0 && (
             <button
               onClick={handlePrev}
-              className="absolute left-1 sm:-left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
+              className="hidden sm:flex absolute -left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
               aria-label="Previous trails"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
           )}
 
-          <div className="overflow-hidden">
+          <div 
+            className="overflow-hidden touch-pan-y"
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
+          >
             <div
               key={startIndex}
               className={`grid grid-cols-1 sm:grid-cols-2 gap-6 transition-all duration-500 ease-out ${
@@ -259,7 +298,7 @@ export const SuggestedTrailsSection: React.FC<SuggestedTrailsSectionProps> = ({
           {startIndex < maxIndex && (
             <button
               onClick={handleNext}
-              className="absolute right-1 sm:-right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] flex items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
+              className="hidden sm:flex absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-30 w-10 h-10 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#C6532B] hover:text-[#FFF8EF] hover:border-[#C6532B] items-center justify-center transition-all duration-300 shadow-[0_6px_20px_rgba(53,30,26,0.18)] cursor-pointer active:scale-90"
               aria-label="Next trails"
             >
               <ChevronRight className="w-5 h-5" />

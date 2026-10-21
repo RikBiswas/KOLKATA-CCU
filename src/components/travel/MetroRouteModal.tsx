@@ -127,9 +127,9 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
           />
 
           {/* Modal Header */}
-          <div className="p-5 sm:p-7 border-b border-[#E8D5C2] bg-[#FFF8EF] shrink-0">
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-1.5 flex-1 min-w-0">
+          <div className="p-4 sm:p-6 md:p-7 border-b border-[#E8D5C2] bg-[#FFF8EF] shrink-0">
+            <div className="flex items-start justify-between gap-3 sm:gap-4">
+              <div className="space-y-1 sm:space-y-1.5 flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2">
                   <span
                     className="px-3 py-0.5 rounded-full text-xs font-mono font-bold text-white shadow-xs"
@@ -142,7 +142,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                   </span>
                 </div>
 
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A] leading-snug">
+                <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#351E1A] leading-snug">
                   <span dangerouslySetInnerHTML={{ __html: route.stops }} />
                 </h3>
 
@@ -154,7 +154,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="w-10 h-10 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-90"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-90"
                 aria-label="Close transit route modal"
               >
                 <X className="w-5 h-5" />
@@ -162,49 +162,49 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
             </div>
 
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-5">
-              <div className="p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 mt-4 sm:mt-5">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
+                <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold truncate">
                   Total {stopLabel}s
                 </span>
-                <span className="text-sm font-sans font-bold text-[#351E1A]">
+                <span className="text-xs sm:text-sm font-sans font-bold text-[#351E1A]">
                   {stations.length} {isFerry ? 'Ghats' : 'Stops'}
                 </span>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
+                <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold truncate">
                   Peak Frequency
                 </span>
-                <span className="text-sm font-sans font-bold text-[#C6532B]">
+                <span className="text-xs sm:text-sm font-sans font-bold text-[#C6532B] truncate block">
                   {timings?.peakFrequency || defaultFrequency}
                 </span>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
+                <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold truncate">
                   Operating Hours
                 </span>
-                <span className="text-sm font-sans font-bold text-[#351E1A]">
+                <span className="text-xs sm:text-sm font-sans font-bold text-[#351E1A] truncate block">
                   {route.operatingHours || defaultHours}
                 </span>
               </div>
 
-              <div className="p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
-                <span className="text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold">
+              <div className="p-2 sm:p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
+                <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold truncate">
                   Fare Range
                 </span>
-                <span className="text-sm font-sans font-bold text-[#582822]">
+                <span className="text-xs sm:text-sm font-sans font-bold text-[#582822]">
                   {route.fareInfo || defaultFare}
                 </span>
               </div>
             </div>
 
             {/* Interactive Tabs */}
-            <div className="flex items-center gap-2 mt-5 border-b border-[#E8D5C2]/60 pb-1">
+            <div className="flex items-center gap-1.5 sm:gap-2 mt-4 sm:mt-5 border-b border-[#E8D5C2]/60 pb-1.5 overflow-x-auto no-scrollbar">
               <button
                 onClick={() => setActiveTab('stations')}
-                className={`px-4 py-2 rounded-xl text-xs font-sans font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-sans font-bold transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2 shrink-0 ${
                   activeTab === 'stations'
                     ? 'bg-[#351E1A] text-[#FFF8EF] shadow-xs'
                     : 'bg-[#F7EBDD] text-[#351E1A]/75 hover:bg-[#E8D5C2]'
@@ -224,7 +224,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
 
               <button
                 onClick={() => setActiveTab('timings')}
-                className={`px-4 py-2 rounded-xl text-xs font-sans font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-sans font-bold transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2 shrink-0 ${
                   activeTab === 'timings'
                     ? 'bg-[#351E1A] text-[#FFF8EF] shadow-xs'
                     : 'bg-[#F7EBDD] text-[#351E1A]/75 hover:bg-[#E8D5C2]'
@@ -236,7 +236,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
 
               <button
                 onClick={() => setActiveTab('guide')}
-                className={`px-4 py-2 rounded-xl text-xs font-sans font-bold transition-all cursor-pointer flex items-center gap-2 ${
+                className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs font-sans font-bold transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2 shrink-0 ${
                   activeTab === 'guide'
                     ? 'bg-[#351E1A] text-[#FFF8EF] shadow-xs'
                     : 'bg-[#F7EBDD] text-[#351E1A]/75 hover:bg-[#E8D5C2]'
@@ -249,7 +249,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
           </div>
 
           {/* Modal Body Content (Scrollable) */}
-          <div className="p-5 sm:p-7 overflow-y-auto flex-1 space-y-6">
+          <div className="p-4 sm:p-6 md:p-7 overflow-y-auto flex-1 space-y-5 sm:space-y-6">
             {/* TAB 1: STATIONS / STOPS / GHATS & INTERCHANGES */}
             {activeTab === 'stations' && (
               <div className="space-y-4">
