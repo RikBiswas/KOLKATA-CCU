@@ -35,12 +35,12 @@ export const BookingModal: React.FC<BookingModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-lg bg-white dark:bg-[#151c27] rounded-3xl shadow-2xl border border-neutral-200 dark:border-neutral-800 p-6 sm:p-8 overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+      <div className="relative w-full max-w-lg bg-white dark:bg-[#151c27] rounded-3xl shadow-2xl border border-neutral-200 dark:border-neutral-800 p-5 sm:p-8 max-h-[92vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-5 right-5 p-2 rounded-full text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 rounded-full text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors z-10 cursor-pointer"
           aria-label="Close dialog"
         >
           <X className="w-5 h-5" />
@@ -191,13 +191,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                 />
               </div>
 
-              <div className="pt-2 flex items-center justify-between">
-                <span className="text-[11px] text-neutral-500">
+              <div className="pt-2 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
+                <span className="text-[11px] text-neutral-500 text-center sm:text-left">
                   ⚡ No instant charge &middot; Free cancellation
                 </span>
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-full bg-[#1a2e3b] dark:bg-emerald-600 hover:bg-[#101e27] text-white text-xs font-bold shadow-md transition-all active:scale-95"
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#1a2e3b] dark:bg-emerald-600 hover:bg-[#101e27] text-white text-xs font-bold shadow-md transition-all active:scale-95 cursor-pointer"
                 >
                   Confirm Reservation
                 </button>

@@ -3,7 +3,7 @@ import { Compass, Map, ShieldCheck, Landmark, HeartHandshake, MapPin, Feather, S
 
 export const WhyChooseUs: React.FC = () => {
   return (
-    <section className="my-8 sm:my-10 bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2] p-6 sm:p-10 lg:p-12 shadow-[0_8px_30px_rgba(53,30,26,0.04)]">
+    <section className="my-8 sm:my-10 bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2] p-4 sm:p-8 lg:p-12 shadow-[0_8px_30px_rgba(53,30,26,0.04)]">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         {/* Left Column: Editorial Manifesto & Trust Stats */}
         <div className="lg:col-span-6 space-y-6 sm:space-y-8">
@@ -32,39 +32,39 @@ export const WhyChooseUs: React.FC = () => {
           </div>
 
           {/* Key Metrics / Journal Colophon Stats */}
-          <div className="pt-6 grid grid-cols-3 gap-3 sm:gap-4 border-t border-[#E8D5C2]">
-            <div className="p-3 sm:p-4 rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2]/80 space-y-1">
-              <div className="w-7 h-7 rounded-full bg-[#582822] text-[#FFF8EF] flex items-center justify-center mb-1.5">
+          <div className="pt-4 sm:pt-6 grid grid-cols-3 gap-2 sm:gap-4 border-t border-[#E8D5C2]">
+            <div className="p-2.5 sm:p-4 rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2]/80 space-y-1 text-center sm:text-left">
+              <div className="w-7 h-7 rounded-full bg-[#582822] text-[#FFF8EF] flex items-center justify-center mb-1.5 mx-auto sm:mx-0">
                 <Landmark className="w-3.5 h-3.5" />
               </div>
-              <div className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
+              <div className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#351E1A]">
                 60+
               </div>
-              <div className="text-[10px] sm:text-[11px] font-sans font-medium text-[#351E1A]/70 leading-tight">
+              <div className="text-[9px] sm:text-[11px] font-sans font-medium text-[#351E1A]/70 leading-tight">
                 Heritage Sites &amp; Mansions
               </div>
             </div>
 
-            <div className="p-3 sm:p-4 rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2]/80 space-y-1">
-              <div className="w-7 h-7 rounded-full bg-[#C6532B] text-white flex items-center justify-center mb-1.5">
+            <div className="p-2.5 sm:p-4 rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2]/80 space-y-1 text-center sm:text-left">
+              <div className="w-7 h-7 rounded-full bg-[#C6532B] text-white flex items-center justify-center mb-1.5 mx-auto sm:mx-0">
                 <HeartHandshake className="w-3.5 h-3.5" />
               </div>
-              <div className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
+              <div className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#351E1A]">
                 100%
               </div>
-              <div className="text-[10px] sm:text-[11px] font-sans font-medium text-[#351E1A]/70 leading-tight">
+              <div className="text-[9px] sm:text-[11px] font-sans font-medium text-[#351E1A]/70 leading-tight">
                 Independent &amp; Non-Commercial
               </div>
             </div>
 
-            <div className="p-3 sm:p-4 rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2]/80 space-y-1">
-              <div className="w-7 h-7 rounded-full bg-[#C5A25A] text-[#351E1A] flex items-center justify-center mb-1.5">
+            <div className="p-2.5 sm:p-4 rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2]/80 space-y-1 text-center sm:text-left">
+              <div className="w-7 h-7 rounded-full bg-[#C5A25A] text-[#351E1A] flex items-center justify-center mb-1.5 mx-auto sm:mx-0">
                 <MapPin className="w-3.5 h-3.5 text-[#351E1A]" />
               </div>
-              <div className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
+              <div className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#351E1A]">
                 12+
               </div>
-              <div className="text-[10px] sm:text-[11px] font-sans font-medium text-[#351E1A]/70 leading-tight">
+              <div className="text-[9px] sm:text-[11px] font-sans font-medium text-[#351E1A]/70 leading-tight">
                 Self-Guided Walking Trails
               </div>
             </div>
@@ -72,19 +72,19 @@ export const WhyChooseUs: React.FC = () => {
         </div>
 
         {/* Right Column: 3 Editorial Feature Cards */}
-        <div className="lg:col-span-6 space-y-4">
+        <div className="lg:col-span-6 space-y-3 sm:space-y-4">
           {/* Feature Card 1 */}
-          <div className="p-6 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] transition-all duration-300 hover:shadow-md hover:border-[#C6532B]/40 flex items-start gap-4 sm:gap-5 group">
-            <div className="w-12 h-12 rounded-xl bg-[#582822] text-[#FFF8EF] flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-              <Compass className="w-6 h-6 text-[#D9A38E]" />
+          <div className="p-4 sm:p-6 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] transition-all duration-300 hover:shadow-md hover:border-[#C6532B]/40 flex items-start gap-3.5 sm:gap-5 group">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#582822] text-[#FFF8EF] flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+              <Compass className="w-5 h-5 sm:w-6 sm:h-6 text-[#D9A38E]" />
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1 sm:space-y-1.5">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C6532B]">
                   Archival Research
                 </span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-[#351E1A] group-hover:text-[#582822] transition-colors">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-[#351E1A] group-hover:text-[#582822] transition-colors">
                 Authentic Bengal Heritage
               </h3>
               <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
@@ -95,17 +95,17 @@ export const WhyChooseUs: React.FC = () => {
           </div>
 
           {/* Feature Card 2 */}
-          <div className="p-6 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] transition-all duration-300 hover:shadow-md hover:border-[#C6532B]/40 flex items-start gap-4 sm:gap-5 group">
-            <div className="w-12 h-12 rounded-xl bg-[#C6532B] text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-              <Map className="w-6 h-6 text-[#FFF8EF]" />
+          <div className="p-4 sm:p-6 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] transition-all duration-300 hover:shadow-md hover:border-[#C6532B]/40 flex items-start gap-3.5 sm:gap-5 group">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#C6532B] text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+              <Map className="w-5 h-5 sm:w-6 sm:h-6 text-[#FFF8EF]" />
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1 sm:space-y-1.5">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#582822]">
                   Vintage Transit
                 </span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-[#351E1A] group-hover:text-[#582822] transition-colors">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-[#351E1A] group-hover:text-[#582822] transition-colors">
                 DIY Walking &amp; River Trails
               </h3>
               <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
@@ -116,17 +116,17 @@ export const WhyChooseUs: React.FC = () => {
           </div>
 
           {/* Feature Card 3 */}
-          <div className="p-6 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] transition-all duration-300 hover:shadow-md hover:border-[#C6532B]/40 flex items-start gap-4 sm:gap-5 group">
-            <div className="w-12 h-12 rounded-xl bg-[#351E1A] text-[#FFF8EF] flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-              <ShieldCheck className="w-6 h-6 text-[#C5A25A]" />
+          <div className="p-4 sm:p-6 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] transition-all duration-300 hover:shadow-md hover:border-[#C6532B]/40 flex items-start gap-3.5 sm:gap-5 group">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-[#351E1A] text-[#FFF8EF] flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+              <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#C5A25A]" />
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1 sm:space-y-1.5">
               <div className="flex items-center gap-2">
                 <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C6532B]">
                   Local Wisdom
                 </span>
               </div>
-              <h3 className="font-serif text-xl font-bold text-[#351E1A] group-hover:text-[#582822] transition-colors">
+              <h3 className="font-serif text-lg sm:text-xl font-bold text-[#351E1A] group-hover:text-[#582822] transition-colors">
                 Practical Traveler Advisory
               </h3>
               <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">

@@ -791,10 +791,10 @@ export const CalcuttaSoundscape: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-40">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40">
       {/* Expanded Lo-Fi Music Player Drawer */}
       {isOpen && (
-        <div className="mb-3 w-80 sm:w-92 p-5 rounded-3xl bg-[#FFF8EF]/95 backdrop-blur-xl border border-[#E8D5C2] shadow-[0_20px_45px_rgba(53,30,26,0.18)] animate-slide-in-right">
+        <div className="mb-3 w-[calc(100vw-2rem)] max-w-xs sm:w-92 p-4 sm:p-5 rounded-3xl bg-[#FFF8EF]/95 backdrop-blur-xl border border-[#E8D5C2] shadow-[0_20px_45px_rgba(53,30,26,0.18)] animate-slide-in-right">
           {/* Header */}
           <div className="flex items-center justify-between pb-3 border-b border-[#E8D5C2]">
             <div className="flex items-center gap-2.5">

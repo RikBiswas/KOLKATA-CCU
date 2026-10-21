@@ -17,14 +17,14 @@ export const TourPackagesSection: React.FC<TourPackagesSectionProps> = ({
     <section id="packages" className="py-12 sm:py-16">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
         {/* Left Column: Grey Box with Title & Description & 'Browse all packages' button matching mockup */}
-        <div className="lg:col-span-4 p-8 sm:p-10 rounded-3xl bg-[#98a8b8] dark:bg-[#1a2533] text-white flex flex-col justify-between shadow-md">
+        <div className="lg:col-span-4 p-6 sm:p-8 md:p-10 rounded-3xl bg-[#98a8b8] dark:bg-[#1a2533] text-white flex flex-col justify-between shadow-md">
           <div className="space-y-4">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-[11px] font-bold uppercase tracking-wider text-white">
               <Sparkles className="w-3 h-3 text-amber-300" />
               <span>Curated Itineraries</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight leading-tight">
               Tour Packages
             </h2>
 
@@ -49,10 +49,10 @@ export const TourPackagesSection: React.FC<TourPackagesSectionProps> = ({
             </ul>
           </div>
 
-          <div className="pt-8">
+          <div className="pt-6 sm:pt-8">
             <button
               onClick={onBrowseAll}
-              className="px-6 py-3 rounded-full bg-[#1b2b38] dark:bg-emerald-600 hover:bg-[#111c25] dark:hover:bg-emerald-500 text-white text-xs font-semibold tracking-wide transition-all shadow-sm flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-3 rounded-full bg-[#1b2b38] dark:bg-emerald-600 hover:bg-[#111c25] dark:hover:bg-emerald-500 text-white text-xs font-semibold tracking-wide transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Browse all packages</span>
               <ArrowRight className="w-3.5 h-3.5" />

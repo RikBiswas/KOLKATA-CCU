@@ -209,7 +209,7 @@ Curated with love by WANDER CCU (https://wanderccu.local)
     >
       <div className="relative w-full max-w-2xl bg-[#FFF8EF] rounded-3xl border-2 border-[#E8D5C2] shadow-[0_24px_60px_rgba(53,30,26,0.25)] overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header with archival deckle border */}
-        <div className="p-6 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-start justify-between">
+        <div className="p-4 sm:p-6 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-start justify-between">
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#C6532B]" />
@@ -217,7 +217,7 @@ Curated with love by WANDER CCU (https://wanderccu.local)
                 Interactive Itinerary Planner
               </span>
             </div>
-            <h3 id="itinerary-modal-title" className="font-serif text-2xl font-bold text-[#351E1A]">
+            <h3 id="itinerary-modal-title" className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
               Design Your Day in Kolkata
             </h3>
             <p className="font-sans text-xs text-[#351E1A]/80">
@@ -235,14 +235,14 @@ Curated with love by WANDER CCU (https://wanderccu.local)
         </div>
 
         {/* Content Body */}
-        <div className="p-6 overflow-y-auto space-y-6 flex-1">
+        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 flex-1">
           {/* Controls: Duration Selection */}
           <div className="space-y-2">
             <label className="text-xs font-sans font-bold text-[#582822] flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-[#C6532B]" />
               <span>1. How much time do you have?</span>
             </label>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
               {[
                 { id: 'half-day', label: 'Half Day', sub: '4 Hours' },
                 { id: 'full-day', label: '1 Full Day', sub: '8–12 Hours' },
@@ -251,13 +251,13 @@ Curated with love by WANDER CCU (https://wanderccu.local)
                 <button
                   key={opt.id}
                   onClick={() => setDuration(opt.id as typeof duration)}
-                  className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                  className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                     duration === opt.id
                       ? 'bg-[#351E1A] text-[#FFF8EF] border-[#351E1A] shadow-xs'
                       : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD]'
                   }`}
                 >
-                  <p className="font-serif font-bold text-sm">{opt.label}</p>
+                  <p className="font-serif font-bold text-xs sm:text-sm">{opt.label}</p>
                   <p className={`text-[10px] font-sans ${duration === opt.id ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'}`}>
                     {opt.sub}
                   </p>
@@ -272,7 +272,7 @@ Curated with love by WANDER CCU (https://wanderccu.local)
               <Footprints className="w-3.5 h-3.5 text-[#C6532B]" />
               <span>2. Choose your preferred exploration pace:</span>
             </label>
-            <div className="grid grid-cols-3 gap-2.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
               {[
                 { id: 'walking', label: 'Heritage Walking', icon: <Footprints className="w-3.5 h-3.5" /> },
                 { id: 'transit', label: 'Tram & Ferry Transit', icon: <Train className="w-3.5 h-3.5" /> },
@@ -281,7 +281,7 @@ Curated with love by WANDER CCU (https://wanderccu.local)
                 <button
                   key={opt.id}
                   onClick={() => setPace(opt.id as typeof pace)}
-                  className={`p-3 rounded-2xl border text-left transition-all flex flex-col gap-1 cursor-pointer ${
+                  className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all flex sm:flex-col gap-1 cursor-pointer items-center sm:items-start ${
                     pace === opt.id
                       ? 'bg-[#C6532B] text-[#FFF8EF] border-[#C6532B] shadow-xs'
                       : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD]'
@@ -334,19 +334,19 @@ Curated with love by WANDER CCU (https://wanderccu.local)
         </div>
 
         {/* Action Footer */}
-        <div className="p-4 sm:p-5 bg-[#F7EBDD] border-t border-[#E8D5C2] flex flex-wrap items-center justify-between gap-3">
+        <div className="p-3.5 sm:p-5 bg-[#F7EBDD] border-t border-[#E8D5C2] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-xs font-sans font-semibold text-[#351E1A]/70 hover:text-[#351E1A] cursor-pointer"
+            className="py-2 text-xs font-sans font-semibold text-[#351E1A]/70 hover:text-[#351E1A] cursor-pointer text-center sm:text-left"
           >
             Close
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
             <button
               onClick={handleDownloadPDF}
               disabled={isDownloading}
-              className="px-4 py-2 rounded-full border border-[#C5A25A] bg-[#FFF8EF] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95 disabled:opacity-60"
+              className="px-4 py-2.5 rounded-full border border-[#C5A25A] bg-[#FFF8EF] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95 disabled:opacity-60"
               title="Download neat, structured day plan as PDF"
             >
               {isDownloading ? (
@@ -359,7 +359,7 @@ Curated with love by WANDER CCU (https://wanderccu.local)
 
             <button
               onClick={handleCopyPlan}
-              className="px-5 py-2 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
+              className="px-5 py-2.5 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs active:scale-95"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-[#C5A25A]" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Copied to Clipboard!' : 'Copy Plan'}</span>

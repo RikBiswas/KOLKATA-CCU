@@ -86,28 +86,28 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 bg-[#351E1A]/80 backdrop-blur-sm animate-fade-in"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="diary-modal-title"
     >
-      <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden">
+      <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl relative overflow-hidden">
         {/* Editorial Top Bar */}
-        <div className="p-6 sm:p-8 border-b border-[#E8D5C2] bg-[#F7EBDD]/60 flex items-start justify-between gap-4">
-          <div className="space-y-1.5">
+        <div className="p-4 sm:p-6 md:p-8 border-b border-[#E8D5C2] bg-[#F7EBDD]/60 flex items-start justify-between gap-3 sm:gap-4">
+          <div className="space-y-1 sm:space-y-1.5 min-w-0">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#C6532B]" />
-              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#C6532B]">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#C6532B] shrink-0" />
+              <span className="text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider text-[#C6532B] truncate">
                 Personal Field Codex &bull; স্মৃতির ডায়েরি
               </span>
             </div>
 
-            <h2 id="diary-modal-title" className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
+            <h2 id="diary-modal-title" className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#351E1A] leading-tight">
               My Calcutta Pocket Diary
             </h2>
 
-            <p className="font-sans text-xs text-[#351E1A]/75">
+            <p className="font-sans text-xs text-[#351E1A]/75 line-clamp-2 sm:line-clamp-none">
               Saved landmarks, walking trails, culinary stops, and field notes preserved for your voyage.
             </p>
           </div>
@@ -122,7 +122,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
         </div>
 
         {/* Stats & Filter Bar */}
-        <div className="px-6 py-3 bg-[#FFF8EF] border-b border-[#E8D5C2] flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="px-4 sm:px-6 py-2.5 sm:py-3 bg-[#FFF8EF] border-b border-[#E8D5C2] flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 text-xs">
           <div className="flex items-center gap-3 text-[#351E1A]/80 font-sans">
             <span>
               <strong>{diaryItems.length}</strong> saved spot{diaryItems.length !== 1 ? 's' : ''}
@@ -162,7 +162,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
         </div>
 
         {/* Scrollable Diary Items List */}
-        <div className="p-6 sm:p-8 flex-1 overflow-y-auto space-y-4">
+        <div className="p-4 sm:p-6 md:p-8 flex-1 overflow-y-auto space-y-3 sm:space-y-4">
           {filteredItems.length === 0 ? (
             <div className="p-12 text-center bg-[#F7EBDD]/40 rounded-3xl border border-dashed border-[#D9A38E] space-y-3">
               <BookOpen className="w-10 h-10 text-[#C6532B]/60 mx-auto" />
@@ -268,7 +268,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
                         value={tempNote}
                         onChange={(e) => setTempNote(e.target.value)}
                         placeholder="Add a field note..."
-                        className="text-xs bg-[#F7EBDD] border border-[#E8D5C2] rounded-lg px-2.5 py-1 text-[#351E1A] w-36 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
+                        className="text-xs bg-[#F7EBDD] border border-[#E8D5C2] rounded-lg px-2.5 py-1 text-[#351E1A] w-28 sm:w-36 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
                         autoFocus
                       />
                       <button
@@ -301,12 +301,12 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
         </div>
 
         {/* Bottom Actions Footer */}
-        <div className="p-4 sm:p-6 bg-[#F7EBDD]/60 border-t border-[#E8D5C2] flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+        <div className="p-3.5 sm:p-6 bg-[#F7EBDD]/60 border-t border-[#E8D5C2] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center justify-center sm:justify-start gap-2 sm:gap-3 flex-wrap w-full sm:w-auto">
             <button
               onClick={handleDownloadPDF}
               disabled={diaryItems.length === 0 || isDownloading}
-              className="px-4 py-2 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold flex items-center gap-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95"
+              className="px-3.5 sm:px-4 py-2 rounded-full bg-[#351E1A] hover:bg-[#582822] text-[#FFF8EF] text-xs font-sans font-bold flex items-center justify-center gap-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs active:scale-95 flex-1 sm:flex-initial"
               title="Download your pocket diary as a beautifully formatted PDF"
             >
               {isDownloading ? (
@@ -314,13 +314,13 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
               ) : (
                 <Download className="w-3.5 h-3.5 text-[#C5A25A]" />
               )}
-              <span>{isDownloading ? 'Generating PDF...' : 'Download Diary (PDF)'}</span>
+              <span>{isDownloading ? 'Generating PDF...' : 'Download (PDF)'}</span>
             </button>
 
             <button
               onClick={handlePrint}
               disabled={diaryItems.length === 0}
-              className="px-3 py-2 rounded-full border border-[#E8D5C2] bg-[#FFF8EF] hover:bg-[#FFFDF9] text-[#351E1A] text-xs font-sans font-semibold flex items-center gap-1.5 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
+              className="px-3 py-2 rounded-full border border-[#E8D5C2] bg-[#FFF8EF] hover:bg-[#FFFDF9] text-[#351E1A] text-xs font-sans font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-xs"
               title="Print diary"
             >
               <Printer className="w-3.5 h-3.5 text-[#582822]" />
@@ -337,7 +337,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
             )}
           </div>
 
-          <span className="font-bengali text-xs text-[#582822] font-semibold">
+          <span className="font-bengali text-xs text-[#582822] font-semibold text-center sm:text-right">
             স্মৃতির পাতা কখনো মলিন হয় না
           </span>
         </div>

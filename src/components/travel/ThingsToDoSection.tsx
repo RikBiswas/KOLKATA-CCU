@@ -169,9 +169,49 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
     return item.category === selectedCategory;
   });
 
-  // Calculate items visible per frame based on responsive view (default 3 for desktop)
-  const itemsPerPage = 3;
+  const [viewportSize, setViewportSize] = useState<'mobile' | 'tablet' | 'desktop'>('desktop');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setViewportSize('mobile');
+      } else if (window.innerWidth < 1024) {
+        setViewportSize('tablet');
+      } else {
+        setViewportSize('desktop');
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Calculate items visible per frame dynamically: 1 on mobile, 2 on tablet, 3 on desktop
+  const itemsPerPage = viewportSize === 'mobile' ? 1 : viewportSize === 'tablet' ? 2 : 3;
   const maxIndex = Math.max(0, filteredActivities.length - itemsPerPage);
+
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      handleNext();
+    } else if (distance < -minSwipeDistance) {
+      handlePrev();
+    }
+  };
 
   // Auto-slide effect every 4.5 seconds
   useEffect(() => {
@@ -300,10 +340,15 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
       </div>
 
       {/* Auto-sliding Mini Cards Grid */}
-      <div className="overflow-hidden">
+      <div 
+        className="overflow-hidden touch-pan-y"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <div
           key={`${selectedCategory}-${currentIndex}`}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 animate-slide-in-right"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 animate-slide-in-right"
         >
           {displayCards.map((act) => (
             <div

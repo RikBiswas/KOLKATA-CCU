@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Sun, Sunset, CloudSun, Compass, Sparkles } from 'lucide-react';
 
-export const CalcuttaTimeWatcher: React.FC = () => {
+interface CalcuttaTimeWatcherProps {
+  variant?: 'pill' | 'embedded';
+  className?: string;
+}
+
+export const CalcuttaTimeWatcher: React.FC<CalcuttaTimeWatcherProps> = ({
+  variant = 'pill',
+  className = '',
+}) => {
   const [kolkataTime, setKolkataTime] = useState<string>('');
   const [period, setPeriod] = useState<string>('');
   const [bengaliDigits, setBengaliDigits] = useState<string>('');
@@ -43,8 +51,12 @@ export const CalcuttaTimeWatcher: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const containerStyles = variant === 'embedded'
+    ? `inline-flex items-center gap-2 sm:gap-3 text-xs font-sans text-[#351E1A] ${className}`
+    : `inline-flex items-center gap-2 sm:gap-3 px-3.5 py-1.5 rounded-full bg-[#FFF8EF]/95 border border-[#C5A25A]/60 shadow-[0_4px_16px_rgba(197,162,90,0.15)] text-xs font-sans text-[#351E1A] backdrop-blur-md ${className}`;
+
   return (
-    <div className="inline-flex items-center gap-2 sm:gap-3 px-3.5 py-1.5 rounded-full bg-[#FFF8EF]/95 border border-[#C5A25A]/60 shadow-[0_4px_16px_rgba(197,162,90,0.15)] text-xs font-sans text-[#351E1A] backdrop-blur-md">
+    <div className={containerStyles}>
       {/* Brass Dial Emblem */}
       <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#C5A25A] to-[#8E6C2E] flex items-center justify-center shadow-inner shrink-0">
         <Clock className="w-3 h-3 text-[#FFF8EF]" />

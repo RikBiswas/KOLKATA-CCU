@@ -83,7 +83,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
           </div>
 
           <div className="relative">
-            <div className="space-y-3 max-h-[740px] overflow-y-auto pr-2 pb-14 scrollbar-thin scrollbar-thumb-[#C6532B]/30 hover:scrollbar-thumb-[#C6532B]/60 scrollbar-track-transparent">
+            <div className="space-y-3 max-h-[380px] sm:max-h-[460px] lg:max-h-[740px] overflow-y-auto pr-2 pb-14 scrollbar-thin scrollbar-thumb-[#C6532B]/30 hover:scrollbar-thumb-[#C6532B]/60 scrollbar-track-transparent">
               {filteredEvents.map((ev) => {
                 const isCurrent = ev.id === activeEvent.id;
                 return (
@@ -153,7 +153,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
 
         {/* Right Column: Detailed Editorial Exhibition Card for Active Event */}
         {activeEvent && (
-          <div className="lg:col-span-7 lg:sticky lg:top-24 bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-8 shadow-[0_12px_36px_rgba(53,30,26,0.08)] flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-7 lg:sticky lg:top-24 bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-4 sm:p-6 md:p-8 shadow-[0_12px_36px_rgba(53,30,26,0.08)] flex flex-col justify-between space-y-6">
             <div className="space-y-5">
               {/* Top Banner Tag & Dates */}
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8D5C2] pb-4">

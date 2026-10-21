@@ -1148,15 +1148,15 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
                 })}
               </Map>
 
-              {/* ROUTE OPTIONS RADIO GROUP OVERLAY (From mapcn demo code) */}
+              {/* ROUTE OPTIONS RADIO GROUP OVERLAY */}
               {routes.length > 0 && (
                 <div
                   role="radiogroup"
                   aria-label="Route options"
-                  className="bg-[#FFF8EF]/95 border-[#E8D5C2] text-[#351E1A] absolute top-3 left-3 w-52 space-y-1 rounded-xl border p-2 shadow-xl backdrop-blur-md z-10"
+                  className="bg-[#FFF8EF]/95 border-[#E8D5C2] text-[#351E1A] absolute bottom-3 left-3 sm:top-3 sm:left-3 sm:bottom-auto w-40 sm:w-52 space-y-1 rounded-xl border p-1.5 sm:p-2 shadow-xl backdrop-blur-md z-10"
                 >
                   <div className="text-[10px] font-semibold text-[#582822] uppercase tracking-wider flex items-center justify-between pb-1 border-b border-[#E8D5C2]">
-                    <span>Driving Routes</span>
+                    <span>Routes</span>
                     <span className="text-[#C6532B] font-mono">{routes.length} options</span>
                   </div>
                   {routes.map((route, index) => {
@@ -1170,12 +1170,12 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
                         aria-checked={isActive}
                         onClick={() => setSelectedIndex(index)}
                         className={cn(
-                          'flex w-full items-center gap-2 rounded-lg px-2 py-1.5 transition-colors cursor-pointer text-left',
+                          'flex w-full items-center gap-1.5 sm:gap-2 rounded-lg px-1.5 sm:px-2 py-1 sm:py-1.5 transition-colors cursor-pointer text-left',
                           isActive ? 'bg-[#F7EBDD] font-semibold shadow-2xs' : 'hover:bg-[#F7EBDD]/60 text-[#582822]',
                         )}
                       >
                         <span
-                          className="h-4 w-1 shrink-0 rounded-full"
+                          className="h-3.5 sm:h-4 w-1 shrink-0 rounded-full"
                           style={{
                             backgroundColor: routeColor,
                             opacity: isActive ? 1 : inactiveOpacity,
@@ -1183,13 +1183,13 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
                         />
                         <span
                           className={cn(
-                            'text-xs font-mono tabular-nums text-[#351E1A]',
+                            'text-[11px] sm:text-xs font-mono tabular-nums text-[#351E1A]',
                             !isActive && 'text-[#582822]/70',
                           )}
                         >
                           {formatDuration(route.duration)}
                         </span>
-                        <span className="text-[#582822]/80 ml-auto text-xs font-mono tabular-nums">
+                        <span className="text-[#582822]/80 ml-auto text-[11px] sm:text-xs font-mono tabular-nums">
                           {formatDistance(route.distance)}
                         </span>
                       </button>

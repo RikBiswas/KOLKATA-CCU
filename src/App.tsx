@@ -291,7 +291,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7EBDD] text-[#351E1A] selection:bg-[#C6532B] selection:text-[#FFF8EF] relative">
+    <div className="min-h-screen flex flex-col bg-[#F7EBDD] text-[#351E1A] selection:bg-[#C6532B] selection:text-[#FFF8EF] relative overflow-x-clip w-full">
       {/* Accessible Skip to Content Link (WCAG 2.4.1 Bypass Blocks) */}
       <a
         href="#main-content"

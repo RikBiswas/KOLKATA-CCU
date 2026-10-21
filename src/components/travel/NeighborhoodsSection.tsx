@@ -22,6 +22,29 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
   const safeIndex = currentIndex !== -1 ? currentIndex : 0;
   const currentDistrict = neighborhoods[safeIndex] || neighborhoods[0];
 
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
+  const minSwipeDistance = 45;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchEndX.current = null;
+    touchStartX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStartX.current || !touchEndX.current) return;
+    const distance = touchStartX.current - touchEndX.current;
+    if (distance > minSwipeDistance) {
+      handleNext();
+    } else if (distance < -minSwipeDistance) {
+      handlePrev();
+    }
+  };
+
   const handlePrev = () => {
     setDirection(-1);
     const prevIdx = (safeIndex - 1 + neighborhoods.length) % neighborhoods.length;
@@ -121,11 +144,29 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
         </div>
 
         {/* Counter Pill & Step Navigator */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <div className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans font-semibold text-[#351E1A] shadow-xs flex items-center gap-1.5">
             <span className="text-[#C6532B] font-bold">{safeIndex + 1}</span>
             <span className="text-[#351E1A]/50">/</span>
             <span>{neighborhoods.length} Enclaves</span>
+          </div>
+
+          {/* Quick arrow controls for touch/mobile devices */}
+          <div className="flex items-center gap-1">
+            <button
+              onClick={handlePrev}
+              className="w-8 h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] active:scale-95 flex items-center justify-center transition-all cursor-pointer shadow-xs"
+              aria-label="Previous enclave"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button
+              onClick={handleNext}
+              className="w-8 h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] active:scale-95 flex items-center justify-center transition-all cursor-pointer shadow-xs"
+              aria-label="Next enclave"
+            >
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </div>
@@ -159,28 +200,33 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
 
       {/* District Showcase Container with Prominent Side Navigation Arrows */}
       <div className="relative">
-        {/* Left Side Navigation Arrow Button */}
+        {/* Left Side Navigation Arrow Button (Hidden on small mobile to avoid overlaying cards) */}
         <button
           onClick={handlePrev}
-          className="absolute left-1 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
+          className="hidden sm:flex absolute -left-4 lg:-left-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
           title={`Previous: ${neighborhoods[(safeIndex - 1 + neighborhoods.length) % neighborhoods.length].name}`}
           aria-label="Previous district card"
         >
           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:-translate-x-0.5" />
         </button>
 
-        {/* Right Side Navigation Arrow Button */}
+        {/* Right Side Navigation Arrow Button (Hidden on small mobile to avoid overlaying cards) */}
         <button
           onClick={handleNext}
-          className="absolute right-1 sm:-right-5 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
+          className="hidden sm:flex absolute -right-4 lg:-right-6 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#FFF8EF] border-2 border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.18)] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] hover:border-[#351E1A] items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer group/btn"
           title={`Next: ${neighborhoods[(safeIndex + 1) % neighborhoods.length].name}`}
           aria-label="Next district card"
         >
           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover/btn:translate-x-0.5" />
         </button>
 
-        {/* Animated District Card with Sliding Navigation */}
-        <div className="overflow-hidden rounded-3xl">
+        {/* Animated District Card with Sliding Navigation & Touch Swipe Handling */}
+        <div 
+          className="overflow-hidden rounded-3xl touch-pan-y"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentDistrict.id}
@@ -189,7 +235,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
               initial="enter"
               animate="center"
               exit="exit"
-              className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-6 sm:p-10 shadow-[0_12px_40px_rgba(53,30,26,0.06)] relative overflow-hidden"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-5 sm:p-10 shadow-[0_12px_40px_rgba(53,30,26,0.06)] relative overflow-hidden"
             >
         {/* Subtle decorative background watermarks */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#C6532B]/5 rounded-full blur-3xl pointer-events-none" />
