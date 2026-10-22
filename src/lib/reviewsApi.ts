@@ -1,7 +1,8 @@
 import { ReviewItem } from '../types/travel';
 import { getNeonReviews, insertNeonReview } from './neon';
 
-const BACKEND_URL = (import.meta as any).env?.VITE_API_URL || 'http://127.0.0.1:8000';
+const RAW_BACKEND_URL = (import.meta as any).env?.VITE_API_URL || 'https://kolkata-ccu.onrender.com';
+const BACKEND_URL = String(RAW_BACKEND_URL).replace(/\/+$/, '');
 
 /**
  * Fetch reviews from the backend API, seamlessly falling back to direct Neon Database queries.
