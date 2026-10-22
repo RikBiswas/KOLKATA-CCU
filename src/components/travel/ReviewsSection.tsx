@@ -17,6 +17,7 @@ import {
   Quote,
 } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
+import { apiFetchReviews } from '../../lib/reviewsApi';
 
 interface ReviewsSectionProps {
   onOpenReviewModal: () => void;
@@ -112,24 +113,17 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
   const fetchReviews = async () => {
     try {
-      // 1. Fetch reviews list
-      const res = await fetch('http://127.0.0.1:8000/api/reviews');
-      if (res.ok) {
-        const data: ReviewItem[] = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setReviews(data);
-        }
-      }
-
-      // 2. Fetch backend database health status
-      const healthRes = await fetch('http://127.0.0.1:8000/api/health');
-      if (healthRes.ok) {
-        const health = await healthRes.json();
-        setBackendStatus({
-          database: health.database || 'connected',
-          branch: health.branch || 'production',
-          reviewCount: health.review_count || reviews.length,
-        });
+      // 1. Fetch reviews list (backend or direct Neon DB)
+      const data = await apiFetchReviews();
+      if (Array.isArray(data) && data.length > 0) {
+        setReviews(data);
+        setBackendStatus((prev) => ({
+          ...prev,
+          database: 'connected',
+          reviewCount: data.length,
+        }));
+      } else {
+        setReviews(DEFAULT_COMMUNITY_REVIEWS);
       }
     } catch {
       // Gracefully retain curated community reviews if standalone

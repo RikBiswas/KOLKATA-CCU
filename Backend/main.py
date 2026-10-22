@@ -15,13 +15,15 @@ from psycopg2.extras import RealDictCursor
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("neon_backend")
 
-# Load environment variables from .env.local or .env in project root
+# Load environment variables from .env.local, .env, or Backend/.env
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(ROOT_DIR, ".env.local"))
 load_dotenv(os.path.join(ROOT_DIR, ".env"))
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
+load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-DATABASE_URL_UNPOOLED = os.getenv("DATABASE_URL_UNPOOLED")
+DATABASE_URL = os.getenv("DATABASE_URL_POOLED") or os.getenv("DATABASE_URL")
+DATABASE_URL_UNPOOLED = os.getenv("DATABASE_URL_UNPOOLED") or os.getenv("DATABASE_URL")
 NEON_BRANCH = os.getenv("NEON_BRANCH", "production")
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "reviews.json")

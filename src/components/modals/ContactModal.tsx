@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Star, CheckCircle, Send, MessageSquareQuote } from 'lucide-react';
 import { siteConfig } from '../../config/site.config';
+import { apiFetchReviews, apiSubmitReview } from '../../lib/reviewsApi';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -27,18 +28,17 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
   const [recentReviews, setRecentReviews] = useState<ReviewItem[]>([]);
   const [activeTab, setActiveTab] = useState<'form' | 'recent'>('form');
 
-  // Fetch reviews from FastAPI backend (falling back to localStorage if backend is offline)
+  // Fetch reviews from Neon DB / FastAPI backend
   const fetchReviews = async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/reviews');
-      if (res.ok) {
-        const data = await res.json();
+      const data = await apiFetchReviews();
+      if (Array.isArray(data) && data.length > 0) {
         setRecentReviews(data);
         localStorage.setItem('portfolio_reviews', JSON.stringify(data));
         return;
       }
     } catch {
-      // Fallback to local storage if FastAPI is not yet running
+      // Fallback to local storage if API is offline
     }
     const local = JSON.parse(localStorage.getItem('portfolio_reviews') || '[]');
     setRecentReviews(local);
@@ -75,16 +75,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
     let savedItem: ReviewItem | null = null;
 
     try {
-      // POST to FastAPI backend
-      const res = await fetch('http://127.0.0.1:8000/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (res.ok) {
-        savedItem = await res.json();
-      }
+      savedItem = await apiSubmitReview(payload);
     } catch {
       // Offline fallback
     }

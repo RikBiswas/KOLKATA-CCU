@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Star, MessageSquarePlus, CheckCircle, RefreshCw, Send, Compass, User, Quote } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
+import { apiFetchReviews, apiSubmitReview } from '../../lib/reviewsApi';
 
 export const TravelReviewsSection: React.FC = () => {
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
@@ -18,12 +19,11 @@ export const TravelReviewsSection: React.FC = () => {
   const fetchReviews = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/reviews');
-      if (res.ok) {
-        const data = await res.json();
+      const data = await apiFetchReviews();
+      if (data && data.length > 0) {
         setReviews(data);
       } else {
-        throw new Error('API unavailable');
+        throw new Error('No reviews yet');
       }
     } catch {
       // Fallback local traveler tips
@@ -77,42 +77,14 @@ export const TravelReviewsSection: React.FC = () => {
     };
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/reviews', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (res.ok) {
-        const created = await res.json();
-        setReviews([created, ...reviews]);
-        setName('');
-        setReview('');
-        setStatusMessage('Thank you! Your travel note was added for fellow explorers.');
-        setTimeout(() => setShowForm(false), 2000);
-      } else {
-        const fallbackCreated: ReviewItem = {
-          id: Date.now(),
-          ...payload,
-          date: 'Just now',
-        };
-        setReviews([fallbackCreated, ...reviews]);
-        setName('');
-        setReview('');
-        setStatusMessage('Thank you! Your travel note was published locally.');
-        setTimeout(() => setShowForm(false), 2000);
-      }
-    } catch {
-      const fallbackCreated: ReviewItem = {
-        id: Date.now(),
-        ...payload,
-        date: 'Just now',
-      };
-      setReviews([fallbackCreated, ...reviews]);
+      const created = await apiSubmitReview(payload);
+      setReviews([created, ...reviews]);
       setName('');
       setReview('');
-      setStatusMessage('Thank you! Your travel note was published.');
+      setStatusMessage('Thank you! Your travel note was added to the Neon Database.');
       setTimeout(() => setShowForm(false), 2000);
+    } catch (err: any) {
+      setStatusMessage(err?.message || 'Could not submit review. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

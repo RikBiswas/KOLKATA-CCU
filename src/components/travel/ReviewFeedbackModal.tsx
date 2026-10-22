@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Star, X, Send, MessageSquarePlus, CheckCircle, AlertCircle, RefreshCw, User, Briefcase, MessageSquare, Sparkles, Clock, AlertTriangle } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
+import { apiFetchReviews, apiSubmitReview } from '../../lib/reviewsApi';
 
 interface ReviewFeedbackModalProps {
   isOpen: boolean;
@@ -102,17 +103,16 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
     return () => clearInterval(timer);
   }, [cooldownRemaining]);
 
-  // Fetch reviews from FastAPI backend
+  // Fetch reviews from Neon DB / FastAPI backend
   const fetchReviews = async () => {
     setIsLoadingReviews(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/reviews');
-      if (res.ok) {
-        const data = await res.json();
+      const data = await apiFetchReviews();
+      if (data && data.length > 0) {
         setReviewsList(data);
       }
     } catch (err) {
-      console.warn('Backend reviews offline, using local reviews:', err);
+      console.warn('Reviews offline, using fallback:', err);
     } finally {
       setIsLoadingReviews(false);
     }
@@ -174,25 +174,8 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
     };
 
     try {
-      const res = await fetch('http://127.0.0.1:8000/api/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Client-Id': getClientId(),
-        },
-        body: JSON.stringify(payload),
-      });
+      const createdReview = await apiSubmitReview(payload, getClientId());
 
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        if (res.status === 429) {
-          localStorage.setItem(STORAGE_KEY_LAST_SUBMIT, String(Date.now()));
-          setCooldownRemaining(RATE_LIMIT_SECONDS);
-        }
-        throw new Error(errorData.detail || 'Failed to submit review');
-      }
-
-      const createdReview: ReviewItem = await res.json();
       setReviewsList((prev) => [createdReview, ...prev]);
       if (onReviewSubmitted) {
         onReviewSubmitted(createdReview);
