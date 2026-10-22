@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Star, MessageSquarePlus, CheckCircle, RefreshCw, Send, Compass, User, Quote } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
-import { apiFetchReviews, apiSubmitReview } from '../../lib/reviewsApi';
+import { apiFetchReviews, apiSubmitReview, DEFAULT_COMMUNITY_REVIEWS, mergeReviewsPreservingDefaults } from '../../lib/reviewsApi';
 
 export const TravelReviewsSection: React.FC = () => {
-  const [reviews, setReviews] = useState<ReviewItem[]>([]);
+  const [reviews, setReviews] = useState<ReviewItem[]>(DEFAULT_COMMUNITY_REVIEWS);
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
 
@@ -20,39 +20,10 @@ export const TravelReviewsSection: React.FC = () => {
     setIsLoading(true);
     try {
       const data = await apiFetchReviews();
-      if (data && data.length > 0) {
-        setReviews(data);
-      } else {
-        throw new Error('No reviews yet');
-      }
+      const merged = mergeReviewsPreservingDefaults(data);
+      setReviews(merged);
     } catch {
-      // Fallback local traveler tips
-      setReviews([
-        {
-          id: 1,
-          name: 'Ananya Sengupta',
-          role: 'Solo Heritage Walker & Architect',
-          rating: 5,
-          review: 'The Dalhousie heritage walking route is incredible! Following the path from Writers’ Building to St. John’s church early on a Sunday morning gave me peaceful access to 300 years of colonial history without traffic.',
-          date: 'Oct 14, 2026',
-        },
-        {
-          id: 2,
-          name: 'Marcus & Elena Vance',
-          role: 'Independent Photographers (London)',
-          rating: 5,
-          review: 'The Hooghly public ferry guide was our favorite tip. Taking the municipal boat from Howrah to Fairlie Ghat for just ₹6 gave us world-class views of the bridge from the water at twilight.',
-          date: 'Oct 12, 2026',
-        },
-        {
-          id: 3,
-          name: 'Debjit Roy',
-          role: 'Local Chronicler & University Scholar',
-          rating: 5,
-          review: 'Spot on recommendations for College Street! Having infusion black coffee on the 1st floor of Indian Coffee House while browsing through century-old second-hand book stalls is pure magic.',
-          date: 'Oct 10, 2026',
-        },
-      ]);
+      setReviews(DEFAULT_COMMUNITY_REVIEWS);
     } finally {
       setIsLoading(false);
     }

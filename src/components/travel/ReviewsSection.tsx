@@ -17,55 +17,12 @@ import {
   Quote,
 } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
-import { apiFetchReviews } from '../../lib/reviewsApi';
+import { apiFetchReviews, DEFAULT_COMMUNITY_REVIEWS, mergeReviewsPreservingDefaults } from '../../lib/reviewsApi';
 
 interface ReviewsSectionProps {
   onOpenReviewModal: () => void;
   refreshTrigger?: number;
 }
-
-const DEFAULT_COMMUNITY_REVIEWS: ReviewItem[] = [
-  {
-    id: 1,
-    name: 'Ananya Sengupta',
-    role: 'Heritage Architect & Walker',
-    rating: 5,
-    review: 'The Dalhousie colonial core trail is extraordinary. Walking from Writers’ Building to St. John’s Church at 7 AM on Sunday gave me serene access to 300 years of neoclassical architecture without traffic.',
-    date: 'Oct 14, 2026',
-  },
-  {
-    id: 2,
-    name: 'Marcus & Elena Vance',
-    role: 'Travel Photographers (London)',
-    rating: 5,
-    review: 'The Hooghly public river launch guide was our favorite feature. Crossing from Howrah to Fairlie Ghat for just ₹6 gave us breathtaking views of the cantilever bridge at twilight.',
-    date: 'Oct 12, 2026',
-  },
-  {
-    id: 3,
-    name: 'Debjit Roy',
-    role: 'Literary Scholar & Historian',
-    rating: 5,
-    review: 'College Street Boi Para recommendations are pitch-perfect! Having an infusion coffee on the first floor of Indian Coffee House surrounded by antique bookstalls is pure magic.',
-    date: 'Oct 10, 2026',
-  },
-  {
-    id: 4,
-    name: 'Suhani Mukherjee',
-    role: 'Cultural Food Chronicler',
-    rating: 5,
-    review: 'The Tiretta Bazaar Chinatown breakfast guide and Girish Chandra Dey Sandesh notes made my weekend exploration an absolute culinary triumph.',
-    date: 'Oct 08, 2026',
-  },
-  {
-    id: 5,
-    name: 'Vikramaditya Banerjee',
-    role: 'Independent Urbanist',
-    rating: 4,
-    review: 'WANDER.CCU captures the genuine spirit of Calcutta without tourist cliches. The Tram Route 24 and Maidan meadow walk is an essential slow-travel route.',
-    date: 'Oct 05, 2026',
-  },
-];
 
 export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
   onOpenReviewModal,
@@ -113,21 +70,19 @@ export const ReviewsSection: React.FC<ReviewsSectionProps> = ({
 
   const fetchReviews = async () => {
     try {
-      // 1. Fetch reviews list (backend or direct Neon DB)
+      setLoading(true);
+      // Fetch reviews list (backend or direct Neon DB) with guaranteed preservation of hardcoded community reviews
       const data = await apiFetchReviews();
-      if (Array.isArray(data) && data.length > 0) {
-        setReviews(data);
-        setBackendStatus((prev) => ({
-          ...prev,
-          database: 'connected',
-          reviewCount: data.length,
-        }));
-      } else {
-        setReviews(DEFAULT_COMMUNITY_REVIEWS);
-      }
+      const merged = mergeReviewsPreservingDefaults(data);
+      setReviews(merged);
+      setBackendStatus((prev) => ({
+        ...prev,
+        database: 'connected',
+        reviewCount: merged.length,
+      }));
     } catch {
       // Gracefully retain curated community reviews if standalone
-      setReviews((prev) => (prev.length > 0 ? prev : DEFAULT_COMMUNITY_REVIEWS));
+      setReviews(DEFAULT_COMMUNITY_REVIEWS);
     } finally {
       setLoading(false);
     }

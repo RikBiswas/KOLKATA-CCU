@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Star, X, Send, MessageSquarePlus, CheckCircle, AlertCircle, RefreshCw, User, Briefcase, MessageSquare, Sparkles, Clock, AlertTriangle } from 'lucide-react';
 import { ReviewItem } from '../../types/travel';
-import { apiFetchReviews, apiSubmitReview } from '../../lib/reviewsApi';
+import { apiFetchReviews, apiSubmitReview, DEFAULT_COMMUNITY_REVIEWS } from '../../lib/reviewsApi';
 
 interface ReviewFeedbackModalProps {
   isOpen: boolean;
@@ -45,7 +45,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [reviewsList, setReviewsList] = useState<ReviewItem[]>([]);
+  const [reviewsList, setReviewsList] = useState<ReviewItem[]>(DEFAULT_COMMUNITY_REVIEWS);
   const [isLoadingReviews, setIsLoadingReviews] = useState(false);
   const [cooldownRemaining, setCooldownRemaining] = useState<number>(0);
 
