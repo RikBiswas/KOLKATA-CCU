@@ -318,10 +318,9 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
                           >
                             {rt.name}
                           </span>
-                          <span
-                            dangerouslySetInnerHTML={{ __html: rt.stops }}
-                            className="text-[#582822] text-right truncate text-[11px] sm:text-xs group-hover:text-[#C6532B] transition-colors"
-                          />
+                          <span className="text-[#582822] text-right truncate text-[11px] sm:text-xs group-hover:text-[#C6532B] transition-colors">
+                            {rt.stops.replace(/&rarr;/g, '→')}
+                          </span>
                         </div>
                         <p className="text-[11px] font-sans text-[#351E1A]/75 leading-relaxed">
                           {rt.note}

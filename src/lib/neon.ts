@@ -64,7 +64,7 @@ export async function insertNeonReview(data: {
   review: string;
 }): Promise<DbReview> {
   const sql = getNeonSql();
-  const id = Date.now();
+  const id = Date.now() * 1000 + Math.floor(Math.random() * 1000);
   const dateStr = new Date().toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',

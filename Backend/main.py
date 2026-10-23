@@ -1,10 +1,13 @@
 import os
+import re
 import json
 import time
 import logging
+import hashlib
+import threading
 from datetime import datetime
 from typing import List, Optional
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field, field_validator
 from dotenv import load_dotenv
@@ -28,30 +31,78 @@ NEON_BRANCH = os.getenv("NEON_BRANCH", "production")
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "reviews.json")
 
-# Rate Limiting & Word Limit configuration
+# Rate Limiting, Spam, and Concurrency configuration
 RATE_LIMIT_SECONDS = 60
 MAX_WORDS = 150
+MAX_RATE_LIMIT_ENTRIES = 5000
+
+# Thread-safe in-memory stores
+_rate_limit_lock = threading.Lock()
 last_submission_times: dict[str, float] = {}
+
+_duplicate_lock = threading.Lock()
+recent_review_hashes: dict[str, float] = {}
+
+_id_lock = threading.Lock()
+_id_counter = 0
+
+_file_write_lock = threading.Lock()
+
+
+def generate_unique_review_id() -> int:
+    """Generate a collision-free monotonic 64-bit integer ID using microsecond timestamp and atomic counter."""
+    global _id_counter
+    with _id_lock:
+        _id_counter = (_id_counter + 1) % 1000
+        # Microsecond timestamp (16 digits) * 1000 + counter (3 digits) fits comfortably in Postgres BIGINT (max 9.22e18)
+        return int(time.time() * 1000000) * 1000 + _id_counter
 
 
 def get_client_ip(request: Request) -> str:
-    """Extract client IP, taking into account X-Forwarded-For if behind a proxy."""
+    """Extract client IP securely without trusting spoofed client-supplied identity headers."""
+    # If behind a known reverse proxy (e.g. Render / Cloudflare), parse X-Forwarded-For securely
     forwarded_for = request.headers.get("x-forwarded-for") or request.headers.get("X-Forwarded-For")
     if forwarded_for:
-        return forwarded_for.split(",")[0].strip()
+        # Take the leftmost untrusted client IP in the chain
+        client_ip = forwarded_for.split(",")[0].strip()
+        if client_ip:
+            return client_ip
     if request.client and request.client.host:
         return request.client.host
     return "unknown_client"
 
-app = FastAPI(title="Portfolio Review & Feedback API (Neon Postgres)")
 
-# Allow frontend requests
+app = FastAPI(title="WANDER.CCU Review & Feedback API")
+
+# Security Headers Middleware
+@app.middleware("http")
+async def add_security_headers(request: Request, call_next):
+    response: Response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+    return response
+
+
+# Restrict CORS to trusted origins
+DEFAULT_ALLOWED_ORIGINS = [
+    "https://kolkata-ccu.onrender.com",
+    "https://wander-ccu.travel",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+]
+env_origins = os.getenv("ALLOWED_ORIGINS")
+allowed_origins = [o.strip() for o in env_origins.split(",") if o.strip()] if env_origins else DEFAULT_ALLOWED_ORIGINS
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=allowed_origins,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept"],
 )
 
 
@@ -138,28 +189,63 @@ def load_reviews_from_file() -> List[dict]:
 
 
 def save_reviews_to_file(reviews: List[dict]):
-    try:
-        with open(DATA_FILE, "w", encoding="utf-8") as f:
-            json.dump(reviews, f, indent=2, ensure_ascii=False)
-    except Exception as e:
-        logger.warning(f"Error saving backup reviews.json: {e}")
+    """Thread-safe atomic write to reviews.json to prevent race conditions and file corruption."""
+    with _file_write_lock:
+        temp_file = f"{DATA_FILE}.tmp.{os.getpid()}"
+        try:
+            with open(temp_file, "w", encoding="utf-8") as f:
+                json.dump(reviews, f, indent=2, ensure_ascii=False)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(temp_file, DATA_FILE)
+        except Exception as e:
+            logger.warning(f"Error saving backup reviews.json: {e}")
+            if os.path.exists(temp_file):
+                try:
+                    os.remove(temp_file)
+                except Exception:
+                    pass
+
+
+# URL and script spam pattern detection
+URL_PATTERN = re.compile(r'(https?://|www\.|\b[a-z0-9.-]+\.(?:com|org|net|xyz|ru|cn|io|co|biz|info|tk|top|buzz)\b)', re.IGNORECASE)
+SCRIPT_PATTERN = re.compile(r'(<\s*script|javascript\s*:|<\s*img|<\s*iframe)', re.IGNORECASE)
 
 
 class ReviewCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
     role: Optional[str] = Field(default="Peer Reviewer", max_length=100)
     rating: int = Field(default=5, ge=1, le=5)
-    review: str = Field(..., min_length=1)
+    review: str = Field(..., min_length=2)
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, v: str) -> str:
+        clean = v.strip()
+        if not clean:
+            raise ValueError("Name cannot be empty.")
+        if SCRIPT_PATTERN.search(clean):
+            raise ValueError("Invalid characters in name.")
+        return clean
 
     @field_validator("review")
     @classmethod
-    def validate_word_limit(cls, v: str) -> str:
-        words = v.strip().split()
-        if len(words) == 0:
-            raise ValueError("Review cannot be empty.")
+    def validate_review_content(cls, v: str) -> str:
+        clean = v.strip()
+        if SCRIPT_PATTERN.search(clean):
+            raise ValueError("Review contains prohibited markup or script elements.")
+        if URL_PATTERN.search(clean):
+            raise ValueError("Reviews cannot contain web links or promotional URLs.")
+
+        words = clean.split()
+        if len(words) < 2:
+            raise ValueError("Please provide at least 2 words of meaningful feedback.")
         if len(words) > MAX_WORDS:
-            raise ValueError(f"Review exceeds the limit of {MAX_WORDS} words (contains {len(words)} words). Please limit your review to 150 words or fewer.")
-        return v.strip()
+            raise ValueError(
+                f"Review exceeds the limit of {MAX_WORDS} words (contains {len(words)} words). "
+                f"Please limit your review to 150 words or fewer."
+            )
+        return clean
 
 
 class ReviewResponse(BaseModel):
@@ -173,53 +259,41 @@ class ReviewResponse(BaseModel):
 
 @app.get("/")
 def read_root():
+    """Sanitized root endpoint without leaking internal database engines or branch names."""
     return {
         "status": "online",
-        "service": "Portfolio Feedback API",
-        "backend": "Neon Lakebase PostgreSQL",
-        "branch": NEON_BRANCH,
-        "rate_limit": f"1 review per {RATE_LIMIT_SECONDS} seconds per user",
-        "word_limit": f"maximum {MAX_WORDS} words",
+        "service": "WANDER.CCU Kolkata Travel Journal API",
+        "version": "1.0.0",
         "endpoints": {
             "health": "GET /api/health",
             "get_reviews": "GET /api/reviews",
-            "submit_review": "POST /api/reviews"
-        }
+            "submit_review": "POST /api/reviews",
+        },
     }
 
 
 @app.get("/api/health")
 def health_check():
-    """Verify Neon PostgreSQL health and connection status."""
+    """Sanitized health check without exposing database engine version or exception details."""
     conn = get_db_connection()
     if conn:
         try:
             with conn.cursor() as cur:
-                cur.execute("SELECT version();")
-                pg_version = cur.fetchone()[0]
-                cur.execute("SELECT COUNT(*) FROM reviews;")
-                review_count = cur.fetchone()[0]
+                cur.execute("SELECT 1;")
+                cur.fetchone()
             conn.close()
             return {
                 "status": "healthy",
                 "database": "connected",
-                "provider": "Neon",
-                "branch": NEON_BRANCH,
-                "postgres_version": pg_version,
-                "review_count": review_count,
-                "rate_limit_seconds": RATE_LIMIT_SECONDS,
-                "max_words": MAX_WORDS
             }
-        except Exception as e:
+        except Exception:
             return {
                 "status": "degraded",
-                "database": f"error: {str(e)}",
-                "provider": "Neon"
+                "database": "unavailable",
             }
     return {
         "status": "fallback",
-        "database": "offline (using local JSON storage)",
-        "provider": "Local"
+        "database": "offline_fallback",
     }
 
 
@@ -245,40 +319,53 @@ def get_reviews():
 
 @app.post("/api/reviews", response_model=ReviewResponse, status_code=201)
 def submit_review(review_data: ReviewCreate, request: Request):
-    """Save a new review into Neon PostgreSQL. The 60-second rate limiter applies after the user submits."""
-    # 1. Enforce 150-word maximum limit
-    words = review_data.review.strip().split()
-    if len(words) > MAX_WORDS:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Review exceeds the limit of {MAX_WORDS} words. You provided {len(words)} words. Please shorten your feedback to {MAX_WORDS} words or fewer."
-        )
-
-    # 2. Identify the specific user via Client ID header or User Name + IP
-    client_id = request.headers.get("x-client-id") or request.headers.get("X-Client-Id")
+    """
+    Save a new review into Neon PostgreSQL.
+    Enforces server-side IP-based rate limiting (1 review / 60 seconds per IP)
+    and spam duplicate rejection. Client-supplied identity headers are ignored.
+    """
     client_ip = get_client_ip(request)
-    user_key = f"client:{client_id.strip()}" if client_id and client_id.strip() else f"user:{client_ip}:{review_data.name.strip().lower()}"
-
     now = time.time()
 
-    # Prune stale records older than 10 minutes
-    stale_threshold = now - 600
-    for key, ts in list(last_submission_times.items()):
-        if ts < stale_threshold:
-            last_submission_times.pop(key, None)
+    # 1. Server-side Rate Limiting strictly by IP
+    with _rate_limit_lock:
+        # Prune stale records older than 10 minutes to protect memory
+        stale_threshold = now - 600
+        stale_keys = [k for k, ts in last_submission_times.items() if ts < stale_threshold]
+        for k in stale_keys:
+            last_submission_times.pop(k, None)
 
-    # Check if this user previously submitted a review within the last 60 seconds
-    if user_key in last_submission_times:
-        elapsed = now - last_submission_times[user_key]
-        if elapsed < RATE_LIMIT_SECONDS:
-            remaining = int(RATE_LIMIT_SECONDS - elapsed) + 1
+        # Enforce size ceiling against flood attacks
+        if len(last_submission_times) > MAX_RATE_LIMIT_ENTRIES:
+            last_submission_times.clear()
+
+        # Check IP cooldown
+        if client_ip in last_submission_times:
+            elapsed = now - last_submission_times[client_ip]
+            if elapsed < RATE_LIMIT_SECONDS:
+                remaining = int(RATE_LIMIT_SECONDS - elapsed) + 1
+                raise HTTPException(
+                    status_code=429,
+                    detail=f"Rate limit reached: You can submit at most 1 review every 60 seconds. Please wait {remaining} second{'s' if remaining != 1 else ''}."
+                )
+
+    # 2. Duplicate Submission Detection (prevent repeated automated re-posts within 5 minutes)
+    content_hash = hashlib.sha256(f"{review_data.name.lower()}:{review_data.review.lower()}".encode("utf-8")).hexdigest()
+    with _duplicate_lock:
+        dup_stale = now - 300
+        dup_stale_keys = [k for k, ts in recent_review_hashes.items() if ts < dup_stale]
+        for k in dup_stale_keys:
+            recent_review_hashes.pop(k, None)
+
+        if content_hash in recent_review_hashes:
             raise HTTPException(
-                status_code=429,
-                detail=f"Rate limit reached: Each user can submit at most 1 review every 60 seconds. Please wait {remaining} second{'s' if remaining != 1 else ''}."
+                status_code=400,
+                detail="A review with identical feedback has already been submitted recently."
             )
 
+    # 3. Collision-free Unique ID generation
     new_entry = {
-        "id": int(datetime.now().timestamp() * 1000),
+        "id": generate_unique_review_id(),
         "name": review_data.name.strip(),
         "role": review_data.role.strip() if review_data.role and review_data.role.strip() else "Peer Reviewer",
         "rating": review_data.rating,
@@ -319,8 +406,11 @@ def submit_review(review_data: ReviewCreate, request: Request):
     except Exception as e:
         logger.warning(f"Failed local file backup: {e}")
 
-    # 3. Apply the 60-second rate limiter rule AFTER the user successfully submits the review
-    last_submission_times[user_key] = time.time()
+    # 4. Record submission timestamps after successful creation
+    with _rate_limit_lock:
+        last_submission_times[client_ip] = time.time()
+    with _duplicate_lock:
+        recent_review_hashes[content_hash] = time.time()
 
     return new_entry
 
@@ -328,3 +418,4 @@ def submit_review(review_data: ReviewCreate, request: Request):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+

@@ -1,6 +1,6 @@
 {
-  "name": "Kaelen Vance — Personal Website & Portfolio",
-  "description": "A modern, minimal, typography-focused personal website and portfolio inspired by Once UI, showcasing engineering projects, experience, curated gallery, and GitHub repositories.",
+  "name": "WANDER.CCU — The Nostalgic Kolkata Travel Journal",
+  "description": "An independent luxury travel journal celebrating Kolkata's nostalgia, heritage architecture, vintage trams, Hooghly river ferries, and street gastronomy.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

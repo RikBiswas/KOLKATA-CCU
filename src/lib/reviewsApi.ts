@@ -133,7 +133,6 @@ export async function apiSubmitReview(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(clientId ? { 'X-Client-Id': clientId } : {}),
       },
       body: JSON.stringify(payload),
       signal: controller.signal,

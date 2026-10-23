@@ -143,7 +143,7 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
                 </div>
 
                 <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#351E1A] leading-snug">
-                  <span dangerouslySetInnerHTML={{ __html: route.stops }} />
+                  <span>{route.stops.replace(/&rarr;/g, '→')}</span>
                 </h3>
 
                 <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed">
