@@ -219,16 +219,16 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
       {/* Modal Dialog Card */}
       <div className="relative w-full max-w-2xl bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl shadow-[0_20px_50px_rgba(53,30,26,0.25)] overflow-hidden z-10 flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="px-4 sm:px-6 py-4 sm:py-5 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-center justify-between gap-4 shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#C6532B] text-white flex items-center justify-center shadow-xs">
-              <Star className="w-5 h-5 fill-current text-[#FFF8EF]" />
+        <div className="px-3.5 sm:px-6 py-3 sm:py-4 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-center justify-between gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#C6532B] text-white flex items-center justify-center shadow-xs shrink-0">
+              <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-current text-[#FFF8EF]" />
             </div>
             <div>
-              <h2 id="review-modal-title" className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] tracking-tight flex items-center gap-2">
-                <span>Feedback & Reviews</span>
+              <h2 id="review-modal-title" className="font-serif text-lg sm:text-2xl font-bold text-[#351E1A] tracking-tight flex items-center gap-2">
+                <span>Feedback &amp; Reviews</span>
               </h2>
-              <p className="text-xs text-[#351E1A]/80 font-sans">
+              <p className="text-[11px] sm:text-xs text-[#351E1A]/80 font-sans">
                 Review this portfolio and share your insights with the author
               </p>
             </div>
@@ -236,7 +236,7 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
 
           <button
             onClick={onClose}
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#351E1A]/10 hover:bg-[#351E1A]/20 text-[#351E1A] flex items-center justify-center transition-colors cursor-pointer"
+            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#351E1A]/10 hover:bg-[#351E1A]/20 text-[#351E1A] flex items-center justify-center transition-colors cursor-pointer shrink-0"
             aria-label="Close review modal"
           >
             <X className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -244,8 +244,8 @@ export const ReviewFeedbackModal: React.FC<ReviewFeedbackModalProps> = ({
         </div>
 
         {/* Tab Switcher */}
-        <div className="px-4 sm:px-6 pt-3 pb-2 bg-[#F7EBDD]/60 border-b border-[#E8D5C2] flex items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-2">
+        <div className="px-3.5 sm:px-6 pt-2.5 pb-2 bg-[#F7EBDD]/60 border-b border-[#E8D5C2] flex items-center justify-between gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               onClick={() => setActiveTab('form')}
               className={`px-3 sm:px-4 py-1.5 rounded-full text-xs font-sans font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${

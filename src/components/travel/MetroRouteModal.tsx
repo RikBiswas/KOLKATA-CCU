@@ -127,22 +127,22 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
           />
 
           {/* Modal Header */}
-          <div className="p-4 sm:p-6 md:p-7 border-b border-[#E8D5C2] bg-[#FFF8EF] shrink-0">
+          <div className="p-3.5 sm:p-5 md:p-6 border-b border-[#E8D5C2] bg-[#FFF8EF] shrink-0">
             <div className="flex items-start justify-between gap-3 sm:gap-4">
               <div className="space-y-1 sm:space-y-1.5 flex-1 min-w-0">
-                <div className="flex flex-wrap items-center gap-2">
+                <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                   <span
-                    className="px-3 py-0.5 rounded-full text-xs font-mono font-bold text-white shadow-xs"
+                    className="px-2.5 py-0.5 rounded-full text-[11px] sm:text-xs font-mono font-bold text-white shadow-xs"
                     style={{ backgroundColor: lineColor }}
                   >
                     {route.name}
                   </span>
-                  <span className="text-xs font-mono text-[#351E1A]/60 uppercase tracking-wider">
+                  <span className="text-[11px] sm:text-xs font-mono text-[#351E1A]/60 uppercase tracking-wider">
                     {transitModeName}
                   </span>
                 </div>
 
-                <h3 className="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-[#351E1A] leading-snug">
+                <h3 className="font-serif text-lg sm:text-2xl md:text-3xl font-bold text-[#351E1A] leading-snug">
                   <span>{route.stops.replace(/&rarr;/g, '→')}</span>
                 </h3>
 
@@ -154,15 +154,15 @@ export const MetroRouteModal: React.FC<MetroRouteModalProps> = ({
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-90"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] flex items-center justify-center transition-all cursor-pointer shrink-0 active:scale-90"
                 aria-label="Close transit route modal"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
 
             {/* Quick Metrics Bar */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-2.5 mt-4 sm:mt-5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2.5 mt-3 sm:mt-4">
               <div className="p-2 sm:p-2.5 rounded-xl bg-[#F7EBDD]/80 border border-[#E8D5C2] text-center">
                 <span className="text-[9px] sm:text-[10px] font-mono uppercase tracking-wider text-[#351E1A]/60 block font-semibold truncate">
                   Total {stopLabel}s

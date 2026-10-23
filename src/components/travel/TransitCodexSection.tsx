@@ -116,12 +116,12 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
   };
 
   return (
-    <section id="transit" className="py-10 sm:py-14 scroll-mt-24">
+    <section id="transit" className="py-8 sm:py-12 lg:py-14 scroll-mt-24">
       {/* Editorial Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
-        <div className="space-y-2 max-w-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-8">
+        <div className="space-y-1.5 sm:space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
               Chapter VIII &bull; The Public Transit Codex
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
@@ -130,7 +130,7 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
             </span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
             How to Move Through Calcutta with Soul
           </h2>
 
@@ -141,14 +141,14 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
         </div>
 
         {/* 4 Mode Pills Selector */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 no-scrollbar shrink-0">
           {transitModes.map((mode) => {
             const isActive = mode.id === activeTransitId;
             return (
               <button
                 key={mode.id}
                 onClick={() => setActiveTransitId(mode.id)}
-                className={`px-3.5 py-2 rounded-2xl text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                className={`px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-1.5 sm:gap-2 ${
                   isActive
                     ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-sm'
                     : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
@@ -163,73 +163,73 @@ export const TransitCodexSection: React.FC<TransitCodexSectionProps> = ({ transi
 
       {/* Main Vintage Transit Pass Layout */}
       {activeMode && (
-        <div className="bg-[#FFF8EF] border-2 border-dashed border-[#D9A38E] rounded-3xl p-4 sm:p-8 md:p-10 shadow-[0_12px_36px_rgba(53,30,26,0.06)] relative overflow-hidden">
+        <div className="bg-[#FFF8EF] border-2 border-dashed border-[#D9A38E] rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 md:p-10 shadow-[0_8px_30px_rgba(53,30,26,0.06)] relative overflow-hidden">
           {/* Top Stamp Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E8D5C2] pb-6 mb-6">
-            <div className="flex items-center gap-3.5">
-              <div className="w-12 h-12 rounded-2xl bg-[#351E1A] text-[#FFF8EF] flex items-center justify-center shrink-0 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-[#E8D5C2] pb-4 sm:pb-6 mb-4 sm:mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-[#351E1A] text-[#FFF8EF] flex items-center justify-center shrink-0 shadow-xs">
                 {getTransitIcon(activeMode.id)}
               </div>
               <div className="space-y-0.5">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A]">
+                  <h3 className="font-serif text-xl sm:text-3xl font-bold text-[#351E1A]">
                     {activeMode.name}
                   </h3>
-                  <span className="font-bengali text-sm font-semibold text-[#582822]">
+                  <span className="font-bengali text-xs sm:text-sm font-semibold text-[#582822]">
                     {activeMode.bengaliName}
                   </span>
                 </div>
-                <p className="font-sans text-xs text-[#C6532B] font-semibold">
+                <p className="font-sans text-[11px] sm:text-xs text-[#C6532B] font-semibold">
                   {activeMode.tagline}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-2 shrink-0">
-              <span className="px-3.5 py-1.5 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] text-xs font-mono font-bold text-[#582822]">
+              <span className="px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#F7EBDD] border border-[#E8D5C2] text-[10px] sm:text-xs font-mono font-bold text-[#582822]">
                 Operating since {activeMode.operatingSince}
               </span>
             </div>
           </div>
 
-          {/* 3-Column Quick Specs Grid: Fare, Hours, Character */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div className="p-4 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-1">
+          {/* 3-Column Quick Specs Grid: Fare, Hours, Character (2-cols on mobile) */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-4 mb-5 sm:mb-8">
+            <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-1">
               <div className="flex items-center gap-1.5 text-[#C6532B]">
-                <Banknote className="w-4 h-4" />
-                <span className="text-[10px] font-mono font-bold uppercase">Fare Range</span>
+                <Banknote className="w-3.5 h-3.5" />
+                <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase">Fare Range</span>
               </div>
-              <p className="text-sm font-sans font-bold text-[#351E1A]">
+              <p className="text-xs sm:text-sm font-sans font-bold text-[#351E1A]">
                 {activeMode.fareRange}
               </p>
-              <span className="text-[11px] text-[#351E1A]/60 block">Nominal public subsidized rate</span>
+              <span className="text-[10px] sm:text-[11px] text-[#351E1A]/60 block truncate">Nominal subsidized rate</span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-1">
+            <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-1">
               <div className="flex items-center gap-1.5 text-[#C6532B]">
-                <Clock className="w-4 h-4" />
-                <span className="text-[10px] font-mono font-bold uppercase">Operating Hours</span>
+                <Clock className="w-3.5 h-3.5" />
+                <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase">Hours</span>
               </div>
-              <p className="text-sm font-sans font-bold text-[#351E1A]">
+              <p className="text-xs sm:text-sm font-sans font-bold text-[#351E1A]">
                 {activeMode.operatingHours}
               </p>
-              <span className="text-[11px] text-[#351E1A]/60 block">Operates every day of the week</span>
+              <span className="text-[10px] sm:text-[11px] text-[#351E1A]/60 block truncate">Runs every day</span>
             </div>
 
-            <div className="p-4 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-1">
+            <div className="col-span-2 md:col-span-1 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-1">
               <div className="flex items-center gap-1.5 text-[#C6532B]">
-                <Compass className="w-4 h-4" />
-                <span className="text-[10px] font-mono font-bold uppercase">Transit Vibe</span>
+                <Compass className="w-3.5 h-3.5" />
+                <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase">Transit Vibe</span>
               </div>
-              <p className="text-sm font-sans font-bold text-[#351E1A]">
+              <p className="text-xs sm:text-sm font-sans font-bold text-[#351E1A]">
                 {activeMode.badgeText}
               </p>
-              <span className="text-[11px] text-[#351E1A]/60 block">Essential Calcuttan experience</span>
+              <span className="text-[10px] sm:text-[11px] text-[#351E1A]/60 block">Essential Calcuttan experience</span>
             </div>
           </div>
 
           {/* Narrative Summary */}
-          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/85 leading-relaxed mb-8">
+          <p className="font-sans text-xs sm:text-sm text-[#351E1A]/85 leading-relaxed mb-5 sm:mb-8">
             {activeMode.summary}
           </p>
 

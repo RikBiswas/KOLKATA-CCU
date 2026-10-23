@@ -186,8 +186,8 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Calculate items visible per frame dynamically: 1 on mobile, 2 on tablet, 3 on desktop
-  const itemsPerPage = viewportSize === 'mobile' ? 1 : viewportSize === 'tablet' ? 2 : 3;
+  // Calculate items visible per frame dynamically: 2 on mobile, 2 on tablet, 3 on desktop
+  const itemsPerPage = viewportSize === 'mobile' ? 2 : viewportSize === 'tablet' ? 2 : 3;
   const maxIndex = Math.max(0, filteredActivities.length - itemsPerPage);
 
   const touchStartX = useRef<number | null>(null);
@@ -252,15 +252,15 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
   return (
     <section
       id="things-to-do"
-      className="py-10 sm:py-14 scroll-mt-24"
+      className="py-8 sm:py-12 lg:py-14 scroll-mt-24"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Editorial Section Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
-        <div className="space-y-2 max-w-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-8">
+        <div className="space-y-1.5 sm:space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
               Curated Experiences &bull; Things to Do
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
@@ -269,7 +269,7 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
             </span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
             Things to Do in Kolkata
           </h2>
 
@@ -280,39 +280,39 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
         </div>
 
         {/* Carousel Action & Autoplay Controls */}
-        <div className="flex flex-wrap items-center gap-3 shrink-0">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
           {/* Autoplay Pause / Play Toggle */}
           <button
             onClick={() => setIsPaused((prev) => !prev)}
-            className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] text-xs font-sans font-medium hover:bg-[#F7EBDD] transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+            className="px-3 sm:px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] text-xs font-sans font-medium hover:bg-[#F7EBDD] transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
             title={isPaused ? 'Resume auto-sliding' : 'Pause auto-sliding'}
           >
             {isPaused ? (
               <>
                 <Play className="w-3 h-3 text-[#C6532B]" />
-                <span className="text-[11px]">Auto: Paused</span>
+                <span className="text-[10px] sm:text-[11px]">Auto: Paused</span>
               </>
             ) : (
               <>
                 <Pause className="w-3 h-3 text-[#C6532B]" />
-                <span className="text-[11px]">Auto: Sliding</span>
+                <span className="text-[10px] sm:text-[11px]">Auto: Sliding</span>
               </>
             )}
           </button>
 
           {/* Navigation Arrows */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <button
               onClick={handlePrev}
               aria-label="Previous suggestions"
-              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={handleNext}
               aria-label="Next suggestions"
-              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -321,7 +321,7 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
       </div>
 
       {/* Category Filter Chips */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar">
+      <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 mb-4 sm:mb-6 no-scrollbar">
         {categories.map((cat) => (
           <button
             key={cat}
@@ -329,7 +329,7 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
               setSelectedCategory(cat);
               setCurrentIndex(0);
             }}
-            className={`px-3.5 py-1.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${selectedCategory === cat
+            className={`px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${selectedCategory === cat
                 ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-xs'
                 : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
               }`}
@@ -339,7 +339,7 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
         ))}
       </div>
 
-      {/* Auto-sliding Mini Cards Grid */}
+      {/* Auto-sliding Mini Cards Grid (2 columns on mobile, 2 on tablet, 3 on desktop) */}
       <div 
         className="overflow-hidden touch-pan-y"
         onTouchStart={onTouchStart}
@@ -348,73 +348,73 @@ export const ThingsToDoSection: React.FC<ThingsToDoSectionProps> = ({
       >
         <div
           key={`${selectedCategory}-${currentIndex}`}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 animate-slide-in-right"
+          className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-6 animate-slide-in-right"
         >
           {displayCards.map((act) => (
             <div
               key={act.id}
-              className="archival-tilt-card group relative rounded-3xl overflow-hidden bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.12)] transition-all flex flex-col justify-between"
+              className="archival-tilt-card group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_4px_16px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.12)] transition-all flex flex-col justify-between"
             >
               {/* Card Image Banner with Tag & Icon */}
-              <div className="relative h-44 sm:h-48 w-full overflow-hidden bg-[#351E1A]">
+              <div className="relative h-32 sm:h-44 md:h-48 w-full overflow-hidden bg-[#351E1A]">
                 <img
                   src={act.imageUrl}
                   alt={act.title}
                   className="w-full h-full object-cover group-hover:scale-106 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/85 via-transparent to-[#351E1A]/20 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/90 via-transparent to-[#351E1A]/20 pointer-events-none" />
 
                 {/* Highlight Tag */}
-                <div className="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-full bg-[#C6532B] text-[#FFF8EF] text-[10px] font-mono font-bold uppercase tracking-wider shadow-xs">
+                <div className="absolute top-2 left-2 sm:top-3.5 sm:left-3.5 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full bg-[#C6532B] text-[#FFF8EF] text-[8px] sm:text-[10px] font-mono font-bold uppercase tracking-wider shadow-xs">
                   {act.highlightTag}
                 </div>
 
                 {/* Category Pill */}
-                <div className="absolute top-3.5 right-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-sans font-semibold text-[#351E1A] border border-[#E8D5C2] flex items-center gap-1 shadow-xs">
+                <div className="absolute top-2 right-2 sm:top-3.5 sm:right-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-sans font-semibold text-[#351E1A] border border-[#E8D5C2] flex items-center gap-1 shadow-xs">
                   <span>{act.icon}</span>
-                  <span>{act.category}</span>
+                  <span className="hidden xs:inline">{act.category}</span>
                 </div>
 
                 {/* Card Title on Image Bottom */}
-                <div className="absolute bottom-3 left-4 right-4 text-[#FFF8EF]">
-                  <h3 className="font-serif text-lg sm:text-xl font-bold leading-tight drop-shadow-sm group-hover:text-[#F7EBDD] transition-colors min-h-[48px] flex items-end">
+                <div className="absolute bottom-2 left-2.5 right-2.5 sm:bottom-3 sm:left-4 sm:right-4 text-[#FFF8EF]">
+                  <h3 className="font-serif text-xs sm:text-lg lg:text-xl font-bold leading-tight drop-shadow-sm group-hover:text-[#F7EBDD] transition-colors min-h-[32px] sm:min-h-[48px] flex items-end line-clamp-2">
                     {act.title}
                   </h3>
                 </div>
               </div>
 
               {/* Card Body */}
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-3.5">
-                <div className="space-y-2">
-                  <p className="font-sans text-xs text-[#351E1A]/80 leading-relaxed font-normal min-h-[36px]">
+              <div className="p-2.5 sm:p-5 flex-1 flex flex-col justify-between space-y-2 sm:space-y-3">
+                <div className="space-y-1.5 sm:space-y-2">
+                  <p className="font-sans text-[11px] sm:text-xs text-[#351E1A]/80 leading-relaxed font-normal min-h-[28px] sm:min-h-[36px] line-clamp-2">
                     {act.tagline}
                   </p>
 
-                  <div className="p-2.5 rounded-xl bg-[#F7EBDD]/70 border border-[#E8D5C2] text-[11px] font-sans text-[#582822] leading-relaxed min-h-[56px] flex items-start">
-                    <strong className="text-[#C6532B] mr-1">Native Tip:</strong> {act.insiderTip}
+                  <div className="p-2 sm:p-2.5 rounded-lg sm:rounded-xl bg-[#F7EBDD]/70 border border-[#E8D5C2] text-[10px] sm:text-[11px] font-sans text-[#582822] leading-relaxed min-h-[42px] sm:min-h-[56px] flex items-start line-clamp-2">
+                    <strong className="text-[#C6532B] mr-1 shrink-0">Tip:</strong> {act.insiderTip}
                   </div>
                 </div>
 
                 {/* Mini Practical Meta Grid */}
-                <div className="pt-3 border-t border-[#E8D5C2]/80 space-y-1.5 text-[11px] font-sans text-[#351E1A]/70 mt-auto">
+                <div className="pt-2 sm:pt-3 border-t border-[#E8D5C2]/80 space-y-1 text-[10px] sm:text-[11px] font-sans text-[#351E1A]/70 mt-auto">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 truncate max-w-[180px]">
-                      <MapPin className="w-3 h-3 text-[#C6532B] shrink-0" />
+                    <div className="flex items-center gap-1 truncate max-w-[90px] sm:max-w-[180px]">
+                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C6532B] shrink-0" />
                       <span className="truncate">{act.location}</span>
                     </div>
-                    <span className="font-mono font-bold text-[#582822] text-[10px] shrink-0">
+                    <span className="font-mono font-bold text-[#582822] text-[9px] sm:text-[10px] shrink-0">
                       {act.cost}
                     </span>
                   </div>
 
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="w-3 h-3 text-[#C5A25A] shrink-0" />
-                      <span>{act.bestTime}</span>
+                  <div className="flex items-center justify-between pt-0.5">
+                    <div className="flex items-center gap-1">
+                      <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C5A25A] shrink-0" />
+                      <span className="truncate max-w-[80px] sm:max-w-none">{act.bestTime}</span>
                     </div>
 
-                    <span className="font-script text-[#C6532B] text-xs font-bold">
-                      worth the trip &rarr;
+                    <span className="font-script text-[#C6532B] text-xs font-bold hidden xs:inline">
+                      explore &rarr;
                     </span>
                   </div>
                 </div>

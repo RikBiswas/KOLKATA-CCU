@@ -69,13 +69,13 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
   return (
     <section
       id="blog"
-      className="py-10 sm:py-14 scroll-mt-24 select-none"
+      className="py-8 sm:py-12 lg:py-14 scroll-mt-24 select-none"
     >
       {/* Editorial Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-12">
-        <div className="space-y-2 max-w-2xl">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5 sm:mb-8">
+        <div className="space-y-1.5 sm:space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
               Chapter VII &bull; Historical Lores &amp; Literary Essays
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
@@ -84,7 +84,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
             </span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
             Historical Lores &amp; Places of Kolkata
           </h2>
 
@@ -94,7 +94,7 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
         </div>
 
         {/* Carousel controls with slide counter & Auto play/pause */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           {/* Autoplay Play/Pause Button */}
           <button
             onClick={toggleAutoplay}
@@ -126,14 +126,14 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => api?.scrollPrev()}
-              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
               aria-label="Previous story"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => api?.scrollNext()}
-              className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#F7EBDD] flex items-center justify-center transition-all shadow-xs cursor-pointer active:scale-95"
               aria-label="Next story"
             >
               <ChevronRight className="w-4 h-4" />
@@ -153,14 +153,14 @@ export const TravelStoriesSection: React.FC<TravelStoriesSectionProps> = ({
           skipSnaps: false,
         }}
       >
-        <CarouselContent className="h-[540px] sm:h-[580px] w-full py-4 items-center">
+        <CarouselContent className="h-[430px] sm:h-[500px] md:h-[540px] w-full py-2 sm:py-4 items-center">
           {stories.map((story, index) => {
             const isActive = current === index;
 
             return (
               <CarouselItem
                 key={story.id}
-                className="relative flex h-full items-center justify-center basis-[84%] sm:basis-[62%] md:basis-[46%] lg:basis-[36%] xl:basis-[31%] px-2 sm:px-3"
+                className="relative flex h-full items-center justify-center basis-[80%] sm:basis-[60%] md:basis-[46%] lg:basis-[36%] xl:basis-[31%] px-1.5 sm:px-3"
               >
                 <motion.div
                   initial={false}

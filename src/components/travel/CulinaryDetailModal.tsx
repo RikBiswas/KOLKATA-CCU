@@ -66,14 +66,14 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         {/* Floating Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all duration-200 cursor-pointer shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 p-2 sm:p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all duration-200 cursor-pointer shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20"
           aria-label="Close culinary detail dialog"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Top Hero Image Banner */}
-        <div className="relative h-48 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A] overflow-hidden">
+        <div className="relative h-44 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A] overflow-hidden">
           <img
             src={item.image}
             alt={item.title}
@@ -86,23 +86,23 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A] via-[#351E1A]/50 to-transparent pointer-events-none" />
 
           {/* Banner Captions */}
-          <div className="absolute bottom-4 left-4 sm:left-6 right-4 sm:right-6 text-[#FFF8EF] space-y-1.5">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-[#C6532B] text-[10px] font-mono font-bold uppercase tracking-wider text-[#FFF8EF] shadow-xs">
+          <div className="absolute bottom-3 sm:bottom-4 left-3.5 sm:left-6 right-3.5 sm:right-6 text-[#FFF8EF] space-y-1 sm:space-y-1.5">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span className="px-2.5 py-0.5 sm:py-1 rounded-full bg-[#C6532B] text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-[#FFF8EF] shadow-xs">
                 {item.tag}
               </span>
-              <span className="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-xs text-[10px] font-mono text-[#D9A38E] border border-[#FFF8EF]/20 flex items-center gap-1">
+              <span className="px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full bg-black/40 backdrop-blur-xs text-[9px] sm:text-[10px] font-mono text-[#D9A38E] border border-[#FFF8EF]/20 flex items-center gap-1">
                 <MapPin className="w-3 h-3 text-[#D9A38E]" />
                 <span>{item.regionLabel}</span>
               </span>
               {item.bengaliTitle && (
-                <span className="font-bengali text-xs text-[#FFF8EF]/90 font-semibold px-2 py-0.5 rounded-full bg-white/10">
+                <span className="font-bengali text-[11px] sm:text-xs text-[#FFF8EF]/90 font-semibold px-2 py-0.5 rounded-full bg-white/10">
                   {item.bengaliTitle}
                 </span>
               )}
             </div>
 
-            <h2 id="modal-culinary-title" className="font-serif text-xl sm:text-3xl font-bold leading-snug drop-shadow-sm">
+            <h2 id="modal-culinary-title" className="font-serif text-lg sm:text-2xl md:text-3xl font-bold leading-snug drop-shadow-sm">
               {item.title}
             </h2>
 
@@ -113,42 +113,42 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         </div>
 
         {/* Quick Spec Pills Bar */}
-        <div className="bg-[#582822] text-[#FFF8EF] px-4 sm:px-6 py-3 border-b border-[#351E1A] grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 text-xs font-sans shrink-0">
-          <div className="flex items-start gap-2.5 min-w-0">
-            <Coins className="w-4 h-4 text-[#C5A25A] shrink-0 mt-0.5" />
+        <div className="bg-[#582822] text-[#FFF8EF] px-3.5 sm:px-6 py-2.5 sm:py-3 border-b border-[#351E1A] grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-4 md:gap-5 text-xs font-sans shrink-0">
+          <div className="flex items-start gap-2 min-w-0">
+            <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A25A] shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Price Range</span>
-              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title={item.priceRange || '₹30 – ₹120'}>
+              <span className="block text-[8px] sm:text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Price Range</span>
+              <span className="block font-bold text-[#FFF8EF] text-[10px] sm:text-[11px] leading-tight break-words" title={item.priceRange || '₹30 – ₹120'}>
                 {item.priceRange || '₹30 – ₹120'}
               </span>
             </div>
           </div>
 
-          <div className="flex items-start gap-2.5 min-w-0">
-            <Clock className="w-4 h-4 text-[#D9A38E] shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2 min-w-0">
+            <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D9A38E] shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Best Timing</span>
-              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title={item.timing}>
+              <span className="block text-[8px] sm:text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Best Timing</span>
+              <span className="block font-bold text-[#FFF8EF] text-[10px] sm:text-[11px] leading-tight break-words" title={item.timing}>
                 {item.timing}
               </span>
             </div>
           </div>
 
-          <div className="flex items-start gap-2.5 min-w-0">
-            <Train className="w-4 h-4 text-[#C5A25A] shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2 min-w-0">
+            <Train className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5A25A] shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Transit Route</span>
-              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title="Metro & Vintage Trams">
+              <span className="block text-[8px] sm:text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Transit Route</span>
+              <span className="block font-bold text-[#FFF8EF] text-[10px] sm:text-[11px] leading-tight break-words" title="Metro & Vintage Trams">
                 Metro &amp; Vintage Trams
               </span>
             </div>
           </div>
 
-          <div className="flex items-start gap-2.5 min-w-0">
-            <Utensils className="w-4 h-4 text-[#D9A38E] shrink-0 mt-0.5" />
+          <div className="flex items-start gap-2 min-w-0">
+            <Utensils className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#D9A38E] shrink-0 mt-0.5" />
             <div className="min-w-0 flex-1">
-              <span className="block text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Experience</span>
-              <span className="block font-bold text-[#FFF8EF] text-[11px] leading-tight break-words" title="Authentic Calcutta Adda">
+              <span className="block text-[8px] sm:text-[9px] font-mono uppercase text-[#FFF8EF]/60 font-semibold tracking-wider">Experience</span>
+              <span className="block font-bold text-[#FFF8EF] text-[10px] sm:text-[11px] leading-tight break-words" title="Authentic Calcutta Adda">
                 Authentic Calcutta Adda
               </span>
             </div>
@@ -156,29 +156,29 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex items-center border-b border-[#E8D5C2] bg-[#F7EBDD]/60 px-4 sm:px-6 pt-2.5 sm:pt-3 gap-2 overflow-x-auto no-scrollbar shrink-0">
+        <div className="flex items-center border-b border-[#E8D5C2] bg-[#F7EBDD]/60 px-3 sm:px-6 pt-2 sm:pt-3 gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar shrink-0">
           <button
             onClick={() => setActiveTab('lore')}
-            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
+            className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-t-xl text-[11px] sm:text-xs font-sans font-bold flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'lore'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
             }`}
           >
             <Sparkles className="w-3.5 h-3.5" />
-            <span>Heritage Lore &amp; Story</span>
+            <span>Story</span>
           </button>
 
           <button
             onClick={() => setActiveTab('stalls')}
-            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
+            className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-t-xl text-[11px] sm:text-xs font-sans font-bold flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'stalls'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
             }`}
           >
             <MapPin className="w-3.5 h-3.5" />
-            <span>Famous Stalls &amp; Spots</span>
+            <span>Famous Stalls</span>
             {item.famousStalls && (
               <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-[#C6532B]/10 text-[#C6532B] font-mono">
                 {item.famousStalls.length}
@@ -188,7 +188,7 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
 
           <button
             onClick={() => setActiveTab('orders')}
-            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
+            className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-t-xl text-[11px] sm:text-xs font-sans font-bold flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'orders'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
@@ -200,19 +200,19 @@ export const CulinaryDetailModal: React.FC<CulinaryDetailModalProps> = ({
 
           <button
             onClick={() => setActiveTab('tips')}
-            className={`px-3.5 sm:px-4 py-2 rounded-t-xl text-xs font-sans font-bold flex items-center gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
+            className={`px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-t-xl text-[11px] sm:text-xs font-sans font-bold flex items-center gap-1 sm:gap-1.5 transition-colors cursor-pointer border-b-2 shrink-0 ${
               activeTab === 'tips'
                 ? 'bg-[#FFF8EF] text-[#C6532B] border-[#C6532B] shadow-xs'
                 : 'text-[#351E1A]/70 hover:text-[#351E1A] border-transparent'
             }`}
           >
             <Lightbulb className="w-3.5 h-3.5" />
-            <span>Native Etiquette &amp; Tips</span>
+            <span>Tips &amp; Adda</span>
           </button>
         </div>
 
         {/* Tabbed Content Body */}
-        <div className="p-4 sm:p-8 overflow-y-auto space-y-5 sm:space-y-6 flex-1">
+        <div className="p-3.5 sm:p-6 md:p-8 overflow-y-auto space-y-4 sm:space-y-6 flex-1">
           {/* TAB 1: HERITAGE LORE */}
           {activeTab === 'lore' && (
             <div className="space-y-5 animate-fade-in">

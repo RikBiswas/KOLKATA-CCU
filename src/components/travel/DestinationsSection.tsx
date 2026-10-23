@@ -128,7 +128,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const itemsPerPage = viewportSize === 'mobile' ? 1 : viewportSize === 'tablet' ? 2 : 4;
+  const itemsPerPage = viewportSize === 'mobile' ? 2 : viewportSize === 'tablet' ? 2 : 4;
   const maxIndex = Math.max(0, filtered.length - itemsPerPage);
 
   const touchStartX = useRef<number | null>(null);
@@ -167,12 +167,12 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
   const visibleDestinations = filtered.slice(scrollIndex, scrollIndex + itemsPerPage);
 
   return (
-    <section id="destinations" className="py-10 sm:py-14 scroll-mt-24">
+    <section id="destinations" className="py-8 sm:py-12 lg:py-14 scroll-mt-24">
       {/* Section Header with Editorial Framing */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
-        <div className="space-y-2 max-w-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-6 sm:mb-8">
+        <div className="space-y-1.5 sm:space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
               Chapter II &bull; Historic Architectural Landmarks
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
@@ -181,7 +181,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
             </span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
             Curated Sights &amp; Architectural Marvels
           </h2>
 
@@ -195,14 +195,14 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <button
             onClick={handleSurpriseMe}
-            className="px-3 sm:px-4 py-2 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-xs font-sans font-bold flex items-center gap-1.5 sm:gap-2 shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer group"
+            className="px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-[#FFF8EF] border border-[#C5A25A] hover:bg-[#F7EBDD] text-[#351E1A] text-[11px] sm:text-xs font-sans font-bold flex items-center gap-1.5 sm:gap-2 shadow-xs transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 cursor-pointer group"
             title="Roll the dice to discover a random Calcutta secret"
           >
             <Dices className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C6532B] group-hover:rotate-180 transition-transform duration-500" />
             <span className="hidden xs:inline">Surprise Me</span>
           </button>
 
-          <span className="text-xs font-sans font-medium text-[#351E1A]/70 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs">
+          <span className="text-[11px] sm:text-xs font-sans font-medium text-[#351E1A]/70 px-2.5 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs">
             {filtered.length > 0 ? scrollIndex + 1 : 0}&ndash;{Math.min(scrollIndex + itemsPerPage, filtered.length)} of {filtered.length}
           </span>
 
@@ -368,7 +368,7 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
         ) : (
           <div
             key={`${selectedCategory}-${selectedVibe}-${scrollIndex}`}
-            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 transition-all duration-500 ease-out ${
+            className={`grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 lg:gap-6 transition-all duration-500 ease-out ${
               slideDirection === 'right' ? 'animate-slide-in-right' : 'animate-slide-in-left'
             }`}
           >
@@ -380,19 +380,19 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
                 <div
                   key={dest.id}
                   onClick={() => onSelectDestination(dest)}
-                  className="archival-tilt-card group relative rounded-3xl overflow-hidden cursor-pointer bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] flex flex-col justify-between"
+                  className="archival-tilt-card group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_4px_16px_rgba(53,30,26,0.06)] sm:shadow-[0_8px_24px_rgba(53,30,26,0.06)] flex flex-col justify-between"
                 >
                   {/* Vintage Postmark Stamp Badge Overlay */}
-                  <div className="vintage-postmark-stamp">
-                    <div className="w-10 h-10 rounded-full border border-dashed border-[#C5A25A] bg-[#FFF8EF]/90 backdrop-blur-xs flex flex-col items-center justify-center p-0.5 text-center shadow-xs">
-                      <span className="text-[6px] font-mono tracking-tighter text-[#351E1A] font-bold">CALCUTTA</span>
-                      <span className="text-[7.5px] font-mono font-black text-[#C6532B] leading-none">POST</span>
-                      <span className="text-[5.5px] font-mono text-[#582822]">1873</span>
+                  <div className="vintage-postmark-stamp scale-75 sm:scale-100 origin-top-right">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-dashed border-[#C5A25A] bg-[#FFF8EF]/90 backdrop-blur-xs flex flex-col items-center justify-center p-0.5 text-center shadow-xs">
+                      <span className="text-[5px] sm:text-[6px] font-mono tracking-tighter text-[#351E1A] font-bold">CALCUTTA</span>
+                      <span className="text-[6.5px] sm:text-[7.5px] font-mono font-black text-[#C6532B] leading-none">POST</span>
+                      <span className="text-[4.5px] sm:text-[5.5px] font-mono text-[#582822]">1873</span>
                     </div>
                   </div>
 
                   {/* Image Container with Editorial Plate Number */}
-                  <div className="relative h-56 sm:h-64 w-full overflow-hidden bg-[#351E1A]">
+                  <div className="relative h-36 sm:h-56 lg:h-64 w-full overflow-hidden bg-[#351E1A]">
                     <img
                       src={dest.imageUrl}
                       alt={dest.name}
@@ -400,58 +400,58 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
                     />
 
                     {/* Warm paper gradient overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/80 via-transparent to-[#351E1A]/20 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/85 via-transparent to-[#351E1A]/20 pointer-events-none" />
 
                     {/* Plate Index Badge (Top Left) */}
-                    <div className="absolute top-3.5 left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-mono font-bold text-[#351E1A] shadow-xs border border-[#E8D5C2]">
+                    <div className="absolute top-2 left-2 sm:top-3.5 sm:left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-mono font-bold text-[#351E1A] shadow-xs border border-[#E8D5C2]">
                       {actualNumber} / {totalCount}
                     </div>
 
                     {/* Region Pill (Top Right) */}
-                    <div className="absolute top-3.5 right-3.5 bg-[#351E1A]/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-sans font-semibold text-[#FFF8EF] shadow-xs border border-[#FFF8EF]/20 flex items-center gap-1">
-                      <MapPin className="w-3 h-3 text-[#D9A38E]" />
-                      <span>{dest.region}</span>
+                    <div className="absolute top-2 right-2 sm:top-3.5 sm:right-3.5 bg-[#351E1A]/85 backdrop-blur-md px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-sans font-semibold text-[#FFF8EF] shadow-xs border border-[#FFF8EF]/20 flex items-center gap-1">
+                      <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#D9A38E]" />
+                      <span className="truncate max-w-[65px] sm:max-w-none">{dest.region}</span>
                     </div>
 
                     {/* Category Ribbon on Image Bottom */}
-                    <div className="absolute bottom-3 left-3.5">
-                      <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#C5A25A] bg-[#351E1A]/90 px-2 py-0.5 rounded-sm">
+                    <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3.5">
+                      <span className="text-[8px] sm:text-[10px] font-sans font-bold uppercase tracking-wider text-[#C5A25A] bg-[#351E1A]/90 px-1.5 sm:px-2 py-0.5 rounded-xs sm:rounded-sm">
                         {dest.category}
                       </span>
                     </div>
                   </div>
 
                   {/* Editorial Card Body */}
-                  <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                    <div className="space-y-1.5">
-                      <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug min-h-[56px] flex items-start">
+                  <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between space-y-2 sm:space-y-3">
+                    <div className="space-y-1 sm:space-y-1.5">
+                      <h3 className="font-serif text-sm sm:text-xl lg:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug min-h-[36px] sm:min-h-[56px] flex items-start line-clamp-2">
                         {dest.name}
                       </h3>
 
-                      <p className="font-sans text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed min-h-[36px]">
+                      <p className="font-sans text-[11px] sm:text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed min-h-[30px] sm:min-h-[36px]">
                         {dest.tagline}
                       </p>
                     </div>
 
                     {/* Footer Info: Rating + Visiting Hours */}
-                    <div className="pt-2 border-t border-[#E8D5C2]/70 space-y-2 mt-auto">
-                      <div className="flex items-center justify-between text-xs font-sans text-[#351E1A]/80">
+                    <div className="pt-2 border-t border-[#E8D5C2]/70 space-y-1.5 sm:space-y-2 mt-auto">
+                      <div className="flex items-center justify-between text-[11px] sm:text-xs font-sans text-[#351E1A]/80">
                         <div className="flex items-center gap-1">
-                          <Star className="w-3.5 h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
-                          <span className="font-bold text-[#351E1A]">{dest.rating}</span>
-                          <span className="text-[#351E1A]/50 text-[10px]">({dest.reviewsCount})</span>
+                          <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
+                          <span className="font-bold text-[#351E1A] text-[10px] sm:text-xs">{dest.rating}</span>
+                          <span className="text-[#351E1A]/50 text-[9px] sm:text-[10px]">({dest.reviewsCount})</span>
                         </div>
 
-                        <div className="flex items-center gap-1 text-[11px] text-[#351E1A]/70">
-                          <Clock className="w-3 h-3 text-[#C6532B]" />
-                          <span className="truncate max-w-[110px]">{dest.bestTimeToVisit.split('(')[0]}</span>
+                        <div className="flex items-center gap-1 text-[9px] sm:text-[11px] text-[#351E1A]/70">
+                          <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C6532B]" />
+                          <span className="truncate max-w-[65px] sm:max-w-[110px]">{dest.bestTimeToVisit.split('(')[0]}</span>
                         </div>
                       </div>
 
                       {/* Guide trigger button */}
-                      <div className="pt-1 flex items-center justify-between text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
-                        <span>Read Full Guide &amp; Transit</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                      <div className="pt-0.5 sm:pt-1 flex items-center justify-between text-[10px] sm:text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
+                        <span>Read Guide &rarr;</span>
+                        <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 hidden sm:inline" />
                       </div>
                     </div>
                   </div>
@@ -475,17 +475,17 @@ export const DestinationsSection: React.FC<DestinationsSectionProps> = ({
     </div>
 
       {/* Bottom Bar: View All button & Counter */}
-      <div className="mt-10 sm:mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 p-5 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2]">
-        <div className="flex items-center gap-2">
-          <Compass className="w-4 h-4 text-[#C6532B]" />
-          <span className="font-serif text-sm sm:text-base text-[#351E1A]">
+      <div className="mt-6 sm:mt-10 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 p-3.5 sm:p-5 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2]">
+        <div className="flex items-center gap-2 text-center sm:text-left">
+          <Compass className="w-4 h-4 text-[#C6532B] shrink-0" />
+          <span className="font-serif text-xs sm:text-base text-[#351E1A]">
             Want to see all {destinations.length} curated Kolkata landmarks?
           </span>
         </div>
 
         <button
           onClick={onViewAll}
-          className="px-6 py-2.5 text-xs font-sans font-bold tracking-wide text-white bg-[#351E1A] hover:bg-[#582822] rounded-full transition-all duration-200 shadow-sm cursor-pointer active:scale-95 flex items-center gap-2"
+          className="w-full sm:w-auto justify-center px-5 py-2 sm:py-2.5 text-xs font-sans font-bold tracking-wide text-white bg-[#351E1A] hover:bg-[#582822] rounded-full transition-all duration-200 shadow-sm cursor-pointer active:scale-95 flex items-center gap-2"
         >
           <span>Open Full Landmark Gallery ({destinations.length})</span>
           <ArrowRight className="w-3.5 h-3.5" />

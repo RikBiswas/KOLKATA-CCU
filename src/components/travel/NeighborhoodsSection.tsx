@@ -119,12 +119,12 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
   if (!currentDistrict) return null;
 
   return (
-    <section id="neighborhoods" className="py-10 sm:py-14 scroll-mt-24">
+    <section id="neighborhoods" className="py-8 sm:py-12 lg:py-14 scroll-mt-24">
       {/* Editorial Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-6 sm:mb-8">
-        <div className="space-y-2 max-w-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-8">
+        <div className="space-y-1.5 sm:space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
               Chapter I &bull; Cultural Districts &amp; Living Quarters
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
@@ -133,7 +133,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
             </span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
             The Living Quarters of Old Calcutta
           </h2>
 
@@ -145,7 +145,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
 
         {/* Counter Pill & Step Navigator */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <div className="px-3.5 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans font-semibold text-[#351E1A] shadow-xs flex items-center gap-1.5">
+          <div className="px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans font-semibold text-[#351E1A] shadow-xs flex items-center gap-1.5">
             <span className="text-[#C6532B] font-bold">{safeIndex + 1}</span>
             <span className="text-[#351E1A]/50">/</span>
             <span>{neighborhoods.length} Enclaves</span>
@@ -155,14 +155,14 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
           <div className="flex items-center gap-1">
             <button
               onClick={handlePrev}
-              className="w-8 h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] active:scale-95 flex items-center justify-center transition-all cursor-pointer shadow-xs"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] active:scale-95 flex items-center justify-center transition-all cursor-pointer shadow-xs"
               aria-label="Previous enclave"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={handleNext}
-              className="w-8 h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] active:scale-95 flex items-center justify-center transition-all cursor-pointer shadow-xs"
+              className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A] hover:bg-[#351E1A] hover:text-[#FFF8EF] active:scale-95 flex items-center justify-center transition-all cursor-pointer shadow-xs"
               aria-label="Next enclave"
             >
               <ChevronRight className="w-4 h-4" />
@@ -174,7 +174,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
       {/* District Pill Navigation Tabs (Scrollbar hidden) */}
       <div
         ref={tabsContainerRef}
-        className="flex items-center gap-2 overflow-x-auto pb-2 mb-6 no-scrollbar scroll-smooth"
+        className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 mb-4 sm:mb-6 no-scrollbar scroll-smooth"
       >
         {neighborhoods.map((district) => {
           const isActive = district.id === activeDistrictId;
@@ -183,14 +183,14 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
               key={district.id}
               data-active={isActive ? "true" : "false"}
               onClick={() => handleSelectTab(district.id)}
-              className={`px-4 py-2 rounded-2xl text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-2 shrink-0 ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl sm:rounded-2xl text-[11px] sm:text-xs font-sans whitespace-nowrap transition-all duration-300 cursor-pointer flex items-center gap-1.5 sm:gap-2 shrink-0 ${
                 isActive
                   ? 'bg-[#351E1A] text-[#FFF8EF] font-bold shadow-md scale-102'
                   : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD] hover:text-[#351E1A]'
               }`}
             >
               <span>{district.name.split('&')[0].trim()}</span>
-              <span className="font-bengali text-[11px] opacity-75 hidden sm:inline">
+              <span className="font-bengali text-[10px] sm:text-[11px] opacity-75 hidden sm:inline">
                 {district.bengaliName.split('ও')[0].trim()}
               </span>
             </button>
@@ -222,7 +222,7 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
 
         {/* Animated District Card with Sliding Navigation & Touch Swipe Handling */}
         <div 
-          className="overflow-hidden rounded-3xl touch-pan-y"
+          className="overflow-hidden rounded-2xl sm:rounded-3xl touch-pan-y"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
@@ -235,14 +235,14 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
               initial="enter"
               animate="center"
               exit="exit"
-              className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-5 sm:p-10 shadow-[0_12px_40px_rgba(53,30,26,0.06)] relative overflow-hidden"
+              className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-stretch bg-[#FFF8EF] border border-[#E8D5C2] rounded-2xl sm:rounded-3xl p-3.5 sm:p-7 lg:p-10 shadow-[0_8px_30px_rgba(53,30,26,0.06)] relative overflow-hidden"
             >
         {/* Subtle decorative background watermarks */}
         <div className="absolute top-0 right-0 w-80 h-80 bg-[#C6532B]/5 rounded-full blur-3xl pointer-events-none" />
 
         {/* Left Column: Atmospheric Image with Postcard Vignette */}
-        <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
-          <div className="relative h-72 sm:h-96 w-full rounded-2xl overflow-hidden border-2 border-[#E8D5C2] shadow-sm bg-[#351E1A] group">
+        <div className="lg:col-span-5 flex flex-col justify-between space-y-3 sm:space-y-4">
+          <div className="relative h-48 sm:h-72 lg:h-96 w-full rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[#E8D5C2] shadow-sm bg-[#351E1A] group">
             <img
               src={currentDistrict.coverImage}
               alt={currentDistrict.name}
@@ -337,31 +337,31 @@ export const NeighborhoodsSection: React.FC<NeighborhoodsSectionProps> = ({
             </div>
 
             {/* Quick Practical Specs (Food, Timing, Transit) */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-3">
-              <div className="p-3.5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-1">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 pt-2 sm:pt-3">
+              <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-1">
                 <div className="flex items-center gap-1.5 text-[#C6532B]">
-                  <Utensils className="w-3.5 h-3.5" />
-                  <span className="text-[10px] font-mono font-bold uppercase">Signature Taste</span>
+                  <Utensils className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase">Signature Taste</span>
                 </div>
-                <p className="text-xs font-sans text-[#351E1A] font-semibold leading-snug">
+                <p className="text-xs font-sans text-[#351E1A] font-semibold leading-snug line-clamp-1">
                   {currentDistrict.signatureFood}
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-1">
+              <div className="p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-1">
                 <div className="flex items-center gap-1.5 text-[#C6532B]">
-                  <Clock className="w-3.5 h-3.5" />
-                  <span className="text-[10px] font-mono font-bold uppercase">Best Stroll Window</span>
+                  <Clock className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase">Stroll Window</span>
                 </div>
-                <p className="text-xs font-sans text-[#351E1A] font-semibold leading-snug">
+                <p className="text-xs font-sans text-[#351E1A] font-semibold leading-snug line-clamp-1">
                   {currentDistrict.bestWalkingTime}
                 </p>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-1">
+              <div className="col-span-2 sm:col-span-1 p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#F7EBDD]/70 border border-[#E8D5C2] space-y-1">
                 <div className="flex items-center gap-1.5 text-[#C6532B]">
-                  <Train className="w-3.5 h-3.5" />
-                  <span className="text-[10px] font-mono font-bold uppercase">Transit Link</span>
+                  <Train className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase">Transit Link</span>
                 </div>
                 <p className="text-xs font-sans text-[#351E1A] font-semibold leading-snug truncate" title={currentDistrict.transitTip}>
                   {currentDistrict.transitTip.split(',')[0]}

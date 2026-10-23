@@ -41,14 +41,14 @@ export const StoryDetailModal: React.FC<StoryDetailModalProps> = ({ story, onClo
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20 cursor-pointer"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 p-2 sm:p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20 cursor-pointer"
           aria-label="Close dialog"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Top Hero Banner */}
-        <div className="relative h-48 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A]">
+        <div className="relative h-44 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A]">
           <img
             src={story.imageUrl}
             alt={story.title}
@@ -56,14 +56,14 @@ export const StoryDetailModal: React.FC<StoryDetailModalProps> = ({ story, onClo
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/95 via-[#351E1A]/40 to-transparent pointer-events-none" />
 
-          <div className="absolute bottom-3 sm:bottom-4 left-4 right-4 sm:left-6 sm:right-6 text-[#FFF8EF] space-y-1 sm:space-y-1.5">
-            <span className="inline-block px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#C6532B] text-[10px] font-mono font-bold uppercase tracking-wider text-white mb-0.5 sm:mb-1">
+          <div className="absolute bottom-3 sm:bottom-4 left-3.5 right-3.5 sm:left-6 sm:right-6 text-[#FFF8EF] space-y-1 sm:space-y-1.5">
+            <span className="inline-block px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#C6532B] text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-white mb-0.5 sm:mb-1">
               {story.category}
             </span>
-            <h2 id="modal-story-title" className="font-serif text-xl sm:text-2xl md:text-3xl font-bold leading-snug">
+            <h2 id="modal-story-title" className="font-serif text-lg sm:text-2xl md:text-3xl font-bold leading-snug">
               {story.title}
             </h2>
-            <div className="flex flex-wrap items-center gap-3 text-xs font-sans text-[#FFF8EF]/80">
+            <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs font-sans text-[#FFF8EF]/80">
               {story.location && (
                 <span className="flex items-center gap-1 text-[#FFF8EF]">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#E5A93C]" />
@@ -91,7 +91,7 @@ export const StoryDetailModal: React.FC<StoryDetailModalProps> = ({ story, onClo
         </div>
 
         {/* Essay & Lore Content */}
-        <div className="p-4 sm:p-8 overflow-y-auto space-y-5 text-xs sm:text-sm font-sans text-[#351E1A]/85 leading-relaxed">
+        <div className="p-3.5 sm:p-6 md:p-8 overflow-y-auto space-y-4 sm:space-y-5 text-xs sm:text-sm font-sans text-[#351E1A]/85 leading-relaxed">
           {/* Pull quote summary */}
           <div className="p-4 rounded-2xl bg-[#F7EBDD] border-l-4 border-[#C6532B] text-[#582822] font-serif text-base sm:text-lg italic leading-relaxed">
             &ldquo;{story.summary}&rdquo;

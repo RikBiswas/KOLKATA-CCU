@@ -703,27 +703,27 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
   return (
     <section
       id="kolkata-map-atlas"
-      className="py-12 sm:py-16 border-t border-[#E8D5C2] relative bg-[#F7EBDD]/50"
+      className="py-8 sm:py-12 lg:py-14 border-t border-[#E8D5C2] relative bg-[#F7EBDD]/50"
     >
-      <div className="max-w-7xl xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl xl:max-w-[1380px] mx-auto px-3.5 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] shadow-xs mb-2.5">
             <RouteIcon className="size-3.5 text-[#C6532B]" />
-            <span className="font-mono text-[11px] font-semibold text-[#582822] tracking-wider uppercase">
+            <span className="font-mono text-[10px] sm:text-[11px] font-semibold text-[#582822] tracking-wider uppercase">
               CHAPTER II-B · LOCATION DISTANCE & LIVE ROUTING
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-[#351E1A] tracking-tight leading-tight mb-3">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-[#351E1A] tracking-tight leading-tight mb-2">
             Real-Time Distance & Route to Any Landmark
           </h2>
 
-          <p className="font-bengali text-lg text-[#C6532B] font-medium mb-3">
+          <p className="font-bengali text-base sm:text-lg text-[#C6532B] font-medium mb-2">
             আপনার বর্তমান অবস্থান থেকে কলকাতার দর্শনীয় স্থানের দূরত্ব ও পথ
           </p>
 
-          <p className="text-[#582822]/80 text-sm sm:text-base leading-relaxed font-sans max-w-2xl mx-auto">
+          <p className="text-[#582822]/80 text-xs sm:text-sm leading-relaxed font-sans max-w-2xl mx-auto">
             Select any heritage destination to instantly view the driving distance, travel duration, and highlighted path from your current location, powered by <span className="font-semibold text-[#C6532B]">mapcn MapRoute</span>.
           </p>
         </div>
@@ -910,7 +910,7 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
             )}
 
             {/* mapcn Map Container with explicit height */}
-            <div className="h-[480px] sm:h-[540px] lg:h-[620px] w-full relative">
+            <div className="h-[380px] sm:h-[500px] lg:h-[620px] w-full relative">
               {/* Map Floating Controls: 3D toggle & 2D-only Light/Dark toggle */}
               <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5">
                 {/* 3D / 2D Toggle Button */}
@@ -1201,7 +1201,7 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
           </div>
 
           {/* Curated Places Deck (4 cols on Desktop) with Distances from Current Location */}
-          <div className="lg:col-span-4 flex flex-col h-[480px] sm:h-[540px] lg:h-[660px] bg-[#FFF8EF] rounded-2xl sm:rounded-3xl border border-[#E8D5C2] shadow-xl overflow-hidden">
+          <div className="lg:col-span-4 flex flex-col h-[360px] sm:h-[480px] lg:h-[660px] bg-[#FFF8EF] rounded-2xl sm:rounded-3xl border border-[#E8D5C2] shadow-xl overflow-hidden">
             {/* Header */}
             <div className="p-4 border-b border-[#E8D5C2] bg-[#F7EBDD]/70 flex items-center justify-between">
               <div>

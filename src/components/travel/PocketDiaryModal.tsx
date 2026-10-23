@@ -94,7 +94,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
     >
       <div className="bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl max-w-3xl w-full max-h-[92vh] flex flex-col shadow-2xl relative overflow-hidden">
         {/* Editorial Top Bar */}
-        <div className="p-4 sm:p-6 md:p-8 border-b border-[#E8D5C2] bg-[#F7EBDD]/60 flex items-start justify-between gap-3 sm:gap-4">
+        <div className="p-3.5 sm:p-5 md:p-6 border-b border-[#E8D5C2] bg-[#F7EBDD]/60 flex items-start justify-between gap-3 sm:gap-4">
           <div className="space-y-1 sm:space-y-1.5 min-w-0">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-[#C6532B] shrink-0" />
@@ -162,7 +162,7 @@ export const PocketDiaryModal: React.FC<PocketDiaryModalProps> = ({
         </div>
 
         {/* Scrollable Diary Items List */}
-        <div className="p-4 sm:p-6 md:p-8 flex-1 overflow-y-auto space-y-3 sm:space-y-4">
+        <div className="p-3 sm:p-5 md:p-6 flex-1 overflow-y-auto space-y-2.5 sm:space-y-4">
           {filteredItems.length === 0 ? (
             <div className="p-12 text-center bg-[#F7EBDD]/40 rounded-3xl border border-dashed border-[#D9A38E] space-y-3">
               <BookOpen className="w-10 h-10 text-[#C6532B]/60 mx-auto" />

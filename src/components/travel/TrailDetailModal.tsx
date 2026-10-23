@@ -48,14 +48,14 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20 cursor-pointer"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 p-2 sm:p-2.5 rounded-full bg-[#351E1A]/80 hover:bg-[#351E1A] text-[#FFF8EF] transition-all shadow-lg hover:scale-105 active:scale-95 border border-[#FFF8EF]/20 cursor-pointer"
           aria-label="Close dialog"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         {/* Top Hero Image */}
-        <div className="relative h-48 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A]">
+        <div className="relative h-44 sm:h-64 md:h-72 w-full shrink-0 bg-[#351E1A]">
           <img
             src={trail.imageUrl}
             alt={trail.title}
@@ -63,18 +63,18 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/95 via-[#351E1A]/40 to-transparent pointer-events-none" />
 
-          <div className="absolute bottom-4 left-4 sm:left-6 right-4 sm:right-6 text-[#FFF8EF] space-y-1.5">
+          <div className="absolute bottom-3 sm:bottom-4 left-3.5 sm:left-6 right-3.5 sm:right-6 text-[#FFF8EF] space-y-1 sm:space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#C6532B] text-[10px] font-mono font-bold uppercase tracking-wider text-white">
+              <span className="inline-block px-2.5 py-0.5 sm:py-1 rounded-full bg-[#C6532B] text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider text-white">
                 {trail.tag} &bull; {trail.difficulty}
               </span>
             </div>
 
-            <h2 id="modal-trail-title" className="font-serif text-xl sm:text-3xl font-bold leading-tight">
+            <h2 id="modal-trail-title" className="font-serif text-lg sm:text-2xl md:text-3xl font-bold leading-tight">
               {trail.title}
             </h2>
 
-            <div className="flex items-center gap-4 text-xs font-sans text-[#FFF8EF]/80">
+            <div className="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-xs font-sans text-[#FFF8EF]/80">
               <span className="flex items-center gap-1">
                 <Clock className="w-3.5 h-3.5 text-[#C5A25A]" />
                 <span>{trail.duration}</span>
@@ -82,41 +82,41 @@ export const TrailDetailModal: React.FC<TrailDetailModalProps> = ({
               <span className="flex items-center gap-1">
                 <Star className="w-3.5 h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
                 <span className="font-bold text-[#FFF8EF]">{trail.rating}</span>
-                <span className="text-[#FFF8EF]/60">({trail.reviewsCount} explorer ratings)</span>
+                <span className="text-[#FFF8EF]/60 text-[10px] sm:text-xs">({trail.reviewsCount} explorer ratings)</span>
               </span>
             </div>
           </div>
         </div>
 
         {/* Scrollable Content */}
-        <div className="p-4 sm:p-8 overflow-y-auto space-y-5 sm:space-y-6">
-          {/* Quick Route Specs */}
+        <div className="p-3.5 sm:p-6 md:p-8 overflow-y-auto space-y-4 sm:space-y-6">
+          {/* Quick Route Specs: 2-col on mobile */}
           {(trail.distance || trail.bestTimeOfDay || trail.transitCost) && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] text-xs font-sans">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] text-xs font-sans">
               {trail.distance && (
-                <div className="flex items-center gap-2">
-                  <Footprints className="w-4 h-4 text-[#C6532B] shrink-0" />
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Footprints className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C6532B] shrink-0" />
                   <div>
-                    <span className="block text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Walking Distance</span>
-                    <span className="font-semibold text-[#351E1A]">{trail.distance}</span>
+                    <span className="block text-[9px] sm:text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Walking Distance</span>
+                    <span className="font-semibold text-[#351E1A] text-[11px] sm:text-xs">{trail.distance}</span>
                   </div>
                 </div>
               )}
               {trail.bestTimeOfDay && (
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#C6532B] shrink-0" />
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C6532B] shrink-0" />
                   <div>
-                    <span className="block text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Optimal Window</span>
-                    <span className="font-semibold text-[#351E1A]">{trail.bestTimeOfDay}</span>
+                    <span className="block text-[9px] sm:text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Optimal Window</span>
+                    <span className="font-semibold text-[#351E1A] text-[11px] sm:text-xs">{trail.bestTimeOfDay}</span>
                   </div>
                 </div>
               )}
               {trail.transitCost && (
-                <div className="flex items-center gap-2">
-                  <Train className="w-4 h-4 text-[#C6532B] shrink-0" />
+                <div className="flex items-center gap-1.5 sm:gap-2 col-span-2 sm:col-span-1">
+                  <Train className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C6532B] shrink-0" />
                   <div>
-                    <span className="block text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Estimated Cost</span>
-                    <span className="font-semibold text-[#351E1A]">{trail.transitCost}</span>
+                    <span className="block text-[9px] sm:text-[10px] font-mono uppercase text-[#351E1A]/60 font-bold">Estimated Cost</span>
+                    <span className="font-semibold text-[#351E1A] text-[11px] sm:text-xs">{trail.transitCost}</span>
                   </div>
                 </div>
               )}

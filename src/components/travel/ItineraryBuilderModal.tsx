@@ -209,25 +209,25 @@ Curated with love by WANDER CCU (https://wanderccu.local)
     >
       <div className="relative w-full max-w-2xl bg-[#FFF8EF] rounded-3xl border-2 border-[#E8D5C2] shadow-[0_24px_60px_rgba(53,30,26,0.25)] overflow-hidden max-h-[90vh] flex flex-col">
         {/* Header with archival deckle border */}
-        <div className="p-4 sm:p-6 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-start justify-between">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#C6532B]" />
-              <span className="text-[11px] font-sans font-bold uppercase tracking-widest text-[#C6532B]">
+        <div className="p-3.5 sm:p-5 bg-[#F7EBDD] border-b border-[#E8D5C2] flex items-start justify-between">
+          <div className="space-y-0.5 sm:space-y-1">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-[#C6532B]" />
+              <span className="text-[10px] sm:text-[11px] font-sans font-bold uppercase tracking-widest text-[#C6532B]">
                 Interactive Itinerary Planner
               </span>
             </div>
-            <h3 id="itinerary-modal-title" className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A]">
+            <h3 id="itinerary-modal-title" className="font-serif text-lg sm:text-2xl font-bold text-[#351E1A]">
               Design Your Day in Kolkata
             </h3>
-            <p className="font-sans text-xs text-[#351E1A]/80">
+            <p className="font-sans text-[11px] sm:text-xs text-[#351E1A]/80">
               Customize duration and pacing to generate a verified, self-guided route.
             </p>
           </div>
 
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A]/70 hover:text-[#351E1A] flex items-center justify-center cursor-pointer transition-colors"
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#FFF8EF] border border-[#E8D5C2] text-[#351E1A]/70 hover:text-[#351E1A] flex items-center justify-center cursor-pointer transition-colors shrink-0"
             aria-label="Close itinerary planner"
           >
             <X className="w-4 h-4" />
@@ -235,9 +235,9 @@ Curated with love by WANDER CCU (https://wanderccu.local)
         </div>
 
         {/* Content Body */}
-        <div className="p-4 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 flex-1">
+        <div className="p-3.5 sm:p-5 overflow-y-auto space-y-4 sm:space-y-5 flex-1">
           {/* Controls: Duration Selection */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label className="text-xs font-sans font-bold text-[#582822] flex items-center gap-1.5">
               <Clock className="w-3.5 h-3.5 text-[#C6532B]" />
               <span>1. How much time do you have?</span>
@@ -251,14 +251,14 @@ Curated with love by WANDER CCU (https://wanderccu.local)
                 <button
                   key={opt.id}
                   onClick={() => setDuration(opt.id as typeof duration)}
-                  className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                  className={`p-2 sm:p-3 rounded-xl sm:rounded-2xl border text-left transition-all cursor-pointer ${
                     duration === opt.id
                       ? 'bg-[#351E1A] text-[#FFF8EF] border-[#351E1A] shadow-xs'
                       : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD]'
                   }`}
                 >
-                  <p className="font-serif font-bold text-xs sm:text-sm">{opt.label}</p>
-                  <p className={`text-[10px] font-sans ${duration === opt.id ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'}`}>
+                  <p className="font-serif font-bold text-[11px] sm:text-sm">{opt.label}</p>
+                  <p className={`text-[9px] sm:text-[10px] font-sans ${duration === opt.id ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'}`}>
                     {opt.sub}
                   </p>
                 </button>
@@ -267,29 +267,29 @@ Curated with love by WANDER CCU (https://wanderccu.local)
           </div>
 
           {/* Controls: Pace & Style Selection */}
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <label className="text-xs font-sans font-bold text-[#582822] flex items-center gap-1.5">
               <Footprints className="w-3.5 h-3.5 text-[#C6532B]" />
               <span>2. Choose your preferred exploration pace:</span>
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2.5">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
               {[
-                { id: 'walking', label: 'Heritage Walking', icon: <Footprints className="w-3.5 h-3.5" /> },
-                { id: 'transit', label: 'Tram & Ferry Transit', icon: <Train className="w-3.5 h-3.5" /> },
-                { id: 'foodie', label: 'Street Gastronomy', icon: <Utensils className="w-3.5 h-3.5" /> },
+                { id: 'walking', label: 'Walking', icon: <Footprints className="w-3.5 h-3.5" /> },
+                { id: 'transit', label: 'Transit', icon: <Train className="w-3.5 h-3.5" /> },
+                { id: 'foodie', label: 'Foodie', icon: <Utensils className="w-3.5 h-3.5" /> },
               ].map((opt) => (
                 <button
                   key={opt.id}
                   onClick={() => setPace(opt.id as typeof pace)}
-                  className={`p-2.5 sm:p-3 rounded-2xl border text-left transition-all flex sm:flex-col gap-1 cursor-pointer items-center sm:items-start ${
+                  className={`p-2 sm:p-3 rounded-xl sm:rounded-2xl border text-left transition-all flex flex-col gap-0.5 sm:gap-1 cursor-pointer items-start ${
                     pace === opt.id
                       ? 'bg-[#C6532B] text-[#FFF8EF] border-[#C6532B] shadow-xs'
                       : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD]'
                   }`}
                 >
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1 sm:gap-1.5">
                     {opt.icon}
-                    <span className="font-serif font-bold text-xs">{opt.label}</span>
+                    <span className="font-serif font-bold text-[11px] sm:text-xs">{opt.label}</span>
                   </div>
                 </button>
               ))}
@@ -297,7 +297,7 @@ Curated with love by WANDER CCU (https://wanderccu.local)
           </div>
 
           {/* Generated Itinerary Card */}
-          <div className="p-5 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-4">
+          <div className="p-3.5 sm:p-5 rounded-xl sm:rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] space-y-3 sm:space-y-4">
             <div className="border-b border-[#E8D5C2] pb-3">
               <span className="text-[10px] font-mono uppercase tracking-widest text-[#C6532B] font-bold">
                 Tailored Recommendation

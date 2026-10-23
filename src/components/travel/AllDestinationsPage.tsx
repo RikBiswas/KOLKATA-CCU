@@ -135,8 +135,8 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
 
       {/* Grid of All Destination Cards */}
       {filtered.length === 0 ? (
-        <div className="py-16 text-center bg-[#FFF8EF] rounded-3xl border border-[#E8D5C2] space-y-3">
-          <p className="font-serif text-2xl text-[#351E1A]">No landmarks found matching your criteria.</p>
+        <div className="py-12 sm:py-16 text-center bg-[#FFF8EF] rounded-2xl sm:rounded-3xl border border-[#E8D5C2] space-y-3 p-6">
+          <p className="font-serif text-xl sm:text-2xl text-[#351E1A]">No landmarks found matching your criteria.</p>
           <p className="text-xs text-[#351E1A]/60">Try searching for &ldquo;Victoria&rdquo;, &ldquo;Ghat&rdquo;, or reset filters.</p>
           <button
             onClick={() => {
@@ -144,70 +144,70 @@ export const AllDestinationsPage: React.FC<AllDestinationsPageProps> = ({
               setSelectedRegion('All');
               setSearchQuery('');
             }}
-            className="px-6 py-2 rounded-full bg-[#C6532B] text-white text-xs font-sans font-bold cursor-pointer"
+            className="px-5 py-2 rounded-full bg-[#C6532B] text-white text-xs font-sans font-bold cursor-pointer"
           >
             Reset Filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2.5 sm:gap-6">
           {filtered.map((dest, idx) => (
             <div
               key={dest.id}
               onClick={() => onSelectDestination(dest)}
-              className="group relative rounded-3xl overflow-hidden cursor-pointer bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_8px_24px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.12)] transition-all duration-400 transform hover:-translate-y-1.5 flex flex-col justify-between"
+              className="group relative rounded-2xl sm:rounded-3xl overflow-hidden cursor-pointer bg-[#FFF8EF] border border-[#E8D5C2] shadow-[0_4px_16px_rgba(53,30,26,0.06)] hover:shadow-[0_16px_36px_rgba(53,30,26,0.12)] transition-all duration-300 transform hover:-translate-y-1 flex flex-col justify-between"
             >
-              <div className="relative h-60 w-full overflow-hidden bg-[#351E1A]">
+              <div className="relative h-36 sm:h-52 lg:h-60 w-full overflow-hidden bg-[#351E1A]">
                 <img
                   src={dest.imageUrl}
                   alt={dest.name}
                   className="w-full h-full object-cover object-center group-hover:scale-106 transition-transform duration-700 ease-out"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/80 via-transparent to-[#351E1A]/20 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#351E1A]/85 via-transparent to-[#351E1A]/20 pointer-events-none" />
 
-                <div className="absolute top-3.5 left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-mono font-bold text-[#351E1A] shadow-xs border border-[#E8D5C2]">
+                <div className="absolute top-2 left-2 sm:top-3.5 sm:left-3.5 bg-[#FFF8EF]/95 backdrop-blur-md px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-mono font-bold text-[#351E1A] shadow-xs border border-[#E8D5C2]">
                   {String(idx + 1).padStart(2, '0')} / {String(destinations.length).padStart(2, '0')}
                 </div>
 
-                <div className="absolute top-3.5 right-3.5 bg-[#351E1A]/80 backdrop-blur-md px-2.5 py-1 rounded-full text-[10px] font-sans font-semibold text-[#FFF8EF] shadow-xs border border-[#FFF8EF]/20 flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-[#D9A38E]" />
-                  <span>{dest.region}</span>
+                <div className="absolute top-2 right-2 sm:top-3.5 sm:right-3.5 bg-[#351E1A]/85 backdrop-blur-md px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-sans font-semibold text-[#FFF8EF] shadow-xs border border-[#FFF8EF]/20 flex items-center gap-1">
+                  <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#D9A38E]" />
+                  <span className="truncate max-w-[65px] sm:max-w-none">{dest.region}</span>
                 </div>
 
-                <div className="absolute bottom-3 left-3.5">
-                  <span className="text-[10px] font-sans font-bold uppercase tracking-wider text-[#C5A25A] bg-[#351E1A]/90 px-2 py-0.5 rounded-sm">
+                <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3.5">
+                  <span className="text-[8px] sm:text-[10px] font-sans font-bold uppercase tracking-wider text-[#C5A25A] bg-[#351E1A]/90 px-1.5 sm:px-2 py-0.5 rounded-xs sm:rounded-sm">
                     {dest.category}
                   </span>
                 </div>
               </div>
 
-              <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
-                <div className="space-y-1.5">
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
+              <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between space-y-2 sm:space-y-3">
+                <div className="space-y-1 sm:space-y-1.5">
+                  <h3 className="font-serif text-sm sm:text-xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug min-h-[34px] sm:min-h-[48px] flex items-start line-clamp-2">
                     {dest.name}
                   </h3>
-                  <p className="font-sans text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed">
+                  <p className="font-sans text-[11px] sm:text-xs text-[#351E1A]/70 line-clamp-2 leading-relaxed min-h-[30px] sm:min-h-[34px]">
                     {dest.tagline}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-[#E8D5C2]/80 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-sans text-[#351E1A]/80">
+                <div className="pt-2 sm:pt-3 border-t border-[#E8D5C2]/80 space-y-1.5 sm:space-y-2 mt-auto">
+                  <div className="flex items-center justify-between text-[11px] sm:text-xs font-sans text-[#351E1A]/80">
                     <div className="flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
-                      <span className="font-bold text-[#351E1A]">{dest.rating}</span>
-                      <span className="text-[#351E1A]/50 text-[10px]">({dest.reviewsCount})</span>
+                      <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-[#C5A25A] text-[#C5A25A]" />
+                      <span className="font-bold text-[#351E1A] text-[10px] sm:text-xs">{dest.rating}</span>
+                      <span className="text-[#351E1A]/50 text-[9px] sm:text-[10px]">({dest.reviewsCount})</span>
                     </div>
 
-                    <div className="flex items-center gap-1 text-[11px] text-[#351E1A]/70">
-                      <Clock className="w-3 h-3 text-[#C6532B]" />
-                      <span className="truncate max-w-[120px]">{dest.bestTimeToVisit.split('(')[0]}</span>
+                    <div className="flex items-center gap-1 text-[9px] sm:text-[11px] text-[#351E1A]/70">
+                      <Clock className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C6532B]" />
+                      <span className="truncate max-w-[65px] sm:max-w-[120px]">{dest.bestTimeToVisit.split('(')[0]}</span>
                     </div>
                   </div>
 
-                  <div className="pt-1 flex items-center justify-between text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
-                    <span>View Visitor Guide &amp; Transit</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                  <div className="pt-0.5 sm:pt-1 flex items-center justify-between text-[10px] sm:text-xs font-sans font-semibold text-[#C6532B] group-hover:translate-x-1 transition-transform">
+                    <span>Guide &amp; Transit</span>
+                    <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   </div>
                 </div>
               </div>

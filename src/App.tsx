@@ -317,7 +317,7 @@ export default function App() {
 
       {currentPage === 'all-destinations' ? (
         /* Full Destination Gallery Page */
-        <main id="main-content" className="flex-1 max-w-7xl xl:max-w-[1380px] w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-20 sm:pt-24">
+        <main id="main-content" className="flex-1 max-w-7xl xl:max-w-[1380px] w-full mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10 pt-20 sm:pt-24">
           <AllDestinationsPage
             destinations={travelData.destinations}
             onSelectDestination={(dest) => setSelectedDestination(dest)}
@@ -329,7 +329,7 @@ export default function App() {
         <>
           {/* Search Results Notification Banner if querying */}
           {searchQuery.trim() && (
-            <div className="max-w-7xl xl:max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 mt-24 mb-4 relative z-20">
+            <div className="max-w-7xl xl:max-w-[1380px] mx-auto px-3.5 sm:px-6 lg:px-8 mt-24 mb-4 relative z-20">
               <div className="p-4 rounded-2xl bg-[#FFF8EF] border border-[#E8D5C2] text-xs font-sans text-[#351E1A] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs animate-slide-in-right">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#C6532B]" />
@@ -364,7 +364,7 @@ export default function App() {
           />
 
           {/* Main Content Area for all subsequent chapters */}
-          <main id="main-content" className="flex-1 max-w-7xl xl:max-w-[1380px] w-full mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <main id="main-content" className="flex-1 max-w-7xl xl:max-w-[1380px] w-full mx-auto px-3.5 sm:px-6 lg:px-8 relative z-10">
             {/* 2. Introductory Editorial Section: The Art of Slow Travel in Calcutta */}
             <WhyChooseUs />
 

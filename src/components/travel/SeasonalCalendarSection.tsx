@@ -23,12 +23,12 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
   const activeEvent = events.find((e) => e.id === activeEventId) || filteredEvents[0] || events[0];
 
   return (
-    <section id="festivals" className="py-10 sm:py-14 scroll-mt-24">
+    <section id="festivals" className="py-8 sm:py-12 lg:py-14 scroll-mt-24">
       {/* Editorial Header */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
-        <div className="space-y-2 max-w-2xl">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 sm:gap-6 mb-5 sm:mb-8">
+        <div className="space-y-1.5 sm:space-y-2 max-w-2xl">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
+            <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-[#C6532B] uppercase">
               Chapter V &bull; Cultural Almanac &amp; Festivals
             </span>
             <span className="text-[#D9A38E]">&bull;</span>
@@ -37,7 +37,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
             </span>
           </div>
 
-          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
+          <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl font-medium text-[#351E1A] tracking-tight leading-tight">
             The Living Calendar of Seasons &amp; Celebrations
           </h2>
 
@@ -57,7 +57,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
                 const matched = events.filter((e) => season === 'All' || e.season === season);
                 if (matched.length > 0) setActiveEventId(matched[0].id);
               }}
-              className={`px-3 py-1.5 rounded-full text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-sans whitespace-nowrap transition-all duration-200 cursor-pointer ${
                 selectedSeason === season
                   ? 'bg-[#582822] text-[#FFF8EF] font-bold shadow-xs'
                   : 'bg-[#FFF8EF] text-[#351E1A]/80 border border-[#E8D5C2] hover:bg-[#F7EBDD]'
@@ -70,34 +70,34 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
       </div>
 
       {/* Main Showcase Layout: Event Selector List on Left + Rich Editorial Feature Plate on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Event List Cards */}
-        <div className="lg:col-span-5 space-y-2.5">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-8 items-start">
+        {/* Left Column: Event List Cards (2 columns on mobile, 1 column on lg desktop) */}
+        <div className="lg:col-span-5 space-y-2">
           <div className="flex items-center justify-between text-[11px] font-mono text-[#351E1A]/70 px-1 pb-0.5">
             <span className="font-bold tracking-wider text-[#C6532B] uppercase">
-              {filteredEvents.length} {filteredEvents.length === 1 ? 'Celebration' : 'Celebrations'} in this Almanac
+              {filteredEvents.length} {filteredEvents.length === 1 ? 'Celebration' : 'Celebrations'}
             </span>
             <span className="text-[10px] tracking-wide text-[#582822]/70 font-sans">
-              Click to view details &rarr;
+              Tap to view &rarr;
             </span>
           </div>
 
           <div className="relative">
-            <div className="space-y-3 max-h-[380px] sm:max-h-[460px] lg:max-h-[740px] overflow-y-auto pr-2 pb-14 scrollbar-thin scrollbar-thumb-[#C6532B]/30 hover:scrollbar-thumb-[#C6532B]/60 scrollbar-track-transparent">
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-2.5 sm:gap-3 max-h-[360px] sm:max-h-[440px] lg:max-h-[740px] overflow-y-auto pr-1 sm:pr-2 pb-10 scrollbar-thin scrollbar-thumb-[#C6532B]/30 hover:scrollbar-thumb-[#C6532B]/60 scrollbar-track-transparent">
               {filteredEvents.map((ev) => {
                 const isCurrent = ev.id === activeEvent.id;
                 return (
                   <div
                     key={ev.id}
                     onClick={() => setActiveEventId(ev.id)}
-                    className={`p-4 sm:p-5 rounded-2xl border transition-all duration-300 cursor-pointer flex items-start gap-4 ${
+                    className={`p-2 sm:p-3.5 lg:p-4 rounded-xl sm:rounded-2xl border transition-all duration-300 cursor-pointer flex flex-col sm:flex-row lg:flex-row items-start gap-2 sm:gap-3.5 ${
                       isCurrent
                         ? 'bg-[#351E1A] text-[#FFF8EF] border-[#351E1A] shadow-md -translate-y-0.5'
                         : 'bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2] hover:bg-[#F7EBDD] hover:border-[#D9A38E]'
                     }`}
                   >
                     {/* Thumbnail Image */}
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden shrink-0 border border-[#E8D5C2]/50 bg-neutral-900">
+                    <div className="w-full sm:w-16 sm:h-16 lg:w-20 lg:h-20 h-24 rounded-lg sm:rounded-xl overflow-hidden shrink-0 border border-[#E8D5C2]/50 bg-neutral-900">
                       <img
                         src={ev.imageUrl}
                         alt={ev.title}
@@ -106,10 +106,10 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
                     </div>
 
                     {/* Event Summary */}
-                    <div className="flex-1 space-y-1">
+                    <div className="flex-1 w-full space-y-1">
                       <div className="flex items-center justify-between gap-1">
                         <span
-                          className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
+                          className={`text-[8px] sm:text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-xs sm:rounded-sm ${
                             isCurrent
                               ? 'bg-[#C6532B] text-white'
                               : 'bg-[#C6532B]/10 text-[#C6532B]'
@@ -118,7 +118,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
                           {ev.season}
                         </span>
                         <span
-                          className={`text-[10px] font-sans ${
+                          className={`text-[8px] sm:text-[10px] font-sans truncate ${
                             isCurrent ? 'text-[#D9A38E]' : 'text-[#351E1A]/60'
                           }`}
                         >
@@ -126,12 +126,12 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
                         </span>
                       </div>
 
-                      <h3 className="font-serif text-lg font-bold leading-snug">
+                      <h3 className="font-serif text-xs sm:text-base lg:text-lg font-bold leading-snug line-clamp-1">
                         {ev.title.split('—')[0].trim()}
                       </h3>
 
                       <p
-                        className={`font-bengali text-xs font-medium ${
+                        className={`font-bengali text-[10px] sm:text-xs font-medium truncate ${
                           isCurrent ? 'text-[#D9A38E]' : 'text-[#582822]'
                         }`}
                       >
@@ -145,7 +145,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
 
             {/* Bottom Fade Style Overlay */}
             <div
-              className="pointer-events-none absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#F7EBDD] via-[#F7EBDD]/80 to-transparent rounded-b-2xl z-10"
+              className="pointer-events-none absolute bottom-0 left-0 right-0 h-16 sm:h-24 bg-gradient-to-t from-[#F7EBDD] via-[#F7EBDD]/80 to-transparent rounded-b-2xl z-10"
               aria-hidden="true"
             />
           </div>
@@ -153,31 +153,31 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
 
         {/* Right Column: Detailed Editorial Exhibition Card for Active Event */}
         {activeEvent && (
-          <div className="lg:col-span-7 lg:sticky lg:top-24 bg-[#FFF8EF] border border-[#E8D5C2] rounded-3xl p-4 sm:p-6 md:p-8 shadow-[0_12px_36px_rgba(53,30,26,0.08)] flex flex-col justify-between space-y-6">
-            <div className="space-y-5">
+          <div className="lg:col-span-7 lg:sticky lg:top-24 bg-[#FFF8EF] border border-[#E8D5C2] rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 md:p-8 shadow-[0_10px_30px_rgba(53,30,26,0.08)] flex flex-col justify-between space-y-4 sm:space-y-6">
+            <div className="space-y-3.5 sm:space-y-5">
               {/* Top Banner Tag & Dates */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8D5C2] pb-4">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#E8D5C2] pb-3 sm:pb-4">
                 <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-[#C6532B] text-white text-[10px] font-mono font-bold uppercase tracking-wider">
+                  <span className="px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#C6532B] text-white text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider">
                     {activeEvent.season}
                   </span>
-                  <span className="font-bengali text-sm font-bold text-[#582822]">
+                  <span className="font-bengali text-xs sm:text-sm font-bold text-[#582822]">
                     {activeEvent.bengaliTitle}
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-xs font-sans text-[#351E1A]/70">
+                <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-sans text-[#351E1A]/70">
                   <Calendar className="w-3.5 h-3.5 text-[#C6532B]" />
                   <span>{activeEvent.months}</span>
                 </div>
               </div>
 
               {/* Title & Tagline */}
-              <div className="space-y-1.5">
-                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#351E1A] leading-tight">
+              <div className="space-y-1">
+                <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-bold text-[#351E1A] leading-tight">
                   {activeEvent.title}
                 </h3>
-                <p className="font-serif italic text-sm text-[#C6532B]">
+                <p className="font-serif italic text-xs sm:text-sm text-[#C6532B]">
                   {activeEvent.tagline}
                 </p>
               </div>
@@ -189,7 +189,7 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
 
               {/* Heritage Note if available */}
               {activeEvent.heritageSignificance && (
-                <div className="p-3.5 rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] flex items-start gap-2.5 text-xs font-sans text-[#582822]">
+                <div className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-[#F7EBDD] border border-[#E8D5C2] flex items-start gap-2.5 text-xs font-sans text-[#582822]">
                   <Award className="w-4 h-4 text-[#C5A25A] shrink-0 mt-0.5" />
                   <div>
                     <strong>Cultural Recognition: </strong>
@@ -199,9 +199,9 @@ export const SeasonalCalendarSection: React.FC<SeasonalCalendarSectionProps> = (
               )}
 
               {/* 2-Column: Key Rituals & Signature Delicacies */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-1">
                 {/* Rituals */}
-                <div className="p-4 rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2] space-y-2.5">
+                <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-[#F7EBDD]/60 border border-[#E8D5C2] space-y-2">
                   <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#C6532B] flex items-center gap-1.5">
                     <Sparkles className="w-3 h-3 text-[#C6532B]" />
                     <span>Sacred Rituals &amp; Practices</span>

@@ -2371,7 +2371,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
   };
 
   return (
-    <section id="culture" className="py-10 sm:py-14 px-6 sm:px-10 lg:px-12 my-8 rounded-3xl bg-[#C6532B] text-[#FFF8EF] relative overflow-hidden shadow-[0_16px_50px_rgba(198,83,43,0.22)] scroll-mt-24">
+    <section id="culture" className="py-7 sm:py-12 lg:py-14 px-3.5 sm:px-8 lg:px-10 my-6 sm:my-8 rounded-2xl sm:rounded-3xl bg-[#C6532B] text-[#FFF8EF] relative overflow-hidden shadow-[0_12px_40px_rgba(198,83,43,0.20)] scroll-mt-24">
       {/* Decorative background motifs */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-white/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-2xl pointer-events-none" />
@@ -2638,7 +2638,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
               initial="enter"
               animate="center"
               exit="exit"
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 min-h-[460px]"
+              className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 min-h-0 sm:min-h-[380px]"
             >
               {currentItems.length > 0 ? (
                 currentItems.map((item) => (
@@ -2653,24 +2653,24 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                         setSelectedItem(item);
                       }
                     }}
-                    className="group rounded-3xl bg-[#FFF8EF] text-[#351E1A] p-6 sm:p-8 border border-[#E8D5C2] shadow-[0_10px_30px_rgba(53,30,26,0.1)] transition-all duration-300 hover:shadow-[0_22px_48px_rgba(53,30,26,0.18)] hover:-translate-y-1.5 hover:border-[#C6532B]/50 flex flex-col justify-between cursor-pointer select-none active:scale-[0.99] relative"
+                    className="group rounded-2xl sm:rounded-3xl bg-[#FFF8EF] text-[#351E1A] p-4 sm:p-6 md:p-7 border border-[#E8D5C2] shadow-[0_6px_20px_rgba(53,30,26,0.08)] transition-all duration-300 hover:shadow-[0_18px_40px_rgba(53,30,26,0.16)] hover:-translate-y-1 hover:border-[#C6532B]/50 flex flex-col justify-between cursor-pointer select-none active:scale-[0.99] relative"
                   >
                     <div>
                       {/* Card Header with Tag & Location */}
-                      <div className="flex items-center justify-between gap-2 mb-4">
-                        <span className="px-3 py-1 rounded-full bg-[#C6532B]/10 text-[#C6532B] font-mono text-[10px] font-bold uppercase tracking-wider">
+                      <div className="flex items-center justify-between gap-2 mb-2.5 sm:mb-3.5">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#C6532B]/10 text-[#C6532B] font-mono text-[9px] sm:text-[10px] font-bold uppercase tracking-wider">
                           {item.tag}
                         </span>
-                        <span className="text-[11px] font-sans text-[#351E1A]/60 flex items-center gap-1 shrink-0 max-w-[55%] truncate">
-                          <MapPin className="w-3 h-3 text-[#C6532B] shrink-0" />
+                        <span className="text-[10px] sm:text-[11px] font-sans text-[#351E1A]/60 flex items-center gap-1 shrink-0 max-w-[55%] truncate">
+                          <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#C6532B] shrink-0" />
                           <span className="truncate">{item.location}</span>
                         </span>
                       </div>
 
                       {/* Title & Image Layout */}
-                      <div className="flex flex-col sm:flex-row gap-5 items-start mb-4">
-                        <div className="space-y-1.5 flex-1 min-w-0">
-                          <h3 className="font-serif text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
+                      <div className="flex flex-row gap-3 sm:gap-5 items-start mb-2.5 sm:mb-3.5">
+                        <div className="space-y-1 flex-1 min-w-0">
+                          <h3 className="font-serif text-lg sm:text-2xl font-bold text-[#351E1A] group-hover:text-[#C6532B] transition-colors leading-snug">
                             {item.title}
                           </h3>
                           <p className="font-sans text-xs font-semibold text-[#582822]">
@@ -2678,7 +2678,7 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                           </p>
                         </div>
 
-                        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden shrink-0 border border-[#E8D5C2] shadow-xs bg-[#351E1A]/5">
+                        <div className="w-16 h-16 sm:w-22 sm:h-22 rounded-xl sm:rounded-2xl overflow-hidden shrink-0 border border-[#E8D5C2] shadow-xs bg-[#351E1A]/5">
                           <img
                             src={item.image}
                             alt={item.title}
@@ -2693,27 +2693,27 @@ export const FoodAndCultureSection: React.FC<FoodAndCultureSectionProps> = ({
                       </div>
 
                       {/* Description */}
-                      <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed mb-4">
+                      <p className="font-sans text-xs sm:text-sm text-[#351E1A]/75 leading-relaxed mb-3 line-clamp-3 sm:line-clamp-none">
                         {item.description}
                       </p>
                     </div>
 
-                    <div className="space-y-3 mt-auto">
+                    <div className="space-y-2 sm:space-y-2.5 mt-auto">
                       {/* Bottom Quote & Timing */}
-                      <div className="pt-3 border-t border-[#E8D5C2]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="pt-2 sm:pt-2.5 border-t border-[#E8D5C2]/80 flex flex-col sm:flex-row sm:items-center justify-between gap-1 sm:gap-2">
                         <span className="font-script text-xs sm:text-sm text-[#582822] italic leading-tight">
                           {item.quote}
                         </span>
-                        <span className="text-[10px] font-mono font-bold text-[#C6532B] uppercase tracking-wider shrink-0">
+                        <span className="text-[9px] sm:text-[10px] font-mono font-bold text-[#C6532B] uppercase tracking-wider shrink-0">
                           {item.timing}
                         </span>
                       </div>
 
                       {/* Interactive Tap Prompt Banner */}
-                      <div className="pt-2.5 border-t border-dashed border-[#E8D5C2] flex items-center justify-between text-[11px] font-sans font-bold text-[#C6532B] group-hover:text-[#9A3816] transition-colors">
-                        <span className="flex items-center gap-1.5">
-                          <Sparkles className="w-3.5 h-3.5 text-[#C6532B]" />
-                          <span>Tap for lore, stalls &amp; native secrets</span>
+                      <div className="pt-2 border-t border-dashed border-[#E8D5C2] flex items-center justify-between text-[10px] sm:text-[11px] font-sans font-bold text-[#C6532B] group-hover:text-[#9A3816] transition-colors">
+                        <span className="flex items-center gap-1">
+                          <Sparkles className="w-3 h-3 text-[#C6532B]" />
+                          <span>Tap for lore &amp; native secrets</span>
                         </span>
                         <span className="font-mono text-xs group-hover:translate-x-1 transition-transform">&rarr;</span>
                       </div>
