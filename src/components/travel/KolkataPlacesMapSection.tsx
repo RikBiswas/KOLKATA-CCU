@@ -33,7 +33,9 @@ import {
   Route as RouteIcon,
   LocateFixed,
   Sun,
-  Moon
+  Moon,
+  Menu,
+  X
 } from 'lucide-react';
 
 export interface KolkataPlaceItem {
@@ -364,6 +366,18 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
   const [searchQuery, setSearchQuery] = useState('');
   const [mapTheme, setMapTheme] = useState<'light' | 'dark'>('light');
   const [is3D, setIs3D] = useState(true);
+  const [isPlacesDrawerOpen, setIsPlacesDrawerOpen] = useState(false);
+
+  // Close places drawer on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isPlacesDrawerOpen) {
+        setIsPlacesDrawerOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isPlacesDrawerOpen]);
 
   // OpenFreeMap 3D style URL
   const openStreetMap3DStyle = 'https://tiles.openfreemap.org/styles/liberty';
@@ -660,9 +674,18 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
     detectLiveLocation(true);
   };
 
-  // Fly smoothly to landmark
+  // Fly smoothly to landmark and close places drawer
   const handleSelectPlace = (place: KolkataPlaceItem) => {
     setSelectedPlaceId(place.id);
+    setIsPlacesDrawerOpen(false);
+    if (mapRef.current) {
+      mapRef.current.flyTo({
+        center: place.coordinates,
+        zoom: 14.5,
+        pitch: is3D ? 60 : 0,
+        duration: 1200,
+      });
+    }
   };
 
   // Handle opening full destination modal
@@ -829,10 +852,8 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
           </div>
         </div>
 
-        {/* Main Map + Places List Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Map Canvas (8 cols on Desktop) */}
-          <div className="lg:col-span-8 bg-[#FFF8EF] rounded-2xl sm:rounded-3xl border border-[#E8D5C2] overflow-hidden shadow-xl p-1 relative">
+        {/* Main Map Canvas (Full Width) */}
+        <div className="w-full bg-[#FFF8EF] rounded-2xl sm:rounded-3xl border border-[#E8D5C2] overflow-hidden shadow-xl p-1 relative">
             {/* Top Bar inside Map Frame with GPS Status & Manual Trigger */}
             <div className="bg-[#F7EBDD]/95 backdrop-blur-md px-3 sm:px-4 py-2 border-b border-[#E8D5C2] flex flex-wrap items-center justify-between gap-2 text-xs text-[#582822]">
               <div className="flex items-center gap-2 flex-wrap">
@@ -910,9 +931,36 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
             )}
 
             {/* mapcn Map Container with explicit height */}
-            <div className="h-[380px] sm:h-[500px] lg:h-[620px] w-full relative">
-              {/* Map Floating Controls: 3D toggle & 2D-only Light/Dark toggle */}
-              <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5">
+            <div className="h-[460px] sm:h-[580px] lg:h-[700px] w-full relative overflow-hidden rounded-xl">
+              {/* Map Floating Controls: Hamburger Places Menu, 3D toggle & 2D-only Light/Dark toggle */}
+              <div className="absolute top-3 right-3 z-30 flex items-center gap-2">
+                {/* Hamburger Places Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsPlacesDrawerOpen((prev) => !prev)}
+                  className={cn(
+                    "px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center gap-2 shadow-lg backdrop-blur-md transition-all cursor-pointer active:scale-95",
+                    isPlacesDrawerOpen
+                      ? "bg-[#C6532B] text-white border-[#C6532B] shadow-[#C6532B]/30 ring-2 ring-[#C6532B]/30"
+                      : "bg-[#FFF8EF]/95 hover:bg-[#FFF8EF] text-[#351E1A] border-[#E8D5C2]"
+                  )}
+                  title={isPlacesDrawerOpen ? "Close Places Menu" : "View Places List"}
+                  aria-expanded={isPlacesDrawerOpen}
+                >
+                  {isPlacesDrawerOpen ? (
+                    <X className="size-4" />
+                  ) : (
+                    <Menu className="size-4 text-[#C6532B]" />
+                  )}
+                  <span className="font-semibold">Places</span>
+                  <span className={cn(
+                    "text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold",
+                    isPlacesDrawerOpen ? "bg-white/20 text-white" : "bg-[#C6532B]/10 text-[#C6532B]"
+                  )}>
+                    {filteredPlaces.length}
+                  </span>
+                </button>
+
                 {/* 3D / 2D Toggle Button */}
                 <button
                   type="button"
@@ -1197,110 +1245,182 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
                   })}
                 </div>
               )}
-            </div>
-          </div>
-
-          {/* Curated Places Deck (4 cols on Desktop) with Distances from Current Location */}
-          <div className="lg:col-span-4 flex flex-col h-[360px] sm:h-[480px] lg:h-[660px] bg-[#FFF8EF] rounded-2xl sm:rounded-3xl border border-[#E8D5C2] shadow-xl overflow-hidden">
-            {/* Header */}
-            <div className="p-4 border-b border-[#E8D5C2] bg-[#F7EBDD]/70 flex items-center justify-between">
-              <div>
-                <h3 className="font-serif font-bold text-lg text-[#351E1A]">
-                  Places ({filteredPlaces.length})
-                </h3>
-                <p className="text-xs text-[#582822]/70 font-sans">
-                  Click any place to calculate route & distance
-                </p>
-              </div>
-              <Sparkles className="size-4 text-[#C6532B]" />
-            </div>
-
-            {/* Scrollable Places List */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-2.5 divide-y divide-[#E8D5C2]/40 scrollbar-thin scrollbar-thumb-[#E8D5C2]">
-              {filteredPlaces.length === 0 ? (
-                <div className="py-12 text-center text-[#582822]/60 text-xs">
-                  No places match "{searchQuery}".
-                </div>
-              ) : (
-                filteredPlaces.map((place) => {
-                  const isSelected = selectedPlaceId === place.id;
-                  return (
-                    <div
-                      key={place.id}
-                      onClick={() => handleSelectPlace(place)}
-                      className={`pt-2.5 first:pt-0 group flex items-start gap-3 p-2.5 rounded-xl transition-all cursor-pointer ${isSelected
-                          ? 'bg-[#F7EBDD] border border-[#C6532B]/50 shadow-xs ring-1 ring-[#C6532B]/30'
-                          : 'hover:bg-[#F7EBDD]/50 border border-transparent'
-                        }`}
-                    >
-                      {/* Image Thumbnail */}
-                      <div className="relative size-16 rounded-lg overflow-hidden shrink-0 border border-[#E8D5C2] bg-[#351E1A]">
-                        <img
-                          src={place.imageUrl}
-                          alt={place.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/images/destinations/victoria-memorial.jpg';
-                          }}
-                        />
-                        <span className="absolute bottom-0 inset-x-0 bg-[#351E1A]/80 text-[8px] font-mono text-center text-[#FFF8EF] py-0.5">
-                          {place.rating} ★
-                        </span>
-                      </div>
-
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center justify-between gap-1">
-                          <h4 className="font-serif font-semibold text-sm text-[#351E1A] truncate group-hover:text-[#C6532B] transition-colors">
-                            {place.name}
-                          </h4>
-                          {/* Live Distance from User's Current Location */}
-                          <span className="text-[11px] font-mono font-bold text-[#C6532B] shrink-0 bg-[#C6532B]/10 px-2 py-0.5 rounded-full">
-                            {place.formattedDistance}
-                          </span>
-                        </div>
-
-                        {place.bengaliName && (
-                          <p className="font-bengali text-[11px] text-[#582822]/70 leading-none mb-1">
-                            {place.bengaliName}
-                          </p>
-                        )}
-
-                        <p className="text-[11px] text-[#582822]/80 line-clamp-1 mb-1.5">
-                          {place.tagline}
-                        </p>
-
-                        <div className="flex items-center justify-between text-[10px] text-[#582822]/70">
-                          <span className="flex items-center gap-1 truncate max-w-[170px]">
-                            <MapPin className="size-3 text-[#C6532B] shrink-0" />
-                            {place.metroStop}
-                          </span>
-                          <span className="text-[#C6532B] group-hover:translate-x-0.5 transition-transform flex items-center font-semibold">
-                            Route <ChevronRight className="size-3" />
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
+              {/* Places Drawer Backdrop */}
+              {isPlacesDrawerOpen && (
+                <div
+                  className="absolute inset-0 bg-[#351E1A]/40 backdrop-blur-xs z-40 transition-opacity animate-in fade-in duration-200"
+                  onClick={() => setIsPlacesDrawerOpen(false)}
+                  aria-hidden="true"
+                />
               )}
-            </div>
 
-            {/* Bottom Insight Footer */}
-            <div className="p-3 bg-[#F7EBDD]/80 border-t border-[#E8D5C2] flex items-center justify-between gap-2 text-xs">
-              <p className="text-[11px] text-[#582822]/80 truncate">
-                📍 <span className="font-semibold">Live GPS:</span> {userLocation.name}
-              </p>
-              <button
-                type="button"
-                onClick={() => detectLiveLocation(true)}
-                className="text-[11px] font-bold text-[#C6532B] hover:text-[#582822] underline cursor-pointer shrink-0"
+              {/* Places Slide-Over Drawer */}
+              <div
+                className={cn(
+                  'absolute top-0 right-0 bottom-0 w-full sm:w-[380px] md:w-[420px] bg-[#FFF8EF] border-l border-[#E8D5C2] shadow-2xl z-50 flex flex-col transition-transform duration-300 ease-out',
+                  isPlacesDrawerOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
+                )}
+                role="dialog"
+                aria-label="Places directory"
+                aria-modal="true"
               >
-                {gpsStatus === 'locked' ? 'Update GPS' : 'Detect GPS'}
-              </button>
+                {/* Header */}
+                <div className="p-3.5 sm:p-4 border-b border-[#E8D5C2] bg-[#F7EBDD]/90 backdrop-blur-md flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div className="size-8 rounded-lg bg-[#C6532B]/10 border border-[#C6532B]/20 flex items-center justify-center text-[#C6532B]">
+                      <Sparkles className="size-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-serif font-bold text-base sm:text-lg text-[#351E1A] leading-tight">
+                        Places ({filteredPlaces.length})
+                      </h3>
+                      <p className="text-[11px] text-[#582822]/70 font-sans">
+                        Select a place to navigate on map
+                      </p>
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsPlacesDrawerOpen(false)}
+                    className="size-8 rounded-lg border border-[#E8D5C2] bg-[#FFF8EF] hover:bg-[#F7EBDD] text-[#351E1A] flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
+                    title="Close Places Menu (Esc)"
+                    aria-label="Close"
+                  >
+                    <X className="size-4" />
+                  </button>
+                </div>
+
+                {/* Quick Search & Filter Inside Drawer */}
+                <div className="p-3 border-b border-[#E8D5C2]/70 bg-[#FFF8EF] space-y-2">
+                  <div className="relative">
+                    <Search className="size-3.5 text-[#582822]/60 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      placeholder="Search places or metro..."
+                      className="w-full bg-[#F7EBDD]/50 border border-[#E8D5C2] rounded-lg pl-8 pr-7 py-1.5 text-xs text-[#351E1A] placeholder:text-[#582822]/50 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
+                    />
+                    {searchQuery && (
+                      <button
+                        type="button"
+                        onClick={() => setSearchQuery('')}
+                        className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-[#582822]/60 hover:text-[#582822] cursor-pointer"
+                      >
+                        ✕
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Category Chips inside Drawer */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+                    {['All Places', 'Colonial Heritage', 'Riverfront & Ghats', 'Spiritual Heritage', 'Culture & Literature', 'Gastronomy & Boulevards'].map((cat) => (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setSelectedCategory(cat)}
+                        className={cn(
+                          "text-[10px] px-2.5 py-1 rounded-full font-medium whitespace-nowrap transition-all cursor-pointer",
+                          selectedCategory === cat
+                            ? "bg-[#C6532B] text-white font-semibold shadow-2xs"
+                            : "bg-[#F7EBDD]/60 text-[#582822] border border-[#E8D5C2] hover:bg-[#F7EBDD]"
+                        )}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Scrollable Places List */}
+                <div className="flex-1 overflow-y-auto p-3 space-y-2.5 divide-y divide-[#E8D5C2]/40 scrollbar-thin scrollbar-thumb-[#E8D5C2]">
+                  {filteredPlaces.length === 0 ? (
+                    <div className="py-12 text-center text-[#582822]/60 text-xs">
+                      No places match "{searchQuery}".
+                    </div>
+                  ) : (
+                    filteredPlaces.map((place) => {
+                      const isSelected = selectedPlaceId === place.id;
+                      return (
+                        <div
+                          key={place.id}
+                          onClick={() => handleSelectPlace(place)}
+                          className={cn(
+                            "pt-2.5 first:pt-0 group flex items-start gap-3 p-2.5 rounded-xl transition-all cursor-pointer",
+                            isSelected
+                              ? "bg-[#F7EBDD] border border-[#C6532B]/50 shadow-xs ring-1 ring-[#C6532B]/30"
+                              : "hover:bg-[#F7EBDD]/60 border border-transparent"
+                          )}
+                        >
+                          {/* Image Thumbnail */}
+                          <div className="relative size-14 sm:size-16 rounded-lg overflow-hidden shrink-0 border border-[#E8D5C2] bg-[#351E1A]">
+                            <img
+                              src={place.imageUrl}
+                              alt={place.name}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = '/images/destinations/victoria-memorial.jpg';
+                              }}
+                            />
+                            <span className="absolute bottom-0 inset-x-0 bg-[#351E1A]/85 text-[8px] font-mono text-center text-[#FFF8EF] py-0.5">
+                              {place.rating} ★
+                            </span>
+                          </div>
+
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1">
+                              <h4 className="font-serif font-semibold text-xs sm:text-sm text-[#351E1A] truncate group-hover:text-[#C6532B] transition-colors">
+                                {place.name}
+                              </h4>
+                              {/* Live Distance */}
+                              <span className="text-[10px] sm:text-[11px] font-mono font-bold text-[#C6532B] shrink-0 bg-[#C6532B]/10 px-2 py-0.5 rounded-full">
+                                {place.formattedDistance}
+                              </span>
+                            </div>
+
+                            {place.bengaliName && (
+                              <p className="font-bengali text-[11px] text-[#582822]/70 leading-none mb-1">
+                                {place.bengaliName}
+                              </p>
+                            )}
+
+                            <p className="text-[11px] text-[#582822]/80 line-clamp-1 mb-1.5">
+                              {place.tagline}
+                            </p>
+
+                            <div className="flex items-center justify-between text-[10px] text-[#582822]/70">
+                              <span className="flex items-center gap-1 truncate max-w-[170px]">
+                                <MapPin className="size-3 text-[#C6532B] shrink-0" />
+                                {place.metroStop}
+                              </span>
+                              <span className="text-[#C6532B] group-hover:translate-x-0.5 transition-transform flex items-center font-semibold">
+                                Navigate <ChevronRight className="size-3" />
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  )}
+                </div>
+
+                {/* Bottom Insight Footer */}
+                <div className="p-3 bg-[#F7EBDD]/90 border-t border-[#E8D5C2] flex items-center justify-between gap-2 text-xs">
+                  <p className="text-[11px] text-[#582822]/80 truncate">
+                    📍 <span className="font-semibold">Live GPS:</span> {userLocation.name}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => detectLiveLocation(true)}
+                    className="text-[11px] font-bold text-[#C6532B] hover:text-[#582822] underline cursor-pointer shrink-0"
+                  >
+                    {gpsStatus === 'locked' ? 'Update GPS' : 'Detect GPS'}
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
         {/* Footnote on OSRM & OpenStreetMap routing */}
         <div className="mt-8 text-center text-xs text-[#582822]/60 font-sans flex items-center justify-center gap-2">
