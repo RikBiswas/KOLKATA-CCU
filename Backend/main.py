@@ -158,16 +158,57 @@ app.add_middleware(
 )
 
 
+def _clean_conn_str(val: Optional[str]) -> Optional[str]:
+    """Strip leading/trailing whitespace and surrounding quotes."""
+    if not val:
+        return None
+    cleaned = val.strip().strip('"').strip("'").strip()
+    return cleaned if cleaned else None
+
+
+# Module-level cached working connection string
+_active_db_url: Optional[str] = None
+
+
 def get_db_connection():
-    """Get a direct connection to Neon PostgreSQL."""
-    if not DATABASE_URL:
+    """Get a direct connection to Neon PostgreSQL with resilient multi-endpoint fallback."""
+    global _active_db_url
+
+    candidates: List[str] = []
+    if _active_db_url:
+        candidates.append(_active_db_url)
+
+    for env_var in ["DATABASE_URL_POOLED", "DATABASE_URL", "DATABASE_URL_UNPOOLED"]:
+        raw = os.getenv(env_var)
+        cleaned = _clean_conn_str(raw)
+        if cleaned:
+            if "<PASSWORD>" in cleaned:
+                logger.error(f"[{env_var}] contains placeholder '<PASSWORD>'. Update with real Neon database password in Render environment variables.")
+                continue
+            if cleaned not in candidates:
+                candidates.append(cleaned)
+            # Add variant without channel_binding=require in case client libpq does not support it
+            if "channel_binding=" in cleaned:
+                alt = re.sub(r'([?&])channel_binding=[^&]*(&|$)', r'\1', cleaned).rstrip('&').rstrip('?')
+                if alt not in candidates:
+                    candidates.append(alt)
+
+    if not candidates:
         return None
-    try:
-        conn = psycopg2.connect(DATABASE_URL)
-        return conn
-    except Exception as e:
-        logger.error(f"Failed to connect to Neon PostgreSQL: {e}")
-        return None
+
+    last_error = None
+    for url in candidates:
+        try:
+            conn = psycopg2.connect(url)
+            _active_db_url = url
+            return conn
+        except Exception as e:
+            last_error = e
+
+    if last_error:
+        logger.error(f"Failed to connect to Neon PostgreSQL: {last_error}")
+    return None
+
 
 
 def init_db():
