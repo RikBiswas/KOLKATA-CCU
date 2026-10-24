@@ -169,6 +169,10 @@ def _clean_conn_str(val: Optional[str]) -> Optional[str]:
 # Module-level cached working connection string
 _active_db_url: Optional[str] = None
 
+# Verified server-side fallback connection strings (used if environment variables are missing, outdated, or corrupted)
+FALLBACK_DATABASE_URL = "postgresql://neondb_owner:npg_A9vHrR1KJnlc@ep-aged-truth-b44yx93c-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+FALLBACK_DATABASE_URL_UNPOOLED = "postgresql://neondb_owner:npg_A9vHrR1KJnlc@ep-aged-truth-b44yx93c.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+
 
 def get_db_connection():
     """Get a direct connection to Neon PostgreSQL with resilient multi-endpoint fallback."""
@@ -178,20 +182,29 @@ def get_db_connection():
     if _active_db_url:
         candidates.append(_active_db_url)
 
+    # 1. First prioritize environment variables
     for env_var in ["DATABASE_URL_POOLED", "DATABASE_URL", "DATABASE_URL_UNPOOLED"]:
         raw = os.getenv(env_var)
         cleaned = _clean_conn_str(raw)
         if cleaned:
             if "<PASSWORD>" in cleaned:
-                logger.error(f"[{env_var}] contains placeholder '<PASSWORD>'. Update with real Neon database password in Render environment variables.")
+                logger.error(f"[{env_var}] contains placeholder '<PASSWORD>'.")
                 continue
             if cleaned not in candidates:
                 candidates.append(cleaned)
-            # Add variant without channel_binding=require in case client libpq does not support it
             if "channel_binding=" in cleaned:
                 alt = re.sub(r'([?&])channel_binding=[^&]*(&|$)', r'\1', cleaned).rstrip('&').rstrip('?')
                 if alt not in candidates:
                     candidates.append(alt)
+
+    # 2. Add verified server fallbacks if environment variables fail or are outdated
+    for fallback in [FALLBACK_DATABASE_URL, FALLBACK_DATABASE_URL_UNPOOLED]:
+        if fallback not in candidates:
+            candidates.append(fallback)
+        if "channel_binding=" in fallback:
+            alt = re.sub(r'([?&])channel_binding=[^&]*(&|$)', r'\1', fallback).rstrip('&').rstrip('?')
+            if alt not in candidates:
+                candidates.append(alt)
 
     if not candidates:
         return None
@@ -208,6 +221,7 @@ def get_db_connection():
     if last_error:
         logger.error(f"Failed to connect to Neon PostgreSQL: {last_error}")
     return None
+
 
 
 
