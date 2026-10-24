@@ -1260,9 +1260,8 @@ export const KolkataPlacesMapSection: React.FC<KolkataPlacesMapSectionProps> = (
                   'absolute top-0 right-0 bottom-0 w-full sm:w-[380px] md:w-[420px] bg-[#FFF8EF] border-l border-[#E8D5C2] shadow-2xl z-50 flex flex-col transition-transform duration-300 ease-out',
                   isPlacesDrawerOpen ? 'translate-x-0' : 'translate-x-full pointer-events-none'
                 )}
-                role="dialog"
+                role="region"
                 aria-label="Places directory"
-                aria-modal="true"
               >
                 {/* Header */}
                 <div className="p-3.5 sm:p-4 border-b border-[#E8D5C2] bg-[#F7EBDD]/90 backdrop-blur-md flex items-center justify-between">

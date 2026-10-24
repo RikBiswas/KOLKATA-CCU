@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, Compass, Map, Menu, X, BookOpen, Sparkles, Bookmark, Calendar, Star } from 'lucide-react';
+import { cn } from '../../lib/utils';
 
 interface TravelNavbarProps {
   activeTab: string;
@@ -25,7 +26,6 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
   // Close search on click outside if search query is empty
@@ -62,30 +62,6 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Detect when any card or modal is open in the application
-  useEffect(() => {
-    const updateModalState = () => {
-      const hasOverflowHidden = document.body.style.overflow === 'hidden';
-      const hasDialog = Boolean(document.querySelector('[role="dialog"], [aria-modal="true"]'));
-      setIsModalOpen(hasOverflowHidden || hasDialog);
-    };
-
-    updateModalState();
-
-    const observer = new MutationObserver(() => {
-      updateModalState();
-    });
-
-    observer.observe(document.body, { 
-      attributes: true, 
-      attributeFilter: ['style', 'class'],
-      childList: true,
-      subtree: true,
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
   const navLinks = [
     { id: 'home', label: 'Home' },
     { id: 'neighborhoods', label: 'Districts' },
@@ -116,30 +92,30 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
   return (
     <>
       {/* Mobile Menu Dimming Backdrop Overlay */}
-      {mobileMenuOpen && (
-        <div
-          className="fixed inset-0 bg-[#351E1A]/40 backdrop-blur-xs z-30 transition-opacity xl:hidden pointer-events-auto"
-          onClick={() => setMobileMenuOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+      <div
+        className={cn(
+          "fixed inset-0 bg-[#351E1A]/40 backdrop-blur-xs z-30 transition-opacity duration-300 xl:hidden",
+          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        )}
+        onClick={() => setMobileMenuOpen(false)}
+        aria-hidden="true"
+      />
 
       <header 
-        className={`fixed top-3 sm:top-4 xl:top-5 inset-x-0 flex justify-center pointer-events-none px-3 sm:px-4 xl:px-5 2xl:px-6 transition-all duration-300 ease-out ${
-          isModalOpen ? 'z-10 opacity-40 pointer-events-none' : 'z-40'
-        } translate-y-0 opacity-100 scale-100`}
+        className="fixed top-3 sm:top-4 xl:top-5 inset-x-0 z-40 flex justify-center pointer-events-none px-3 sm:px-4 xl:px-5 2xl:px-6 transition-all duration-300 ease-out translate-y-0 opacity-100 scale-100"
       >
         {/* Floating Centered Capsule / Card */}
         <div
-          className={`pointer-events-auto w-full max-w-7xl xl:max-w-[1380px] 2xl:max-w-[1440px] transition-all duration-300 border border-[#E8D5C2] ${
+          className={cn(
+            "pointer-events-auto w-full max-w-7xl xl:max-w-[1380px] 2xl:max-w-[1440px] border border-[#E8D5C2] transition-[box-shadow,background-color] duration-300 ease-in-out",
+            "rounded-[26px] sm:rounded-[28px] xl:rounded-full",
             mobileMenuOpen
-              ? 'rounded-2xl sm:rounded-3xl shadow-[0_16px_40px_rgba(53,30,26,0.18)]'
-              : 'rounded-full shadow-[0_8px_30px_rgba(53,30,26,0.08)]'
-          } ${
+              ? "shadow-[0_16px_40px_rgba(53,30,26,0.18)]"
+              : "shadow-[0_8px_30px_rgba(53,30,26,0.08)]",
             isScrolled
-              ? 'bg-[#FFF8EF]/95 backdrop-blur-md py-2 px-3 sm:px-4 xl:px-4 2xl:px-5 shadow-[0_12px_36px_rgba(53,30,26,0.12)]'
-              : 'bg-[#F7EBDD]/95 backdrop-blur-md py-2 sm:py-2.5 xl:py-2.5 2xl:py-3 px-3 sm:px-4 xl:px-4 2xl:px-5'
-          }`}
+              ? "bg-[#FFF8EF]/98 backdrop-blur-md py-2 px-3 sm:px-4 xl:px-4 2xl:px-5 shadow-[0_12px_36px_rgba(53,30,26,0.14)]"
+              : "bg-[#F7EBDD]/98 backdrop-blur-md py-2 sm:py-2.5 xl:py-2.5 2xl:py-3 px-3 sm:px-4 xl:px-4 2xl:px-5"
+          )}
         >
           <div className="flex items-center justify-between gap-1.5 sm:gap-2.5 xl:gap-3 2xl:gap-4">
             {/* Brand Wordmark & Descriptor */}
@@ -289,110 +265,133 @@ export const TravelNavbar: React.FC<TravelNavbarProps> = ({
                 <span>Review</span>
               </button>
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Button with morphing icon animation */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="xl:hidden p-1.5 rounded-full text-[#351E1A] hover:bg-[#E8D5C2]/50 transition-colors cursor-pointer shrink-0"
+                className="xl:hidden p-1.5 rounded-full text-[#351E1A] hover:bg-[#E8D5C2]/50 transition-colors duration-200 cursor-pointer shrink-0 active:scale-90"
                 aria-label="Toggle navigation menu"
+                aria-expanded={mobileMenuOpen}
               >
-                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                <div className="relative size-5 flex items-center justify-center">
+                  <Menu
+                    className={cn(
+                      "w-5 h-5 absolute transition-all duration-300 ease-in-out",
+                      mobileMenuOpen ? "opacity-0 rotate-90 scale-75" : "opacity-100 rotate-0 scale-100"
+                    )}
+                  />
+                  <X
+                    className={cn(
+                      "w-5 h-5 absolute transition-all duration-300 ease-in-out",
+                      mobileMenuOpen ? "opacity-100 rotate-0 scale-100" : "opacity-0 -rotate-90 scale-75"
+                    )}
+                  />
+                </div>
               </button>
             </div>
           </div>
 
-          {/* Mobile Dropdown Panel */}
-          {mobileMenuOpen && (
-            <div className="xl:hidden mt-3 pt-3 border-t border-[#E8D5C2] space-y-2.5 pb-2 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar">
-              {/* Mobile Search Bar */}
-              <div className="relative mb-2">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => onSearchChange(e.target.value)}
-                  placeholder="Search landmarks, trails, food..."
-                  aria-label="Search landmarks, trails, food"
-                  className="w-full text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-8 py-2 text-[#351E1A] placeholder-[#351E1A]/60 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
-                />
-                <Search className="w-3.5 h-3.5 text-[#351E1A]/60 absolute left-2.5 top-2.5 pointer-events-none" />
-                {searchQuery && (
-                  <button
-                    onClick={() => onSearchChange('')}
-                    className="absolute right-3 top-2 text-xs text-[#351E1A]/70 hover:text-[#351E1A]"
-                    aria-label="Clear search query"
-                  >
-                    &times;
-                  </button>
-                )}
-              </div>
-
-              {/* Symmetrical 2-Column Links Grid (10 items = 5 full rows) */}
-              <div className="grid grid-cols-2 gap-1.5">
-                {navLinks.map((link) => {
-                  const isActive = activeTab === link.id;
-                  return (
+          {/* Mobile Dropdown Panel with Smooth CSS Grid Height & Opacity Transition */}
+          <div
+            className={cn(
+              "grid transition-[grid-template-rows,opacity] duration-300 ease-in-out xl:hidden",
+              mobileMenuOpen
+                ? "grid-rows-[1fr] opacity-100"
+                : "grid-rows-[0fr] opacity-0 pointer-events-none"
+            )}
+          >
+            <div className="overflow-hidden">
+              <div className="mt-3 pt-3 border-t border-[#E8D5C2] space-y-2.5 pb-2 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar">
+                {/* Mobile Search Bar */}
+                <div className="relative mb-2">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => onSearchChange(e.target.value)}
+                    placeholder="Search landmarks, trails, food..."
+                    aria-label="Search landmarks, trails, food"
+                    className="w-full text-xs bg-[#FFF8EF] border border-[#E8D5C2] rounded-full pl-8 pr-8 py-2 text-[#351E1A] placeholder-[#351E1A]/60 focus:outline-none focus:ring-1 focus:ring-[#C6532B]"
+                  />
+                  <Search className="w-3.5 h-3.5 text-[#351E1A]/60 absolute left-2.5 top-2.5 pointer-events-none" />
+                  {searchQuery && (
                     <button
-                      key={link.id}
-                      onClick={() => handleLinkClick(link.id)}
-                      style={{
-                        backgroundColor: isActive ? '#351E1A' : undefined,
-                        color: isActive ? '#FFF8EF' : '#351E1A',
-                      }}
-                      className={`text-left px-3 py-2.5 rounded-xl text-xs font-sans font-medium transition-colors cursor-pointer min-h-[42px] flex items-center justify-between gap-1.5 ${
-                        isActive
-                          ? 'bg-[#351E1A] !text-[#FFF8EF] font-bold shadow-xs'
-                          : 'text-[#351E1A]/85 hover:bg-[#E8D5C2]/45 hover:text-[#351E1A]'
-                      }`}
+                      onClick={() => onSearchChange('')}
+                      className="absolute right-3 top-2 text-xs text-[#351E1A]/70 hover:text-[#351E1A]"
+                      aria-label="Clear search query"
                     >
-                      <span
-                        className="truncate"
-                        style={{ color: isActive ? '#FFF8EF' : '#351E1A' }}
-                      >
-                        {link.label}
-                      </span>
-                      {isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0" />
-                      )}
+                      &times;
                     </button>
-                  );
-                })}
-              </div>
+                  )}
+                </div>
 
-              {/* Mobile Action Tools Quick Row */}
-              <div className="pt-2 border-t border-[#E8D5C2]/70 grid grid-cols-2 gap-2">
-                {onOpenItineraryBuilder && (
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenItineraryBuilder();
-                    }}
-                    className="px-3 py-2.5 rounded-xl bg-[#FFF8EF] border border-[#C5A25A] text-[#351E1A] text-xs font-sans font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
-                  >
-                    <Calendar className="w-3.5 h-3.5 text-[#C6532B]" />
-                    <span>Plan My Day</span>
-                  </button>
-                )}
+                {/* Symmetrical 2-Column Links Grid (10 items = 5 full rows) */}
+                <div className="grid grid-cols-2 gap-1.5">
+                  {navLinks.map((link) => {
+                    const isActive = activeTab === link.id;
+                    return (
+                      <button
+                        key={link.id}
+                        onClick={() => handleLinkClick(link.id)}
+                        style={{
+                          backgroundColor: isActive ? '#351E1A' : undefined,
+                          color: isActive ? '#FFF8EF' : '#351E1A',
+                        }}
+                        className={`text-left px-3 py-2.5 rounded-xl text-xs font-sans font-medium transition-colors cursor-pointer min-h-[42px] flex items-center justify-between gap-1.5 ${
+                          isActive
+                            ? 'bg-[#351E1A] !text-[#FFF8EF] font-bold shadow-xs'
+                            : 'text-[#351E1A]/85 hover:bg-[#E8D5C2]/45 hover:text-[#351E1A]'
+                        }`}
+                      >
+                        <span
+                          className="truncate"
+                          style={{ color: isActive ? '#FFF8EF' : '#351E1A' }}
+                        >
+                          {link.label}
+                        </span>
+                        {isActive && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#C6532B] shrink-0" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
 
-                {onOpenDiary && (
-                  <button
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      onOpenDiary();
-                    }}
-                    className="px-3 py-2.5 rounded-xl bg-[#F7EBDD] border border-[#E8D5C2] text-[#351E1A] text-xs font-sans font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
-                  >
-                    <Bookmark className="w-3.5 h-3.5 text-[#C6532B]" />
-                    <span>My Diary ({diaryCount})</span>
-                  </button>
-                )}
-              </div>
+                {/* Mobile Action Tools Quick Row */}
+                <div className="pt-2 border-t border-[#E8D5C2]/70 grid grid-cols-2 gap-2">
+                  {onOpenItineraryBuilder && (
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onOpenItineraryBuilder();
+                      }}
+                      className="px-3 py-2.5 rounded-xl bg-[#FFF8EF] border border-[#C5A25A] text-[#351E1A] text-xs font-sans font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
+                    >
+                      <Calendar className="w-3.5 h-3.5 text-[#C6532B]" />
+                      <span>Plan My Day</span>
+                    </button>
+                  )}
 
-              {/* Bottom Colophon */}
-              <div className="pt-2 pb-0.5 flex items-center justify-between text-[11px] text-[#351E1A]/75 px-1 border-t border-[#E8D5C2]/50">
-                <span className="font-sans font-medium">Calcutta Travel Journal</span>
-                <span className="font-bengali text-[#C6532B] font-semibold">স্মৃতির শহর &bull; CCU</span>
+                  {onOpenDiary && (
+                    <button
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onOpenDiary();
+                      }}
+                      className="px-3 py-2.5 rounded-xl bg-[#F7EBDD] border border-[#E8D5C2] text-[#351E1A] text-xs font-sans font-bold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer active:scale-95"
+                    >
+                      <Bookmark className="w-3.5 h-3.5 text-[#C6532B]" />
+                      <span>My Diary ({diaryCount})</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Bottom Colophon */}
+                <div className="pt-2 pb-0.5 flex items-center justify-between text-[11px] text-[#351E1A]/75 px-1 border-t border-[#E8D5C2]/50">
+                  <span className="font-sans font-medium">Calcutta Travel Journal</span>
+                  <span className="font-bengali text-[#C6532B] font-semibold">স্মৃতির শহর &bull; CCU</span>
+                </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </header>
     </>
