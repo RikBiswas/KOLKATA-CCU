@@ -11,7 +11,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "test:frontend": "tsx src/lib/reviewsApi.test.ts",
+    "test:backend": "python -m pytest Backend/test_main.py -v",
+    "test": "npm run test:frontend && npm run test:backend"
   },
   "dependencies": {
     "@neon/config": "^1.9.2",

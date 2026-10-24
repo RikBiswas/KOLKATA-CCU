@@ -2,12 +2,23 @@ import { neon } from '@neondatabase/serverless';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Neon connection string
-const connectionString = 'postgresql://neondb_owner:npg_9tHAB3KvdnWi@ep-aged-truth-b44yx93c-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require';
+// Load environment variables from Backend/.env or root .env
+const rootDir = path.resolve(__dirname, '..');
+dotenv.config({ path: path.join(rootDir, 'Backend', '.env') });
+dotenv.config({ path: path.join(rootDir, '.env') });
+
+const connectionString = process.env.DATABASE_URL_POOLED || process.env.DATABASE_URL;
+
+if (!connectionString) {
+  console.error('Error: DATABASE_URL or DATABASE_URL_POOLED environment variable is required.');
+  process.exit(1);
+}
+
 const sql = neon(connectionString);
 
 async function init() {

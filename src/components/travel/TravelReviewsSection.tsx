@@ -52,7 +52,7 @@ export const TravelReviewsSection: React.FC = () => {
       setReviews([created, ...reviews]);
       setName('');
       setReview('');
-      setStatusMessage('Thank you! Your travel note was added to the Neon Database.');
+      setStatusMessage('Thank you! Your travel note was submitted successfully.');
       setTimeout(() => setShowForm(false), 2000);
     } catch (err: any) {
       setStatusMessage(err?.message || 'Could not submit review. Please try again.');

@@ -7,8 +7,11 @@ import hashlib
 import threading
 from datetime import datetime
 from typing import List, Optional
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response, Header, Security, status
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel, Field, field_validator
 from dotenv import load_dotenv
 import psycopg2
@@ -16,9 +19,9 @@ from psycopg2.extras import RealDictCursor
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("neon_backend")
+logger = logging.getLogger("wander_ccu_backend")
 
-# Load environment variables from .env.local, .env, or Backend/.env
+# Load environment variables strictly from server environment / local env files
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(ROOT_DIR, ".env.local"))
 load_dotenv(os.path.join(ROOT_DIR, ".env"))
@@ -28,6 +31,7 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL_POOLED") or os.getenv("DATABASE_URL")
 DATABASE_URL_UNPOOLED = os.getenv("DATABASE_URL_UNPOOLED") or os.getenv("DATABASE_URL")
 NEON_BRANCH = os.getenv("NEON_BRANCH", "production")
+ADMIN_API_KEY = os.getenv("ADMIN_API_KEY", "wander_ccu_secret_admin_key_2026")
 
 DATA_FILE = os.path.join(os.path.dirname(__file__), "reviews.json")
 
@@ -54,16 +58,13 @@ def generate_unique_review_id() -> int:
     global _id_counter
     with _id_lock:
         _id_counter = (_id_counter + 1) % 1000
-        # Microsecond timestamp (16 digits) * 1000 + counter (3 digits) fits comfortably in Postgres BIGINT (max 9.22e18)
         return int(time.time() * 1000000) * 1000 + _id_counter
 
 
 def get_client_ip(request: Request) -> str:
     """Extract client IP securely without trusting spoofed client-supplied identity headers."""
-    # If behind a known reverse proxy (e.g. Render / Cloudflare), parse X-Forwarded-For securely
     forwarded_for = request.headers.get("x-forwarded-for") or request.headers.get("X-Forwarded-For")
     if forwarded_for:
-        # Take the leftmost untrusted client IP in the chain
         client_ip = forwarded_for.split(",")[0].strip()
         if client_ip:
             return client_ip
@@ -72,7 +73,56 @@ def get_client_ip(request: Request) -> str:
     return "unknown_client"
 
 
-app = FastAPI(title="WANDER.CCU Review & Feedback API")
+app = FastAPI(
+    title="WANDER.CCU Review & Feedback API",
+    description="Secure FastAPI Backend for WANDER.CCU Kolkata Travel Journal with Neon PostgreSQL",
+    version="1.1.0"
+)
+
+# Custom validation exception handler for clean, user-friendly 422 error messages
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    errors = []
+    for err in exc.errors():
+        msg = err.get("msg", "Invalid input")
+        if msg.startswith("Value error, "):
+            msg = msg.replace("Value error, ", "")
+        errors.append(msg)
+    message = "; ".join(errors) if errors else "Invalid submission data."
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"detail": message}
+    )
+
+# Bearer token security scheme for optional OpenAPI documentation
+bearer_scheme = HTTPBearer(auto_error=False)
+
+
+def verify_admin_auth(
+    x_admin_key: Optional[str] = Header(None, alias="X-Admin-Key"),
+    bearer_creds: Optional[HTTPAuthorizationCredentials] = Security(bearer_scheme)
+) -> bool:
+    """Authenticate administrative requests using X-Admin-Key header or Bearer token."""
+    provided_key: Optional[str] = None
+    if x_admin_key:
+        provided_key = x_admin_key.strip()
+    elif bearer_creds and bearer_creds.credentials:
+        provided_key = bearer_creds.credentials.strip()
+
+    if not provided_key:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Authentication required. Provide X-Admin-Key header or Bearer authorization token."
+        )
+
+    if provided_key != ADMIN_API_KEY:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Forbidden: Invalid administrator credentials."
+        )
+
+    return True
+
 
 # Security Headers Middleware
 @app.middleware("http")
@@ -96,13 +146,15 @@ DEFAULT_ALLOWED_ORIGINS = [
 ]
 env_origins = os.getenv("ALLOWED_ORIGINS")
 allowed_origins = [o.strip() for o in env_origins.split(",") if o.strip()] if env_origins else DEFAULT_ALLOWED_ORIGINS
+allowed_origin_regex = os.getenv("ALLOWED_ORIGIN_REGEX", r"^(https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?|https:\/\/.*\.vercel\.app)$")
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_credentials=False,
-    allow_methods=["GET", "POST", "OPTIONS"],
-    allow_headers=["Content-Type", "Accept"],
+    allow_origin_regex=allowed_origin_regex,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Accept", "Authorization", "X-Admin-Key"],
 )
 
 
@@ -145,7 +197,6 @@ def init_db():
             count = cur.fetchone()[0]
 
             if count == 0 and os.path.exists(DATA_FILE):
-                # Seed from existing reviews.json
                 try:
                     with open(DATA_FILE, "r", encoding="utf-8") as f:
                         existing = json.load(f)
@@ -228,22 +279,75 @@ class ReviewCreate(BaseModel):
             raise ValueError("Invalid characters in name.")
         return clean
 
+    @field_validator("role")
+    @classmethod
+    def validate_role(cls, v: Optional[str]) -> str:
+        if not v or not v.strip():
+            return "Peer Reviewer"
+        return v.strip()
+
     @field_validator("review")
     @classmethod
     def validate_review_content(cls, v: str) -> str:
         clean = v.strip()
+        if len(clean) < 2:
+            raise ValueError("Please provide at least 2 characters of feedback.")
         if SCRIPT_PATTERN.search(clean):
             raise ValueError("Review contains prohibited markup or script elements.")
         if URL_PATTERN.search(clean):
             raise ValueError("Reviews cannot contain web links or promotional URLs.")
 
         words = clean.split()
-        if len(words) < 2:
-            raise ValueError("Please provide at least 2 words of meaningful feedback.")
         if len(words) > MAX_WORDS:
             raise ValueError(
                 f"Review exceeds the limit of {MAX_WORDS} words (contains {len(words)} words). "
                 f"Please limit your review to 150 words or fewer."
+            )
+        return clean
+
+
+class ReviewUpdate(BaseModel):
+    name: Optional[str] = Field(None, min_length=1, max_length=100)
+    role: Optional[str] = Field(None, max_length=100)
+    rating: Optional[int] = Field(None, ge=1, le=5)
+    review: Optional[str] = Field(None, min_length=2)
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        clean = v.strip()
+        if not clean:
+            raise ValueError("Name cannot be empty.")
+        if SCRIPT_PATTERN.search(clean):
+            raise ValueError("Invalid characters in name.")
+        return clean
+
+    @field_validator("role")
+    @classmethod
+    def validate_role(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        clean = v.strip()
+        return clean if clean else "Peer Reviewer"
+
+    @field_validator("review")
+    @classmethod
+    def validate_review_content(cls, v: Optional[str]) -> Optional[str]:
+        if v is None:
+            return v
+        clean = v.strip()
+        if len(clean) < 2:
+            raise ValueError("Please provide at least 2 characters of feedback.")
+        if SCRIPT_PATTERN.search(clean):
+            raise ValueError("Review contains prohibited markup or script elements.")
+        if URL_PATTERN.search(clean):
+            raise ValueError("Reviews cannot contain web links or promotional URLs.")
+        words = clean.split()
+        if len(words) > MAX_WORDS:
+            raise ValueError(
+                f"Review exceeds the limit of {MAX_WORDS} words (contains {len(words)} words)."
             )
         return clean
 
@@ -263,11 +367,14 @@ def read_root():
     return {
         "status": "online",
         "service": "WANDER.CCU Kolkata Travel Journal API",
-        "version": "1.0.0",
+        "version": "1.1.0",
         "endpoints": {
             "health": "GET /api/health",
-            "get_reviews": "GET /api/reviews",
+            "list_reviews": "GET /api/reviews",
+            "get_review": "GET /api/reviews/{id}",
             "submit_review": "POST /api/reviews",
+            "update_review": "PUT /api/reviews/{id} (Admin Protected)",
+            "delete_review": "DELETE /api/reviews/{id} (Admin Protected)",
         },
     }
 
@@ -317,7 +424,33 @@ def get_reviews():
     return load_reviews_from_file()
 
 
-@app.post("/api/reviews", response_model=ReviewResponse, status_code=201)
+@app.get("/api/reviews/{review_id}", response_model=ReviewResponse)
+def get_single_review(review_id: int):
+    """Retrieve a single review by ID from Neon PostgreSQL with JSON fallback."""
+    conn = get_db_connection()
+    if conn:
+        try:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute("SELECT id, name, role, rating, review, date FROM reviews WHERE id = %s;", (review_id,))
+                row = cur.fetchone()
+            conn.close()
+            if row:
+                return dict(row)
+        except Exception as e:
+            logger.error(f"Error fetching review {review_id} from Neon: {e}")
+            if conn:
+                conn.close()
+
+    # Fallback to file storage
+    file_reviews = load_reviews_from_file()
+    for item in file_reviews:
+        if item.get("id") == review_id:
+            return item
+
+    raise HTTPException(status_code=404, detail=f"Review with id {review_id} not found.")
+
+
+@app.post("/api/reviews", response_model=ReviewResponse, status_code=status.HTTP_201_CREATED)
 def submit_review(review_data: ReviewCreate, request: Request):
     """
     Save a new review into Neon PostgreSQL.
@@ -329,23 +462,20 @@ def submit_review(review_data: ReviewCreate, request: Request):
 
     # 1. Server-side Rate Limiting strictly by IP
     with _rate_limit_lock:
-        # Prune stale records older than 10 minutes to protect memory
         stale_threshold = now - 600
         stale_keys = [k for k, ts in last_submission_times.items() if ts < stale_threshold]
         for k in stale_keys:
             last_submission_times.pop(k, None)
 
-        # Enforce size ceiling against flood attacks
         if len(last_submission_times) > MAX_RATE_LIMIT_ENTRIES:
             last_submission_times.clear()
 
-        # Check IP cooldown
         if client_ip in last_submission_times:
             elapsed = now - last_submission_times[client_ip]
             if elapsed < RATE_LIMIT_SECONDS:
                 remaining = int(RATE_LIMIT_SECONDS - elapsed) + 1
                 raise HTTPException(
-                    status_code=429,
+                    status_code=status.HTTP_429_TOO_MANY_REQUESTS,
                     detail=f"Rate limit reached: You can submit at most 1 review every 60 seconds. Please wait {remaining} second{'s' if remaining != 1 else ''}."
                 )
 
@@ -359,7 +489,7 @@ def submit_review(review_data: ReviewCreate, request: Request):
 
         if content_hash in recent_review_hashes:
             raise HTTPException(
-                status_code=400,
+                status_code=status.HTTP_400_BAD_REQUEST,
                 detail="A review with identical feedback has already been submitted recently."
             )
 
@@ -373,7 +503,6 @@ def submit_review(review_data: ReviewCreate, request: Request):
         "date": datetime.now().strftime("%b %d, %Y"),
     }
 
-    saved_to_db = False
     conn = get_db_connection()
     if conn:
         try:
@@ -391,7 +520,6 @@ def submit_review(review_data: ReviewCreate, request: Request):
                 ))
                 conn.commit()
             conn.close()
-            saved_to_db = True
             logger.info(f"Saved review {new_entry['id']} to Neon PostgreSQL.")
         except Exception as e:
             logger.error(f"Error saving review to Neon PostgreSQL: {e}")
@@ -415,7 +543,129 @@ def submit_review(review_data: ReviewCreate, request: Request):
     return new_entry
 
 
+@app.put("/api/reviews/{review_id}", response_model=ReviewResponse)
+def update_review(
+    review_id: int,
+    update_data: ReviewUpdate,
+    _auth: bool = Security(verify_admin_auth)
+):
+    """
+    Update an existing review in Neon PostgreSQL and file storage.
+    Protected operation: Requires valid admin credentials (X-Admin-Key or Bearer token).
+    """
+    # Fetch existing review first
+    existing: Optional[dict] = None
+    conn = get_db_connection()
+    if conn:
+        try:
+            with conn.cursor(cursor_factory=RealDictCursor) as cur:
+                cur.execute("SELECT id, name, role, rating, review, date FROM reviews WHERE id = %s;", (review_id,))
+                row = cur.fetchone()
+                if row:
+                    existing = dict(row)
+        except Exception as e:
+            logger.error(f"Error querying review {review_id} for update: {e}")
+
+    if not existing:
+        file_reviews = load_reviews_from_file()
+        for item in file_reviews:
+            if item.get("id") == review_id:
+                existing = item
+                break
+
+    if not existing:
+        if conn:
+            conn.close()
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Review with id {review_id} not found.")
+
+    # Apply updates
+    updated_name = update_data.name.strip() if update_data.name is not None else existing["name"]
+    updated_role = update_data.role.strip() if update_data.role is not None else existing.get("role", "Peer Reviewer")
+    updated_rating = update_data.rating if update_data.rating is not None else existing["rating"]
+    updated_review = update_data.review.strip() if update_data.review is not None else existing["review"]
+
+    updated_entry = {
+        "id": review_id,
+        "name": updated_name,
+        "role": updated_role,
+        "rating": updated_rating,
+        "review": updated_review,
+        "date": existing["date"],
+    }
+
+    # Update in Neon DB
+    if conn:
+        try:
+            with conn.cursor() as cur:
+                cur.execute("""
+                    UPDATE reviews
+                    SET name = %s, role = %s, rating = %s, review = %s
+                    WHERE id = %s;
+                """, (updated_name, updated_role, updated_rating, updated_review, review_id))
+                conn.commit()
+            conn.close()
+            logger.info(f"Updated review {review_id} in Neon PostgreSQL.")
+        except Exception as e:
+            logger.error(f"Error updating review {review_id} in Neon: {e}")
+            if conn:
+                conn.close()
+
+    # Update in local file backup
+    try:
+        file_reviews = load_reviews_from_file()
+        for i, item in enumerate(file_reviews):
+            if item.get("id") == review_id:
+                file_reviews[i] = updated_entry
+                break
+        save_reviews_to_file(file_reviews)
+    except Exception as e:
+        logger.warning(f"Failed updating local file backup: {e}")
+
+    return updated_entry
+
+
+@app.delete("/api/reviews/{review_id}")
+def delete_review(
+    review_id: int,
+    _auth: bool = Security(verify_admin_auth)
+):
+    """
+    Delete an existing review from Neon PostgreSQL and file storage.
+    Protected operation: Requires valid admin credentials (X-Admin-Key or Bearer token).
+    """
+    deleted_from_db = False
+    conn = get_db_connection()
+    if conn:
+        try:
+            with conn.cursor() as cur:
+                cur.execute("DELETE FROM reviews WHERE id = %s RETURNING id;", (review_id,))
+                res = cur.fetchone()
+                if res:
+                    deleted_from_db = True
+                conn.commit()
+            conn.close()
+        except Exception as e:
+            logger.error(f"Error deleting review {review_id} from Neon: {e}")
+            if conn:
+                conn.close()
+
+    deleted_from_file = False
+    try:
+        file_reviews = load_reviews_from_file()
+        initial_len = len(file_reviews)
+        file_reviews = [r for r in file_reviews if r.get("id") != review_id]
+        if len(file_reviews) < initial_len:
+            deleted_from_file = True
+            save_reviews_to_file(file_reviews)
+    except Exception as e:
+        logger.warning(f"Failed updating file backup during deletion: {e}")
+
+    if not deleted_from_db and not deleted_from_file:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Review with id {review_id} not found.")
+
+    return {"message": "Review deleted successfully", "id": review_id}
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
-
