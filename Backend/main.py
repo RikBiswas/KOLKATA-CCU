@@ -23,10 +23,10 @@ logger = logging.getLogger("wander_ccu_backend")
 
 # Load environment variables strictly from server environment / local env files
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-load_dotenv(os.path.join(ROOT_DIR, ".env.local"))
-load_dotenv(os.path.join(ROOT_DIR, ".env"))
-load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
-load_dotenv()
+load_dotenv(os.path.join(ROOT_DIR, ".env.local"), override=True)
+load_dotenv(os.path.join(ROOT_DIR, ".env"), override=True)
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"), override=True)
+load_dotenv(override=True)
 
 DATABASE_URL = os.getenv("DATABASE_URL_POOLED") or os.getenv("DATABASE_URL")
 DATABASE_URL_UNPOOLED = os.getenv("DATABASE_URL_UNPOOLED") or os.getenv("DATABASE_URL")
@@ -170,8 +170,8 @@ def _clean_conn_str(val: Optional[str]) -> Optional[str]:
 _active_db_url: Optional[str] = None
 
 # Verified server-side fallback connection strings (used if environment variables are missing, outdated, or corrupted)
-FALLBACK_DATABASE_URL = "postgresql://neondb_owner:npg_A9vHrR1KJnlc@ep-aged-truth-b44yx93c-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-FALLBACK_DATABASE_URL_UNPOOLED = "postgresql://neondb_owner:npg_A9vHrR1KJnlc@ep-aged-truth-b44yx93c.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+FALLBACK_DATABASE_URL = "postgresql://neondb_owner:npg_YBQCtd0F9flu@ep-aged-truth-b44yx93c-pooler.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+FALLBACK_DATABASE_URL_UNPOOLED = "postgresql://neondb_owner:npg_YBQCtd0F9flu@ep-aged-truth-b44yx93c.c-6.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
 
 
 def get_db_connection():
